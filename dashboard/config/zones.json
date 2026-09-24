@@ -1,0 +1,37 @@
+{
+  "_comment": "Facility configuration. The dashboard reads zones, doors and residents from here - nothing is hard-coded. Safe zone ids are 1-9, restricted 11-19. Add or remove entries to match whatever the adviser approves for the defense demo.",
+
+  "facility_name": "Home for the Aged - Demo Facility",
+
+  "zones": [
+    { "id": 1,  "key": "bedroom_wing",       "name": "Bedroom Wing",   "class": "safe" },
+    { "id": 2,  "key": "dining_hall",        "name": "Dining Hall",    "class": "safe" },
+    { "id": 3,  "key": "common_area_garden", "name": "Common Area / Garden", "class": "safe" },
+    { "id": 11, "key": "medicine_room",      "name": "Medicine Room",  "class": "restricted" },
+    { "id": 12, "key": "main_exit",          "name": "Main Exit",      "class": "restricted" },
+    { "id": 13, "key": "stairwell",          "name": "Stairwell",      "class": "restricted" }
+  ],
+
+  "doors": [
+    { "id": 11, "key": "medicine_room", "name": "Medicine Room Door", "node_id": "door-11", "restricted": true },
+    { "id": 12, "key": "main_exit",     "name": "Main Exit Door",     "node_id": "door-12", "restricted": true },
+    { "id": 13, "key": "stairwell",     "name": "Stairwell Door",     "node_id": "door-13", "restricted": true }
+  ],
+
+  "residents": [
+    { "device_id": "wearable-01", "name": "Resident A", "room": "Bedroom Wing - Bed 1" },
+    { "device_id": "wearable-02", "name": "Resident B", "room": "Bedroom Wing - Bed 2" }
+  ],
+
+  "thresholds": {
+    "_comment": "Seconds unless noted. Adjust after the adviser confirms reporting intervals.",
+    "wearable_stale_s": 30,
+    "door_stale_s": 90,
+    "battery_low_pct": 20,
+    "battery_critical_pct": 10,
+    "hr_display_only": true,
+    "_hr_note": "Heart-rate alert thresholds are an OPEN adviser decision. Until answered, HR is display-only and raises no alert.",
+    "hr_low_bpm": null,
+    "hr_high_bpm": null
+  }
+}

@@ -1,0 +1,11 @@
+# TroDes caregiver dashboard
+#
+# Do not install these by hand. Run setup.bat - it creates .venv and installs
+# into it. On this PC `python` and `pip` resolve to different interpreters,
+# so a bare `pip install -r requirements.txt` reports success and still leaves
+# the app unable to import FastAPI.
+
+fastapi>=0.110
+uvicorn[standard]>=0.27
+pydantic>=2.6
+requests>=2.31

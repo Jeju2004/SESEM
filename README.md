@@ -20,7 +20,7 @@ firmware/
   door_sensor/     ESP32 reed switch node for restricted doors
 tools/
   rssi_calibration/  serial capture + Test 1/2/3 analysis scripts
-dashboard/         caregiver web dashboard — FastAPI + SQLite (to be added)
+dashboard/         caregiver web dashboard — FastAPI + SQLite, simulator, self-tests
 docs/              programming guide, test guides, zone config, project status
 CHANGELOG.md       dated log of every code change
 CLAUDE.md          project context for AI assistants (AGENTS.md is the same)

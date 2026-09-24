@@ -1,0 +1,389 @@
+/* TroDes caregiver dashboard
+ *
+ * Design constraints this stylesheet is built around:
+ *   - It is read across a room, by staff who are walking past, not studying it.
+ *     Zone names and the SOS banner are deliberately oversized.
+ *   - Colour never carries meaning on its own. Every safe/restricted/offline
+ *     state also has a text label, because a caregiver may be colour-blind and
+ *     because a washed-out phone screen in daylight loses hue before it loses
+ *     text.
+ *   - It must be usable one-handed on a phone. Touch targets are >= 44 px.
+ */
+
+:root {
+  --bg:            #0f1418;
+  --surface:       #1a2129;
+  --surface-2:     #222c36;
+  --border:        #2f3b47;
+  --text:          #eef3f7;
+  --text-dim:      #9aa9b8;
+  --text-faint:    #6b7b8b;
+
+  --safe:          #1f9e55;
+  --safe-bg:       #11301f;
+  --safe-border:   #2a6b43;
+
+  --restricted:    #e5484d;
+  --restricted-bg: #3a1416;
+  --restricted-border: #8c2a2e;
+
+  --unknown:       #7c8b9a;
+  --unknown-bg:    #232c35;
+
+  --warn:          #e5a00d;
+  --warn-bg:       #3a2d0a;
+
+  --critical:      #ff3b30;
+
+  --radius: 12px;
+  --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
+          Arial, sans-serif;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font);
+  -webkit-text-size-adjust: 100%;
+}
+
+body { padding-bottom: 40px; }
+
+/* ---------------------------------------------------------------- header */
+
+header.topbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px 20px;
+  padding: 14px 20px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  z-index: 30;
+}
+
+.brand { display: flex; flex-direction: column; gap: 2px; margin-right: auto; }
+.brand h1 { margin: 0; font-size: 1.05rem; letter-spacing: .02em; }
+.brand .facility { font-size: .78rem; color: var(--text-dim); }
+
+.counters { display: flex; gap: 8px; flex-wrap: wrap; }
+
+.counter {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  padding: 6px 12px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  font-size: .78rem;
+  color: var(--text-dim);
+  white-space: nowrap;
+}
+.counter b { font-size: .95rem; color: var(--text); font-variant-numeric: tabular-nums; }
+.counter.hot { border-color: var(--restricted-border); background: var(--restricted-bg); }
+.counter.hot b { color: #ff8f8b; }
+.counter.warn { border-color: #6b5410; background: var(--warn-bg); }
+.counter.warn b { color: #ffcc5c; }
+
+.conn {
+  display: flex; align-items: center; gap: 7px;
+  font-size: .78rem; color: var(--text-dim);
+}
+.conn .dot {
+  width: 9px; height: 9px; border-radius: 50%;
+  background: var(--safe); box-shadow: 0 0 0 3px rgba(31,158,85,.18);
+}
+.conn.down .dot { background: var(--restricted); box-shadow: 0 0 0 3px rgba(229,72,77,.2); }
+
+.whoami {
+  display: flex; align-items: center; gap: 6px;
+  font-size: .78rem; color: var(--text-dim);
+}
+.whoami input {
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  color: var(--text);
+  border-radius: 8px;
+  padding: 7px 10px;
+  font: inherit;
+  font-size: .8rem;
+  width: 130px;
+  min-height: 36px;
+}
+
+/* ----------------------------------------------------------- alert banner */
+
+/* The banner is the single most important element on the page. It is sticky,
+ * full-bleed, and loud enough to be seen from across a room. It does not
+ * auto-dismiss: the only ways out are an acknowledgement or, for an SOS, the
+ * resident's own long-press. */
+#sticky-top { position: sticky; top: 0; z-index: 40; }
+
+.alert-banner {
+  background: var(--critical);
+  color: #fff;
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  border-bottom: 3px solid #7f1d1a;
+  animation: pulse 1.4s ease-in-out infinite;
+}
+.alert-banner.warning {
+  background: var(--warn);
+  color: #1a1400;
+  border-bottom-color: #6b5410;
+  animation: none;
+}
+
+@keyframes pulse {
+  0%, 100% { background: #ff3b30; }
+  50%      { background: #c62a21; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .alert-banner { animation: none; }
+}
+
+.alert-banner .ab-type {
+  font-size: 1.5rem;
+  font-weight: 800;
+  letter-spacing: .04em;
+  line-height: 1.1;
+}
+.alert-banner .ab-body { flex: 1 1 260px; min-width: 0; }
+.alert-banner .ab-who { font-size: 1.05rem; font-weight: 600; }
+.alert-banner .ab-meta { font-size: .85rem; opacity: .9; margin-top: 3px; }
+
+.alert-banner button {
+  background: #fff;
+  color: #1a1400;
+  border: 0;
+  border-radius: 10px;
+  padding: 13px 22px;
+  font: inherit;
+  font-weight: 700;
+  font-size: .95rem;
+  cursor: pointer;
+  min-height: 46px;
+  white-space: nowrap;
+}
+.alert-banner button:active { transform: translateY(1px); }
+
+.more-alerts {
+  background: #7f1d1a;
+  color: #ffd9d7;
+  padding: 8px 20px;
+  font-size: .82rem;
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.more-alerts button {
+  background: transparent; border: 1px solid #ffd9d7; color: #ffd9d7;
+  border-radius: 8px; padding: 5px 12px; font: inherit; font-size: .78rem;
+  cursor: pointer; min-height: 32px;
+}
+
+/* ------------------------------------------------------------------ layout */
+
+main { padding: 20px; max-width: 1400px; margin: 0 auto; }
+
+section { margin-bottom: 28px; }
+
+h2.section-title {
+  font-size: .8rem;
+  text-transform: uppercase;
+  letter-spacing: .1em;
+  color: var(--text-faint);
+  margin: 0 0 12px;
+  font-weight: 700;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 16px;
+}
+
+/* --------------------------------------------------------- resident cards */
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-left: 6px solid var(--unknown);
+  border-radius: var(--radius);
+  padding: 16px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.card.safe       { border-left-color: var(--safe); }
+.card.restricted { border-left-color: var(--restricted); background: linear-gradient(var(--restricted-bg), var(--surface) 60%); }
+.card.unknown    { border-left-color: var(--unknown); }
+
+/* A wearable that has gone quiet is not a resident standing still - it is a
+ * device we have lost contact with. The card is greyed and explicitly
+ * labelled so it cannot be read as "all fine, nothing changed". */
+.card.stale {
+  opacity: .55;
+  filter: grayscale(.75);
+  border-left-color: var(--text-faint);
+}
+.card.sos {
+  border: 2px solid var(--critical);
+  border-left-width: 6px;
+  box-shadow: 0 0 0 3px rgba(255,59,48,.18);
+  opacity: 1;
+  filter: none;
+}
+
+.card-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; }
+.card-name { font-size: 1.05rem; font-weight: 650; }
+.card-sub  { font-size: .74rem; color: var(--text-faint); margin-top: 2px; }
+
+.pill {
+  font-size: .66rem;
+  font-weight: 700;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  padding: 4px 9px;
+  border-radius: 999px;
+  border: 1px solid;
+  white-space: nowrap;
+}
+.pill.safe       { color: #6ee7a0; background: var(--safe-bg); border-color: var(--safe-border); }
+.pill.restricted { color: #ff9b98; background: var(--restricted-bg); border-color: var(--restricted-border); }
+.pill.unknown    { color: var(--text-dim); background: var(--unknown-bg); border-color: var(--border); }
+.pill.offline    { color: #ffcc5c; background: var(--warn-bg); border-color: #6b5410; }
+
+/* The zone is the headline number on this dashboard - localization is the
+ * project's core deliverable, so it gets the largest type on the card. */
+.zone-name {
+  font-size: 1.9rem;
+  font-weight: 750;
+  line-height: 1.1;
+  letter-spacing: -.01em;
+}
+.card.safe       .zone-name { color: #7ff0ae; }
+.card.restricted .zone-name { color: #ff9b98; }
+.card.unknown    .zone-name { color: var(--text-dim); }
+.zone-time { font-size: .78rem; color: var(--text-dim); margin-top: 5px; }
+
+.metrics {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  border-top: 1px solid var(--border);
+  padding-top: 13px;
+}
+.metric { min-width: 0; }
+.metric .label {
+  font-size: .64rem; text-transform: uppercase; letter-spacing: .08em;
+  color: var(--text-faint); margin-bottom: 4px;
+}
+.metric .value {
+  font-size: 1.12rem; font-weight: 650; font-variant-numeric: tabular-nums;
+  display: flex; align-items: center; gap: 6px;
+}
+.metric .value small { font-size: .7rem; font-weight: 400; color: var(--text-dim); }
+.metric .value.low      { color: #ffcc5c; }
+.metric .value.critical { color: #ff8f8b; }
+.metric .value.none     { color: var(--text-faint); }
+
+.batt-bar {
+  height: 5px; background: var(--surface-2); border-radius: 3px;
+  overflow: hidden; margin-top: 6px;
+}
+.batt-bar i { display: block; height: 100%; background: var(--safe); }
+.batt-bar i.low      { background: var(--warn); }
+.batt-bar i.critical { background: var(--restricted); }
+
+.card-foot {
+  display: flex; justify-content: space-between; align-items: center;
+  gap: 10px; font-size: .72rem; color: var(--text-faint);
+  border-top: 1px solid var(--border); padding-top: 10px;
+}
+.card-foot .stale-flag { color: #ffcc5c; font-weight: 600; }
+
+/* ------------------------------------------------------------------ doors */
+
+.door-row {
+  display: flex; align-items: center; gap: 14px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-left: 5px solid var(--safe);
+  border-radius: 10px;
+  padding: 13px 16px;
+}
+.door-row.open    { border-left-color: var(--restricted); background: linear-gradient(90deg, var(--restricted-bg), var(--surface) 45%); }
+.door-row.offline { border-left-color: var(--warn); opacity: .8; }
+.door-row .dn { font-weight: 600; flex: 1 1 auto; min-width: 0; }
+.door-row .dn small { display: block; font-weight: 400; font-size: .7rem; color: var(--text-faint); margin-top: 2px; }
+.door-state {
+  font-size: .8rem; font-weight: 700; letter-spacing: .06em;
+  text-transform: uppercase; white-space: nowrap;
+}
+.door-state.closed  { color: #6ee7a0; }
+.door-state.open    { color: #ff8f8b; }
+.door-state.unknown { color: var(--text-faint); }
+
+/* ------------------------------------------------------------- alert list */
+
+.alert-row {
+  display: flex; align-items: center; gap: 12px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-left: 5px solid var(--border);
+  border-radius: 10px;
+  padding: 12px 14px;
+  margin-bottom: 8px;
+}
+.alert-row.critical { border-left-color: var(--restricted); }
+.alert-row.warning  { border-left-color: var(--warn); }
+.alert-row.info     { border-left-color: var(--border); opacity: .75; }
+.alert-row .ar-main { flex: 1 1 auto; min-width: 0; }
+.alert-row .ar-title { font-weight: 600; font-size: .92rem; }
+.alert-row .ar-meta  { font-size: .73rem; color: var(--text-faint); margin-top: 3px; }
+.alert-row .ar-meta .delayed { color: #ffcc5c; }
+.alert-row .ar-meta .acked   { color: #6ee7a0; }
+
+.ack-btn {
+  background: var(--surface-2); color: var(--text);
+  border: 1px solid var(--border); border-radius: 9px;
+  padding: 10px 16px; font: inherit; font-size: .8rem; font-weight: 600;
+  cursor: pointer; min-height: 44px; white-space: nowrap;
+}
+.ack-btn:hover { background: #2b3743; }
+
+.empty {
+  color: var(--text-faint); font-size: .85rem;
+  padding: 18px; text-align: center;
+  border: 1px dashed var(--border); border-radius: 10px;
+}
+
+/* ----------------------------------------------------------------- phone */
+
+@media (max-width: 640px) {
+  header.topbar { padding: 12px 14px; gap: 8px 12px; }
+  .brand h1 { font-size: .95rem; }
+  main { padding: 14px; }
+  .grid { grid-template-columns: 1fr; gap: 12px; }
+  .zone-name { font-size: 1.65rem; }
+  .alert-banner { padding: 14px; gap: 12px; }
+  .alert-banner .ab-type { font-size: 1.25rem; }
+  .alert-banner button { width: 100%; }
+  .whoami input { width: 100px; }
+  .counters { width: 100%; }
+  .metrics { gap: 8px; }
+}
+
+@media (max-width: 380px) {
+  .metrics { grid-template-columns: repeat(2, 1fr); }
+}

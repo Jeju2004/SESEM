@@ -5,6 +5,13 @@ why, and whether it has been verified on hardware.
 
 ## 2026-09-24
 
+- Added `dashboard/` from `C:\TroDesData\dashboard` (code dated 2026-09-13):
+  FastAPI backend (`app/`), SQLite schema in `app/db.py`, zone config,
+  static frontend, `simulate.py` and `tools/selftest.py`. The live database
+  (`data/trodes.db`), `.venv` and caches are excluded. **Verified 38/38
+  self-tests pass** from the repository copy against a fresh temp database.
+  Not yet fed real hardware data.
+
 - Added `tools/vault_sync/Sync-TroDesVault.ps1`: two-way, newest-wins sync between the
   Obsidian vault (`Jeju_Data\TroDes - Elderly Monitoring`) and the SESEM folder,
   with folder mapping and backups of overwritten files. Supports `-WhatIf`.
