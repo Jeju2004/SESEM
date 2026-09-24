@@ -1,0 +1,1878 @@
+iso_time,elapsed_s,label,line
+2026-09-24T17:22:33.045,0.005,transit,ets Jul 29 2019 12:21:46
+2026-09-24T17:22:33.048,0.008,transit,ets Jul 29 2019 12:21:46
+2026-09-24T17:22:33.049,0.009,transit,ets Jul 29 2019 12:21:46
+2026-09-24T17:22:33.050,0.010,transit,ets Jul 29 2019 12:21:46
+2026-09-24T17:22:33.051,0.011,transit,ets Jul 29 2019 12:21:46
+2026-09-24T17:22:33.052,0.012,transit,ets Jul 29 2019 12:21:46
+2026-09-24T17:22:33.053,0.013,transit,ets Jul 29 2019 12:21:46
+2026-09-24T17:22:33.054,0.014,transit,ets Jul 29 2019 12:21:46
+2026-09-24T17:22:33.055,0.015,transit,ets Jul 29 2019 12:21:46
+2026-09-24T17:22:33.056,0.016,transit,ets Jul 29 2019 12:21:46
+2026-09-24T17:22:33.058,0.018,transit,ets Jul 29 2019 12:21:46
+2026-09-24T17:22:33.059,0.019,transit,ets Jul 29 2019 12:21:46
+2026-09-24T17:22:33.059,0.019,transit,ets Jul 29 2019 12:21:46
+2026-09-24T17:22:33.060,0.020,transit,ets Jul 29 2019 12:21:46
+2026-09-24T17:22:33.062,0.022,transit,ets Jul 29 2019 12:21:46
+2026-09-24T17:22:33.063,0.023,transit,ets Jul 29 2019 12:21:46
+2026-09-24T17:22:33.064,0.024,transit,ets Jul 29 2019 12:21:46
+2026-09-24T17:22:33.064,0.024,transit,ets Jul 29 2019 12:21:46
+2026-09-24T17:22:33.065,0.025,transit,ets Jul 29 2019 12:21:46
+2026-09-24T17:22:33.066,0.026,transit,ets Jul 29 2019 12:21:46
+2026-09-24T17:22:33.067,0.027,transit,ets Jul 29 2019 12:21:46
+2026-09-24T17:22:33.068,0.028,transit,ets Jul 29 2019 12:21:46
+2026-09-24T17:22:33.069,0.030,transit,ets Jul 29 2019 12:21:46
+2026-09-24T17:22:33.072,0.032,transit,"rst:0x1 (POWERON_RESET),boot:0x13 (SPI_FAST_FLASH_BOOT)"
+2026-09-24T17:22:33.073,0.033,transit,"configsip: 0, SPIWP:0xee"
+2026-09-24T17:22:33.075,0.035,transit,"clk_drv:0x00,q_drv:0x00,d_drv:0x00,cs0_drv:0x00,hd_drv:0x00,wp_drv:0x00"
+2026-09-24T17:22:33.076,0.036,transit,"mode:DIO, clock div:2"
+2026-09-24T17:22:33.077,0.037,transit,"load:0x3fff0030,len:1184"
+2026-09-24T17:22:33.078,0.038,transit,"load:0x40078000,len:13232"
+2026-09-24T17:22:33.079,0.039,transit,"load:0x40080400,len:3028"
+2026-09-24T17:22:33.079,0.039,transit,entry 0x400805e4
+2026-09-24T17:22:33.943,0.903,transit,========================================
+2026-09-24T17:22:33.946,0.906,transit,TroDes Phase 1 - Wearable
+2026-09-24T17:22:33.949,0.909,transit,Device   : wearable-01 (Resident 1)
+2026-09-24T17:22:33.955,0.915,transit,UUID     : 5ca9015e-adc8-40a9-a1e2-d539f3b065bd  major=1
+2026-09-24T17:22:33.955,0.915,transit,Zones    : 3
+2026-09-24T17:22:33.958,0.918,transit,"SOS long : 3000 ms (proposed, unconfirmed)"
+2026-09-24T17:22:33.961,0.921,transit,========================================
+2026-09-24T17:22:33.971,0.931,transit,[   343][E][Wire.cpp:499] requestFrom(): i2cWriteReadNonStop returned Error -1
+2026-09-24T17:22:33.974,0.934,transit,[HR] MAX30102 NOT found - heart rate disabled.
+2026-09-24T17:22:33.981,0.941,transit,[   344][E][Wire.cpp:499] requestFrom(): i2cWriteReadNonStop returned Error -1
+2026-09-24T17:22:34.028,0.987,transit,[   400][E][Wire.cpp:499] requestFrom(): i2cWriteReadNonStop returned Error -1
+2026-09-24T17:22:34.078,1.039,transit,[   450][E][Wire.cpp:499] requestFrom(): i2cWriteReadNonStop returned Error -1
+2026-09-24T17:22:34.125,1.084,transit,[BATT] MAX17043 NOT found - using ADC divider on GPIO 34.
+2026-09-24T17:22:34.131,1.090,transit,"[SYS] Running. Short press = SOS, long press = dismiss."
+2026-09-24T17:22:34.136,1.095,transit,[NET] WIFI_SSID is empty - running offline.
+2026-09-24T17:22:34.139,1.098,transit,[NET] This is fine for Phase 1: zone detection is proven
+2026-09-24T17:22:34.143,1.102,transit,      over Serial and needs no backend.
+2026-09-24T17:22:34.625,1.585,transit,[RSSI] bedroom_wing=-- dining_hall=-- medicine_room=--
+2026-09-24T17:22:34.632,1.591,transit,[STAT] zone=unknown hr=0 batt=-1% sos=no wifi=down q=0
+2026-09-24T17:22:34.842,1.801,transit,[BLE] Scanner running.
+2026-09-24T17:22:35.028,1.988,transit,"[ZONE] -> medicine_room (id=11, rssi=-80.0 dBm, ~6.9 m)  *** RESTRICTED ***"
+2026-09-24T17:22:35.042,2.002,transit,"[ALERT] {""device_id"":""wearable-01"",""type"":""zone_restricted"",""detail"":""medicine_room"",""zone"":""medicine_room"",""zone_id"":11,""batt_pct"":-1,""hr_bpm"":-1,""uptime_s"":1}"
+2026-09-24T17:22:35.625,2.585,transit,[RSSI] bedroom_wing=-92 dining_hall=-94 medicine_room=-82
+2026-09-24T17:22:35.631,2.590,transit,[STAT] zone=medicine_room hr=0 batt=-1% sos=no wifi=down q=1
+2026-09-24T17:22:36.626,3.586,transit,[RSSI] bedroom_wing=-91 dining_hall=-94 medicine_room=-81
+2026-09-24T17:22:36.632,3.592,transit,[STAT] zone=medicine_room hr=0 batt=-1% sos=no wifi=down q=1
+2026-09-24T17:22:37.628,4.588,transit,[RSSI] bedroom_wing=-90 dining_hall=-94 medicine_room=-80
+2026-09-24T17:22:37.632,4.592,transit,[STAT] zone=medicine_room hr=0 batt=-1% sos=no wifi=down q=1
+2026-09-24T17:22:38.628,5.588,transit,[RSSI] bedroom_wing=-87 dining_hall=-95 medicine_room=-81
+2026-09-24T17:22:38.633,5.593,transit,[STAT] zone=medicine_room hr=0 batt=-1% sos=no wifi=down q=1
+2026-09-24T17:22:39.629,6.589,transit,[RSSI] bedroom_wing=-88 dining_hall=-95 medicine_room=-82
+2026-09-24T17:22:39.638,6.598,transit,[STAT] zone=medicine_room hr=0 batt=-1% sos=no wifi=down q=2
+2026-09-24T17:22:40.630,7.591,transit,[RSSI] bedroom_wing=-87 dining_hall=-94 medicine_room=-81
+2026-09-24T17:22:40.635,7.595,transit,[STAT] zone=medicine_room hr=0 batt=-1% sos=no wifi=down q=2
+2026-09-24T17:22:41.631,8.591,transit,[RSSI] bedroom_wing=-86 dining_hall=-94 medicine_room=-83
+2026-09-24T17:22:41.636,8.596,transit,[STAT] zone=medicine_room hr=0 batt=-1% sos=no wifi=down q=2
+2026-09-24T17:22:42.632,9.591,transit,[RSSI] bedroom_wing=-87 dining_hall=-93 medicine_room=-83
+2026-09-24T17:22:42.641,9.601,transit,[STAT] zone=medicine_room hr=0 batt=-1% sos=no wifi=down q=2
+2026-09-24T17:22:43.633,10.593,transit,[RSSI] bedroom_wing=-88 dining_hall=-94 medicine_room=-83
+2026-09-24T17:22:43.638,10.599,transit,[STAT] zone=medicine_room hr=0 batt=-1% sos=no wifi=down q=2
+2026-09-24T17:22:44.634,11.594,transit,[RSSI] bedroom_wing=-89 dining_hall=-93 medicine_room=-83
+2026-09-24T17:22:44.639,11.599,transit,[STAT] zone=medicine_room hr=0 batt=-1% sos=no wifi=down q=3
+2026-09-24T17:22:45.635,12.595,transit,[RSSI] bedroom_wing=-88 dining_hall=-94 medicine_room=-82
+2026-09-24T17:22:45.640,12.600,transit,[STAT] zone=medicine_room hr=0 batt=-1% sos=no wifi=down q=3
+2026-09-24T17:22:46.636,13.596,transit,[RSSI] bedroom_wing=-87 dining_hall=-94 medicine_room=-82
+2026-09-24T17:22:46.644,13.604,transit,[STAT] zone=medicine_room hr=0 batt=-1% sos=no wifi=down q=3
+2026-09-24T17:22:47.637,14.598,transit,[RSSI] bedroom_wing=-87 dining_hall=-94 medicine_room=-82
+2026-09-24T17:22:47.642,14.602,transit,[STAT] zone=medicine_room hr=0 batt=-1% sos=no wifi=down q=3
+2026-09-24T17:22:48.638,15.598,transit,[RSSI] bedroom_wing=-87 dining_hall=-93 medicine_room=-83
+2026-09-24T17:22:48.643,15.603,transit,[STAT] zone=medicine_room hr=0 batt=-1% sos=no wifi=down q=3
+2026-09-24T17:22:49.639,16.599,transit,[RSSI] bedroom_wing=-88 dining_hall=-93 medicine_room=-83
+2026-09-24T17:22:49.645,16.605,transit,[STAT] zone=medicine_room hr=0 batt=-1% sos=no wifi=down q=4
+2026-09-24T17:22:50.640,17.599,transit,[RSSI] bedroom_wing=-89 dining_hall=-94 medicine_room=-82
+2026-09-24T17:22:50.649,17.608,transit,[STAT] zone=medicine_room hr=0 batt=-1% sos=no wifi=down q=4
+2026-09-24T17:22:51.641,18.601,transit,[RSSI] bedroom_wing=-88 dining_hall=-94 medicine_room=-82
+2026-09-24T17:22:51.647,18.606,transit,[STAT] zone=medicine_room hr=0 batt=-1% sos=no wifi=down q=4
+2026-09-24T17:22:52.642,19.602,transit,[RSSI] bedroom_wing=-86 dining_hall=-97 medicine_room=-80
+2026-09-24T17:22:52.647,19.607,transit,[STAT] zone=medicine_room hr=0 batt=-1% sos=no wifi=down q=4
+2026-09-24T17:22:53.643,20.603,transit,[RSSI] bedroom_wing=-87 dining_hall=-97 medicine_room=-85
+2026-09-24T17:22:53.649,20.609,transit,[STAT] zone=medicine_room hr=0 batt=-1% sos=no wifi=down q=4
+2026-09-24T17:22:54.645,21.604,transit,[RSSI] bedroom_wing=-87 dining_hall=-99 medicine_room=-81
+2026-09-24T17:22:54.651,21.610,transit,[STAT] zone=medicine_room hr=0 batt=-1% sos=no wifi=down q=5
+2026-09-24T17:22:55.645,22.604,transit,[RSSI] bedroom_wing=-86 dining_hall=-96 medicine_room=-84
+2026-09-24T17:22:55.650,22.609,transit,[STAT] zone=medicine_room hr=0 batt=-1% sos=no wifi=down q=5
+2026-09-24T17:22:56.646,23.606,transit,[RSSI] bedroom_wing=-87 dining_hall=-96 medicine_room=-83
+2026-09-24T17:22:56.652,23.612,transit,[STAT] zone=medicine_room hr=0 batt=-1% sos=no wifi=down q=5
+2026-09-24T17:22:57.648,24.607,transit,[RSSI] bedroom_wing=-87 dining_hall=-96 medicine_room=-82
+2026-09-24T17:22:57.653,24.612,transit,[STAT] zone=medicine_room hr=0 batt=-1% sos=no wifi=down q=5
+2026-09-24T17:22:58.649,25.608,transit,[RSSI] bedroom_wing=-87 dining_hall=-97 medicine_room=-82
+2026-09-24T17:22:58.654,25.613,transit,[STAT] zone=medicine_room hr=0 batt=-1% sos=no wifi=down q=5
+2026-09-24T17:22:59.649,26.609,transit,[RSSI] bedroom_wing=-87 dining_hall=-97 medicine_room=-81
+2026-09-24T17:22:59.655,26.615,transit,[STAT] zone=medicine_room hr=0 batt=-1% sos=no wifi=down q=6
+2026-09-24T17:23:00.650,27.609,transit,[RSSI] bedroom_wing=-87 dining_hall=-95 medicine_room=-83
+2026-09-24T17:23:00.659,27.618,transit,[STAT] zone=medicine_room hr=0 batt=-1% sos=no wifi=down q=6
+2026-09-24T17:23:01.652,28.611,transit,[RSSI] bedroom_wing=-88 dining_hall=-94 medicine_room=-82
+2026-09-24T17:23:01.657,28.617,transit,[STAT] zone=medicine_room hr=0 batt=-1% sos=no wifi=down q=6
+2026-09-24T17:23:02.652,29.612,transit,[RSSI] bedroom_wing=-91 dining_hall=-94 medicine_room=-80
+2026-09-24T17:23:02.657,29.617,transit,[STAT] zone=medicine_room hr=0 batt=-1% sos=no wifi=down q=6
+2026-09-24T17:23:03.639,30.599,transit,"[ALERT] {""device_id"":""wearable-01"",""type"":""battery_critical"",""detail"":""SOC at or below critical threshold"",""zone"":""medicine_room"",""zone_id"":11,""batt_pct"":0,""hr_bpm"":-1,""uptime_s"":30}"
+2026-09-24T17:23:03.652,30.612,transit,[RSSI] bedroom_wing=-88 dining_hall=-96 medicine_room=-78
+2026-09-24T17:23:03.657,30.617,transit,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=7
+2026-09-24T17:23:04.652,31.612,transit,[RSSI] bedroom_wing=-85 dining_hall=-93 medicine_room=-80
+2026-09-24T17:23:04.658,31.617,transit,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=8
+2026-09-24T17:23:05.653,32.612,transit,[RSSI] bedroom_wing=-86 dining_hall=-92 medicine_room=-80
+2026-09-24T17:23:05.658,32.618,transit,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=8
+2026-09-24T17:23:06.654,33.613,transit,[RSSI] bedroom_wing=-87 dining_hall=-91 medicine_room=-80
+2026-09-24T17:23:06.658,33.617,transit,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=8
+2026-09-24T17:23:07.655,34.615,transit,[RSSI] bedroom_wing=-86 dining_hall=-93 medicine_room=-79
+2026-09-24T17:23:07.660,34.619,transit,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=8
+2026-09-24T17:23:08.657,35.617,transit,[RSSI] bedroom_wing=-86 dining_hall=-93 medicine_room=-81
+2026-09-24T17:23:08.661,35.621,transit,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=8
+2026-09-24T17:23:09.658,36.618,transit,[RSSI] bedroom_wing=-86 dining_hall=-93 medicine_room=-78
+2026-09-24T17:23:09.663,36.623,transit,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=9
+2026-09-24T17:23:10.659,37.618,transit,[RSSI] bedroom_wing=-87 dining_hall=-95 medicine_room=-80
+2026-09-24T17:23:10.666,37.626,transit,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=9
+2026-09-24T17:23:11.659,38.619,transit,[RSSI] bedroom_wing=-86 dining_hall=-94 medicine_room=-80
+2026-09-24T17:23:11.664,38.624,transit,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=9
+2026-09-24T17:23:12.660,39.619,transit,[RSSI] bedroom_wing=-86 dining_hall=-94 medicine_room=-78
+2026-09-24T17:23:12.667,39.627,transit,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=9
+2026-09-24T17:23:13.657,40.617,transit,[RSSI] bedroom_wing=-85 dining_hall=-94 medicine_room=-88
+2026-09-24T17:23:13.664,40.624,transit,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=9
+2026-09-24T17:23:14.660,41.620,transit,[RSSI] bedroom_wing=-87 dining_hall=-95 medicine_room=-83
+2026-09-24T17:23:14.660,41.620,transit,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=10
+2026-09-24T17:23:15.663,42.622,transit,[RSSI] bedroom_wing=-85 dining_hall=-94 medicine_room=-81
+2026-09-24T17:23:15.669,42.628,transit,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=10
+2026-09-24T17:23:16.664,43.624,transit,[RSSI] bedroom_wing=-87 dining_hall=-93 medicine_room=-80
+2026-09-24T17:23:16.672,43.632,transit,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=10
+2026-09-24T17:23:17.665,44.624,transit,[RSSI] bedroom_wing=-85 dining_hall=-93 medicine_room=-79
+2026-09-24T17:23:17.672,44.632,transit,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=10
+2026-09-24T17:23:18.665,45.624,transit,[RSSI] bedroom_wing=-84 dining_hall=-93 medicine_room=-77
+2026-09-24T17:23:18.671,45.631,transit,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=10
+2026-09-24T17:23:19.667,46.627,transit,[RSSI] bedroom_wing=-84 dining_hall=-93 medicine_room=-78
+2026-09-24T17:23:19.675,46.634,transit,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=11
+2026-09-24T17:23:20.668,47.628,transit,[RSSI] bedroom_wing=-85 dining_hall=-94 medicine_room=-78
+2026-09-24T17:23:20.673,47.633,transit,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=11
+2026-09-24T17:23:21.669,48.628,transit,[RSSI] bedroom_wing=-90 dining_hall=-93 medicine_room=-78
+2026-09-24T17:23:21.674,48.634,transit,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=11
+2026-09-24T17:23:22.669,49.629,transit,[RSSI] bedroom_wing=-88 dining_hall=-93 medicine_room=-80
+2026-09-24T17:23:22.679,49.639,transit,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=11
+2026-09-24T17:23:23.672,50.632,transit,[RSSI] bedroom_wing=-91 dining_hall=-93 medicine_room=-77
+2026-09-24T17:23:23.676,50.636,transit,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=11
+2026-09-24T17:23:24.672,51.632,transit,[RSSI] bedroom_wing=-86 dining_hall=-93 medicine_room=-77
+2026-09-24T17:23:24.676,51.636,transit,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=12
+2026-09-24T17:23:25.673,52.632,transit,[RSSI] bedroom_wing=-85 dining_hall=-94 medicine_room=-78
+2026-09-24T17:23:25.679,52.638,transit,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=12
+2026-09-24T17:23:26.673,53.633,transit,[RSSI] bedroom_wing=-84 dining_hall=-93 medicine_room=-78
+2026-09-24T17:23:26.682,53.641,transit,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=12
+2026-09-24T17:23:27.675,54.635,transit,[RSSI] bedroom_wing=-85 dining_hall=-93 medicine_room=-78
+2026-09-24T17:23:27.682,54.642,transit,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=12
+2026-09-24T17:23:28.676,55.636,transit,[RSSI] bedroom_wing=-87 dining_hall=-93 medicine_room=-78
+2026-09-24T17:23:28.681,55.641,transit,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=12
+2026-09-24T17:23:29.677,56.637,transit,[RSSI] bedroom_wing=-86 dining_hall=-94 medicine_room=-78
+2026-09-24T17:23:29.682,56.642,transit,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=13
+2026-09-24T17:23:30.677,57.637,transit,[RSSI] bedroom_wing=-87 dining_hall=-96 medicine_room=-80
+2026-09-24T17:23:30.687,57.646,transit,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=13
+2026-09-24T17:23:31.678,58.638,transit,[RSSI] bedroom_wing=-86 dining_hall=-94 medicine_room=-79
+2026-09-24T17:23:31.684,58.644,transit,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=13
+2026-09-24T17:23:32.679,59.639,transit,[RSSI] bedroom_wing=-87 dining_hall=-94 medicine_room=-81
+2026-09-24T17:23:32.685,59.645,transit,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=13
+2026-09-24T17:23:33.637,60.597,transit,"[ALERT] {""device_id"":""wearable-01"",""type"":""battery_low"",""detail"":""SOC at or below low threshold"",""zone"":""medicine_room"",""zone_id"":11,""batt_pct"":0,""hr_bpm"":-1,""uptime_s"":60}"
+2026-09-24T17:23:33.680,60.640,transit,[RSSI] bedroom_wing=-87 dining_hall=-94 medicine_room=-91
+2026-09-24T17:23:33.689,60.649,transit,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=14
+2026-09-24T17:23:33.789,60.749,transit,[NET] Offline. Queued events: 15 (dropped 0)
+2026-09-24T17:23:34.681,61.641,transit,[RSSI] bedroom_wing=-84 dining_hall=-94 medicine_room=-87
+2026-09-24T17:23:34.687,61.646,transit,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=15
+2026-09-24T17:23:35.680,62.640,transit,[RSSI] bedroom_wing=-83 dining_hall=-94 medicine_room=-83
+2026-09-24T17:23:35.685,62.645,transit,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=15
+2026-09-24T17:23:36.682,63.641,transit,[RSSI] bedroom_wing=-84 dining_hall=-92 medicine_room=-82
+2026-09-24T17:23:36.685,63.645,transit,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=15
+2026-09-24T17:23:37.682,64.642,transit,[RSSI] bedroom_wing=-87 dining_hall=-93 medicine_room=-84
+2026-09-24T17:23:37.691,64.650,transit,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=15
+2026-09-24T17:23:38.684,65.643,transit,[RSSI] bedroom_wing=-78 dining_hall=-91 medicine_room=-85
+2026-09-24T17:23:38.688,65.648,transit,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=15
+2026-09-24T17:23:39.283,66.242,transit,"[ZONE] -> bedroom_wing (id=1, rssi=-77.9 dBm, ~5.7 m)"
+2026-09-24T17:23:39.300,66.259,transit,"[ALERT] {""device_id"":""wearable-01"",""type"":""zone_change"",""detail"":""bedroom_wing"",""zone"":""bedroom_wing"",""zone_id"":1,""batt_pct"":0,""hr_bpm"":-1,""uptime_s"":65}"
+2026-09-24T17:23:39.684,66.643,transit,[RSSI] bedroom_wing=-80 dining_hall=-97 medicine_room=-85
+2026-09-24T17:23:39.689,66.649,transit,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=17
+2026-09-24T17:23:40.683,67.642,transit,[RSSI] bedroom_wing=-85 dining_hall=-95 medicine_room=-89
+2026-09-24T17:23:40.692,67.652,transit,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=17
+2026-09-24T17:23:41.686,68.646,transit,[RSSI] bedroom_wing=-86 dining_hall=-94 medicine_room=-80
+2026-09-24T17:23:41.694,68.654,transit,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=17
+2026-09-24T17:23:42.687,69.646,transit,[RSSI] bedroom_wing=-85 dining_hall=-97 medicine_room=-80
+2026-09-24T17:23:42.693,69.652,transit,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=17
+2026-09-24T17:23:43.687,70.647,transit,[RSSI] bedroom_wing=-84 dining_hall=-95 medicine_room=-80
+2026-09-24T17:23:43.693,70.653,transit,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=17
+2026-09-24T17:23:43.796,70.755,transit,"[ZONE] -> medicine_room (id=11, rssi=-78.7 dBm, ~6.1 m)  *** RESTRICTED ***"
+2026-09-24T17:23:43.809,70.769,transit,"[ALERT] {""device_id"":""wearable-01"",""type"":""zone_restricted"",""detail"":""medicine_room"",""zone"":""medicine_room"",""zone_id"":11,""batt_pct"":0,""hr_bpm"":-1,""uptime_s"":70}"
+2026-09-24T17:23:44.688,71.647,transit,[RSSI] bedroom_wing=-91 dining_hall=-95 medicine_room=-78
+2026-09-24T17:23:44.696,71.657,transit,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=19
+2026-09-24T17:23:45.689,72.648,transit,[RSSI] bedroom_wing=-87 dining_hall=-96 medicine_room=-80
+2026-09-24T17:23:45.694,72.653,transit,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=19
+2026-09-24T17:23:46.691,73.650,transit,[RSSI] bedroom_wing=-90 dining_hall=-96 medicine_room=-81
+2026-09-24T17:23:46.696,73.655,transit,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=19
+2026-09-24T17:23:47.691,74.650,transit,[RSSI] bedroom_wing=-92 dining_hall=-92 medicine_room=-80
+2026-09-24T17:23:47.698,74.658,transit,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=19
+2026-09-24T17:23:48.692,75.652,transit,[RSSI] bedroom_wing=-93 dining_hall=-93 medicine_room=-88
+2026-09-24T17:23:48.698,75.658,transit,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=19
+2026-09-24T17:23:49.692,76.652,transit,[RSSI] bedroom_wing=-86 dining_hall=-93 medicine_room=-79
+2026-09-24T17:23:49.698,76.658,transit,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=20
+2026-09-24T17:23:50.694,77.654,transit,[RSSI] bedroom_wing=-87 dining_hall=-94 medicine_room=-73
+2026-09-24T17:23:50.699,77.659,transit,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=20
+2026-09-24T17:23:51.695,78.654,bedroom_wing@BW-near,[RSSI] bedroom_wing=-86 dining_hall=-93 medicine_room=-76
+2026-09-24T17:23:51.700,78.660,bedroom_wing@BW-near,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=20
+2026-09-24T17:23:52.696,79.655,bedroom_wing@BW-near,[RSSI] bedroom_wing=-91 dining_hall=-93 medicine_room=-82
+2026-09-24T17:23:52.701,79.660,bedroom_wing@BW-near,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=20
+2026-09-24T17:23:53.697,80.657,bedroom_wing@BW-near,[RSSI] bedroom_wing=-91 dining_hall=-95 medicine_room=-77
+2026-09-24T17:23:53.703,80.663,bedroom_wing@BW-near,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=20
+2026-09-24T17:23:54.697,81.657,bedroom_wing@BW-near,[RSSI] bedroom_wing=-89 dining_hall=-93 medicine_room=-77
+2026-09-24T17:23:54.703,81.663,bedroom_wing@BW-near,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=21
+2026-09-24T17:23:55.698,82.658,bedroom_wing@BW-near,[RSSI] bedroom_wing=-89 dining_hall=-90 medicine_room=-75
+2026-09-24T17:23:55.704,82.664,bedroom_wing@BW-near,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=21
+2026-09-24T17:23:56.699,83.659,bedroom_wing@BW-near,[RSSI] bedroom_wing=-88 dining_hall=-90 medicine_room=-77
+2026-09-24T17:23:56.705,83.664,bedroom_wing@BW-near,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=21
+2026-09-24T17:23:57.693,84.652,bedroom_wing@BW-near,[RSSI] bedroom_wing=-90 dining_hall=-90 medicine_room=-80
+2026-09-24T17:23:57.693,84.652,bedroom_wing@BW-near,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=21
+2026-09-24T17:23:58.699,85.659,bedroom_wing@BW-near,[RSSI] bedroom_wing=-89 dining_hall=-90 medicine_room=-82
+2026-09-24T17:23:58.707,85.666,bedroom_wing@BW-near,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=21
+2026-09-24T17:23:59.703,86.662,bedroom_wing@BW-near,[RSSI] bedroom_wing=-90 dining_hall=-88 medicine_room=-78
+2026-09-24T17:23:59.710,86.670,bedroom_wing@BW-near,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=22
+2026-09-24T17:24:00.703,87.663,bedroom_wing@BW-near,[RSSI] bedroom_wing=-86 dining_hall=-87 medicine_room=-76
+2026-09-24T17:24:00.709,87.669,bedroom_wing@BW-near,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=22
+2026-09-24T17:24:01.705,88.665,bedroom_wing@BW-near,[RSSI] bedroom_wing=-86 dining_hall=-89 medicine_room=-81
+2026-09-24T17:24:01.709,88.669,bedroom_wing@BW-near,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=22
+2026-09-24T17:24:02.706,89.665,bedroom_wing@BW-near,[RSSI] bedroom_wing=-83 dining_hall=-89 medicine_room=-81
+2026-09-24T17:24:02.711,89.671,bedroom_wing@BW-near,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=22
+2026-09-24T17:24:03.706,90.666,bedroom_wing@BW-near,[RSSI] bedroom_wing=-83 dining_hall=-88 medicine_room=-82
+2026-09-24T17:24:03.715,90.675,bedroom_wing@BW-near,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=22
+2026-09-24T17:24:04.707,91.667,bedroom_wing@BW-near,[RSSI] bedroom_wing=-85 dining_hall=-88 medicine_room=-80
+2026-09-24T17:24:04.713,91.673,bedroom_wing@BW-near,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=23
+2026-09-24T17:24:05.708,92.668,bedroom_wing@BW-near,[RSSI] bedroom_wing=-82 dining_hall=-93 medicine_room=-82
+2026-09-24T17:24:05.713,92.673,bedroom_wing@BW-near,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=23
+2026-09-24T17:24:06.708,93.668,bedroom_wing@BW-near,[RSSI] bedroom_wing=-82 dining_hall=-95 medicine_room=-79
+2026-09-24T17:24:06.708,93.668,bedroom_wing@BW-near,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=23
+2026-09-24T17:24:07.710,94.670,bedroom_wing@BW-near,[RSSI] bedroom_wing=-82 dining_hall=-91 medicine_room=-77
+2026-09-24T17:24:07.718,94.678,bedroom_wing@BW-near,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=23
+2026-09-24T17:24:08.712,95.672,bedroom_wing@BW-near,[RSSI] bedroom_wing=-81 dining_hall=-91 medicine_room=-77
+2026-09-24T17:24:08.719,95.679,bedroom_wing@BW-near,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=23
+2026-09-24T17:24:09.713,96.672,bedroom_wing@BW-near,[RSSI] bedroom_wing=-78 dining_hall=-91 medicine_room=-74
+2026-09-24T17:24:09.718,96.677,bedroom_wing@BW-near,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:24:10.713,97.673,bedroom_wing@BW-near,[RSSI] bedroom_wing=-76 dining_hall=-94 medicine_room=-75
+2026-09-24T17:24:10.720,97.680,bedroom_wing@BW-near,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:24:11.714,98.674,bedroom_wing@BW-near,[RSSI] bedroom_wing=-75 dining_hall=-93 medicine_room=-74
+2026-09-24T17:24:11.723,98.683,bedroom_wing@BW-near,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:24:12.715,99.675,bedroom_wing@BW-near,[RSSI] bedroom_wing=-76 dining_hall=-93 medicine_room=-75
+2026-09-24T17:24:12.724,99.684,bedroom_wing@BW-near,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:24:13.717,100.677,bedroom_wing@BW-near,[RSSI] bedroom_wing=-75 dining_hall=-93 medicine_room=-74
+2026-09-24T17:24:13.720,100.679,bedroom_wing@BW-near,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:24:14.715,101.674,bedroom_wing@BW-near,[RSSI] bedroom_wing=-75 dining_hall=-88 medicine_room=-79
+2026-09-24T17:24:14.727,101.686,bedroom_wing@BW-near,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:24:15.625,102.585,bedroom_wing@BW-near,"[ZONE] -> bedroom_wing (id=1, rssi=-75.2 dBm, ~4.5 m)"
+2026-09-24T17:24:15.639,102.599,bedroom_wing@BW-near,"[ALERT] {""device_id"":""wearable-01"",""type"":""zone_change"",""detail"":""bedroom_wing"",""zone"":""bedroom_wing"",""zone_id"":1,""batt_pct"":0,""hr_bpm"":-1,""uptime_s"":102}"
+2026-09-24T17:24:15.716,102.676,bedroom_wing@BW-near,[RSSI] bedroom_wing=-75 dining_hall=-89 medicine_room=-80
+2026-09-24T17:24:15.727,102.686,bedroom_wing@BW-near,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:24:16.715,103.675,bedroom_wing@BW-near,[RSSI] bedroom_wing=-73 dining_hall=-88 medicine_room=-80
+2026-09-24T17:24:16.723,103.683,bedroom_wing@BW-near,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:24:17.720,104.679,bedroom_wing@BW-near,[RSSI] bedroom_wing=-71 dining_hall=-86 medicine_room=-85
+2026-09-24T17:24:17.724,104.684,bedroom_wing@BW-near,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:24:18.720,105.680,bedroom_wing@BW-near,[RSSI] bedroom_wing=-72 dining_hall=-83 medicine_room=-81
+2026-09-24T17:24:18.727,105.687,bedroom_wing@BW-near,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:24:19.719,106.679,bedroom_wing@BW-near,[RSSI] bedroom_wing=-73 dining_hall=-84 medicine_room=-85
+2026-09-24T17:24:19.727,106.687,bedroom_wing@BW-near,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:24:20.722,107.682,bedroom_wing@BW-near,[RSSI] bedroom_wing=-70 dining_hall=-85 medicine_room=-79
+2026-09-24T17:24:20.726,107.686,bedroom_wing@BW-near,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:24:21.723,108.683,bedroom_wing@BW-near,[RSSI] bedroom_wing=-69 dining_hall=-88 medicine_room=-75
+2026-09-24T17:24:21.728,108.687,bedroom_wing@BW-near,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:24:22.724,109.684,bedroom_wing@BW-near,[RSSI] bedroom_wing=-72 dining_hall=-86 medicine_room=-80
+2026-09-24T17:24:22.732,109.692,bedroom_wing@BW-near,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:24:23.726,110.686,bedroom_wing@BW-near,[RSSI] bedroom_wing=-68 dining_hall=-83 medicine_room=-74
+2026-09-24T17:24:23.733,110.693,bedroom_wing@BW-near,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:24:24.726,111.686,bedroom_wing@BW-near,[RSSI] bedroom_wing=-70 dining_hall=-84 medicine_room=-76
+2026-09-24T17:24:24.732,111.691,bedroom_wing@BW-near,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:24:25.727,112.687,bedroom_wing@BW-near,[RSSI] bedroom_wing=-69 dining_hall=-85 medicine_room=-75
+2026-09-24T17:24:25.733,112.692,bedroom_wing@BW-near,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:24:26.728,113.688,bedroom_wing@BW-near,[RSSI] bedroom_wing=-68 dining_hall=-84 medicine_room=-77
+2026-09-24T17:24:26.736,113.695,bedroom_wing@BW-near,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:24:27.729,114.689,bedroom_wing@BW-near,[RSSI] bedroom_wing=-68 dining_hall=-83 medicine_room=-77
+2026-09-24T17:24:27.734,114.694,bedroom_wing@BW-near,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:24:28.730,115.690,bedroom_wing@BW-near,[RSSI] bedroom_wing=-68 dining_hall=-85 medicine_room=-81
+2026-09-24T17:24:28.735,115.695,bedroom_wing@BW-near,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:24:29.731,116.691,bedroom_wing@BW-near,[RSSI] bedroom_wing=-69 dining_hall=-88 medicine_room=-81
+2026-09-24T17:24:29.740,116.700,bedroom_wing@BW-near,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:24:30.733,117.692,bedroom_wing@BW-near,[RSSI] bedroom_wing=-69 dining_hall=-85 medicine_room=-77
+2026-09-24T17:24:30.738,117.697,bedroom_wing@BW-near,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:24:31.733,118.693,bedroom_wing@BW-near,[RSSI] bedroom_wing=-68 dining_hall=-84 medicine_room=-79
+2026-09-24T17:24:31.741,118.701,bedroom_wing@BW-near,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:24:32.735,119.694,bedroom_wing@BW-near,[RSSI] bedroom_wing=-66 dining_hall=-84 medicine_room=-78
+2026-09-24T17:24:32.742,119.701,bedroom_wing@BW-near,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:24:33.737,120.696,bedroom_wing@BW-near,[RSSI] bedroom_wing=-67 dining_hall=-86 medicine_room=-79
+2026-09-24T17:24:33.741,120.700,bedroom_wing@BW-near,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:24:33.805,120.764,bedroom_wing@BW-near,[NET] Offline. Queued events: 24 (dropped 6)
+2026-09-24T17:24:34.735,121.695,bedroom_wing@BW-near,[RSSI] bedroom_wing=-67 dining_hall=-86 medicine_room=-81
+2026-09-24T17:24:34.744,121.703,bedroom_wing@BW-near,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:24:35.736,122.696,bedroom_wing@BW-near,[RSSI] bedroom_wing=-66 dining_hall=-84 medicine_room=-79
+2026-09-24T17:24:35.742,122.701,bedroom_wing@BW-near,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:24:36.737,123.697,bedroom_wing@BW-near,[RSSI] bedroom_wing=-65 dining_hall=-86 medicine_room=-77
+2026-09-24T17:24:36.748,123.708,bedroom_wing@BW-near,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:24:37.738,124.698,bedroom_wing@BW-near,[RSSI] bedroom_wing=-66 dining_hall=-86 medicine_room=-82
+2026-09-24T17:24:37.743,124.703,bedroom_wing@BW-near,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:24:38.741,125.701,bedroom_wing@BW-near,[RSSI] bedroom_wing=-64 dining_hall=-85 medicine_room=-79
+2026-09-24T17:24:38.747,125.707,bedroom_wing@BW-near,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:24:39.741,126.700,bedroom_wing@BW-near,[RSSI] bedroom_wing=-64 dining_hall=-85 medicine_room=-78
+2026-09-24T17:24:39.745,126.705,bedroom_wing@BW-near,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:24:40.741,127.701,bedroom_wing@BW-near,[RSSI] bedroom_wing=-66 dining_hall=-86 medicine_room=-82
+2026-09-24T17:24:40.750,127.710,bedroom_wing@BW-near,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:24:41.742,128.702,bedroom_wing@BW-near,[RSSI] bedroom_wing=-64 dining_hall=-85 medicine_room=-79
+2026-09-24T17:24:41.750,128.710,bedroom_wing@BW-near,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:24:42.743,129.703,bedroom_wing@BW-near,[RSSI] bedroom_wing=-65 dining_hall=-86 medicine_room=-78
+2026-09-24T17:24:42.749,129.709,bedroom_wing@BW-near,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:24:43.744,130.703,bedroom_wing@BW-near,[RSSI] bedroom_wing=-65 dining_hall=-87 medicine_room=-83
+2026-09-24T17:24:43.752,130.712,bedroom_wing@BW-near,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:24:44.745,131.705,bedroom_wing@BW-near,[RSSI] bedroom_wing=-69 dining_hall=-92 medicine_room=-94
+2026-09-24T17:24:44.751,131.711,bedroom_wing@BW-near,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:24:45.746,132.705,bedroom_wing@BW-near,[RSSI] bedroom_wing=-69 dining_hall=-94 medicine_room=-86
+2026-09-24T17:24:45.751,132.710,bedroom_wing@BW-near,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:24:46.748,133.707,bedroom_wing@BW-near,[RSSI] bedroom_wing=-67 dining_hall=-98 medicine_room=-88
+2026-09-24T17:24:46.755,133.714,bedroom_wing@BW-near,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:24:47.746,134.705,bedroom_wing@BW-near,[RSSI] bedroom_wing=-68 dining_hall=-97 medicine_room=-88
+2026-09-24T17:24:47.754,134.714,bedroom_wing@BW-near,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:24:48.742,135.702,bedroom_wing@BW-near,[RSSI] bedroom_wing=-68 dining_hall=-96 medicine_room=-91
+2026-09-24T17:24:48.753,135.712,bedroom_wing@BW-near,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:24:49.751,136.711,bedroom_wing@BW-near,[RSSI] bedroom_wing=-69 dining_hall=-98 medicine_room=-95
+2026-09-24T17:24:49.757,136.717,bedroom_wing@BW-near,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:24:50.752,137.711,bedroom_wing@BW-near,[RSSI] bedroom_wing=-69 dining_hall=-96 medicine_room=-94
+2026-09-24T17:24:50.757,137.716,bedroom_wing@BW-near,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:24:51.753,138.713,bedroom_wing@BW-near,[RSSI] bedroom_wing=-70 dining_hall=-96 medicine_room=-88
+2026-09-24T17:24:51.758,138.718,bedroom_wing@BW-near,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:24:52.754,139.713,bedroom_wing@BW-near,[RSSI] bedroom_wing=-68 dining_hall=-97 medicine_room=-90
+2026-09-24T17:24:52.758,139.718,bedroom_wing@BW-near,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:24:53.755,140.714,bedroom_wing@BW-near,[RSSI] bedroom_wing=-67 dining_hall=-97 medicine_room=-91
+2026-09-24T17:24:53.761,140.721,bedroom_wing@BW-near,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:24:54.755,141.715,bedroom_wing@BW-near,[RSSI] bedroom_wing=-68 dining_hall=-97 medicine_room=-89
+2026-09-24T17:24:54.761,141.720,bedroom_wing@BW-near,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:24:55.756,142.716,bedroom_wing@BW-near,[RSSI] bedroom_wing=-66 dining_hall=-88 medicine_room=-88
+2026-09-24T17:24:55.762,142.721,bedroom_wing@BW-near,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:24:56.757,143.716,bedroom_wing@BW-near,[RSSI] bedroom_wing=-66 dining_hall=-89 medicine_room=-90
+2026-09-24T17:24:56.762,143.721,bedroom_wing@BW-near,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:24:57.758,144.718,bedroom_wing@BW-near,[RSSI] bedroom_wing=-65 dining_hall=-88 medicine_room=-86
+2026-09-24T17:24:57.765,144.725,bedroom_wing@BW-near,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:24:58.759,145.719,bedroom_wing@BW-near,[RSSI] bedroom_wing=-65 dining_hall=-88 medicine_room=-88
+2026-09-24T17:24:58.764,145.724,bedroom_wing@BW-near,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:24:59.760,146.720,bedroom_wing@BW-near,[RSSI] bedroom_wing=-64 dining_hall=-87 medicine_room=-88
+2026-09-24T17:24:59.767,146.727,bedroom_wing@BW-near,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:25:00.761,147.721,bedroom_wing@BW-near,[RSSI] bedroom_wing=-64 dining_hall=-87 medicine_room=-87
+2026-09-24T17:25:00.768,147.728,bedroom_wing@BW-near,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:25:01.762,148.722,bedroom_wing@BW-near,[RSSI] bedroom_wing=-64 dining_hall=-85 medicine_room=-87
+2026-09-24T17:25:01.768,148.728,bedroom_wing@BW-near,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:25:02.763,149.722,bedroom_wing@BW-near,[RSSI] bedroom_wing=-64 dining_hall=-86 medicine_room=-86
+2026-09-24T17:25:02.768,149.728,bedroom_wing@BW-near,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:25:03.764,150.725,bedroom_wing@BW-near,[RSSI] bedroom_wing=-62 dining_hall=-87 medicine_room=-83
+2026-09-24T17:25:03.773,150.732,bedroom_wing@BW-near,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:25:04.765,151.725,bedroom_wing@BW-near,[RSSI] bedroom_wing=-64 dining_hall=-85 medicine_room=-91
+2026-09-24T17:25:04.775,151.734,bedroom_wing@BW-near,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:25:05.766,152.726,bedroom_wing@BW-near,[RSSI] bedroom_wing=-64 dining_hall=-87 medicine_room=-87
+2026-09-24T17:25:05.771,152.731,bedroom_wing@BW-near,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:25:06.767,153.726,bedroom_wing@BW-near,[RSSI] bedroom_wing=-63 dining_hall=-87 medicine_room=-87
+2026-09-24T17:25:06.772,153.732,bedroom_wing@BW-near,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:25:07.769,154.728,bedroom_wing@BW-near,[RSSI] bedroom_wing=-63 dining_hall=-88 medicine_room=-88
+2026-09-24T17:25:07.777,154.736,bedroom_wing@BW-near,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:25:08.769,155.729,bedroom_wing@BW-near,[RSSI] bedroom_wing=-64 dining_hall=-88 medicine_room=-86
+2026-09-24T17:25:08.778,155.738,bedroom_wing@BW-near,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:25:09.770,156.730,bedroom_wing@BW-near,[RSSI] bedroom_wing=-64 dining_hall=-86 medicine_room=-83
+2026-09-24T17:25:09.775,156.735,bedroom_wing@BW-near,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:25:10.771,157.731,bedroom_wing@BW-near,[RSSI] bedroom_wing=-65 dining_hall=-87 medicine_room=-88
+2026-09-24T17:25:10.780,157.740,bedroom_wing@BW-near,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:25:11.772,158.731,bedroom_wing@BW-near,[RSSI] bedroom_wing=-64 dining_hall=-87 medicine_room=-82
+2026-09-24T17:25:11.781,158.741,bedroom_wing@BW-near,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:25:12.772,159.732,bedroom_wing@BW-near,[RSSI] bedroom_wing=-66 dining_hall=-87 medicine_room=-81
+2026-09-24T17:25:12.779,159.738,bedroom_wing@BW-near,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:25:13.775,160.734,bedroom_wing@BW-near,[RSSI] bedroom_wing=-66 dining_hall=-85 medicine_room=-85
+2026-09-24T17:25:13.783,160.742,bedroom_wing@BW-near,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:25:14.776,161.736,bedroom_wing@BW-near,[RSSI] bedroom_wing=-63 dining_hall=-84 medicine_room=-85
+2026-09-24T17:25:14.781,161.741,bedroom_wing@BW-near,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:25:15.776,162.736,bedroom_wing@BW-near,[RSSI] bedroom_wing=-63 dining_hall=-85 medicine_room=-84
+2026-09-24T17:25:15.785,162.745,bedroom_wing@BW-near,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:25:16.776,163.736,bedroom_wing@BW-near,[RSSI] bedroom_wing=-64 dining_hall=-85 medicine_room=-84
+2026-09-24T17:25:16.786,163.746,bedroom_wing@BW-near,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:25:17.778,164.737,bedroom_wing@BW-near,[RSSI] bedroom_wing=-63 dining_hall=-84 medicine_room=-85
+2026-09-24T17:25:17.787,164.747,bedroom_wing@BW-near,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:25:18.779,165.738,bedroom_wing@BW-near,[RSSI] bedroom_wing=-63 dining_hall=-85 medicine_room=-82
+2026-09-24T17:25:18.785,165.744,bedroom_wing@BW-near,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:25:19.780,166.740,bedroom_wing@BW-near,[RSSI] bedroom_wing=-64 dining_hall=-85 medicine_room=-86
+2026-09-24T17:25:19.789,166.749,bedroom_wing@BW-near,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:25:20.781,167.741,bedroom_wing@BW-near,[RSSI] bedroom_wing=-64 dining_hall=-83 medicine_room=-84
+2026-09-24T17:25:20.786,167.746,bedroom_wing@BW-near,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:25:21.782,168.741,bedroom_wing@BW-near,[RSSI] bedroom_wing=-64 dining_hall=-85 medicine_room=-81
+2026-09-24T17:25:21.788,168.747,bedroom_wing@BW-near,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:25:22.783,169.743,bedroom_wing@BW-near,[RSSI] bedroom_wing=-63 dining_hall=-85 medicine_room=-86
+2026-09-24T17:25:22.792,169.751,bedroom_wing@BW-near,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:25:23.784,170.744,bedroom_wing@BW-near,[RSSI] bedroom_wing=-63 dining_hall=-84 medicine_room=-85
+2026-09-24T17:25:23.793,170.753,bedroom_wing@BW-near,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:25:24.785,171.744,bedroom_wing@BW-near,[RSSI] bedroom_wing=-63 dining_hall=-83 medicine_room=-79
+2026-09-24T17:25:24.790,171.750,bedroom_wing@BW-near,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:25:25.785,172.745,bedroom_wing@BW-near,[RSSI] bedroom_wing=-64 dining_hall=-84 medicine_room=-86
+2026-09-24T17:25:25.792,172.751,bedroom_wing@BW-near,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:25:26.787,173.747,bedroom_wing@BW-near,[RSSI] bedroom_wing=-62 dining_hall=-87 medicine_room=-87
+2026-09-24T17:25:26.796,173.756,bedroom_wing@BW-near,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:25:27.787,174.747,bedroom_wing@BW-near,[RSSI] bedroom_wing=-62 dining_hall=-90 medicine_room=-86
+2026-09-24T17:25:27.793,174.753,bedroom_wing@BW-near,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:25:28.789,175.749,bedroom_wing@BW-near,[RSSI] bedroom_wing=-64 dining_hall=-89 medicine_room=-82
+2026-09-24T17:25:28.794,175.754,bedroom_wing@BW-near,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:25:29.790,176.749,bedroom_wing@BW-near,[RSSI] bedroom_wing=-64 dining_hall=-89 medicine_room=-83
+2026-09-24T17:25:29.799,176.759,bedroom_wing@BW-near,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:25:30.789,177.749,bedroom_wing@BW-near,[RSSI] bedroom_wing=-65 dining_hall=-87 medicine_room=-83
+2026-09-24T17:25:30.791,177.751,bedroom_wing@BW-near,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:25:31.792,178.752,bedroom_wing@BW-near,[RSSI] bedroom_wing=-64 dining_hall=-88 medicine_room=-86
+2026-09-24T17:25:31.794,178.754,bedroom_wing@BW-near,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:25:32.793,179.752,bedroom_wing@BW-near,[RSSI] bedroom_wing=-62 dining_hall=-91 medicine_room=-83
+2026-09-24T17:25:32.794,179.754,bedroom_wing@BW-near,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:25:33.795,180.754,bedroom_wing@BW-near,[RSSI] bedroom_wing=-64 dining_hall=-87 medicine_room=-88
+2026-09-24T17:25:33.803,180.763,bedroom_wing@BW-near,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:25:33.825,180.785,bedroom_wing@BW-near,[NET] Offline. Queued events: 24 (dropped 18)
+2026-09-24T17:25:34.795,181.755,bedroom_wing@BW-near,[RSSI] bedroom_wing=-64 dining_hall=-87 medicine_room=-88
+2026-09-24T17:25:34.795,181.755,bedroom_wing@BW-near,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:25:35.796,182.755,bedroom_wing@BW-near,[RSSI] bedroom_wing=-63 dining_hall=-84 medicine_room=-86
+2026-09-24T17:25:35.802,182.762,bedroom_wing@BW-near,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:25:36.797,183.757,bedroom_wing@BW-near,[RSSI] bedroom_wing=-65 dining_hall=-86 medicine_room=-86
+2026-09-24T17:25:36.804,183.764,bedroom_wing@BW-near,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:25:37.797,184.757,bedroom_wing@BW-near,[RSSI] bedroom_wing=-64 dining_hall=-84 medicine_room=-85
+2026-09-24T17:25:37.803,184.763,bedroom_wing@BW-near,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:25:38.799,185.758,bedroom_wing@BW-near,[RSSI] bedroom_wing=-65 dining_hall=-84 medicine_room=-81
+2026-09-24T17:25:38.805,185.764,bedroom_wing@BW-near,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:25:39.800,186.759,bedroom_wing@BW-near,[RSSI] bedroom_wing=-65 dining_hall=-84 medicine_room=-81
+2026-09-24T17:25:39.807,186.766,bedroom_wing@BW-near,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:25:40.812,187.771,bedroom_wing@BW-near,[RSSI] bedroom_wing=-65 dining_hall=-86 medicine_room=-81
+2026-09-24T17:25:40.815,187.774,bedroom_wing@BW-near,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:25:41.802,188.762,bedroom_wing@BW-near,[RSSI] bedroom_wing=-65 dining_hall=-85 medicine_room=-86
+2026-09-24T17:25:41.807,188.767,bedroom_wing@BW-near,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:25:42.803,189.763,bedroom_wing@BW-near,[RSSI] bedroom_wing=-65 dining_hall=-87 medicine_room=-84
+2026-09-24T17:25:42.808,189.768,bedroom_wing@BW-near,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:25:43.804,190.764,bedroom_wing@BW-near,[RSSI] bedroom_wing=-67 dining_hall=-88 medicine_room=-84
+2026-09-24T17:25:43.811,190.770,bedroom_wing@BW-near,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:25:44.804,191.764,bedroom_wing@BW-near,[RSSI] bedroom_wing=-66 dining_hall=-85 medicine_room=-88
+2026-09-24T17:25:44.811,191.771,bedroom_wing@BW-near,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:25:45.805,192.765,bedroom_wing@BW-near,[RSSI] bedroom_wing=-65 dining_hall=-86 medicine_room=-81
+2026-09-24T17:25:45.811,192.771,bedroom_wing@BW-near,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:25:46.807,193.766,bedroom_wing@BW-near,[RSSI] bedroom_wing=-64 dining_hall=-87 medicine_room=-85
+2026-09-24T17:25:46.813,193.773,bedroom_wing@BW-near,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:25:47.808,194.768,bedroom_wing@BW-near,[RSSI] bedroom_wing=-69 dining_hall=-94 medicine_room=-88
+2026-09-24T17:25:47.813,194.773,bedroom_wing@BW-near,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:25:48.808,195.768,bedroom_wing@BW-near,[RSSI] bedroom_wing=-68 dining_hall=-91 medicine_room=-91
+2026-09-24T17:25:48.811,195.771,bedroom_wing@BW-near,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:25:49.807,196.766,transit,[RSSI] bedroom_wing=-64 dining_hall=-85 medicine_room=-86
+2026-09-24T17:25:49.816,196.775,transit,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:25:50.810,197.770,transit,[RSSI] bedroom_wing=-66 dining_hall=-84 medicine_room=-84
+2026-09-24T17:25:50.817,197.777,transit,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:25:51.812,198.771,transit,[RSSI] bedroom_wing=-65 dining_hall=-86 medicine_room=-78
+2026-09-24T17:25:51.817,198.777,transit,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:25:52.812,199.772,transit,[RSSI] bedroom_wing=-65 dining_hall=-86 medicine_room=-80
+2026-09-24T17:25:52.816,199.776,transit,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:25:53.813,200.773,transit,[RSSI] bedroom_wing=-65 dining_hall=-88 medicine_room=-78
+2026-09-24T17:25:53.816,200.775,transit,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:25:54.815,201.775,transit,[RSSI] bedroom_wing=-66 dining_hall=-88 medicine_room=-81
+2026-09-24T17:25:54.820,201.779,transit,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:25:55.816,202.776,transit,[RSSI] bedroom_wing=-65 dining_hall=-88 medicine_room=-81
+2026-09-24T17:25:55.821,202.781,transit,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:25:56.815,203.775,transit,[RSSI] bedroom_wing=-67 dining_hall=-92 medicine_room=-83
+2026-09-24T17:25:56.823,203.783,transit,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:25:57.817,204.777,transit,[RSSI] bedroom_wing=-67 dining_hall=-95 medicine_room=-82
+2026-09-24T17:25:57.823,204.782,transit,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:25:58.820,205.779,transit,[RSSI] bedroom_wing=-71 dining_hall=-94 medicine_room=-81
+2026-09-24T17:25:58.824,205.784,transit,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:25:59.820,206.780,transit,[RSSI] bedroom_wing=-68 dining_hall=-91 medicine_room=-79
+2026-09-24T17:25:59.825,206.785,transit,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:26:00.821,207.780,transit,[RSSI] bedroom_wing=-67 dining_hall=-91 medicine_room=-85
+2026-09-24T17:26:00.829,207.788,transit,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:26:01.822,208.782,transit,[RSSI] bedroom_wing=-67 dining_hall=-89 medicine_room=-88
+2026-09-24T17:26:01.826,208.786,transit,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:26:02.823,209.783,transit,[RSSI] bedroom_wing=-66 dining_hall=-88 medicine_room=-81
+2026-09-24T17:26:02.829,209.788,transit,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:26:03.825,210.784,transit,[RSSI] bedroom_wing=-67 dining_hall=-89 medicine_room=-81
+2026-09-24T17:26:03.833,210.792,transit,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:26:04.815,211.775,transit,[RSSI] bedroom_wing=-69 dining_hall=-92 medicine_room=-81
+2026-09-24T17:26:04.830,211.789,transit,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:26:05.826,212.786,transit,[RSSI] bedroom_wing=-67 dining_hall=-87 medicine_room=-83
+2026-09-24T17:26:05.831,212.791,transit,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:26:06.827,213.787,transit,[RSSI] bedroom_wing=-74 dining_hall=-92 medicine_room=-85
+2026-09-24T17:26:06.832,213.792,transit,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:26:07.828,214.787,transit,[RSSI] bedroom_wing=-67 dining_hall=-88 medicine_room=-85
+2026-09-24T17:26:07.833,214.793,BW-near,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:26:08.829,215.789,BW-near,[RSSI] bedroom_wing=-66 dining_hall=-86 medicine_room=-80
+2026-09-24T17:26:08.835,215.794,BW-near,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:26:09.830,216.789,BW-near,[RSSI] bedroom_wing=-69 dining_hall=-86 medicine_room=-80
+2026-09-24T17:26:09.835,216.794,BW-near,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:26:10.831,217.790,BW-near,[RSSI] bedroom_wing=-68 dining_hall=-86 medicine_room=-83
+2026-09-24T17:26:10.837,217.796,BW-near,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:26:11.832,218.792,BW-near,[RSSI] bedroom_wing=-69 dining_hall=-86 medicine_room=-81
+2026-09-24T17:26:11.838,218.798,BW-near,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:26:12.832,219.792,BW-near,[RSSI] bedroom_wing=-70 dining_hall=-89 medicine_room=-82
+2026-09-24T17:26:12.838,219.798,BW-near,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:26:13.833,220.793,BW-near,[RSSI] bedroom_wing=-70 dining_hall=-86 medicine_room=-81
+2026-09-24T17:26:13.839,220.798,BW-near,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:26:14.834,221.794,BW-near,[RSSI] bedroom_wing=-68 dining_hall=-86 medicine_room=-79
+2026-09-24T17:26:14.842,221.802,BW-near,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:26:15.836,222.795,BW-near,[RSSI] bedroom_wing=-71 dining_hall=-89 medicine_room=-80
+2026-09-24T17:26:15.844,222.804,BW-near,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:26:16.837,223.797,BW-near,[RSSI] bedroom_wing=-70 dining_hall=-88 medicine_room=-83
+2026-09-24T17:26:16.842,223.802,BW-near,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:26:17.838,224.798,BW-near,[RSSI] bedroom_wing=-67 dining_hall=-86 medicine_room=-81
+2026-09-24T17:26:17.844,224.804,BW-near,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:26:18.838,225.798,BW-near,[RSSI] bedroom_wing=-70 dining_hall=-94 medicine_room=-82
+2026-09-24T17:26:18.843,225.803,BW-near,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:26:19.839,226.799,BW-near,[RSSI] bedroom_wing=-69 dining_hall=-95 medicine_room=-84
+2026-09-24T17:26:19.845,226.805,BW-near,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:26:20.840,227.800,BW-near,[RSSI] bedroom_wing=-67 dining_hall=-88 medicine_room=-80
+2026-09-24T17:26:20.847,227.807,BW-near,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:26:21.842,228.802,BW-near,[RSSI] bedroom_wing=-76 dining_hall=-94 medicine_room=-84
+2026-09-24T17:26:21.847,228.807,BW-near,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:26:22.843,229.803,BW-near,[RSSI] bedroom_wing=-66 dining_hall=-88 medicine_room=-80
+2026-09-24T17:26:22.848,229.808,BW-near,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:26:23.844,230.804,BW-near,[RSSI] bedroom_wing=-65 dining_hall=-85 medicine_room=-78
+2026-09-24T17:26:23.850,230.810,BW-near,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:26:24.845,231.804,BW-near,[RSSI] bedroom_wing=-67 dining_hall=-88 medicine_room=-78
+2026-09-24T17:26:24.851,231.811,BW-near,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:26:25.846,232.805,BW-near,[RSSI] bedroom_wing=-65 dining_hall=-86 medicine_room=-78
+2026-09-24T17:26:25.851,232.811,BW-near,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:26:26.846,233.806,BW-near,[RSSI] bedroom_wing=-68 dining_hall=-94 medicine_room=-82
+2026-09-24T17:26:26.851,233.811,BW-near,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:26:27.847,234.807,BW-near,[RSSI] bedroom_wing=-76 dining_hall=-93 medicine_room=-86
+2026-09-24T17:26:27.854,234.814,BW-near,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:26:28.848,235.808,BW-near,[RSSI] bedroom_wing=-87 dining_hall=-89 medicine_room=-82
+2026-09-24T17:26:28.853,235.813,BW-near,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:26:29.849,236.810,BW-near,[RSSI] bedroom_wing=-85 dining_hall=-91 medicine_room=-87
+2026-09-24T17:26:29.857,236.816,BW-near,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:26:30.850,237.810,BW-near,[RSSI] bedroom_wing=-92 dining_hall=-94 medicine_room=-83
+2026-09-24T17:26:30.857,237.816,BW-near,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:26:31.361,238.321,BW-near,"[ZONE] -> medicine_room (id=11, rssi=-81.8 dBm, ~8.2 m)  *** RESTRICTED ***"
+2026-09-24T17:26:31.375,238.336,BW-near,"[ALERT] {""device_id"":""wearable-01"",""type"":""zone_restricted"",""detail"":""medicine_room"",""zone"":""medicine_room"",""zone_id"":11,""batt_pct"":0,""hr_bpm"":-1,""uptime_s"":237}"
+2026-09-24T17:26:31.851,238.811,BW-near,[RSSI] bedroom_wing=-87 dining_hall=-95 medicine_room=-85
+2026-09-24T17:26:31.857,238.817,BW-near,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:26:32.852,239.812,BW-near,[RSSI] bedroom_wing=-77 dining_hall=-93 medicine_room=-88
+2026-09-24T17:26:32.858,239.818,BW-near,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:26:33.161,240.121,BW-near,"[ZONE] -> bedroom_wing (id=1, rssi=-78.1 dBm, ~5.8 m)"
+2026-09-24T17:26:33.174,240.134,BW-near,"[ALERT] {""device_id"":""wearable-01"",""type"":""zone_change"",""detail"":""bedroom_wing"",""zone"":""bedroom_wing"",""zone_id"":1,""batt_pct"":0,""hr_bpm"":-1,""uptime_s"":239}"
+2026-09-24T17:26:33.853,240.813,BW-near,[RSSI] bedroom_wing=-74 dining_hall=-86 medicine_room=-84
+2026-09-24T17:26:33.858,240.818,BW-near,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:26:33.862,240.822,BW-near,[NET] Offline. Queued events: 24 (dropped 32)
+2026-09-24T17:26:34.853,241.813,BW-near,[RSSI] bedroom_wing=-69 dining_hall=-89 medicine_room=-83
+2026-09-24T17:26:34.860,241.819,BW-near,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:26:35.854,242.814,BW-near,[RSSI] bedroom_wing=-77 dining_hall=-91 medicine_room=-82
+2026-09-24T17:26:35.859,242.819,BW-near,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:26:36.855,243.815,BW-near,[RSSI] bedroom_wing=-74 dining_hall=-96 medicine_room=-82
+2026-09-24T17:26:36.861,243.821,BW-near,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:26:37.857,244.817,BW-near,[RSSI] bedroom_wing=-72 dining_hall=-94 medicine_room=-78
+2026-09-24T17:26:37.863,244.822,BW-near,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:26:38.857,245.817,BW-near,[RSSI] bedroom_wing=-72 dining_hall=-91 medicine_room=-85
+2026-09-24T17:26:38.862,245.823,BW-near,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:26:39.858,246.818,BW-near,[RSSI] bedroom_wing=-80 dining_hall=-90 medicine_room=-82
+2026-09-24T17:26:39.864,246.824,BW-near,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:26:40.860,247.819,BW-netransit,[RSSI] bedroom_wing=-73 dining_hall=-90 medicine_room=-82
+2026-09-24T17:26:40.865,247.825,BW-netransit,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:26:41.860,248.820,BW-netransit,[RSSI] bedroom_wing=-72 dining_hall=-90 medicine_room=-88
+2026-09-24T17:26:41.866,248.826,BW-netransit,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:26:42.861,249.821,BW-netransit,[RSSI] bedroom_wing=-75 dining_hall=-89 medicine_room=-80
+2026-09-24T17:26:42.866,249.826,BW-netransit,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:26:43.863,250.823,BW-netransit,[RSSI] bedroom_wing=-71 dining_hall=-92 medicine_room=-83
+2026-09-24T17:26:43.868,250.828,BW-netransit,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:26:44.862,251.822,BW-netransit,[RSSI] bedroom_wing=-75 dining_hall=-98 medicine_room=-81
+2026-09-24T17:26:44.868,251.828,BW-netransit,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:26:45.864,252.824,BW-netransit,[RSSI] bedroom_wing=-73 dining_hall=-95 medicine_room=-80
+2026-09-24T17:26:45.868,252.828,BW-netransit,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:26:46.865,253.825,BW-netransit,[RSSI] bedroom_wing=-72 dining_hall=-96 medicine_room=-81
+2026-09-24T17:26:46.870,253.830,BW-netransit,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:26:47.870,254.830,transit,[RSSI] bedroom_wing=-71 dining_hall=-89 medicine_room=-87
+2026-09-24T17:26:47.872,254.832,transit,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:26:48.862,255.822,transit,[RSSI] bedroom_wing=-65 dining_hall=-92 medicine_room=-84
+2026-09-24T17:26:48.872,255.831,transit,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:26:49.864,256.824,transit,[RSSI] bedroom_wing=-72 dining_hall=-90 medicine_room=-86
+2026-09-24T17:26:49.874,256.834,transit,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:26:50.869,257.829,transit,[RSSI] bedroom_wing=-82 dining_hall=-89 medicine_room=-83
+2026-09-24T17:26:50.875,257.835,transit,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:26:51.870,258.830,transit,[RSSI] bedroom_wing=-84 dining_hall=-92 medicine_room=-86
+2026-09-24T17:26:51.875,258.835,transit,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:26:52.870,259.830,transit,[RSSI] bedroom_wing=-81 dining_hall=-93 medicine_room=-78
+2026-09-24T17:26:52.874,259.834,transit,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:26:53.873,260.833,transit,[RSSI] bedroom_wing=-81 dining_hall=-86 medicine_room=-86
+2026-09-24T17:26:53.880,260.840,transit,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:26:54.873,261.833,transit,[RSSI] bedroom_wing=-82 dining_hall=-88 medicine_room=-80
+2026-09-24T17:26:54.881,261.841,transit,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:26:55.686,262.646,transit,"[ZONE] -> medicine_room (id=11, rssi=-76.5 dBm, ~5.0 m)  *** RESTRICTED ***"
+2026-09-24T17:26:55.699,262.659,transit,"[ALERT] {""device_id"":""wearable-01"",""type"":""zone_restricted"",""detail"":""medicine_room"",""zone"":""medicine_room"",""zone_id"":11,""batt_pct"":0,""hr_bpm"":-1,""uptime_s"":262}"
+2026-09-24T17:26:55.874,262.834,transit,[RSSI] bedroom_wing=-88 dining_hall=-88 medicine_room=-78
+2026-09-24T17:26:55.878,262.838,transit,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:26:56.874,263.833,transit,[RSSI] bedroom_wing=-93 dining_hall=-87 medicine_room=-81
+2026-09-24T17:26:56.880,263.839,transit,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:26:57.870,264.830,transit,[RSSI] bedroom_wing=-92 dining_hall=-86 medicine_room=-81
+2026-09-24T17:26:57.870,264.830,transit,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:26:58.879,265.839,BW-mid,[RSSI] bedroom_wing=-91 dining_hall=-85 medicine_room=-76
+2026-09-24T17:26:58.880,265.840,BW-mid,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:26:59.876,266.836,BW-mid,[RSSI] bedroom_wing=-88 dining_hall=-87 medicine_room=-81
+2026-09-24T17:26:59.883,266.843,BW-mid,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:27:00.878,267.838,BW-mid,[RSSI] bedroom_wing=-85 dining_hall=-89 medicine_room=-80
+2026-09-24T17:27:00.883,267.843,BW-mid,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:27:01.879,268.838,BW-mid,[RSSI] bedroom_wing=-87 dining_hall=-85 medicine_room=-79
+2026-09-24T17:27:01.885,268.844,BW-mid,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:27:02.881,269.841,BW-mid,[RSSI] bedroom_wing=-90 dining_hall=-83 medicine_room=-80
+2026-09-24T17:27:02.886,269.846,BW-mid,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:27:03.882,270.842,BW-mid,[RSSI] bedroom_wing=-88 dining_hall=-85 medicine_room=-78
+2026-09-24T17:27:03.888,270.848,BW-mid,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:27:04.882,271.842,BW-mid,[RSSI] bedroom_wing=-83 dining_hall=-90 medicine_room=-76
+2026-09-24T17:27:04.887,271.847,BW-mid,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:27:05.885,272.845,BW-mid,[RSSI] bedroom_wing=-87 dining_hall=-88 medicine_room=-78
+2026-09-24T17:27:05.889,272.849,BW-mid,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:27:06.884,273.844,BW-mid,[RSSI] bedroom_wing=-86 dining_hall=-85 medicine_room=-80
+2026-09-24T17:27:06.884,273.844,BW-mid,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:27:07.884,274.844,BW-mid,[RSSI] bedroom_wing=-92 dining_hall=-87 medicine_room=-82
+2026-09-24T17:27:07.884,274.844,BW-mid,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:27:08.886,275.846,BW-mid,[RSSI] bedroom_wing=-85 dining_hall=-84 medicine_room=-80
+2026-09-24T17:27:08.892,275.852,BW-mid,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:27:09.887,276.846,BW-mid,[RSSI] bedroom_wing=-83 dining_hall=-86 medicine_room=-81
+2026-09-24T17:27:09.892,276.851,BW-mid,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:27:10.889,277.849,BW-mid,[RSSI] bedroom_wing=-83 dining_hall=-85 medicine_room=-80
+2026-09-24T17:27:10.894,277.854,BW-mid,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:27:11.890,278.849,BW-mid,[RSSI] bedroom_wing=-82 dining_hall=-84 medicine_room=-84
+2026-09-24T17:27:11.896,278.856,BW-mid,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:27:12.890,279.850,BW-mid,[RSSI] bedroom_wing=-82 dining_hall=-86 medicine_room=-83
+2026-09-24T17:27:12.896,279.856,BW-mid,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:27:13.891,280.851,BW-mid,[RSSI] bedroom_wing=-81 dining_hall=-85 medicine_room=-81
+2026-09-24T17:27:13.897,280.856,BW-mid,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:27:14.892,281.852,BW-mid,[RSSI] bedroom_wing=-79 dining_hall=-86 medicine_room=-82
+2026-09-24T17:27:14.897,281.857,BW-mid,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:27:15.893,282.853,BW-mid,[RSSI] bedroom_wing=-82 dining_hall=-86 medicine_room=-80
+2026-09-24T17:27:15.901,282.861,BW-mid,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:27:16.894,283.854,BW-mid,[RSSI] bedroom_wing=-84 dining_hall=-86 medicine_room=-82
+2026-09-24T17:27:16.899,283.859,BW-mid,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:27:17.895,284.856,BW-mid,[RSSI] bedroom_wing=-84 dining_hall=-86 medicine_room=-82
+2026-09-24T17:27:17.900,284.860,BW-mid,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:27:18.896,285.855,BW-mid,[RSSI] bedroom_wing=-83 dining_hall=-86 medicine_room=-84
+2026-09-24T17:27:18.905,285.865,BW-mid,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:27:19.898,286.858,BW-mid,[RSSI] bedroom_wing=-84 dining_hall=-85 medicine_room=-81
+2026-09-24T17:27:19.902,286.862,BW-mid,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:27:20.898,287.859,BW-mid,[RSSI] bedroom_wing=-87 dining_hall=-85 medicine_room=-82
+2026-09-24T17:27:20.904,287.864,BW-mid,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:27:21.899,288.858,BW-mid,[RSSI] bedroom_wing=-82 dining_hall=-85 medicine_room=-83
+2026-09-24T17:27:21.907,288.867,BW-mid,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:27:22.899,289.859,BW-mid,[RSSI] bedroom_wing=-80 dining_hall=-86 medicine_room=-81
+2026-09-24T17:27:22.906,289.866,BW-mid,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:27:23.900,290.860,BW-mid,[RSSI] bedroom_wing=-79 dining_hall=-86 medicine_room=-83
+2026-09-24T17:27:23.906,290.866,BW-mid,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:27:24.902,291.861,BW-mid,[RSSI] bedroom_wing=-80 dining_hall=-86 medicine_room=-81
+2026-09-24T17:27:24.908,291.868,BW-mid,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:27:25.903,292.864,BW-mid,[RSSI] bedroom_wing=-80 dining_hall=-85 medicine_room=-80
+2026-09-24T17:27:25.912,292.872,BW-mid,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:27:26.904,293.864,BW-mid,[RSSI] bedroom_wing=-80 dining_hall=-85 medicine_room=-80
+2026-09-24T17:27:26.912,293.871,BW-mid,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:27:27.904,294.864,BW-mid,[RSSI] bedroom_wing=-79 dining_hall=-85 medicine_room=-80
+2026-09-24T17:27:27.910,294.869,BW-mid,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:27:28.905,295.865,BW-mid,[RSSI] bedroom_wing=-79 dining_hall=-86 medicine_room=-80
+2026-09-24T17:27:28.912,295.871,BW-mid,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:27:29.907,296.867,BW-mid,[RSSI] bedroom_wing=-79 dining_hall=-85 medicine_room=-78
+2026-09-24T17:27:29.915,296.874,BW-mid,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:27:30.908,297.867,BW-mid,[RSSI] bedroom_wing=-84 dining_hall=-88 medicine_room=-82
+2026-09-24T17:27:30.917,297.876,BW-mid,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:27:31.909,298.869,BW-mid,[RSSI] bedroom_wing=-82 dining_hall=-88 medicine_room=-83
+2026-09-24T17:27:31.917,298.876,BW-mid,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:27:32.907,299.866,BW-mid,[RSSI] bedroom_wing=-83 dining_hall=-87 medicine_room=-80
+2026-09-24T17:27:32.907,299.866,BW-mid,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:27:33.877,300.836,BW-mid,[NET] Offline. Queued events: 24 (dropped 45)
+2026-09-24T17:27:33.912,300.872,BW-mid,[RSSI] bedroom_wing=-83 dining_hall=-84 medicine_room=-81
+2026-09-24T17:27:33.915,300.875,BW-mid,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:27:34.912,301.872,BW-mid,[RSSI] bedroom_wing=-81 dining_hall=-88 medicine_room=-80
+2026-09-24T17:27:34.916,301.876,BW-mid,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:27:35.913,302.873,BW-mid,[RSSI] bedroom_wing=-79 dining_hall=-85 medicine_room=-77
+2026-09-24T17:27:35.917,302.877,BW-mid,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:27:36.914,303.873,BW-mid,[RSSI] bedroom_wing=-80 dining_hall=-89 medicine_room=-77
+2026-09-24T17:27:36.921,303.880,BW-mid,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:27:37.914,304.874,BW-mid,[RSSI] bedroom_wing=-79 dining_hall=-86 medicine_room=-78
+2026-09-24T17:27:37.919,304.879,BW-mid,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:27:38.915,305.875,BW-mid,[RSSI] bedroom_wing=-79 dining_hall=-85 medicine_room=-78
+2026-09-24T17:27:38.921,305.881,BW-mid,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:27:39.918,306.877,BW-mid,[RSSI] bedroom_wing=-83 dining_hall=-86 medicine_room=-80
+2026-09-24T17:27:39.922,306.881,BW-mid,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:27:40.918,307.878,BW-mid,[RSSI] bedroom_wing=-82 dining_hall=-85 medicine_room=-80
+2026-09-24T17:27:40.924,307.884,BW-mid,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:27:41.918,308.878,BW-mid,[RSSI] bedroom_wing=-77 dining_hall=-86 medicine_room=-78
+2026-09-24T17:27:41.918,308.878,BW-mid,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:27:42.920,309.880,BW-mid,[RSSI] bedroom_wing=-82 dining_hall=-85 medicine_room=-77
+2026-09-24T17:27:42.926,309.885,BW-mid,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:27:43.921,310.881,BW-mid,[RSSI] bedroom_wing=-81 dining_hall=-86 medicine_room=-78
+2026-09-24T17:27:43.926,310.886,BW-mid,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:27:44.922,311.882,transit,[RSSI] bedroom_wing=-82 dining_hall=-85 medicine_room=-79
+2026-09-24T17:27:44.928,311.888,transit,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:27:45.923,312.883,transit,[RSSI] bedroom_wing=-82 dining_hall=-95 medicine_room=-83
+2026-09-24T17:27:45.936,312.896,transit,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:27:46.924,313.884,transit,[RSSI] bedroom_wing=-88 dining_hall=-98 medicine_room=-80
+2026-09-24T17:27:46.929,313.889,transit,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:27:47.925,314.885,transit,[RSSI] bedroom_wing=-87 dining_hall=-94 medicine_room=-89
+2026-09-24T17:27:47.931,314.891,transit,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:27:48.925,315.886,transit,[RSSI] bedroom_wing=-92 dining_hall=-97 medicine_room=-89
+2026-09-24T17:27:48.932,315.891,transit,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:27:49.927,316.887,transit,[RSSI] bedroom_wing=-82 dining_hall=-97 medicine_room=-87
+2026-09-24T17:27:49.932,316.892,transit,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:27:50.925,317.885,transit,[RSSI] bedroom_wing=-88 dining_hall=-96 medicine_room=-86
+2026-09-24T17:27:50.932,317.892,transit,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:27:51.925,318.885,transit,[RSSI] bedroom_wing=-92 dining_hall=-97 medicine_room=-89
+2026-09-24T17:27:51.933,318.893,transit,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:27:52.931,319.891,transit,[RSSI] bedroom_wing=-88 dining_hall=-97 medicine_room=-82
+2026-09-24T17:27:52.936,319.896,transit,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:27:53.931,320.891,transit,[RSSI] bedroom_wing=-91 dining_hall=-97 medicine_room=-86
+2026-09-24T17:27:53.937,320.896,transit,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:27:54.925,321.885,transit,[RSSI] bedroom_wing=-88 dining_hall=-98 medicine_room=-84
+2026-09-24T17:27:54.937,321.897,transit,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:27:55.925,322.885,transit,[RSSI] bedroom_wing=-86 dining_hall=-98 medicine_room=-90
+2026-09-24T17:27:55.939,322.899,transit,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:27:56.937,323.897,transit,[RSSI] bedroom_wing=-87 dining_hall=-97 medicine_room=-85
+2026-09-24T17:27:56.939,323.899,transit,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:27:57.935,324.895,transit,[RSSI] bedroom_wing=-94 dining_hall=-96 medicine_room=-87
+2026-09-24T17:27:57.940,324.900,transit,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:27:58.936,325.896,BW-far,[RSSI] bedroom_wing=-92 dining_hall=-97 medicine_room=-84
+2026-09-24T17:27:58.941,325.901,BW-far,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:27:59.936,326.896,BW-far,[RSSI] bedroom_wing=-86 dining_hall=-97 medicine_room=-84
+2026-09-24T17:27:59.942,326.902,BW-far,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:28:00.937,327.897,BW-far,[RSSI] bedroom_wing=-87 dining_hall=-96 medicine_room=-85
+2026-09-24T17:28:00.943,327.903,BW-far,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:28:01.938,328.898,BW-far,[RSSI] bedroom_wing=-85 dining_hall=-96 medicine_room=-82
+2026-09-24T17:28:01.944,328.903,BW-far,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:28:02.939,329.899,BW-far,[RSSI] bedroom_wing=-84 dining_hall=-98 medicine_room=-82
+2026-09-24T17:28:02.944,329.904,BW-far,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:28:03.941,330.900,BW-far,[RSSI] bedroom_wing=-85 dining_hall=-100 medicine_room=-83
+2026-09-24T17:28:03.948,330.908,BW-far,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:28:04.941,331.901,BW-far,[RSSI] bedroom_wing=-91 dining_hall=-99 medicine_room=-83
+2026-09-24T17:28:04.946,331.905,BW-far,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:28:05.946,332.906,BW-far,[RSSI] bedroom_wing=-85 dining_hall=-96 medicine_room=-82
+2026-09-24T17:28:05.950,332.910,BW-far,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:28:06.943,333.903,BW-far,[RSSI] bedroom_wing=-85 dining_hall=-97 medicine_room=-84
+2026-09-24T17:28:06.953,333.912,BW-far,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:28:07.944,334.904,BW-far,[RSSI] bedroom_wing=-84 dining_hall=-99 medicine_room=-83
+2026-09-24T17:28:07.952,334.911,BW-far,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:28:08.941,335.901,BW-far,[RSSI] bedroom_wing=-86 dining_hall=-99 medicine_room=-82
+2026-09-24T17:28:08.941,335.901,BW-far,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:28:09.945,336.905,BW-far,[RSSI] bedroom_wing=-86 dining_hall=-97 medicine_room=-81
+2026-09-24T17:28:09.945,336.905,BW-far,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:28:10.948,337.908,BW-far,[RSSI] bedroom_wing=-86 dining_hall=-98 medicine_room=-83
+2026-09-24T17:28:10.952,337.912,BW-far,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:28:11.948,338.908,BW-far,[RSSI] bedroom_wing=-85 dining_hall=-96 medicine_room=-81
+2026-09-24T17:28:11.954,338.913,BW-far,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:28:12.948,339.908,BW-far,[RSSI] bedroom_wing=-90 dining_hall=-97 medicine_room=-87
+2026-09-24T17:28:12.957,339.917,BW-far,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:28:13.951,340.910,BW-far,[RSSI] bedroom_wing=-91 dining_hall=-98 medicine_room=-86
+2026-09-24T17:28:13.953,340.913,BW-far,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:28:14.953,341.912,BW-far,[RSSI] bedroom_wing=-91 dining_hall=-96 medicine_room=-86
+2026-09-24T17:28:14.958,341.918,BW-far,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:28:15.953,342.913,BW-far,[RSSI] bedroom_wing=-90 dining_hall=-94 medicine_room=-82
+2026-09-24T17:28:15.957,342.917,BW-far,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:28:16.954,343.914,BW-far,[RSSI] bedroom_wing=-89 dining_hall=-93 medicine_room=-81
+2026-09-24T17:28:16.960,343.920,BW-far,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:28:17.954,344.914,BW-far,[RSSI] bedroom_wing=-91 dining_hall=-96 medicine_room=-85
+2026-09-24T17:28:17.960,344.919,BW-far,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:28:18.953,345.912,BW-far,[RSSI] bedroom_wing=-93 dining_hall=-98 medicine_room=-87
+2026-09-24T17:28:18.959,345.919,BW-far,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:28:19.957,346.916,BW-far,[RSSI] bedroom_wing=-92 dining_hall=-97 medicine_room=-87
+2026-09-24T17:28:19.960,346.919,BW-far,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:28:20.957,347.918,tratransit,[RSSI] bedroom_wing=-90 dining_hall=-99 medicine_room=-86
+2026-09-24T17:28:20.963,347.923,tratransit,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:28:21.958,348.918,tratransit,[RSSI] bedroom_wing=-90 dining_hall=-99 medicine_room=-86
+2026-09-24T17:28:21.964,348.924,tratransit,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:28:22.959,349.919,tratransit,[RSSI] bedroom_wing=-92 dining_hall=-99 medicine_room=-83
+2026-09-24T17:28:22.966,349.926,tratransit,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:28:23.960,350.920,tratransit,[RSSI] bedroom_wing=-89 dining_hall=-97 medicine_room=-88
+2026-09-24T17:28:23.964,350.924,tratransit,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:28:24.960,351.919,tratransit,[RSSI] bedroom_wing=-88 dining_hall=-95 medicine_room=-85
+2026-09-24T17:28:24.968,351.928,tratransit,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:28:25.959,352.919,tratransit,[RSSI] bedroom_wing=-87 dining_hall=-98 medicine_room=-88
+2026-09-24T17:28:25.966,352.926,tratransit,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:28:26.964,353.923,tratransit,[RSSI] bedroom_wing=-87 dining_hall=-98 medicine_room=-90
+2026-09-24T17:28:26.970,353.930,tratransit,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:28:27.964,354.924,tratransit,[RSSI] bedroom_wing=-89 dining_hall=-98 medicine_room=-86
+2026-09-24T17:28:27.971,354.930,tratransit,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:28:28.966,355.926,tratransit,[RSSI] bedroom_wing=-93 dining_hall=-99 medicine_room=-87
+2026-09-24T17:28:28.971,355.931,tratransit,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:28:29.966,356.926,tratransit,[RSSI] bedroom_wing=-88 dining_hall=-99 medicine_room=-89
+2026-09-24T17:28:29.966,356.926,tratransit,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:28:30.967,357.927,tratransit,[RSSI] bedroom_wing=-89 dining_hall=-99 medicine_room=-89
+2026-09-24T17:28:30.974,357.934,tratransit,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:28:31.968,358.928,tratransit,[RSSI] bedroom_wing=-89 dining_hall=-101 medicine_room=-93
+2026-09-24T17:28:31.976,358.935,tratransit,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:28:32.079,359.038,tratransit,[ZONE] -> unknown (no beacon in range)
+2026-09-24T17:28:32.092,359.052,tratransit,"[ALERT] {""device_id"":""wearable-01"",""type"":""zone_lost"",""detail"":""no beacon in range"",""zone"":""unknown"",""zone_id"":0,""batt_pct"":0,""hr_bpm"":-1,""uptime_s"":358}"
+2026-09-24T17:28:32.968,359.928,tratransit,[RSSI] bedroom_wing=-90 dining_hall=-99 medicine_room=-91
+2026-09-24T17:28:32.974,359.933,tratransit,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:28:33.582,360.542,tratransit,"[ZONE] -> bedroom_wing (id=1, rssi=-86.8 dBm, ~12.9 m)"
+2026-09-24T17:28:33.594,360.554,tratransit,"[ALERT] {""device_id"":""wearable-01"",""type"":""zone_change"",""detail"":""bedroom_wing"",""zone"":""bedroom_wing"",""zone_id"":1,""batt_pct"":0,""hr_bpm"":-1,""uptime_s"":359}"
+2026-09-24T17:28:33.932,360.892,tratransit,[NET] Offline. Queued events: 24 (dropped 59)
+2026-09-24T17:28:33.968,360.928,tratransit,[RSSI] bedroom_wing=-86 dining_hall=-97 medicine_room=-89
+2026-09-24T17:28:33.974,360.934,tratransit,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:28:34.970,361.930,tratransit,[RSSI] bedroom_wing=-82 dining_hall=-99 medicine_room=-87
+2026-09-24T17:28:34.976,361.936,tratransit,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:28:35.971,362.930,tratransit,[RSSI] bedroom_wing=-86 dining_hall=-99 medicine_room=-91
+2026-09-24T17:28:35.976,362.935,tratransit,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:28:36.968,363.928,tratransit,[RSSI] bedroom_wing=-84 dining_hall=-99 medicine_room=-96
+2026-09-24T17:28:36.974,363.933,tratransit,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:28:37.973,364.933,tratransit,[RSSI] bedroom_wing=-85 dining_hall=-99 medicine_room=-97
+2026-09-24T17:28:37.977,364.936,tratransit,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:28:38.974,365.934,tratransit,[RSSI] bedroom_wing=-86 dining_hall=-- medicine_room=-95
+2026-09-24T17:28:38.978,365.938,tratransit,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:28:39.974,366.934,tratransit,[RSSI] bedroom_wing=-88 dining_hall=-- medicine_room=-96
+2026-09-24T17:28:39.979,366.939,tratransit,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:28:40.966,367.926,BW-in,[RSSI] bedroom_wing=-91 dining_hall=-- medicine_room=-97
+2026-09-24T17:28:40.980,367.940,BW-in,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:28:41.089,368.049,BW-in,[ZONE] -> unknown (no beacon in range)
+2026-09-24T17:28:41.098,368.058,BW-in,"[ALERT] {""device_id"":""wearable-01"",""type"":""zone_lost"",""detail"":""no beacon in range"",""zone"":""unknown"",""zone_id"":0,""batt_pct"":0,""hr_bpm"":-1,""uptime_s"":367}"
+2026-09-24T17:28:41.691,368.651,BW-in,"[ZONE] -> bedroom_wing (id=1, rssi=-86.7 dBm, ~12.8 m)"
+2026-09-24T17:28:41.695,368.655,BW-in,"[ALERT] {""device_id"":""wearable-01"",""type"":""zone_change"",""detail"":""bedroom_wing"",""zone"":""bedroom_wing"",""zone_id"":1,""batt_pct"":0,""hr_bpm"":-1,""uptime_s"":368}"
+2026-09-24T17:28:41.975,368.934,BW-in,[RSSI] bedroom_wing=-85 dining_hall=-101 medicine_room=-96
+2026-09-24T17:28:41.982,368.941,BW-in,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:28:42.977,369.937,BW-in,[RSSI] bedroom_wing=-84 dining_hall=-100 medicine_room=-97
+2026-09-24T17:28:42.984,369.944,BW-in,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:28:43.978,370.938,BW-in,[RSSI] bedroom_wing=-88 dining_hall=-100 medicine_room=-98
+2026-09-24T17:28:43.984,370.944,BW-in,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:28:44.979,371.939,BW-in,[RSSI] bedroom_wing=-88 dining_hall=-100 medicine_room=-95
+2026-09-24T17:28:44.986,371.946,BW-in,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:28:45.980,372.940,BW-in,[RSSI] bedroom_wing=-87 dining_hall=-99 medicine_room=-94
+2026-09-24T17:28:45.987,372.947,BW-in,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:28:46.981,373.941,BW-in,[RSSI] bedroom_wing=-85 dining_hall=-99 medicine_room=-91
+2026-09-24T17:28:46.989,373.949,BW-in,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:28:47.983,374.942,BW-in,[RSSI] bedroom_wing=-83 dining_hall=-98 medicine_room=-92
+2026-09-24T17:28:47.988,374.947,BW-in,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:28:48.984,375.944,BW-in,[RSSI] bedroom_wing=-83 dining_hall=-99 medicine_room=-91
+2026-09-24T17:28:48.988,375.948,BW-in,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:28:49.984,376.944,BW-in,[RSSI] bedroom_wing=-83 dining_hall=-98 medicine_room=-91
+2026-09-24T17:28:49.993,376.953,BW-in,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:28:50.985,377.945,BW-in,[RSSI] bedroom_wing=-82 dining_hall=-98 medicine_room=-92
+2026-09-24T17:28:50.994,377.954,BW-in,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:28:51.987,378.946,BW-in,[RSSI] bedroom_wing=-83 dining_hall=-98 medicine_room=-92
+2026-09-24T17:28:51.995,378.954,BW-in,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:28:52.987,379.947,BW-in,[RSSI] bedroom_wing=-84 dining_hall=-100 medicine_room=-95
+2026-09-24T17:28:52.996,379.956,BW-in,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:28:53.989,380.949,BW-in,[RSSI] bedroom_wing=-83 dining_hall=-100 medicine_room=-95
+2026-09-24T17:28:53.997,380.956,BW-in,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:28:54.989,381.949,BW-in,[RSSI] bedroom_wing=-83 dining_hall=-100 medicine_room=-95
+2026-09-24T17:28:54.995,381.955,BW-in,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:28:55.990,382.950,BW-in,[RSSI] bedroom_wing=-93 dining_hall=-100 medicine_room=-93
+2026-09-24T17:28:55.997,382.957,BW-in,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:28:56.404,383.365,BW-in,[ZONE] -> unknown (no beacon in range)
+2026-09-24T17:28:56.418,383.377,BW-in,"[ALERT] {""device_id"":""wearable-01"",""type"":""zone_lost"",""detail"":""no beacon in range"",""zone"":""unknown"",""zone_id"":0,""batt_pct"":0,""hr_bpm"":-1,""uptime_s"":382}"
+2026-09-24T17:28:56.991,383.950,BW-in,[RSSI] bedroom_wing=-92 dining_hall=-100 medicine_room=-97
+2026-09-24T17:28:56.995,383.955,BW-in,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:28:57.992,384.951,BW-in,[RSSI] bedroom_wing=-91 dining_hall=-100 medicine_room=-95
+2026-09-24T17:28:57.997,384.956,BW-in,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:28:58.992,385.952,BW-in,[RSSI] bedroom_wing=-94 dining_hall=-100 medicine_room=-97
+2026-09-24T17:28:58.996,385.956,BW-in,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:28:59.994,386.954,BW-in,[RSSI] bedroom_wing=-96 dining_hall=-- medicine_room=-97
+2026-09-24T17:28:59.999,386.959,BW-in,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:29:00.994,387.954,BW-in,[RSSI] bedroom_wing=-95 dining_hall=-- medicine_room=-98
+2026-09-24T17:29:00.999,387.959,BW-in,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:29:01.995,388.955,BW-in,[RSSI] bedroom_wing=-92 dining_hall=-- medicine_room=-96
+2026-09-24T17:29:02.000,388.960,BW-in,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:29:02.997,389.956,BW-in,[RSSI] bedroom_wing=-93 dining_hall=-- medicine_room=-97
+2026-09-24T17:29:03.002,389.961,BW-in,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:29:04.000,390.960,BW-in,[RSSI] bedroom_wing=-99 dining_hall=-- medicine_room=-97
+2026-09-24T17:29:04.002,390.962,BW-in,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:29:04.998,391.957,BW-in,[RSSI] bedroom_wing=-92 dining_hall=-- medicine_room=-96
+2026-09-24T17:29:05.003,391.962,BW-in,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:29:05.994,392.954,BW-in,[RSSI] bedroom_wing=-88 dining_hall=-100 medicine_room=-97
+2026-09-24T17:29:06.004,392.964,BW-in,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:29:06.016,392.975,BW-in,"[ZONE] -> bedroom_wing (id=1, rssi=-87.6 dBm, ~13.9 m)"
+2026-09-24T17:29:06.028,392.987,BW-in,"[ALERT] {""device_id"":""wearable-01"",""type"":""zone_change"",""detail"":""bedroom_wing"",""zone"":""bedroom_wing"",""zone_id"":1,""batt_pct"":0,""hr_bpm"":-1,""uptime_s"":392}"
+2026-09-24T17:29:06.999,393.959,BW-in,[RSSI] bedroom_wing=-86 dining_hall=-100 medicine_room=-97
+2026-09-24T17:29:07.004,393.964,BW-in,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:29:08.000,394.961,BW-in,[RSSI] bedroom_wing=-88 dining_hall=-100 medicine_room=-96
+2026-09-24T17:29:08.006,394.966,BW-in,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:29:08.119,395.078,BW-in,[ZONE] -> unknown (no beacon in range)
+2026-09-24T17:29:08.131,395.091,BW-in,"[ALERT] {""device_id"":""wearable-01"",""type"":""zone_lost"",""detail"":""no beacon in range"",""zone"":""unknown"",""zone_id"":0,""batt_pct"":0,""hr_bpm"":-1,""uptime_s"":394}"
+2026-09-24T17:29:09.001,395.961,BW-in,[RSSI] bedroom_wing=-88 dining_hall=-100 medicine_room=-96
+2026-09-24T17:29:09.005,395.965,BW-in,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:29:09.021,395.981,BW-in,"[ZONE] -> bedroom_wing (id=1, rssi=-87.5 dBm, ~13.8 m)"
+2026-09-24T17:29:09.035,395.995,BW-in,"[ALERT] {""device_id"":""wearable-01"",""type"":""zone_change"",""detail"":""bedroom_wing"",""zone"":""bedroom_wing"",""zone_id"":1,""batt_pct"":0,""hr_bpm"":-1,""uptime_s"":395}"
+2026-09-24T17:29:10.000,396.960,BW-in,[RSSI] bedroom_wing=-90 dining_hall=-99 medicine_room=-96
+2026-09-24T17:29:10.009,396.968,BW-in,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:29:10.823,397.782,BW-in,[ZONE] -> unknown (no beacon in range)
+2026-09-24T17:29:10.835,397.795,BW-in,"[ALERT] {""device_id"":""wearable-01"",""type"":""zone_lost"",""detail"":""no beacon in range"",""zone"":""unknown"",""zone_id"":0,""batt_pct"":0,""hr_bpm"":-1,""uptime_s"":397}"
+2026-09-24T17:29:11.000,397.960,BW-in,[RSSI] bedroom_wing=-91 dining_hall=-99 medicine_room=-97
+2026-09-24T17:29:11.005,397.965,BW-in,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:29:11.423,398.382,transit,"[ZONE] -> bedroom_wing (id=1, rssi=-88.0 dBm, ~14.4 m)"
+2026-09-24T17:29:11.437,398.397,transit,"[ALERT] {""device_id"":""wearable-01"",""type"":""zone_change"",""detail"":""bedroom_wing"",""zone"":""bedroom_wing"",""zone_id"":1,""batt_pct"":0,""hr_bpm"":-1,""uptime_s"":397}"
+2026-09-24T17:29:12.001,398.960,transit,[RSSI] bedroom_wing=-83 dining_hall=-99 medicine_room=-97
+2026-09-24T17:29:12.006,398.966,transit,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:29:13.000,399.960,transit,[RSSI] bedroom_wing=-87 dining_hall=-100 medicine_room=-95
+2026-09-24T17:29:13.008,399.968,transit,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:29:14.002,400.962,transit,[RSSI] bedroom_wing=-89 dining_hall=-99 medicine_room=-94
+2026-09-24T17:29:14.008,400.968,transit,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:29:14.727,401.687,transit,[ZONE] -> unknown (no beacon in range)
+2026-09-24T17:29:14.739,401.699,transit,"[ALERT] {""device_id"":""wearable-01"",""type"":""zone_lost"",""detail"":""no beacon in range"",""zone"":""unknown"",""zone_id"":0,""batt_pct"":0,""hr_bpm"":-1,""uptime_s"":401}"
+2026-09-24T17:29:15.001,401.960,transit,[RSSI] bedroom_wing=-94 dining_hall=-99 medicine_room=-98
+2026-09-24T17:29:15.007,401.967,transit,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:29:15.993,402.953,transit,[RSSI] bedroom_wing=-93 dining_hall=-100 medicine_room=-95
+2026-09-24T17:29:16.009,402.968,transit,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:29:17.004,403.963,transit,[RSSI] bedroom_wing=-94 dining_hall=-100 medicine_room=-98
+2026-09-24T17:29:17.009,403.969,transit,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:29:18.004,404.964,transit,[RSSI] bedroom_wing=-95 dining_hall=-101 medicine_room=-94
+2026-09-24T17:29:18.011,404.971,transit,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:29:19.007,405.967,transit,[RSSI] bedroom_wing=-96 dining_hall=-100 medicine_room=-89
+2026-09-24T17:29:19.009,405.969,transit,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:29:20.011,406.971,transit,[RSSI] bedroom_wing=-99 dining_hall=-98 medicine_room=-91
+2026-09-24T17:29:20.011,406.971,transit,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:29:21.008,407.968,transit,[RSSI] bedroom_wing=-100 dining_hall=-100 medicine_room=-95
+2026-09-24T17:29:21.014,407.974,transit,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:29:22.009,408.968,transit,[RSSI] bedroom_wing=-100 dining_hall=-100 medicine_room=-95
+2026-09-24T17:29:22.016,408.976,transit,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:29:23.011,409.970,transit,[RSSI] bedroom_wing=-100 dining_hall=-100 medicine_room=-94
+2026-09-24T17:29:23.016,409.975,transit,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:29:24.011,410.970,transit,[RSSI] bedroom_wing=-100 dining_hall=-100 medicine_room=-99
+2026-09-24T17:29:24.016,410.976,transit,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:29:25.011,411.971,transit,[RSSI] bedroom_wing=-100 dining_hall=-- medicine_room=-99
+2026-09-24T17:29:25.018,411.977,transit,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:29:26.012,412.972,BW-out,[RSSI] bedroom_wing=-- dining_hall=-- medicine_room=-101
+2026-09-24T17:29:26.018,412.978,BW-out,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:29:27.013,413.973,BW-out,[RSSI] bedroom_wing=-- dining_hall=-- medicine_room=-95
+2026-09-24T17:29:27.019,413.978,BW-out,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:29:28.014,414.974,BW-out,[RSSI] bedroom_wing=-- dining_hall=-- medicine_room=-95
+2026-09-24T17:29:28.020,414.980,BW-out,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:29:29.015,415.975,BW-out,[RSSI] bedroom_wing=-- dining_hall=-- medicine_room=-95
+2026-09-24T17:29:29.020,415.980,BW-out,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:29:30.014,416.974,BW-out,[RSSI] bedroom_wing=-- dining_hall=-- medicine_room=-97
+2026-09-24T17:29:30.021,416.981,BW-out,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:29:31.015,417.975,BW-out,[RSSI] bedroom_wing=-- dining_hall=-- medicine_room=-96
+2026-09-24T17:29:31.020,417.980,BW-out,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:29:32.016,418.976,BW-out,[RSSI] bedroom_wing=-- dining_hall=-- medicine_room=-99
+2026-09-24T17:29:32.022,418.981,BW-out,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:29:33.017,419.977,BW-out,[RSSI] bedroom_wing=-- dining_hall=-- medicine_room=-98
+2026-09-24T17:29:33.025,419.984,BW-out,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:29:33.981,420.941,BW-out,[NET] Offline. Queued events: 24 (dropped 80)
+2026-09-24T17:29:34.017,420.977,BW-out,[RSSI] bedroom_wing=-- dining_hall=-- medicine_room=-98
+2026-09-24T17:29:34.022,420.982,BW-out,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:29:35.019,421.978,BW-out,[RSSI] bedroom_wing=-- dining_hall=-- medicine_room=-97
+2026-09-24T17:29:35.025,421.984,BW-out,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:29:36.019,422.979,BW-out,[RSSI] bedroom_wing=-- dining_hall=-- medicine_room=-98
+2026-09-24T17:29:36.024,422.984,BW-out,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:29:37.020,423.980,BW-out,[RSSI] bedroom_wing=-103 dining_hall=-- medicine_room=-93
+2026-09-24T17:29:37.027,423.987,BW-out,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:29:38.021,424.981,BW-out,[RSSI] bedroom_wing=-100 dining_hall=-- medicine_room=-93
+2026-09-24T17:29:38.025,424.985,BW-out,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:29:39.022,425.982,BW-out,[RSSI] bedroom_wing=-99 dining_hall=-- medicine_room=-93
+2026-09-24T17:29:39.028,425.987,BW-out,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:29:40.023,426.983,BW-out,[RSSI] bedroom_wing=-99 dining_hall=-- medicine_room=-92
+2026-09-24T17:29:40.031,426.991,BW-out,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:29:41.021,427.981,BW-out,[RSSI] bedroom_wing=-100 dining_hall=-- medicine_room=-90
+2026-09-24T17:29:41.021,427.981,BW-out,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:29:42.025,428.985,BW-out,[RSSI] bedroom_wing=-100 dining_hall=-- medicine_room=-91
+2026-09-24T17:29:42.027,428.987,BW-out,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:29:43.026,429.986,BW-out,[RSSI] bedroom_wing=-100 dining_hall=-- medicine_room=-90
+2026-09-24T17:29:43.033,429.993,BW-out,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:29:44.026,430.986,BW-out,[RSSI] bedroom_wing=-100 dining_hall=-- medicine_room=-91
+2026-09-24T17:29:44.035,430.995,BW-out,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:29:45.028,431.988,BW-out,[RSSI] bedroom_wing=-100 dining_hall=-103 medicine_room=-91
+2026-09-24T17:29:45.034,431.993,BW-out,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:29:46.028,432.988,BW-out,[RSSI] bedroom_wing=-100 dining_hall=-103 medicine_room=-91
+2026-09-24T17:29:46.036,432.996,BW-out,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:29:47.030,433.989,BW-out,[RSSI] bedroom_wing=-100 dining_hall=-103 medicine_room=-93
+2026-09-24T17:29:47.035,433.994,BW-out,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:29:48.030,434.990,BW-out,[RSSI] bedroom_wing=-100 dining_hall=-103 medicine_room=-96
+2026-09-24T17:29:48.037,434.996,BW-out,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:29:49.032,435.992,BW-out,[RSSI] bedroom_wing=-100 dining_hall=-- medicine_room=-96
+2026-09-24T17:29:49.035,435.995,BW-out,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:29:50.032,436.992,BW-out,[RSSI] bedroom_wing=-- dining_hall=-- medicine_room=-98
+2026-09-24T17:29:50.037,436.997,BW-out,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:29:51.033,437.993,BW-out,[RSSI] bedroom_wing=-- dining_hall=-- medicine_room=-97
+2026-09-24T17:29:51.038,437.998,BW-out,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:29:52.034,438.993,BW-out,[RSSI] bedroom_wing=-100 dining_hall=-- medicine_room=-95
+2026-09-24T17:29:52.039,438.999,BW-out,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:29:53.035,439.995,BW-out,[RSSI] bedroom_wing=-99 dining_hall=-102 medicine_room=-90
+2026-09-24T17:29:53.041,440.001,BW-out,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:29:54.036,440.996,BW-out,[RSSI] bedroom_wing=-98 dining_hall=-102 medicine_room=-92
+2026-09-24T17:29:54.041,441.001,BW-out,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:29:55.037,441.996,BW-out,[RSSI] bedroom_wing=-99 dining_hall=-102 medicine_room=-91
+2026-09-24T17:29:55.044,442.004,BW-out,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:29:56.037,442.997,BW-out,[RSSI] bedroom_wing=-100 dining_hall=-104 medicine_room=-92
+2026-09-24T17:29:56.043,443.003,BW-out,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:29:57.040,444.000,BW-out,[RSSI] bedroom_wing=-100 dining_hall=-104 medicine_room=-92
+2026-09-24T17:29:57.045,444.005,BW-out,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:29:58.040,445.000,BW-out,[RSSI] bedroom_wing=-100 dining_hall=-104 medicine_room=-92
+2026-09-24T17:29:58.045,445.005,BW-out,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:29:59.042,446.002,BW-out,[RSSI] bedroom_wing=-100 dining_hall=-104 medicine_room=-92
+2026-09-24T17:29:59.049,446.009,BW-out,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:30:00.042,447.001,BW-out,[RSSI] bedroom_wing=-99 dining_hall=-- medicine_room=-92
+2026-09-24T17:30:00.049,447.009,BW-out,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:30:01.042,448.002,BW-out,[RSSI] bedroom_wing=-100 dining_hall=-- medicine_room=-91
+2026-09-24T17:30:01.048,448.008,BW-out,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:30:02.043,449.003,BW-out,[RSSI] bedroom_wing=-100 dining_hall=-- medicine_room=-92
+2026-09-24T17:30:02.051,449.010,BW-out,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:30:03.045,450.004,BW-out,[RSSI] bedroom_wing=-99 dining_hall=-- medicine_room=-93
+2026-09-24T17:30:03.050,450.009,BW-out,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:30:04.046,451.005,BW-out,[RSSI] bedroom_wing=-100 dining_hall=-- medicine_room=-93
+2026-09-24T17:30:04.051,451.010,BW-out,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:30:05.046,452.005,BW-out,[RSSI] bedroom_wing=-100 dining_hall=-- medicine_room=-91
+2026-09-24T17:30:05.052,452.011,BW-out,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:30:06.048,453.008,BW-out,[RSSI] bedroom_wing=-100 dining_hall=-- medicine_room=-91
+2026-09-24T17:30:06.051,453.011,BW-out,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:30:07.048,454.008,BW-out,[RSSI] bedroom_wing=-100 dining_hall=-- medicine_room=-92
+2026-09-24T17:30:07.054,454.014,BW-out,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:30:08.049,455.009,BW-out,[RSSI] bedroom_wing=-99 dining_hall=-- medicine_room=-91
+2026-09-24T17:30:08.055,455.015,BW-out,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:30:09.049,456.009,BW-out,[RSSI] bedroom_wing=-100 dining_hall=-- medicine_room=-92
+2026-09-24T17:30:09.058,456.017,BW-out,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:30:10.051,457.011,BW-out,[RSSI] bedroom_wing=-100 dining_hall=-- medicine_room=-92
+2026-09-24T17:30:10.057,457.017,BW-out,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:30:11.053,458.013,BW-out,[RSSI] bedroom_wing=-100 dining_hall=-- medicine_room=-92
+2026-09-24T17:30:11.060,458.020,BW-out,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:30:12.053,459.013,BW-out,[RSSI] bedroom_wing=-100 dining_hall=-- medicine_room=-91
+2026-09-24T17:30:12.059,459.019,BW-out,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:30:13.054,460.014,BW-out,[RSSI] bedroom_wing=-102 dining_hall=-- medicine_room=-93
+2026-09-24T17:30:13.060,460.019,BW-out,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:30:14.055,461.015,BW-out,[RSSI] bedroom_wing=-102 dining_hall=-- medicine_room=-95
+2026-09-24T17:30:14.061,461.021,BW-out,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:30:15.056,462.016,BW-out,[RSSI] bedroom_wing=-102 dining_hall=-- medicine_room=-96
+2026-09-24T17:30:15.062,462.022,BW-out,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:30:16.058,463.018,BW-out,[RSSI] bedroom_wing=-102 dining_hall=-- medicine_room=-96
+2026-09-24T17:30:16.062,463.022,BW-out,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:30:17.059,464.018,DH-out,[RSSI] bedroom_wing=-101 dining_hall=-100 medicine_room=-91
+2026-09-24T17:30:17.064,464.023,DH-out,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:30:18.059,465.019,DH-out,[RSSI] bedroom_wing=-100 dining_hall=-100 medicine_room=-91
+2026-09-24T17:30:18.064,465.024,DH-out,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:30:19.061,466.020,DH-out,[RSSI] bedroom_wing=-100 dining_hall=-100 medicine_room=-93
+2026-09-24T17:30:19.066,466.025,DH-out,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:30:20.062,467.022,DH-out,[RSSI] bedroom_wing=-100 dining_hall=-100 medicine_room=-92
+2026-09-24T17:30:20.068,467.028,DH-out,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:30:21.064,468.023,DH-out,[RSSI] bedroom_wing=-101 dining_hall=-- medicine_room=-93
+2026-09-24T17:30:21.067,468.027,DH-out,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:30:22.064,469.024,DH-out,[RSSI] bedroom_wing=-100 dining_hall=-- medicine_room=-93
+2026-09-24T17:30:22.070,469.030,DH-out,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:30:23.064,470.024,DH-out,[RSSI] bedroom_wing=-100 dining_hall=-- medicine_room=-92
+2026-09-24T17:30:23.072,470.032,DH-out,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:30:24.065,471.025,DH-out,[RSSI] bedroom_wing=-98 dining_hall=-- medicine_room=-93
+2026-09-24T17:30:24.070,471.030,DH-out,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:30:25.063,472.022,DH-out,[RSSI] bedroom_wing=-99 dining_hall=-- medicine_room=-93
+2026-09-24T17:30:25.071,472.030,DH-out,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:30:26.062,473.022,DH-out,[RSSI] bedroom_wing=-99 dining_hall=-- medicine_room=-92
+2026-09-24T17:30:26.072,473.032,DH-out,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:30:27.069,474.028,DH-out,[RSSI] bedroom_wing=-101 dining_hall=-- medicine_room=-93
+2026-09-24T17:30:27.074,474.034,DH-out,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:30:28.069,475.029,DH-out,[RSSI] bedroom_wing=-101 dining_hall=-- medicine_room=-92
+2026-09-24T17:30:28.078,475.038,DH-out,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:30:29.072,476.031,DH-out,[RSSI] bedroom_wing=-100 dining_hall=-- medicine_room=-93
+2026-09-24T17:30:29.076,476.036,DH-out,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:30:30.071,477.031,DH-out,[RSSI] bedroom_wing=-99 dining_hall=-- medicine_room=-92
+2026-09-24T17:30:30.076,477.036,DH-out,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:30:31.072,478.032,DH-out,[RSSI] bedroom_wing=-99 dining_hall=-- medicine_room=-94
+2026-09-24T17:30:31.078,478.038,DH-out,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:30:32.074,479.033,DH-out,[RSSI] bedroom_wing=-99 dining_hall=-- medicine_room=-93
+2026-09-24T17:30:32.079,479.038,DH-out,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:30:33.061,480.020,DH-out,[RSSI] bedroom_wing=-99 dining_hall=-- medicine_room=-91
+2026-09-24T17:30:33.079,480.039,DH-out,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:30:34.013,480.973,transit,[NET] Offline. Queued events: 24 (dropped 92)
+2026-09-24T17:30:34.076,481.036,transit,[RSSI] bedroom_wing=-98 dining_hall=-- medicine_room=-92
+2026-09-24T17:30:34.080,481.040,transit,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:30:35.076,482.036,transit,[RSSI] bedroom_wing=-98 dining_hall=-- medicine_room=-95
+2026-09-24T17:30:35.082,482.041,transit,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:30:36.077,483.037,transit,[RSSI] bedroom_wing=-97 dining_hall=-104 medicine_room=-96
+2026-09-24T17:30:36.084,483.044,transit,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:30:37.078,484.038,transit,[RSSI] bedroom_wing=-98 dining_hall=-104 medicine_room=-97
+2026-09-24T17:30:37.084,484.044,transit,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:30:38.079,485.038,transit,[RSSI] bedroom_wing=-96 dining_hall=-104 medicine_room=-95
+2026-09-24T17:30:38.085,485.044,transit,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:30:39.080,486.040,transit,[RSSI] bedroom_wing=-94 dining_hall=-104 medicine_room=-97
+2026-09-24T17:30:39.086,486.046,transit,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:30:40.082,487.041,transit,[RSSI] bedroom_wing=-90 dining_hall=-- medicine_room=-98
+2026-09-24T17:30:40.087,487.046,transit,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:30:40.606,487.566,transit,"[ZONE] -> bedroom_wing (id=1, rssi=-87.9 dBm, ~14.3 m)"
+2026-09-24T17:30:40.620,487.579,transit,"[ALERT] {""device_id"":""wearable-01"",""type"":""zone_change"",""detail"":""bedroom_wing"",""zone"":""bedroom_wing"",""zone_id"":1,""batt_pct"":0,""hr_bpm"":-1,""uptime_s"":486}"
+2026-09-24T17:30:41.080,488.040,transit,[RSSI] bedroom_wing=-87 dining_hall=-102 medicine_room=-94
+2026-09-24T17:30:41.087,488.047,transit,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:30:42.082,489.042,transit,[RSSI] bedroom_wing=-86 dining_hall=-103 medicine_room=-95
+2026-09-24T17:30:42.091,489.050,transit,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:30:43.084,490.044,transit,[RSSI] bedroom_wing=-87 dining_hall=-103 medicine_room=-95
+2026-09-24T17:30:43.088,490.048,transit,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:30:43.910,490.869,transit,[ZONE] -> unknown (no beacon in range)
+2026-09-24T17:30:43.922,490.881,transit,"[ALERT] {""device_id"":""wearable-01"",""type"":""zone_lost"",""detail"":""no beacon in range"",""zone"":""unknown"",""zone_id"":0,""batt_pct"":0,""hr_bpm"":-1,""uptime_s"":490}"
+2026-09-24T17:30:44.083,491.043,transit,[RSSI] bedroom_wing=-88 dining_hall=-103 medicine_room=-93
+2026-09-24T17:30:44.089,491.048,transit,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:30:44.210,491.170,transit,"[ZONE] -> bedroom_wing (id=1, rssi=-86.5 dBm, ~12.6 m)"
+2026-09-24T17:30:44.226,491.186,transit,"[ALERT] {""device_id"":""wearable-01"",""type"":""zone_change"",""detail"":""bedroom_wing"",""zone"":""bedroom_wing"",""zone_id"":1,""batt_pct"":0,""hr_bpm"":-1,""uptime_s"":490}"
+2026-09-24T17:30:45.084,492.043,transit,[RSSI] bedroom_wing=-92 dining_hall=-103 medicine_room=-97
+2026-09-24T17:30:45.089,492.048,transit,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:30:45.108,492.068,transit,[ZONE] -> unknown (no beacon in range)
+2026-09-24T17:30:45.117,492.077,transit,"[ALERT] {""device_id"":""wearable-01"",""type"":""zone_lost"",""detail"":""no beacon in range"",""zone"":""unknown"",""zone_id"":0,""batt_pct"":0,""hr_bpm"":-1,""uptime_s"":491}"
+2026-09-24T17:30:46.083,493.042,transit,[RSSI] bedroom_wing=-93 dining_hall=-103 medicine_room=-97
+2026-09-24T17:30:46.083,493.042,transit,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:30:47.085,494.044,transit,[RSSI] bedroom_wing=-97 dining_hall=-103 medicine_room=-97
+2026-09-24T17:30:47.092,494.051,transit,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:30:48.085,495.045,transit,[RSSI] bedroom_wing=-98 dining_hall=-103 medicine_room=-97
+2026-09-24T17:30:48.091,495.051,transit,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:30:49.083,496.043,transit,[RSSI] bedroom_wing=-97 dining_hall=-- medicine_room=-98
+2026-09-24T17:30:49.091,496.051,transit,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:30:50.086,497.046,transit,[RSSI] bedroom_wing=-98 dining_hall=-- medicine_room=-94
+2026-09-24T17:30:50.089,497.049,transit,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:30:51.088,498.048,transit,[RSSI] bedroom_wing=-95 dining_hall=-101 medicine_room=-91
+2026-09-24T17:30:51.094,498.054,transit,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:30:52.094,499.054,transit,[RSSI] bedroom_wing=-97 dining_hall=-100 medicine_room=-91
+2026-09-24T17:30:52.127,499.086,transit,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:30:53.090,500.050,transit,[RSSI] bedroom_wing=-96 dining_hall=-97 medicine_room=-90
+2026-09-24T17:30:53.096,500.055,transit,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:30:54.091,501.051,transit,[RSSI] bedroom_wing=-99 dining_hall=-96 medicine_room=-91
+2026-09-24T17:30:54.096,501.056,transit,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:30:55.092,502.052,transit,[RSSI] bedroom_wing=-98 dining_hall=-98 medicine_room=-95
+2026-09-24T17:30:55.098,502.058,transit,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:30:56.094,503.054,transit,[RSSI] bedroom_wing=-98 dining_hall=-97 medicine_room=-94
+2026-09-24T17:30:56.098,503.058,transit,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:30:57.083,504.043,DH-in,[RSSI] bedroom_wing=-98 dining_hall=-94 medicine_room=-91
+2026-09-24T17:30:57.099,504.059,DH-in,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:30:57.725,504.684,DH-in,"[ZONE] -> dining_hall (id=2, rssi=-87.6 dBm, ~13.9 m)"
+2026-09-24T17:30:57.738,504.698,DH-in,"[ALERT] {""device_id"":""wearable-01"",""type"":""zone_change"",""detail"":""dining_hall"",""zone"":""dining_hall"",""zone_id"":2,""batt_pct"":0,""hr_bpm"":-1,""uptime_s"":504}"
+2026-09-24T17:30:58.089,505.049,DH-in,[RSSI] bedroom_wing=-98 dining_hall=-85 medicine_room=-96
+2026-09-24T17:30:58.100,505.060,DH-in,[STAT] zone=dining_hall hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:30:59.096,506.056,DH-in,[RSSI] bedroom_wing=-98 dining_hall=-87 medicine_room=-94
+2026-09-24T17:30:59.101,506.061,DH-in,[STAT] zone=dining_hall hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:31:00.097,507.056,DH-in,[RSSI] bedroom_wing=-94 dining_hall=-85 medicine_room=-91
+2026-09-24T17:31:00.102,507.061,DH-in,[STAT] zone=dining_hall hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:31:01.096,508.056,DH-in,[RSSI] bedroom_wing=-92 dining_hall=-86 medicine_room=-94
+2026-09-24T17:31:01.102,508.061,DH-in,[STAT] zone=dining_hall hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:31:02.097,509.057,DH-in,[RSSI] bedroom_wing=-92 dining_hall=-87 medicine_room=-91
+2026-09-24T17:31:02.104,509.063,DH-in,[STAT] zone=dining_hall hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:31:03.102,510.062,DH-in,[RSSI] bedroom_wing=-92 dining_hall=-86 medicine_room=-91
+2026-09-24T17:31:03.108,510.067,DH-in,[STAT] zone=dining_hall hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:31:04.100,511.060,DH-in,[RSSI] bedroom_wing=-91 dining_hall=-83 medicine_room=-90
+2026-09-24T17:31:04.105,511.065,DH-in,[STAT] zone=dining_hall hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:31:05.098,512.058,DH-in,[RSSI] bedroom_wing=-89 dining_hall=-84 medicine_room=-92
+2026-09-24T17:31:05.110,512.070,DH-in,[STAT] zone=dining_hall hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:31:06.103,513.063,DH-in,[RSSI] bedroom_wing=-87 dining_hall=-83 medicine_room=-93
+2026-09-24T17:31:06.107,513.066,DH-in,[STAT] zone=dining_hall hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:31:07.103,514.063,DH-in,[RSSI] bedroom_wing=-89 dining_hall=-83 medicine_room=-94
+2026-09-24T17:31:07.112,514.071,DH-in,[STAT] zone=dining_hall hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:31:08.105,515.064,DH-in,[RSSI] bedroom_wing=-89 dining_hall=-85 medicine_room=-92
+2026-09-24T17:31:08.109,515.069,DH-in,[STAT] zone=dining_hall hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:31:09.105,516.064,DH-in,[RSSI] bedroom_wing=-89 dining_hall=-83 medicine_room=-94
+2026-09-24T17:31:09.111,516.070,DH-in,[STAT] zone=dining_hall hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:31:10.107,517.066,DH-in,[RSSI] bedroom_wing=-90 dining_hall=-84 medicine_room=-93
+2026-09-24T17:31:10.113,517.073,DH-in,[STAT] zone=dining_hall hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:31:11.108,518.067,DH-in,[RSSI] bedroom_wing=-89 dining_hall=-85 medicine_room=-92
+2026-09-24T17:31:11.115,518.074,DH-in,[STAT] zone=dining_hall hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:31:12.109,519.068,DH-in,[RSSI] bedroom_wing=-89 dining_hall=-85 medicine_room=-91
+2026-09-24T17:31:12.117,519.077,DH-in,[STAT] zone=dining_hall hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:31:13.110,520.070,DH-in,[RSSI] bedroom_wing=-93 dining_hall=-86 medicine_room=-90
+2026-09-24T17:31:13.114,520.074,DH-in,[STAT] zone=dining_hall hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:31:14.110,521.070,DH-in,[RSSI] bedroom_wing=-93 dining_hall=-85 medicine_room=-91
+2026-09-24T17:31:14.118,521.078,DH-in,[STAT] zone=dining_hall hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:31:15.112,522.071,DH-in,[RSSI] bedroom_wing=-93 dining_hall=-85 medicine_room=-91
+2026-09-24T17:31:15.117,522.077,DH-in,[STAT] zone=dining_hall hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:31:16.112,523.072,DH-in,[RSSI] bedroom_wing=-92 dining_hall=-84 medicine_room=-93
+2026-09-24T17:31:16.120,523.080,DH-in,[STAT] zone=dining_hall hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:31:17.113,524.073,DH-in,[RSSI] bedroom_wing=-92 dining_hall=-85 medicine_room=-93
+2026-09-24T17:31:17.121,524.081,DH-in,[STAT] zone=dining_hall hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:31:18.114,525.074,DH-in,[RSSI] bedroom_wing=-96 dining_hall=-83 medicine_room=-90
+2026-09-24T17:31:18.120,525.080,DH-in,[STAT] zone=dining_hall hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:31:19.115,526.075,DH-in,[RSSI] bedroom_wing=-95 dining_hall=-85 medicine_room=-91
+2026-09-24T17:31:19.121,526.080,DH-in,[STAT] zone=dining_hall hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:31:20.117,527.076,DH-in,[RSSI] bedroom_wing=-94 dining_hall=-84 medicine_room=-91
+2026-09-24T17:31:20.124,527.084,DH-in,[STAT] zone=dining_hall hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:31:21.117,528.077,DH-in,[RSSI] bedroom_wing=-94 dining_hall=-91 medicine_room=-94
+2026-09-24T17:31:21.122,528.082,DH-in,[STAT] zone=dining_hall hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:31:21.152,528.111,DH-in,[ZONE] -> unknown (no beacon in range)
+2026-09-24T17:31:21.163,528.123,DH-in,"[ALERT] {""device_id"":""wearable-01"",""type"":""zone_lost"",""detail"":""no beacon in range"",""zone"":""unknown"",""zone_id"":0,""batt_pct"":0,""hr_bpm"":-1,""uptime_s"":527}"
+2026-09-24T17:31:22.117,529.077,DH-in,[RSSI] bedroom_wing=-95 dining_hall=-93 medicine_room=-98
+2026-09-24T17:31:22.122,529.081,DH-in,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:31:23.117,530.077,DH-in,[RSSI] bedroom_wing=-98 dining_hall=-89 medicine_room=-98
+2026-09-24T17:31:23.124,530.083,DH-in,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:31:24.119,531.078,DH-in,[RSSI] bedroom_wing=-94 dining_hall=-93 medicine_room=-96
+2026-09-24T17:31:24.124,531.083,DH-in,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:31:25.120,532.080,DH-in,[RSSI] bedroom_wing=-95 dining_hall=-94 medicine_room=-96
+2026-09-24T17:31:25.125,532.084,DH-in,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:31:25.658,532.617,trasit,"[ZONE] -> dining_hall (id=2, rssi=-86.0 dBm, ~12.0 m)"
+2026-09-24T17:31:25.669,532.629,trasit,"[ALERT] {""device_id"":""wearable-01"",""type"":""zone_change"",""detail"":""dining_hall"",""zone"":""dining_hall"",""zone_id"":2,""batt_pct"":0,""hr_bpm"":-1,""uptime_s"":532}"
+2026-09-24T17:31:26.120,533.080,trasit,[RSSI] bedroom_wing=-94 dining_hall=-86 medicine_room=-91
+2026-09-24T17:31:26.125,533.085,trasit,[STAT] zone=dining_hall hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:31:27.121,534.080,trasit,[RSSI] bedroom_wing=-92 dining_hall=-82 medicine_room=-86
+2026-09-24T17:31:27.127,534.086,trasit,[STAT] zone=dining_hall hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:31:28.122,535.082,trasit,[RSSI] bedroom_wing=-94 dining_hall=-83 medicine_room=-89
+2026-09-24T17:31:28.124,535.083,trasit,[STAT] zone=dining_hall hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:31:29.124,536.084,trasit,[RSSI] bedroom_wing=-94 dining_hall=-79 medicine_room=-87
+2026-09-24T17:31:29.128,536.087,trasit,[STAT] zone=dining_hall hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:31:30.124,537.084,trasit,[RSSI] bedroom_wing=-94 dining_hall=-73 medicine_room=-84
+2026-09-24T17:31:30.130,537.089,trasit,[STAT] zone=dining_hall hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:31:31.118,538.077,trasit,[RSSI] bedroom_wing=-96 dining_hall=-77 medicine_room=-91
+2026-09-24T17:31:31.133,538.093,trasit,[STAT] zone=dining_hall hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:31:32.124,539.084,trasit,[RSSI] bedroom_wing=-92 dining_hall=-83 medicine_room=-94
+2026-09-24T17:31:32.129,539.089,trasit,[STAT] zone=dining_hall hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:31:33.127,540.087,trasit,[RSSI] bedroom_wing=-95 dining_hall=-83 medicine_room=-90
+2026-09-24T17:31:33.132,540.092,trasit,[STAT] zone=dining_hall hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:31:34.063,541.023,trasit,[NET] Offline. Queued events: 24 (dropped 111)
+2026-09-24T17:31:34.128,541.087,trasit,[RSSI] bedroom_wing=-97 dining_hall=-89 medicine_room=-93
+2026-09-24T17:31:34.134,541.093,trasit,[STAT] zone=dining_hall hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:31:35.129,542.089,trasit,[RSSI] bedroom_wing=-98 dining_hall=-81 medicine_room=-88
+2026-09-24T17:31:35.137,542.097,trasit,[STAT] zone=dining_hall hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:31:36.130,543.090,trasit,[RSSI] bedroom_wing=-95 dining_hall=-81 medicine_room=-91
+2026-09-24T17:31:36.135,543.095,trasit,[STAT] zone=dining_hall hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:31:37.131,544.091,trasit,[RSSI] bedroom_wing=-93 dining_hall=-87 medicine_room=-94
+2026-09-24T17:31:37.137,544.097,trasit,[STAT] zone=dining_hall hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:31:38.132,545.091,trasit,[RSSI] bedroom_wing=-91 dining_hall=-86 medicine_room=-93
+2026-09-24T17:31:38.137,545.097,trasit,[STAT] zone=dining_hall hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:31:39.132,546.093,trasit,[RSSI] bedroom_wing=-91 dining_hall=-83 medicine_room=-92
+2026-09-24T17:31:39.138,546.098,trasit,[STAT] zone=dining_hall hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:31:40.133,547.093,trasit,[RSSI] bedroom_wing=-91 dining_hall=-89 medicine_room=-93
+2026-09-24T17:31:40.139,547.099,trasit,[STAT] zone=dining_hall hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:31:41.135,548.094,DH-far,[RSSI] bedroom_wing=-93 dining_hall=-78 medicine_room=-93
+2026-09-24T17:31:41.137,548.097,DH-far,[STAT] zone=dining_hall hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:31:42.131,549.091,DH-far,[RSSI] bedroom_wing=-94 dining_hall=-77 medicine_room=-91
+2026-09-24T17:31:42.141,549.101,DH-far,[STAT] zone=dining_hall hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:31:43.137,550.097,DH-far,[RSSI] bedroom_wing=-93 dining_hall=-77 medicine_room=-91
+2026-09-24T17:31:43.142,550.102,DH-far,[STAT] zone=dining_hall hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:31:44.139,551.098,DH-far,[RSSI] bedroom_wing=-90 dining_hall=-77 medicine_room=-91
+2026-09-24T17:31:44.143,551.103,DH-far,[STAT] zone=dining_hall hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:31:45.139,552.098,DH-far,[RSSI] bedroom_wing=-94 dining_hall=-79 medicine_room=-92
+2026-09-24T17:31:45.144,552.104,DH-far,[STAT] zone=dining_hall hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:31:46.136,553.096,DH-far,[RSSI] bedroom_wing=-94 dining_hall=-79 medicine_room=-92
+2026-09-24T17:31:46.136,553.096,DH-far,[STAT] zone=dining_hall hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:31:47.140,554.100,DH-far,[RSSI] bedroom_wing=-93 dining_hall=-81 medicine_room=-90
+2026-09-24T17:31:47.145,554.105,DH-far,[STAT] zone=dining_hall hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:31:48.142,555.102,DH-far,[RSSI] bedroom_wing=-90 dining_hall=-83 medicine_room=-90
+2026-09-24T17:31:48.150,555.110,DH-far,[STAT] zone=dining_hall hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:31:49.142,556.102,DH-far,[RSSI] bedroom_wing=-91 dining_hall=-79 medicine_room=-90
+2026-09-24T17:31:49.144,556.104,DH-far,[STAT] zone=dining_hall hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:31:50.144,557.104,DH-far,[RSSI] bedroom_wing=-91 dining_hall=-78 medicine_room=-89
+2026-09-24T17:31:50.144,557.104,DH-far,[STAT] zone=dining_hall hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:31:51.145,558.104,DH-far,[RSSI] bedroom_wing=-96 dining_hall=-83 medicine_room=-88
+2026-09-24T17:31:51.153,558.113,DH-far,[STAT] zone=dining_hall hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:31:52.146,559.106,DH-far,[RSSI] bedroom_wing=-93 dining_hall=-83 medicine_room=-91
+2026-09-24T17:31:52.150,559.110,DH-far,[STAT] zone=dining_hall hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:31:53.150,560.110,DH-far,[RSSI] bedroom_wing=-94 dining_hall=-83 medicine_room=-92
+2026-09-24T17:31:53.160,560.120,DH-far,[STAT] zone=dining_hall hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:31:54.147,561.107,DH-far,[RSSI] bedroom_wing=-92 dining_hall=-84 medicine_room=-89
+2026-09-24T17:31:54.156,561.116,DH-far,[STAT] zone=dining_hall hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:31:55.146,562.106,DH-far,[RSSI] bedroom_wing=-93 dining_hall=-84 medicine_room=-88
+2026-09-24T17:31:55.157,562.116,DH-far,[STAT] zone=dining_hall hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:31:56.137,563.097,DH-far,[RSSI] bedroom_wing=-93 dining_hall=-81 medicine_room=-88
+2026-09-24T17:31:56.155,563.114,DH-far,[STAT] zone=dining_hall hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:31:57.151,564.111,DH-far,[RSSI] bedroom_wing=-93 dining_hall=-81 medicine_room=-87
+2026-09-24T17:31:57.158,564.118,DH-far,[STAT] zone=dining_hall hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:31:58.153,565.113,DH-far,[RSSI] bedroom_wing=-93 dining_hall=-81 medicine_room=-88
+2026-09-24T17:31:58.160,565.119,DH-far,[STAT] zone=dining_hall hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:31:59.153,566.113,DH-far,[RSSI] bedroom_wing=-92 dining_hall=-84 medicine_room=-90
+2026-09-24T17:31:59.156,566.116,DH-far,[STAT] zone=dining_hall hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:32:00.153,567.112,DH-far,[RSSI] bedroom_wing=-92 dining_hall=-84 medicine_room=-88
+2026-09-24T17:32:00.160,567.119,DH-far,[STAT] zone=dining_hall hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:32:01.155,568.115,DH-far,[RSSI] bedroom_wing=-91 dining_hall=-84 medicine_room=-88
+2026-09-24T17:32:01.160,568.120,DH-far,[STAT] zone=dining_hall hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:32:02.156,569.115,DH-far,[RSSI] bedroom_wing=-93 dining_hall=-88 medicine_room=-93
+2026-09-24T17:32:02.162,569.122,DH-far,[STAT] zone=dining_hall hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:32:03.157,570.116,DH-far,[RSSI] bedroom_wing=-93 dining_hall=-88 medicine_room=-95
+2026-09-24T17:32:03.157,570.117,DH-far,[STAT] zone=dining_hall hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:32:04.158,571.118,DH-far,[RSSI] bedroom_wing=-93 dining_hall=-85 medicine_room=-91
+2026-09-24T17:32:04.164,571.124,DH-far,[STAT] zone=dining_hall hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:32:05.158,572.118,DH-far,[RSSI] bedroom_wing=-95 dining_hall=-85 medicine_room=-94
+2026-09-24T17:32:05.164,572.123,DH-far,[STAT] zone=dining_hall hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:32:06.161,573.121,transirt,[RSSI] bedroom_wing=-96 dining_hall=-80 medicine_room=-94
+2026-09-24T17:32:06.166,573.126,transirt,[STAT] zone=dining_hall hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:32:07.160,574.120,transirt,[RSSI] bedroom_wing=-98 dining_hall=-84 medicine_room=-87
+2026-09-24T17:32:07.166,574.126,transirt,[STAT] zone=dining_hall hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:32:08.161,575.121,transirt,[RSSI] bedroom_wing=-94 dining_hall=-84 medicine_room=-94
+2026-09-24T17:32:08.166,575.126,transirt,[STAT] zone=dining_hall hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:32:09.163,576.122,transirt,[RSSI] bedroom_wing=-96 dining_hall=-84 medicine_room=-91
+2026-09-24T17:32:09.170,576.129,transirt,[STAT] zone=dining_hall hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:32:10.163,577.123,transirt,[RSSI] bedroom_wing=-92 dining_hall=-82 medicine_room=-90
+2026-09-24T17:32:10.168,577.128,transirt,[STAT] zone=dining_hall hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:32:11.164,578.124,transirt,[RSSI] bedroom_wing=-92 dining_hall=-81 medicine_room=-97
+2026-09-24T17:32:11.170,578.129,transirt,[STAT] zone=dining_hall hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:32:12.166,579.126,transirt,[RSSI] bedroom_wing=-95 dining_hall=-76 medicine_room=-89
+2026-09-24T17:32:12.170,579.130,transirt,[STAT] zone=dining_hall hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:32:13.167,580.126,transirt,[RSSI] bedroom_wing=-97 dining_hall=-77 medicine_room=-87
+2026-09-24T17:32:13.174,580.134,transirt,[STAT] zone=dining_hall hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:32:14.168,581.128,transirt,[RSSI] bedroom_wing=-96 dining_hall=-78 medicine_room=-86
+2026-09-24T17:32:14.172,581.132,transirt,[STAT] zone=dining_hall hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:32:15.169,582.129,transirt,[RSSI] bedroom_wing=-93 dining_hall=-80 medicine_room=-89
+2026-09-24T17:32:15.175,582.135,transirt,[STAT] zone=dining_hall hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:32:16.170,583.129,transirt,[RSSI] bedroom_wing=-95 dining_hall=-83 medicine_room=-87
+2026-09-24T17:32:16.176,583.135,transirt,[STAT] zone=dining_hall hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:32:17.170,584.130,DH-mid,[RSSI] bedroom_wing=-95 dining_hall=-80 medicine_room=-90
+2026-09-24T17:32:17.175,584.136,DH-mid,[STAT] zone=dining_hall hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:32:18.172,585.132,DH-mid,[RSSI] bedroom_wing=-94 dining_hall=-78 medicine_room=-89
+2026-09-24T17:32:18.177,585.136,DH-mid,[STAT] zone=dining_hall hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:32:19.173,586.132,DH-mid,[RSSI] bedroom_wing=-95 dining_hall=-82 medicine_room=-89
+2026-09-24T17:32:19.179,586.139,DH-mid,[STAT] zone=dining_hall hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:32:20.174,587.134,DH-mid,[RSSI] bedroom_wing=-99 dining_hall=-81 medicine_room=-84
+2026-09-24T17:32:20.179,587.139,DH-mid,[STAT] zone=dining_hall hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:32:21.174,588.134,DH-mid,[RSSI] bedroom_wing=-98 dining_hall=-80 medicine_room=-88
+2026-09-24T17:32:21.178,588.138,DH-mid,[STAT] zone=dining_hall hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:32:22.174,589.134,DH-mid,[RSSI] bedroom_wing=-98 dining_hall=-80 medicine_room=-88
+2026-09-24T17:32:22.180,589.140,DH-mid,[STAT] zone=dining_hall hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:32:23.176,590.136,DH-mid,[RSSI] bedroom_wing=-99 dining_hall=-80 medicine_room=-88
+2026-09-24T17:32:23.184,590.144,DH-mid,[STAT] zone=dining_hall hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:32:24.178,591.138,DH-mid,[RSSI] bedroom_wing=-100 dining_hall=-79 medicine_room=-88
+2026-09-24T17:32:24.186,591.146,DH-mid,[STAT] zone=dining_hall hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:32:25.178,592.138,DH-mid,[RSSI] bedroom_wing=-101 dining_hall=-80 medicine_room=-89
+2026-09-24T17:32:25.186,592.146,DH-mid,[STAT] zone=dining_hall hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:32:26.178,593.138,DH-mid,[RSSI] bedroom_wing=-100 dining_hall=-80 medicine_room=-90
+2026-09-24T17:32:26.178,593.138,DH-mid,[STAT] zone=dining_hall hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:32:27.179,594.138,DH-mid,[RSSI] bedroom_wing=-100 dining_hall=-79 medicine_room=-88
+2026-09-24T17:32:27.179,594.138,DH-mid,[STAT] zone=dining_hall hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:32:28.180,595.140,DH-mid,[RSSI] bedroom_wing=-101 dining_hall=-78 medicine_room=-88
+2026-09-24T17:32:28.191,595.150,DH-mid,[STAT] zone=dining_hall hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:32:29.182,596.142,DH-mid,[RSSI] bedroom_wing=-100 dining_hall=-77 medicine_room=-88
+2026-09-24T17:32:29.190,596.150,DH-mid,[STAT] zone=dining_hall hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:32:30.183,597.143,DH-mid,[RSSI] bedroom_wing=-100 dining_hall=-79 medicine_room=-88
+2026-09-24T17:32:30.189,597.149,DH-mid,[STAT] zone=dining_hall hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:32:31.185,598.145,DH-mid,[RSSI] bedroom_wing=-101 dining_hall=-78 medicine_room=-87
+2026-09-24T17:32:31.189,598.149,DH-mid,[STAT] zone=dining_hall hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:32:32.185,599.145,DH-mid,[RSSI] bedroom_wing=-101 dining_hall=-79 medicine_room=-89
+2026-09-24T17:32:32.191,599.151,DH-mid,[STAT] zone=dining_hall hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:32:33.186,600.146,DH-mid,[RSSI] bedroom_wing=-102 dining_hall=-79 medicine_room=-88
+2026-09-24T17:32:33.195,600.154,DH-mid,[STAT] zone=dining_hall hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:32:34.076,601.036,DH-mid,[NET] Offline. Queued events: 24 (dropped 123)
+2026-09-24T17:32:34.188,601.148,DH-mid,[RSSI] bedroom_wing=-100 dining_hall=-80 medicine_room=-89
+2026-09-24T17:32:34.193,601.154,DH-mid,[STAT] zone=dining_hall hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:32:35.188,602.148,DH-mid,[RSSI] bedroom_wing=-98 dining_hall=-81 medicine_room=-94
+2026-09-24T17:32:35.193,602.153,DH-mid,[STAT] zone=dining_hall hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:32:36.189,603.149,DH-mid,[RSSI] bedroom_wing=-95 dining_hall=-85 medicine_room=-91
+2026-09-24T17:32:36.198,603.158,DH-mid,[STAT] zone=dining_hall hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:32:37.191,604.150,DH-mid,[RSSI] bedroom_wing=-97 dining_hall=-83 medicine_room=-91
+2026-09-24T17:32:37.195,604.155,DH-mid,[STAT] zone=dining_hall hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:32:38.192,605.152,DH-mid,[RSSI] bedroom_wing=-99 dining_hall=-82 medicine_room=-92
+2026-09-24T17:32:38.197,605.157,DH-mid,[STAT] zone=dining_hall hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:32:39.192,606.152,DH-mid,[RSSI] bedroom_wing=-100 dining_hall=-81 medicine_room=-91
+2026-09-24T17:32:39.194,606.154,DH-mid,[STAT] zone=dining_hall hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:32:40.194,607.154,transit,[RSSI] bedroom_wing=-98 dining_hall=-79 medicine_room=-89
+2026-09-24T17:32:40.199,607.159,transit,[STAT] zone=dining_hall hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:32:41.194,608.154,transit,[RSSI] bedroom_wing=-98 dining_hall=-82 medicine_room=-91
+2026-09-24T17:32:41.200,608.160,transit,[STAT] zone=dining_hall hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:32:42.196,609.156,transit,[RSSI] bedroom_wing=-93 dining_hall=-82 medicine_room=-89
+2026-09-24T17:32:42.201,609.161,transit,[STAT] zone=dining_hall hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:32:43.192,610.152,transit,[RSSI] bedroom_wing=-97 dining_hall=-83 medicine_room=-90
+2026-09-24T17:32:43.192,610.152,transit,[STAT] zone=dining_hall hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:32:44.193,611.152,transit,[RSSI] bedroom_wing=-91 dining_hall=-70 medicine_room=-89
+2026-09-24T17:32:44.200,611.160,transit,[STAT] zone=dining_hall hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:32:45.198,612.158,transit,[RSSI] bedroom_wing=-97 dining_hall=-73 medicine_room=-95
+2026-09-24T17:32:45.206,612.166,transit,[STAT] zone=dining_hall hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:32:46.199,613.159,transit,[RSSI] bedroom_wing=-97 dining_hall=-74 medicine_room=-96
+2026-09-24T17:32:46.204,613.164,transit,[STAT] zone=dining_hall hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:32:47.199,614.159,transit,[RSSI] bedroom_wing=-98 dining_hall=-78 medicine_room=-92
+2026-09-24T17:32:47.206,614.165,transit,[STAT] zone=dining_hall hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:32:48.201,615.160,transit,[RSSI] bedroom_wing=-100 dining_hall=-83 medicine_room=-97
+2026-09-24T17:32:48.207,615.166,transit,[STAT] zone=dining_hall hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:32:49.202,616.162,transit,[RSSI] bedroom_wing=-100 dining_hall=-80 medicine_room=-94
+2026-09-24T17:32:49.208,616.168,transit,[STAT] zone=dining_hall hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:32:50.204,617.164,DH-near,[RSSI] bedroom_wing=-99 dining_hall=-80 medicine_room=-92
+2026-09-24T17:32:50.208,617.168,DH-near,[STAT] zone=dining_hall hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:32:51.200,618.160,DH-near,[RSSI] bedroom_wing=-99 dining_hall=-75 medicine_room=-94
+2026-09-24T17:32:51.211,618.171,DH-near,[STAT] zone=dining_hall hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:32:52.205,619.164,DH-near,[RSSI] bedroom_wing=-100 dining_hall=-77 medicine_room=-92
+2026-09-24T17:32:52.207,619.167,DH-near,[STAT] zone=dining_hall hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:32:53.206,620.166,DH-near,[RSSI] bedroom_wing=-99 dining_hall=-78 medicine_room=-92
+2026-09-24T17:32:53.213,620.173,DH-near,[STAT] zone=dining_hall hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:32:54.207,621.166,DH-near,[RSSI] bedroom_wing=-99 dining_hall=-79 medicine_room=-95
+2026-09-24T17:32:54.213,621.173,DH-near,[STAT] zone=dining_hall hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:32:55.208,622.168,DH-near,[RSSI] bedroom_wing=-98 dining_hall=-78 medicine_room=-94
+2026-09-24T17:32:55.214,622.174,DH-near,[STAT] zone=dining_hall hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:32:56.209,623.169,DH-near,[RSSI] bedroom_wing=-100 dining_hall=-73 medicine_room=-97
+2026-09-24T17:32:56.216,623.176,DH-near,[STAT] zone=dining_hall hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:32:57.210,624.170,DH-near,[RSSI] bedroom_wing=-102 dining_hall=-76 medicine_room=-95
+2026-09-24T17:32:57.216,624.175,DH-near,[STAT] zone=dining_hall hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:32:58.211,625.171,DH-near,[RSSI] bedroom_wing=-102 dining_hall=-77 medicine_room=-93
+2026-09-24T17:32:58.220,625.180,DH-near,[STAT] zone=dining_hall hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:32:59.213,626.173,DH-near,[RSSI] bedroom_wing=-102 dining_hall=-77 medicine_room=-94
+2026-09-24T17:32:59.218,626.178,DH-near,[STAT] zone=dining_hall hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:33:00.214,627.173,DH-near,[RSSI] bedroom_wing=-101 dining_hall=-80 medicine_room=-94
+2026-09-24T17:33:00.222,627.182,DH-near,[STAT] zone=dining_hall hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:33:01.215,628.174,DH-near,[RSSI] bedroom_wing=-100 dining_hall=-75 medicine_room=-93
+2026-09-24T17:33:01.220,628.180,DH-near,[STAT] zone=dining_hall hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:33:02.215,629.175,DH-near,[RSSI] bedroom_wing=-99 dining_hall=-82 medicine_room=-94
+2026-09-24T17:33:02.223,629.183,DH-near,[STAT] zone=dining_hall hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:33:03.217,630.176,DH-near,[RSSI] bedroom_wing=-101 dining_hall=-75 medicine_room=-94
+2026-09-24T17:33:03.225,630.184,DH-near,[STAT] zone=dining_hall hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:33:04.217,631.177,DH-near,[RSSI] bedroom_wing=-100 dining_hall=-82 medicine_room=-93
+2026-09-24T17:33:04.223,631.183,DH-near,[STAT] zone=dining_hall hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:33:05.218,632.178,DH-near,[RSSI] bedroom_wing=-101 dining_hall=-79 medicine_room=-95
+2026-09-24T17:33:05.224,632.184,DH-near,[STAT] zone=dining_hall hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:33:06.220,633.179,DH-near,[RSSI] bedroom_wing=-101 dining_hall=-79 medicine_room=-93
+2026-09-24T17:33:06.228,633.187,DH-near,[STAT] zone=dining_hall hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:33:07.220,634.180,DH-near,[RSSI] bedroom_wing=-99 dining_hall=-78 medicine_room=-92
+2026-09-24T17:33:07.226,634.185,DH-near,[STAT] zone=dining_hall hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:33:08.221,635.181,DH-near,[RSSI] bedroom_wing=-101 dining_hall=-81 medicine_room=-95
+2026-09-24T17:33:08.230,635.190,DH-near,[STAT] zone=dining_hall hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:33:09.224,636.183,DH-near,[RSSI] bedroom_wing=-100 dining_hall=-77 medicine_room=-94
+2026-09-24T17:33:09.231,636.191,DH-near,[STAT] zone=dining_hall hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:33:10.223,637.183,DH-near,[RSSI] bedroom_wing=-100 dining_hall=-76 medicine_room=-94
+2026-09-24T17:33:10.229,637.189,DH-near,[STAT] zone=dining_hall hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:33:11.224,638.184,DH-near,[RSSI] bedroom_wing=-100 dining_hall=-80 medicine_room=-93
+2026-09-24T17:33:11.230,638.190,DH-near,[STAT] zone=dining_hall hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:33:12.226,639.186,DH-near,[RSSI] bedroom_wing=-101 dining_hall=-79 medicine_room=-95
+2026-09-24T17:33:12.234,639.194,DH-near,[STAT] zone=dining_hall hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:33:13.226,640.187,DH-near,[RSSI] bedroom_wing=-101 dining_hall=-83 medicine_room=-95
+2026-09-24T17:33:13.235,640.195,DH-near,[STAT] zone=dining_hall hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:33:14.227,641.187,DH-near,[RSSI] bedroom_wing=-101 dining_hall=-76 medicine_room=-95
+2026-09-24T17:33:14.233,641.193,DH-near,[STAT] zone=dining_hall hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:33:15.228,642.188,DH-near,[RSSI] bedroom_wing=-101 dining_hall=-73 medicine_room=-94
+2026-09-24T17:33:15.237,642.197,DH-near,[STAT] zone=dining_hall hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:33:16.229,643.189,DH-near,[RSSI] bedroom_wing=-102 dining_hall=-72 medicine_room=-93
+2026-09-24T17:33:16.237,643.197,DH-near,[STAT] zone=dining_hall hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:33:17.230,644.190,DH-near,[RSSI] bedroom_wing=-102 dining_hall=-80 medicine_room=-93
+2026-09-24T17:33:17.235,644.195,DH-near,[STAT] zone=dining_hall hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:33:18.231,645.191,DH-near,[RSSI] bedroom_wing=-100 dining_hall=-73 medicine_room=-94
+2026-09-24T17:33:18.237,645.198,DH-near,[STAT] zone=dining_hall hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:33:19.232,646.192,DH-near,[RSSI] bedroom_wing=-100 dining_hall=-77 medicine_room=-93
+2026-09-24T17:33:19.240,646.200,DH-near,[STAT] zone=dining_hall hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:33:20.233,647.193,DH-near,[RSSI] bedroom_wing=-100 dining_hall=-74 medicine_room=-92
+2026-09-24T17:33:20.239,647.198,DH-near,[STAT] zone=dining_hall hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:33:21.235,648.195,DH-near,[RSSI] bedroom_wing=-98 dining_hall=-75 medicine_room=-97
+2026-09-24T17:33:21.240,648.200,DH-near,[STAT] zone=dining_hall hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:33:22.235,649.195,DH-near,[RSSI] bedroom_wing=-94 dining_hall=-80 medicine_room=-95
+2026-09-24T17:33:22.244,649.204,DH-near,[STAT] zone=dining_hall hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:33:23.236,650.195,DH-near,[RSSI] bedroom_wing=-94 dining_hall=-76 medicine_room=-92
+2026-09-24T17:33:23.241,650.201,DH-near,[STAT] zone=dining_hall hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:33:24.237,651.196,DH-near,[RSSI] bedroom_wing=-95 dining_hall=-86 medicine_room=-88
+2026-09-24T17:33:24.243,651.202,DH-near,[STAT] zone=dining_hall hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:33:25.237,652.198,DH-near,[RSSI] bedroom_wing=-95 dining_hall=-85 medicine_room=-89
+2026-09-24T17:33:25.244,652.204,DH-near,[STAT] zone=dining_hall hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:33:26.240,653.200,transirt,[RSSI] bedroom_wing=-97 dining_hall=-76 medicine_room=-91
+2026-09-24T17:33:26.245,653.204,transirt,[STAT] zone=dining_hall hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:33:27.241,654.201,transirt,[RSSI] bedroom_wing=-94 dining_hall=-74 medicine_room=-91
+2026-09-24T17:33:27.243,654.203,transirt,[STAT] zone=dining_hall hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:33:28.240,655.200,transirt,[RSSI] bedroom_wing=-95 dining_hall=-78 medicine_room=-91
+2026-09-24T17:33:28.245,655.205,transirt,[STAT] zone=dining_hall hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:33:29.242,656.202,transirt,[RSSI] bedroom_wing=-96 dining_hall=-82 medicine_room=-89
+2026-09-24T17:33:29.247,656.207,transirt,[STAT] zone=dining_hall hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:33:30.241,657.200,transirt,[RSSI] bedroom_wing=-95 dining_hall=-77 medicine_room=-87
+2026-09-24T17:33:30.241,657.200,transirt,[STAT] zone=dining_hall hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:33:31.244,658.204,transirt,[RSSI] bedroom_wing=-92 dining_hall=-79 medicine_room=-83
+2026-09-24T17:33:31.251,658.210,transirt,[STAT] zone=dining_hall hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:33:32.245,659.204,transirt,[RSSI] bedroom_wing=-95 dining_hall=-84 medicine_room=-87
+2026-09-24T17:33:32.250,659.210,transirt,[STAT] zone=dining_hall hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:33:33.248,660.207,transirt,[RSSI] bedroom_wing=-95 dining_hall=-92 medicine_room=-90
+2026-09-24T17:33:33.252,660.212,transirt,[STAT] zone=dining_hall hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:33:34.089,661.048,transirt,[NET] Offline. Queued events: 24 (dropped 135)
+2026-09-24T17:33:34.190,661.150,transirt,"[ZONE] -> medicine_room (id=11, rssi=-86.3 dBm, ~12.3 m)  *** RESTRICTED ***"
+2026-09-24T17:33:34.206,661.166,transirt,"[ALERT] {""device_id"":""wearable-01"",""type"":""zone_restricted"",""detail"":""medicine_room"",""zone"":""medicine_room"",""zone_id"":11,""batt_pct"":0,""hr_bpm"":-1,""uptime_s"":660}"
+2026-09-24T17:33:34.247,661.207,transirt,[RSSI] bedroom_wing=-95 dining_hall=-98 medicine_room=-86
+2026-09-24T17:33:34.252,661.212,transirt,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:33:35.247,662.207,transirt,[RSSI] bedroom_wing=-96 dining_hall=-94 medicine_room=-88
+2026-09-24T17:33:35.252,662.212,transirt,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:33:36.248,663.207,transirt,[RSSI] bedroom_wing=-96 dining_hall=-95 medicine_room=-89
+2026-09-24T17:33:36.257,663.216,transirt,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:33:36.288,663.248,transirt,[ZONE] -> unknown (no beacon in range)
+2026-09-24T17:33:36.303,663.262,transirt,"[ALERT] {""device_id"":""wearable-01"",""type"":""zone_lost"",""detail"":""no beacon in range"",""zone"":""unknown"",""zone_id"":0,""batt_pct"":0,""hr_bpm"":-1,""uptime_s"":662}"
+2026-09-24T17:33:37.248,664.207,transirt,[RSSI] bedroom_wing=-97 dining_hall=-96 medicine_room=-92
+2026-09-24T17:33:37.254,664.213,transirt,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:33:38.249,665.209,transirt,[RSSI] bedroom_wing=-96 dining_hall=-96 medicine_room=-96
+2026-09-24T17:33:38.254,665.214,transirt,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:33:39.250,666.209,transirt,[RSSI] bedroom_wing=-96 dining_hall=-96 medicine_room=-95
+2026-09-24T17:33:39.257,666.217,transirt,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:33:40.252,667.212,transirt,[RSSI] bedroom_wing=-95 dining_hall=-95 medicine_room=-95
+2026-09-24T17:33:40.258,667.218,transirt,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:33:41.252,668.211,transirt,[RSSI] bedroom_wing=-99 dining_hall=-98 medicine_room=-97
+2026-09-24T17:33:41.258,668.217,transirt,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:33:42.254,669.213,transirt,[RSSI] bedroom_wing=-97 dining_hall=-98 medicine_room=-93
+2026-09-24T17:33:42.259,669.219,transirt,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:33:43.255,670.215,transirt,[RSSI] bedroom_wing=-98 dining_hall=-99 medicine_room=-95
+2026-09-24T17:33:43.261,670.221,transirt,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:33:44.254,671.214,transirt,[RSSI] bedroom_wing=-98 dining_hall=-99 medicine_room=-92
+2026-09-24T17:33:44.261,671.220,transirt,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:33:45.255,672.215,transirt,[RSSI] bedroom_wing=-98 dining_hall=-99 medicine_room=-93
+2026-09-24T17:33:45.262,672.222,transirt,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:33:46.257,673.216,transirt,[RSSI] bedroom_wing=-98 dining_hall=-99 medicine_room=-98
+2026-09-24T17:33:46.264,673.224,transirt,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:33:47.258,674.218,transirt,[RSSI] bedroom_wing=-98 dining_hall=-- medicine_room=-98
+2026-09-24T17:33:47.263,674.223,transirt,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:33:48.259,675.218,transirt,[RSSI] bedroom_wing=-100 dining_hall=-- medicine_room=-96
+2026-09-24T17:33:48.264,675.224,transirt,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:33:49.260,676.220,transirt,[RSSI] bedroom_wing=-100 dining_hall=-- medicine_room=-95
+2026-09-24T17:33:49.265,676.225,transirt,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:33:50.261,677.220,MR-out,[RSSI] bedroom_wing=-100 dining_hall=-- medicine_room=-94
+2026-09-24T17:33:50.266,677.225,MR-out,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:33:51.262,678.222,MR-out,[RSSI] bedroom_wing=-100 dining_hall=-100 medicine_room=-95
+2026-09-24T17:33:51.268,678.228,MR-out,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:33:52.262,679.222,MR-out,[RSSI] bedroom_wing=-99 dining_hall=-100 medicine_room=-94
+2026-09-24T17:33:52.268,679.228,MR-out,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:33:53.264,680.224,MR-out,[RSSI] bedroom_wing=-99 dining_hall=-100 medicine_room=-94
+2026-09-24T17:33:53.269,680.229,MR-out,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:33:54.265,681.224,MR-out,[RSSI] bedroom_wing=-100 dining_hall=-100 medicine_room=-96
+2026-09-24T17:33:54.271,681.230,MR-out,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:33:55.266,682.226,MR-out,[RSSI] bedroom_wing=-100 dining_hall=-- medicine_room=-95
+2026-09-24T17:33:55.273,682.233,MR-out,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:33:56.267,683.227,MR-out,[RSSI] bedroom_wing=-100 dining_hall=-104 medicine_room=-95
+2026-09-24T17:33:56.272,683.232,MR-out,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:33:57.268,684.228,MR-out,[RSSI] bedroom_wing=-101 dining_hall=-104 medicine_room=-97
+2026-09-24T17:33:57.273,684.233,MR-out,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:33:58.269,685.228,MR-out,[RSSI] bedroom_wing=-100 dining_hall=-104 medicine_room=-94
+2026-09-24T17:33:58.277,685.237,MR-out,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:33:59.269,686.229,MR-out,[RSSI] bedroom_wing=-100 dining_hall=-104 medicine_room=-93
+2026-09-24T17:33:59.276,686.236,MR-out,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:34:00.270,687.230,MR-out,[RSSI] bedroom_wing=-99 dining_hall=-- medicine_room=-95
+2026-09-24T17:34:00.276,687.236,MR-out,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:34:01.272,688.232,MR-out,[RSSI] bedroom_wing=-100 dining_hall=-- medicine_room=-94
+2026-09-24T17:34:01.280,688.240,MR-out,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:34:02.301,689.261,MR-out,[RSSI] bedroom_wing=-100 dining_hall=-106 medicine_room=-94
+2026-09-24T17:34:02.303,689.263,MR-out,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:34:03.274,690.234,MR-out,[RSSI] bedroom_wing=-100 dining_hall=-106 medicine_room=-93
+2026-09-24T17:34:03.279,690.239,MR-out,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:34:04.275,691.235,MR-out,[RSSI] bedroom_wing=-100 dining_hall=-106 medicine_room=-95
+2026-09-24T17:34:04.282,691.244,MR-out,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:34:05.276,692.235,MR-out,[RSSI] bedroom_wing=-99 dining_hall=-106 medicine_room=-94
+2026-09-24T17:34:05.282,692.241,MR-out,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:34:06.277,693.236,MR-out,[RSSI] bedroom_wing=-100 dining_hall=-- medicine_room=-94
+2026-09-24T17:34:06.282,693.242,MR-out,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:34:07.278,694.238,MR-out,[RSSI] bedroom_wing=-100 dining_hall=-- medicine_room=-94
+2026-09-24T17:34:07.282,694.242,MR-out,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:34:08.279,695.239,MR-out,[RSSI] bedroom_wing=-100 dining_hall=-- medicine_room=-94
+2026-09-24T17:34:08.284,695.244,MR-out,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:34:09.280,696.240,MR-out,[RSSI] bedroom_wing=-100 dining_hall=-- medicine_room=-95
+2026-09-24T17:34:09.286,696.246,MR-out,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:34:10.281,697.241,MR-out,[RSSI] bedroom_wing=-100 dining_hall=-- medicine_room=-94
+2026-09-24T17:34:10.286,697.245,MR-out,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:34:11.281,698.241,MR-out,[RSSI] bedroom_wing=-100 dining_hall=-- medicine_room=-95
+2026-09-24T17:34:11.283,698.243,MR-out,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:34:12.283,699.243,MR-out,[RSSI] bedroom_wing=-99 dining_hall=-- medicine_room=-94
+2026-09-24T17:34:12.290,699.249,MR-out,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:34:13.284,700.244,MR-out,[RSSI] bedroom_wing=-100 dining_hall=-- medicine_room=-95
+2026-09-24T17:34:13.291,700.251,MR-out,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:34:14.284,701.244,MR-out,[RSSI] bedroom_wing=-101 dining_hall=-- medicine_room=-96
+2026-09-24T17:34:14.290,701.250,MR-out,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:34:15.285,702.245,transit,[RSSI] bedroom_wing=-101 dining_hall=-- medicine_room=-95
+2026-09-24T17:34:15.291,702.251,transit,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:34:16.288,703.248,transit,[RSSI] bedroom_wing=-100 dining_hall=-100 medicine_room=-98
+2026-09-24T17:34:16.292,703.251,transit,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:34:17.288,704.248,transit,[RSSI] bedroom_wing=-99 dining_hall=-101 medicine_room=-94
+2026-09-24T17:34:17.295,704.255,transit,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:34:18.289,705.248,transit,[RSSI] bedroom_wing=-97 dining_hall=-101 medicine_room=-96
+2026-09-24T17:34:18.294,705.253,transit,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:34:19.281,706.241,transit,[RSSI] bedroom_wing=-94 dining_hall=-101 medicine_room=-97
+2026-09-24T17:34:19.296,706.256,transit,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:34:20.288,707.248,transit,[RSSI] bedroom_wing=-95 dining_hall=-101 medicine_room=-96
+2026-09-24T17:34:20.288,707.248,transit,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:34:21.292,708.252,transit,[RSSI] bedroom_wing=-94 dining_hall=-101 medicine_room=-99
+2026-09-24T17:34:21.297,708.257,transit,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:34:22.292,709.252,transit,[RSSI] bedroom_wing=-91 dining_hall=-- medicine_room=-96
+2026-09-24T17:34:22.297,709.257,transit,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:34:22.535,709.495,transit,"[ZONE] -> bedroom_wing (id=1, rssi=-86.3 dBm, ~12.4 m)"
+2026-09-24T17:34:22.552,709.511,transit,"[ALERT] {""device_id"":""wearable-01"",""type"":""zone_change"",""detail"":""bedroom_wing"",""zone"":""bedroom_wing"",""zone_id"":1,""batt_pct"":0,""hr_bpm"":-1,""uptime_s"":708}"
+2026-09-24T17:34:23.289,710.249,transit,[RSSI] bedroom_wing=-88 dining_hall=-- medicine_room=-95
+2026-09-24T17:34:23.297,710.257,transit,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:34:24.037,710.996,transit,[ZONE] -> unknown (no beacon in range)
+2026-09-24T17:34:24.049,711.009,transit,"[ALERT] {""device_id"":""wearable-01"",""type"":""zone_lost"",""detail"":""no beacon in range"",""zone"":""unknown"",""zone_id"":0,""batt_pct"":0,""hr_bpm"":-1,""uptime_s"":710}"
+2026-09-24T17:34:24.288,711.248,transit,[RSSI] bedroom_wing=-91 dining_hall=-- medicine_room=-91
+2026-09-24T17:34:24.297,711.257,transit,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:34:25.293,712.253,transit,[RSSI] bedroom_wing=-92 dining_hall=-- medicine_room=-92
+2026-09-24T17:34:25.298,712.258,transit,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:34:26.295,713.254,transit,[RSSI] bedroom_wing=-93 dining_hall=-102 medicine_room=-95
+2026-09-24T17:34:26.300,713.259,transit,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:34:27.296,714.256,transit,[RSSI] bedroom_wing=-95 dining_hall=-102 medicine_room=-98
+2026-09-24T17:34:27.301,714.260,transit,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:34:28.296,715.256,transit,[RSSI] bedroom_wing=-93 dining_hall=-102 medicine_room=-94
+2026-09-24T17:34:28.303,715.263,transit,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:34:29.297,716.257,transit,[RSSI] bedroom_wing=-93 dining_hall=-102 medicine_room=-95
+2026-09-24T17:34:29.302,716.262,transit,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:34:30.297,717.257,MR-in,[RSSI] bedroom_wing=-92 dining_hall=-- medicine_room=-91
+2026-09-24T17:34:30.302,717.261,MR-in,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:34:31.301,718.261,MR-in,[RSSI] bedroom_wing=-95 dining_hall=-- medicine_room=-91
+2026-09-24T17:34:31.306,718.266,MR-in,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:34:32.300,719.260,MR-in,[RSSI] bedroom_wing=-93 dining_hall=-- medicine_room=-92
+2026-09-24T17:34:32.305,719.265,MR-in,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:34:33.302,720.262,MR-in,[RSSI] bedroom_wing=-90 dining_hall=-- medicine_room=-94
+2026-09-24T17:34:33.307,720.266,MR-in,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:34:34.129,721.088,MR-in,[NET] Offline. Queued events: 24 (dropped 151)
+2026-09-24T17:34:34.303,721.262,MR-in,[RSSI] bedroom_wing=-93 dining_hall=-- medicine_room=-93
+2026-09-24T17:34:34.308,721.268,MR-in,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:34:35.304,722.264,MR-in,[RSSI] bedroom_wing=-92 dining_hall=-- medicine_room=-95
+2026-09-24T17:34:35.307,722.266,MR-in,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:34:36.303,723.263,MR-in,[RSSI] bedroom_wing=-95 dining_hall=-- medicine_room=-97
+2026-09-24T17:34:36.309,723.268,MR-in,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:34:37.305,724.265,MR-in,[RSSI] bedroom_wing=-90 dining_hall=-- medicine_room=-96
+2026-09-24T17:34:37.311,724.270,MR-in,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:34:38.307,725.267,MR-in,[RSSI] bedroom_wing=-90 dining_hall=-- medicine_room=-94
+2026-09-24T17:34:38.311,725.271,MR-in,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:34:39.307,726.267,MR-in,[RSSI] bedroom_wing=-90 dining_hall=-- medicine_room=-94
+2026-09-24T17:34:39.308,726.268,MR-in,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:34:40.309,727.268,MR-in,[RSSI] bedroom_wing=-90 dining_hall=-- medicine_room=-94
+2026-09-24T17:34:40.313,727.272,MR-in,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:34:41.307,728.267,MR-in,[RSSI] bedroom_wing=-92 dining_hall=-- medicine_room=-93
+2026-09-24T17:34:41.315,728.275,MR-in,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:34:42.308,729.268,MR-in,[RSSI] bedroom_wing=-95 dining_hall=-- medicine_room=-92
+2026-09-24T17:34:42.315,729.275,MR-in,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:34:43.311,730.271,MR-in,[RSSI] bedroom_wing=-95 dining_hall=-- medicine_room=-93
+2026-09-24T17:34:43.316,730.275,MR-in,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:34:44.309,731.268,MR-in,[RSSI] bedroom_wing=-93 dining_hall=-- medicine_room=-92
+2026-09-24T17:34:44.317,731.277,MR-in,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:34:45.314,732.273,MR-in,[RSSI] bedroom_wing=-92 dining_hall=-- medicine_room=-95
+2026-09-24T17:34:45.321,732.280,MR-in,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:34:46.315,733.275,MR-in,[RSSI] bedroom_wing=-91 dining_hall=-- medicine_room=-92
+2026-09-24T17:34:46.319,733.279,MR-in,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:34:47.316,734.275,MR-in,[RSSI] bedroom_wing=-93 dining_hall=-- medicine_room=-93
+2026-09-24T17:34:47.317,734.277,MR-in,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:34:48.315,735.275,MR-in,[RSSI] bedroom_wing=-93 dining_hall=-- medicine_room=-94
+2026-09-24T17:34:48.321,735.281,MR-in,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:34:49.317,736.277,MR-in,[RSSI] bedroom_wing=-92 dining_hall=-- medicine_room=-93
+2026-09-24T17:34:49.322,736.282,MR-in,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:34:50.318,737.278,MR-in,[RSSI] bedroom_wing=-90 dining_hall=-- medicine_room=-93
+2026-09-24T17:34:50.324,737.284,MR-in,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:34:51.320,738.279,MR-in,[RSSI] bedroom_wing=-91 dining_hall=-- medicine_room=-93
+2026-09-24T17:34:51.322,738.282,MR-in,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:34:52.321,739.280,MR-in,[RSSI] bedroom_wing=-92 dining_hall=-- medicine_room=-92
+2026-09-24T17:34:52.322,739.282,MR-in,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:34:53.321,740.281,MR-in,[RSSI] bedroom_wing=-93 dining_hall=-- medicine_room=-93
+2026-09-24T17:34:53.328,740.288,MR-in,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:34:54.322,741.282,MR-in,[RSSI] bedroom_wing=-90 dining_hall=-- medicine_room=-93
+2026-09-24T17:34:54.327,741.287,MR-in,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:34:55.323,742.283,MR-in,[RSSI] bedroom_wing=-89 dining_hall=-103 medicine_room=-96
+2026-09-24T17:34:55.329,742.289,MR-in,[STAT] zone=unknown hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:34:55.868,742.828,MR-in,"[ZONE] -> bedroom_wing (id=1, rssi=-87.2 dBm, ~13.4 m)"
+2026-09-24T17:34:55.881,742.841,MR-in,"[ALERT] {""device_id"":""wearable-01"",""type"":""zone_change"",""detail"":""bedroom_wing"",""zone"":""bedroom_wing"",""zone_id"":1,""batt_pct"":0,""hr_bpm"":-1,""uptime_s"":742}"
+2026-09-24T17:34:56.322,743.282,MR-in,[RSSI] bedroom_wing=-90 dining_hall=-96 medicine_room=-93
+2026-09-24T17:34:56.332,743.292,MR-in,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:34:57.322,744.282,MR-in,[RSSI] bedroom_wing=-93 dining_hall=-96 medicine_room=-85
+2026-09-24T17:34:57.331,744.291,MR-in,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:34:57.663,744.623,MR-in,[ZONE] -> unknown (no beacon in range)
+2026-09-24T17:34:57.683,744.643,MR-in,"[ALERT] {""device_id"":""wearable-01"",""type"":""zone_lost"",""detail"":""no beacon in range"",""zone"":""unknown"",""zone_id"":0,""batt_pct"":0,""hr_bpm"":-1,""uptime_s"":744}"
+2026-09-24T17:34:57.976,744.935,MR-in,"[ZONE] -> medicine_room (id=11, rssi=-85.7 dBm, ~11.7 m)  *** RESTRICTED ***"
+2026-09-24T17:34:57.990,744.949,MR-in,"[ALERT] {""device_id"":""wearable-01"",""type"":""zone_restricted"",""detail"":""medicine_room"",""zone"":""medicine_room"",""zone_id"":11,""batt_pct"":0,""hr_bpm"":-1,""uptime_s"":744}"
+2026-09-24T17:34:58.322,745.282,MR-in,[RSSI] bedroom_wing=-94 dining_hall=-96 medicine_room=-85
+2026-09-24T17:34:58.332,745.292,MR-in,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:34:59.326,746.286,MR-in,[RSSI] bedroom_wing=-94 dining_hall=-100 medicine_room=-91
+2026-09-24T17:34:59.333,746.293,MR-in,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:35:00.327,747.287,transit,[RSSI] bedroom_wing=-91 dining_hall=-99 medicine_room=-88
+2026-09-24T17:35:00.333,747.293,transit,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:35:01.329,748.289,transit,[RSSI] bedroom_wing=-88 dining_hall=-93 medicine_room=-84
+2026-09-24T17:35:01.332,748.292,transit,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:35:02.329,749.289,transit,[RSSI] bedroom_wing=-84 dining_hall=-94 medicine_room=-78
+2026-09-24T17:35:02.336,749.296,transit,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:35:03.329,750.289,transit,[RSSI] bedroom_wing=-84 dining_hall=-88 medicine_room=-78
+2026-09-24T17:35:03.332,750.292,transit,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:35:04.332,751.292,transit,[RSSI] bedroom_wing=-82 dining_hall=-90 medicine_room=-78
+2026-09-24T17:35:04.336,751.296,transit,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:35:05.332,752.292,transit,[RSSI] bedroom_wing=-81 dining_hall=-88 medicine_room=-86
+2026-09-24T17:35:05.337,752.297,transit,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:35:06.333,753.293,transit,[RSSI] bedroom_wing=-84 dining_hall=-91 medicine_room=-85
+2026-09-24T17:35:06.341,753.301,transit,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:35:07.334,754.294,transit,[RSSI] bedroom_wing=-83 dining_hall=-91 medicine_room=-85
+2026-09-24T17:35:07.339,754.299,transit,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:35:08.336,755.296,transit,[RSSI] bedroom_wing=-83 dining_hall=-93 medicine_room=-83
+2026-09-24T17:35:08.341,755.301,transit,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:35:09.336,756.296,transit,[RSSI] bedroom_wing=-85 dining_hall=-91 medicine_room=-88
+2026-09-24T17:35:09.344,756.304,transit,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:35:10.336,757.296,transit,[RSSI] bedroom_wing=-85 dining_hall=-92 medicine_room=-82
+2026-09-24T17:35:10.343,757.302,transit,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:35:11.338,758.298,transit,[RSSI] bedroom_wing=-84 dining_hall=-96 medicine_room=-82
+2026-09-24T17:35:11.343,758.303,transit,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:35:12.339,759.299,transit,[RSSI] bedroom_wing=-84 dining_hall=-94 medicine_room=-80
+2026-09-24T17:35:12.345,759.305,transit,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:35:13.341,760.300,transit,[RSSI] bedroom_wing=-86 dining_hall=-95 medicine_room=-81
+2026-09-24T17:35:13.346,760.306,transit,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:35:14.341,761.301,MR-far,[RSSI] bedroom_wing=-84 dining_hall=-94 medicine_room=-83
+2026-09-24T17:35:14.346,761.306,MR-far,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:35:15.342,762.302,MR-far,[RSSI] bedroom_wing=-90 dining_hall=-93 medicine_room=-84
+2026-09-24T17:35:15.349,762.309,MR-far,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:35:16.343,763.303,MR-far,[RSSI] bedroom_wing=-94 dining_hall=-93 medicine_room=-82
+2026-09-24T17:35:16.350,763.310,MR-far,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:35:17.344,764.304,MR-far,[RSSI] bedroom_wing=-87 dining_hall=-94 medicine_room=-80
+2026-09-24T17:35:17.349,764.309,MR-far,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:35:18.345,765.304,MR-far,[RSSI] bedroom_wing=-83 dining_hall=-96 medicine_room=-80
+2026-09-24T17:35:18.351,765.310,MR-far,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:35:19.346,766.306,MR-far,[RSSI] bedroom_wing=-85 dining_hall=-96 medicine_room=-81
+2026-09-24T17:35:19.352,766.312,MR-far,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:35:20.347,767.307,MR-far,[RSSI] bedroom_wing=-83 dining_hall=-95 medicine_room=-82
+2026-09-24T17:35:20.353,767.313,MR-far,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:35:21.348,768.308,MR-far,[RSSI] bedroom_wing=-84 dining_hall=-99 medicine_room=-82
+2026-09-24T17:35:21.350,768.310,MR-far,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:35:22.350,769.310,MR-far,[RSSI] bedroom_wing=-84 dining_hall=-97 medicine_room=-83
+2026-09-24T17:35:22.355,769.315,MR-far,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:35:23.350,770.310,MR-far,[RSSI] bedroom_wing=-83 dining_hall=-96 medicine_room=-81
+2026-09-24T17:35:23.355,770.315,MR-far,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:35:24.351,771.311,MR-far,[RSSI] bedroom_wing=-88 dining_hall=-96 medicine_room=-83
+2026-09-24T17:35:24.357,771.317,MR-far,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:35:25.352,772.312,MR-far,[RSSI] bedroom_wing=-84 dining_hall=-98 medicine_room=-81
+2026-09-24T17:35:25.357,772.317,MR-far,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:35:26.347,773.307,MR-far,[RSSI] bedroom_wing=-82 dining_hall=-100 medicine_room=-82
+2026-09-24T17:35:26.361,773.321,MR-far,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:35:27.354,774.314,MR-far,[RSSI] bedroom_wing=-82 dining_hall=-95 medicine_room=-83
+2026-09-24T17:35:27.361,774.321,MR-far,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:35:28.356,775.315,MR-far,[RSSI] bedroom_wing=-83 dining_hall=-96 medicine_room=-81
+2026-09-24T17:35:28.365,775.325,MR-far,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:35:29.357,776.317,MR-far,[RSSI] bedroom_wing=-82 dining_hall=-99 medicine_room=-82
+2026-09-24T17:35:29.360,776.320,MR-far,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:35:30.357,777.317,MR-far,[RSSI] bedroom_wing=-82 dining_hall=-97 medicine_room=-83
+2026-09-24T17:35:30.363,777.322,MR-far,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:35:31.356,778.316,MR-far,[RSSI] bedroom_wing=-84 dining_hall=-97 medicine_room=-82
+2026-09-24T17:35:31.364,778.323,MR-far,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:35:32.356,779.316,MR-far,[RSSI] bedroom_wing=-82 dining_hall=-97 medicine_room=-80
+2026-09-24T17:35:32.356,779.316,MR-far,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:35:33.360,780.320,MR-far,[RSSI] bedroom_wing=-82 dining_hall=-97 medicine_room=-82
+2026-09-24T17:35:33.363,780.323,MR-far,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:35:34.162,781.122,MR-far,[NET] Offline. Queued events: 24 (dropped 166)
+2026-09-24T17:35:34.357,781.316,MR-far,[RSSI] bedroom_wing=-84 dining_hall=-95 medicine_room=-80
+2026-09-24T17:35:34.370,781.330,MR-far,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:35:35.363,782.323,MR-far,[RSSI] bedroom_wing=-82 dining_hall=-93 medicine_room=-81
+2026-09-24T17:35:35.368,782.327,MR-far,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:35:36.364,783.324,MR-far,[RSSI] bedroom_wing=-83 dining_hall=-93 medicine_room=-81
+2026-09-24T17:35:36.369,783.329,MR-far,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:35:37.365,784.325,MR-far,[RSSI] bedroom_wing=-83 dining_hall=-93 medicine_room=-82
+2026-09-24T17:35:37.372,784.332,MR-far,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:35:38.365,785.324,MR-far,[RSSI] bedroom_wing=-84 dining_hall=-94 medicine_room=-81
+2026-09-24T17:35:38.370,785.330,MR-far,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:35:39.365,786.325,MR-far,[RSSI] bedroom_wing=-86 dining_hall=-94 medicine_room=-83
+2026-09-24T17:35:39.375,786.334,MR-far,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:35:40.357,787.317,MR-far,[RSSI] bedroom_wing=-88 dining_hall=-93 medicine_room=-81
+2026-09-24T17:35:40.373,787.333,MR-far,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:35:41.367,788.327,MR-far,[RSSI] bedroom_wing=-90 dining_hall=-93 medicine_room=-80
+2026-09-24T17:35:41.373,788.334,MR-far,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:35:42.365,789.325,MR-far,[RSSI] bedroom_wing=-85 dining_hall=-94 medicine_room=-82
+2026-09-24T17:35:42.374,789.334,MR-far,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:35:43.371,790.331,MR-far,[RSSI] bedroom_wing=-87 dining_hall=-94 medicine_room=-85
+2026-09-24T17:35:43.378,790.337,MR-far,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:35:44.372,791.332,MR-far,[RSSI] bedroom_wing=-85 dining_hall=-92 medicine_room=-86
+2026-09-24T17:35:44.376,791.336,MR-far,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:35:45.371,792.332,MR-far,[RSSI] bedroom_wing=-89 dining_hall=-92 medicine_room=-85
+2026-09-24T17:35:45.377,792.337,MR-far,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:35:46.373,793.333,MR-far,[RSSI] bedroom_wing=-85 dining_hall=-92 medicine_room=-85
+2026-09-24T17:35:46.378,793.338,MR-far,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:35:47.374,794.334,transit,[RSSI] bedroom_wing=-89 dining_hall=-92 medicine_room=-84
+2026-09-24T17:35:47.377,794.337,transit,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:35:48.374,795.333,transit,[RSSI] bedroom_wing=-84 dining_hall=-90 medicine_room=-87
+2026-09-24T17:35:48.379,795.339,transit,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:35:49.376,796.336,transit,[RSSI] bedroom_wing=-86 dining_hall=-89 medicine_room=-87
+2026-09-24T17:35:49.382,796.342,transit,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:35:50.378,797.337,transit,[RSSI] bedroom_wing=-78 dining_hall=-92 medicine_room=-84
+2026-09-24T17:35:50.384,797.343,transit,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:35:50.823,797.783,transit,"[ZONE] -> bedroom_wing (id=1, rssi=-76.3 dBm, ~4.9 m)"
+2026-09-24T17:35:50.840,797.799,transit,"[ALERT] {""device_id"":""wearable-01"",""type"":""zone_change"",""detail"":""bedroom_wing"",""zone"":""bedroom_wing"",""zone_id"":1,""batt_pct"":0,""hr_bpm"":-1,""uptime_s"":797}"
+2026-09-24T17:35:51.377,798.337,transit,[RSSI] bedroom_wing=-67 dining_hall=-93 medicine_room=-85
+2026-09-24T17:35:51.377,798.337,transit,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:35:52.377,799.337,transit,[RSSI] bedroom_wing=-81 dining_hall=-96 medicine_room=-87
+2026-09-24T17:35:52.377,799.337,transit,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:35:53.380,800.339,transit,[RSSI] bedroom_wing=-85 dining_hall=-94 medicine_room=-83
+2026-09-24T17:35:53.388,800.347,transit,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:35:54.380,801.340,transit,[RSSI] bedroom_wing=-89 dining_hall=-98 medicine_room=-86
+2026-09-24T17:35:54.386,801.346,transit,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:35:55.380,802.339,transit,[RSSI] bedroom_wing=-89 dining_hall=-96 medicine_room=-90
+2026-09-24T17:35:55.386,802.345,transit,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:35:56.379,803.339,transit,[RSSI] bedroom_wing=-88 dining_hall=-95 medicine_room=-84
+2026-09-24T17:35:56.384,803.343,transit,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:35:57.384,804.344,MR-mid,[RSSI] bedroom_wing=-85 dining_hall=-92 medicine_room=-79
+2026-09-24T17:35:57.389,804.349,MR-mid,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:35:58.384,805.344,MR-mid,[RSSI] bedroom_wing=-83 dining_hall=-89 medicine_room=-84
+2026-09-24T17:35:58.391,805.351,MR-mid,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:35:59.385,806.345,MR-mid,[RSSI] bedroom_wing=-83 dining_hall=-88 medicine_room=-83
+2026-09-24T17:35:59.391,806.351,MR-mid,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:36:00.386,807.345,MR-mid,[RSSI] bedroom_wing=-85 dining_hall=-91 medicine_room=-82
+2026-09-24T17:36:00.392,807.351,MR-mid,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:36:01.387,808.347,MR-mid,[RSSI] bedroom_wing=-85 dining_hall=-93 medicine_room=-87
+2026-09-24T17:36:01.393,808.352,MR-mid,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:36:02.387,809.347,MR-mid,[RSSI] bedroom_wing=-84 dining_hall=-97 medicine_room=-87
+2026-09-24T17:36:02.393,809.353,MR-mid,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:36:03.389,810.349,MR-mid,[RSSI] bedroom_wing=-86 dining_hall=-93 medicine_room=-86
+2026-09-24T17:36:03.391,810.351,MR-mid,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:36:04.391,811.351,MR-mid,[RSSI] bedroom_wing=-86 dining_hall=-95 medicine_room=-85
+2026-09-24T17:36:04.398,811.358,MR-mid,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:36:05.391,812.350,MR-mid,[RSSI] bedroom_wing=-85 dining_hall=-94 medicine_room=-84
+2026-09-24T17:36:05.399,812.358,MR-mid,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:36:06.392,813.351,MR-mid,[RSSI] bedroom_wing=-87 dining_hall=-96 medicine_room=-87
+2026-09-24T17:36:06.398,813.357,MR-mid,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:36:07.392,814.352,MR-mid,[RSSI] bedroom_wing=-86 dining_hall=-92 medicine_room=-85
+2026-09-24T17:36:07.397,814.357,MR-mid,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:36:08.394,815.354,MR-mid,[RSSI] bedroom_wing=-86 dining_hall=-94 medicine_room=-86
+2026-09-24T17:36:08.402,815.362,MR-mid,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:36:09.395,816.355,MR-mid,[RSSI] bedroom_wing=-85 dining_hall=-93 medicine_room=-84
+2026-09-24T17:36:09.400,816.360,MR-mid,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:36:10.396,817.356,MR-mid,[RSSI] bedroom_wing=-84 dining_hall=-93 medicine_room=-83
+2026-09-24T17:36:10.401,817.361,MR-mid,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:36:11.397,818.357,MR-mid,[RSSI] bedroom_wing=-85 dining_hall=-92 medicine_room=-83
+2026-09-24T17:36:11.405,818.365,MR-mid,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:36:12.398,819.358,MR-mid,[RSSI] bedroom_wing=-86 dining_hall=-93 medicine_room=-83
+2026-09-24T17:36:12.403,819.363,MR-mid,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:36:13.398,820.357,MR-mid,[RSSI] bedroom_wing=-84 dining_hall=-92 medicine_room=-83
+2026-09-24T17:36:13.407,820.366,MR-mid,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:36:14.400,821.359,MR-mid,[RSSI] bedroom_wing=-86 dining_hall=-90 medicine_room=-82
+2026-09-24T17:36:14.408,821.368,MR-mid,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:36:15.400,822.360,MR-mid,[RSSI] bedroom_wing=-86 dining_hall=-91 medicine_room=-85
+2026-09-24T17:36:15.408,822.368,MR-mid,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:36:16.402,823.362,MR-mid,[RSSI] bedroom_wing=-86 dining_hall=-91 medicine_room=-87
+2026-09-24T17:36:16.411,823.371,MR-mid,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:36:17.402,824.362,MR-mid,[RSSI] bedroom_wing=-85 dining_hall=-91 medicine_room=-87
+2026-09-24T17:36:17.408,824.368,MR-mid,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:36:18.404,825.364,MR-mid,[RSSI] bedroom_wing=-83 dining_hall=-90 medicine_room=-84
+2026-09-24T17:36:18.413,825.372,MR-mid,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:36:19.407,826.367,MR-mid,[RSSI] bedroom_wing=-86 dining_hall=-90 medicine_room=-84
+2026-09-24T17:36:19.411,826.371,MR-mid,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:36:20.405,827.364,MR-mid,[RSSI] bedroom_wing=-83 dining_hall=-95 medicine_room=-84
+2026-09-24T17:36:20.407,827.367,MR-mid,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:36:21.407,828.367,MR-mid,[RSSI] bedroom_wing=-82 dining_hall=-88 medicine_room=-85
+2026-09-24T17:36:21.412,828.372,MR-mid,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:36:22.407,829.367,MR-mid,[RSSI] bedroom_wing=-86 dining_hall=-95 medicine_room=-84
+2026-09-24T17:36:22.413,829.373,MR-mid,[STAT] zone=bedroom_wing hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:36:23.261,830.221,MR-mid,"[ZONE] -> medicine_room (id=11, rssi=-81.2 dBm, ~7.8 m)  *** RESTRICTED ***"
+2026-09-24T17:36:23.275,830.235,MR-mid,"[ALERT] {""device_id"":""wearable-01"",""type"":""zone_restricted"",""detail"":""medicine_room"",""zone"":""medicine_room"",""zone_id"":11,""batt_pct"":0,""hr_bpm"":-1,""uptime_s"":829}"
+2026-09-24T17:36:23.408,830.368,MR-mid,[RSSI] bedroom_wing=-84 dining_hall=-93 medicine_room=-82
+2026-09-24T17:36:23.419,830.378,MR-mid,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:36:24.408,831.368,MR-mid,[RSSI] bedroom_wing=-91 dining_hall=-94 medicine_room=-84
+2026-09-24T17:36:24.414,831.374,MR-mid,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:36:25.409,832.369,MR-mid,[RSSI] bedroom_wing=-91 dining_hall=-95 medicine_room=-83
+2026-09-24T17:36:25.416,832.375,MR-mid,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:36:26.412,833.371,MR-mid,[RSSI] bedroom_wing=-94 dining_hall=-95 medicine_room=-80
+2026-09-24T17:36:26.419,833.378,MR-mid,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:36:27.411,834.372,transit,[RSSI] bedroom_wing=-85 dining_hall=-91 medicine_room=-81
+2026-09-24T17:36:27.419,834.378,transit,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:36:28.413,835.373,transit,[RSSI] bedroom_wing=-85 dining_hall=-92 medicine_room=-82
+2026-09-24T17:36:28.419,835.379,transit,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:36:29.413,836.373,transit,[RSSI] bedroom_wing=-80 dining_hall=-91 medicine_room=-71
+2026-09-24T17:36:29.419,836.380,transit,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:36:30.414,837.373,transit,[RSSI] bedroom_wing=-81 dining_hall=-90 medicine_room=-73
+2026-09-24T17:36:30.422,837.381,transit,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:36:31.416,838.375,transit,[RSSI] bedroom_wing=-80 dining_hall=-86 medicine_room=-70
+2026-09-24T17:36:31.423,838.382,transit,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:36:32.416,839.376,transit,[RSSI] bedroom_wing=-85 dining_hall=-94 medicine_room=-69
+2026-09-24T17:36:32.422,839.382,transit,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:36:33.419,840.378,transit,[RSSI] bedroom_wing=-89 dining_hall=-94 medicine_room=-67
+2026-09-24T17:36:33.419,840.385,transit,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:36:34.196,841.156,transit,[NET] Offline. Queued events: 24 (dropped 180)
+2026-09-24T17:36:34.411,841.371,transit,[RSSI] bedroom_wing=-93 dining_hall=-92 medicine_room=-64
+2026-09-24T17:36:34.428,841.388,transit,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:36:35.420,842.380,transit,[RSSI] bedroom_wing=-87 dining_hall=-92 medicine_room=-66
+2026-09-24T17:36:35.425,842.385,transit,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:36:36.420,843.380,transit,[RSSI] bedroom_wing=-91 dining_hall=-92 medicine_room=-65
+2026-09-24T17:36:36.426,843.385,transit,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:36:37.422,844.382,transit,[RSSI] bedroom_wing=-87 dining_hall=-95 medicine_room=-64
+2026-09-24T17:36:37.429,844.388,transit,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:36:38.423,845.382,transit,[RSSI] bedroom_wing=-87 dining_hall=-96 medicine_room=-65
+2026-09-24T17:36:38.429,845.388,transit,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:36:39.424,846.383,transit,[RSSI] bedroom_wing=-87 dining_hall=-96 medicine_room=-64
+2026-09-24T17:36:39.429,846.388,transit,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:36:40.425,847.385,MR-near,[RSSI] bedroom_wing=-88 dining_hall=-90 medicine_room=-66
+2026-09-24T17:36:40.432,847.392,MR-near,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:36:41.426,848.386,MR-near,[RSSI] bedroom_wing=-89 dining_hall=-88 medicine_room=-64
+2026-09-24T17:36:41.433,848.393,MR-near,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:36:42.427,849.386,MR-near,[RSSI] bedroom_wing=-91 dining_hall=-89 medicine_room=-65
+2026-09-24T17:36:42.432,849.392,MR-near,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:36:43.427,850.387,MR-near,[RSSI] bedroom_wing=-91 dining_hall=-90 medicine_room=-64
+2026-09-24T17:36:43.433,850.393,MR-near,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:36:44.429,851.389,MR-near,[RSSI] bedroom_wing=-90 dining_hall=-90 medicine_room=-65
+2026-09-24T17:36:44.435,851.395,MR-near,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:36:45.429,852.389,MR-near,[RSSI] bedroom_wing=-88 dining_hall=-90 medicine_room=-65
+2026-09-24T17:36:45.436,852.396,MR-near,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:36:46.430,853.390,MR-near,[RSSI] bedroom_wing=-89 dining_hall=-90 medicine_room=-66
+2026-09-24T17:36:46.440,853.400,MR-near,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:36:47.436,854.396,MR-near,[RSSI] bedroom_wing=-92 dining_hall=-91 medicine_room=-66
+2026-09-24T17:36:47.442,854.402,MR-near,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:36:48.432,855.392,MR-near,[RSSI] bedroom_wing=-91 dining_hall=-91 medicine_room=-65
+2026-09-24T17:36:48.432,855.392,MR-near,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:36:49.434,856.393,MR-near,[RSSI] bedroom_wing=-88 dining_hall=-90 medicine_room=-66
+2026-09-24T17:36:49.440,856.400,MR-near,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:36:50.434,857.394,MR-near,[RSSI] bedroom_wing=-90 dining_hall=-90 medicine_room=-65
+2026-09-24T17:36:50.443,857.403,MR-near,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:36:51.436,858.396,MR-near,[RSSI] bedroom_wing=-88 dining_hall=-93 medicine_room=-66
+2026-09-24T17:36:51.446,858.406,MR-near,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:36:52.437,859.397,MR-near,[RSSI] bedroom_wing=-91 dining_hall=-92 medicine_room=-65
+2026-09-24T17:36:52.438,859.398,MR-near,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:36:53.437,860.397,MR-near,[RSSI] bedroom_wing=-87 dining_hall=-91 medicine_room=-65
+2026-09-24T17:36:53.443,860.403,MR-near,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:36:54.439,861.399,MR-near,[RSSI] bedroom_wing=-92 dining_hall=-94 medicine_room=-65
+2026-09-24T17:36:54.447,861.407,MR-near,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:36:55.439,862.399,MR-near,[RSSI] bedroom_wing=-88 dining_hall=-91 medicine_room=-66
+2026-09-24T17:36:55.448,862.407,MR-near,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:36:56.441,863.400,MR-near,[RSSI] bedroom_wing=-88 dining_hall=-91 medicine_room=-64
+2026-09-24T17:36:56.446,863.406,MR-near,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:36:57.442,864.401,MR-near,[RSSI] bedroom_wing=-88 dining_hall=-90 medicine_room=-64
+2026-09-24T17:36:57.451,864.410,MR-near,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:36:58.442,865.402,MR-near,[RSSI] bedroom_wing=-89 dining_hall=-91 medicine_room=-64
+2026-09-24T17:36:58.452,865.412,MR-near,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:36:59.443,866.403,MR-near,[RSSI] bedroom_wing=-90 dining_hall=-90 medicine_room=-64
+2026-09-24T17:36:59.449,866.409,MR-near,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:37:00.444,867.404,MR-near,[RSSI] bedroom_wing=-90 dining_hall=-91 medicine_room=-65
+2026-09-24T17:37:00.450,867.409,MR-near,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:37:01.446,868.406,MR-near,[RSSI] bedroom_wing=-91 dining_hall=-89 medicine_room=-65
+2026-09-24T17:37:01.454,868.414,MR-near,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:37:02.447,869.406,MR-near,[RSSI] bedroom_wing=-88 dining_hall=-90 medicine_room=-64
+2026-09-24T17:37:02.453,869.412,MR-near,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:37:03.447,870.407,MR-near,[RSSI] bedroom_wing=-88 dining_hall=-88 medicine_room=-65
+2026-09-24T17:37:03.453,870.413,MR-near,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:37:04.450,871.409,MR-near,[RSSI] bedroom_wing=-87 dining_hall=-91 medicine_room=-64
+2026-09-24T17:37:04.458,871.417,MR-near,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:37:05.450,872.409,MR-near,[RSSI] bedroom_wing=-90 dining_hall=-88 medicine_room=-64
+2026-09-24T17:37:05.455,872.416,MR-near,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24
+2026-09-24T17:37:06.450,873.410,MR-near,[RSSI] bedroom_wing=-88 dining_hall=-88 medicine_room=-64
+2026-09-24T17:37:06.456,873.416,MR-near,[STAT] zone=medicine_room hr=0 batt=0% sos=no wifi=down q=24

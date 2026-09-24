@@ -1,0 +1,53 @@
+iso_time,elapsed_s,label,line
+2026-09-24T17:43:19.198,0.008,transit,"0x1 (POWERON_RESET),boot:0x13 (SPI_FAST_FLASH_BOOT)"
+2026-09-24T17:43:19.201,0.010,transit,"configsip: 0, SPIWP:0xee"
+2026-09-24T17:43:19.207,0.017,transit,"clk_drv:0x00,q_drv:0x00,d_drv:0x00,cs0_drv:0x00,hd_drv:0x00,wp_drv:0x00"
+2026-09-24T17:43:19.207,0.017,transit,"mode:DIO, clock div:2"
+2026-09-24T17:43:19.211,0.021,transit,"load:0x3fff0030,len:1184"
+2026-09-24T17:43:19.213,0.022,transit,"load:0x40078000,len:13232"
+2026-09-24T17:43:19.213,0.022,transit,"load:0x40080400,len:3028"
+2026-09-24T17:43:19.213,0.022,transit,entry 0x400805e4
+2026-09-24T17:43:20.094,0.903,transit,========================================
+2026-09-24T17:43:20.094,0.903,transit,TroDes Phase 1 - Wearable
+2026-09-24T17:43:20.094,0.903,transit,Device   : wearable-01 (Resident 1)
+2026-09-24T17:43:20.108,0.918,transit,UUID     : 5ca9015e-adc8-40a9-a1e2-d539f3b065bd  major=1
+2026-09-24T17:43:20.110,0.919,transit,Zones    : 3
+2026-09-24T17:43:20.112,0.921,transit,"SOS long : 3000 ms (proposed, unconfirmed)"
+2026-09-24T17:43:20.114,0.924,transit,========================================
+2026-09-24T17:43:20.125,0.934,transit,[   343][E][Wire.cpp:499] requestFrom(): i2cWriteReadNonStop returned Error -1
+2026-09-24T17:43:20.125,0.934,transit,[HR] MAX30102 NOT found - heart rate disabled.
+2026-09-24T17:43:20.135,0.945,transit,[   344][E][Wire.cpp:499] requestFrom(): i2cWriteReadNonStop returned Error -1
+2026-09-24T17:43:20.181,0.991,transit,[   400][E][Wire.cpp:499] requestFrom(): i2cWriteReadNonStop returned Error -1
+2026-09-24T17:43:20.230,1.039,transit,[   450][E][Wire.cpp:499] requestFrom(): i2cWriteReadNonStop returned Error -1
+2026-09-24T17:43:20.277,1.086,transit,[BATT] MAX17043 NOT found - using ADC divider on GPIO 34.
+2026-09-24T17:43:20.281,1.090,transit,"[SYS] Running. Short press = SOS, long press = dismiss."
+2026-09-24T17:43:20.290,1.099,transit,[NET] WIFI_SSID is empty - running offline.
+2026-09-24T17:43:20.293,1.102,transit,[NET] This is fine for Phase 1: zone detection is proven
+2026-09-24T17:43:20.295,1.104,transit,      over Serial and needs no backend.
+2026-09-24T17:43:20.778,1.587,transit,[RSSI] bedroom_wing=-- dining_hall=-- medicine_room=--
+2026-09-24T17:43:20.783,1.593,transit,[STAT] zone=unknown hr=0 batt=-1% sos=no wifi=down q=0
+2026-09-24T17:43:20.994,1.804,transit,[BLE] Scanner running.
+2026-09-24T17:43:21.181,1.991,transit,"[ZONE] -> bedroom_wing (id=1, rssi=-85.0 dBm, ~11.0 m)"
+2026-09-24T17:43:21.194,2.003,transit,"[ALERT] {""device_id"":""wearable-01"",""type"":""zone_change"",""detail"":""bedroom_wing"",""zone"":""bedroom_wing"",""zone_id"":1,""batt_pct"":-1,""hr_bpm"":-1,""uptime_s"":1}"
+2026-09-24T17:43:21.780,2.589,transit,[RSSI] bedroom_wing=-84 dining_hall=-- medicine_room=-84
+2026-09-24T17:43:21.787,2.596,transit,[STAT] zone=bedroom_wing hr=0 batt=-1% sos=no wifi=down q=1
+2026-09-24T17:43:22.781,3.590,transit,[RSSI] bedroom_wing=-87 dining_hall=-- medicine_room=-86
+2026-09-24T17:43:22.786,3.595,transit,[STAT] zone=bedroom_wing hr=0 batt=-1% sos=no wifi=down q=1
+2026-09-24T17:43:23.782,4.591,transit,[RSSI] bedroom_wing=-87 dining_hall=-- medicine_room=-84
+2026-09-24T17:43:23.789,4.598,transit,[STAT] zone=bedroom_wing hr=0 batt=-1% sos=no wifi=down q=1
+2026-09-24T17:43:24.783,5.592,transit,[RSSI] bedroom_wing=-86 dining_hall=-- medicine_room=-83
+2026-09-24T17:43:24.788,5.597,transit,[STAT] zone=bedroom_wing hr=0 batt=-1% sos=no wifi=down q=1
+2026-09-24T17:43:25.784,6.593,transit,[RSSI] bedroom_wing=-87 dining_hall=-- medicine_room=-86
+2026-09-24T17:43:25.789,6.598,transit,[STAT] zone=bedroom_wing hr=0 batt=-1% sos=no wifi=down q=2
+2026-09-24T17:43:26.786,7.595,transit,[RSSI] bedroom_wing=-87 dining_hall=-- medicine_room=-83
+2026-09-24T17:43:26.793,7.603,transit,[STAT] zone=bedroom_wing hr=0 batt=-1% sos=no wifi=down q=2
+2026-09-24T17:43:27.489,8.298,transit,"[ZONE] -> medicine_room (id=11, rssi=-81.7 dBm, ~8.1 m)  *** RESTRICTED ***"
+2026-09-24T17:43:27.505,8.315,transit,"[ALERT] {""device_id"":""wearable-01"",""type"":""zone_restricted"",""detail"":""medicine_room"",""zone"":""medicine_room"",""zone_id"":11,""batt_pct"":-1,""hr_bpm"":-1,""uptime_s"":7}"
+2026-09-24T17:43:27.785,8.595,transit,[RSSI] bedroom_wing=-86 dining_hall=-- medicine_room=-84
+2026-09-24T17:43:27.794,8.604,transit,[STAT] zone=medicine_room hr=0 batt=-1% sos=no wifi=down q=3
+2026-09-24T17:43:28.786,9.595,transit,[RSSI] bedroom_wing=-87 dining_hall=-- medicine_room=-83
+2026-09-24T17:43:28.792,9.601,transit,[STAT] zone=medicine_room hr=0 batt=-1% sos=no wifi=down q=3
+2026-09-24T17:43:29.788,10.597,transit,[RSSI] bedroom_wing=-88 dining_hall=-- medicine_room=-83
+2026-09-24T17:43:29.793,10.602,transit,[STAT] zone=medicine_room hr=0 batt=-1% sos=no wifi=down q=3
+2026-09-24T17:43:30.787,11.597,transit,[RSSI] bedroom_wing=-87 dining_hall=-- medicine_room=-82
+2026-09-24T17:43:30.796,11.606,transit,[STAT] zone=medicine_room hr=0 batt=-1% sos=no wifi=down q=4

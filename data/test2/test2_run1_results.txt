@@ -1,0 +1,74 @@
+
+Zone classification - 1 file(s), 495 samples (settle window 5.0s discarded)
+Overall accuracy: 278/495 = 56.2%
+Unresolved ('unknown'): 115/495 = 23.2%
+
+Confusion matrix (rows = true, cols = reported):
+
+                  bedroom_wing    dining_hall  medicine_room        unknown          total
+bedroom_wing               134              0             79             58            271
+dining_hall                  0             88              0             16            104
+medicine_room               23              0             56             41            120
+
+Per-zone metrics:
+
+zone                        n   precision    recall       F1
+------------------------------------------------------------
+bedroom_wing              271       0.854     0.494    0.626
+dining_hall               104       1.000     0.846    0.917
+medicine_room             120       0.415     0.467    0.439
+
+Per sample point:
+
+point                              n   correct  unresolved  most common wrong answer
+--------------------------------------------------------------------------------------
+bedroom_wing@BW-near             113       83%          0%  medicine_room (17%)
+bedroom_wing@BW-near-2            28       93%          0%  medicine_room (7%)
+bedroom_wing@BW-mid               41        0%          0%  medicine_room (100%)
+bedroom_wing@BW-far               17        0%          0%  medicine_room (100%)
+bedroom_wing@BW-bnd-in            26       54%         46%  -
+bedroom_wing@BW-bnd-out           46        0%        100%  -
+dining_hall@DH-bnd-out            12        0%        100%  -
+dining_hall@DH-bnd-in             24       83%         17%  -
+dining_hall@DH-far                19      100%          0%  -
+dining_hall@DH-mid                18      100%          0%  -
+dining_hall@DH-near               31      100%          0%  -
+medicine_room@MR-bnd-out          20        0%        100%  -
+medicine_room@MR-bnd-in           25        8%         84%  bedroom_wing (8%)
+medicine_room@MR-far              28      100%          0%  -
+medicine_room@MR-mid              25       16%          0%  bedroom_wing (84%)
+medicine_room@MR-near             22      100%          0%  -
+
+Most common misclassifications:
+  bedroom_wing           reported as medicine_room             79 (16.0% of all samples)
+  bedroom_wing           reported as unknown                   58 (11.7% of all samples)
+  medicine_room          reported as unknown                   41 (8.3% of all samples)
+  medicine_room          reported as bedroom_wing              23 (4.6% of all samples)
+  dining_hall            reported as unknown                   16 (3.2% of all samples)
+
+Stability (Test 3):
+  Reported-zone changes while the tester stayed put: 12
+  Flicker rate: 1.50 changes per minute of stationary time
+
+  Per stationary segment:
+  label                    seconds   changes
+  bedroom_wing@BW-near       112.1         1
+  bedroom_wing@BW-near-2      27.0         2
+  bedroom_wing@BW-mid         40.0         0
+  bedroom_wing@BW-far         16.0         0
+  bedroom_wing@BW-bnd-in      25.0         5
+  bedroom_wing@BW-bnd-out      45.0         0
+  dining_hall@DH-bnd-out      11.0         0
+  dining_hall@DH-bnd-in       23.0         1
+  dining_hall@DH-far          18.0         0
+  dining_hall@DH-mid          17.0         0
+  dining_hall@DH-near         30.0         0
+  medicine_room@MR-bnd-out      19.0         0
+  medicine_room@MR-bnd-in      24.0         2
+  medicine_room@MR-far        27.0         0
+  medicine_room@MR-mid        24.0         1
+  medicine_room@MR-near       21.0         0
+
+  Dwell time between reported-zone changes: n=18 mean=41.48s median=20.52s min=1.00s
+  NOTE: a sub-second dwell means the zone flipped and flipped back almost immediately. Raise HYSTERESIS_DB or CONFIRM_TICKS in wearable/include/config.h and re-run this test.
+
