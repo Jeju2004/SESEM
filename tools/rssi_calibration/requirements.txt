@@ -1,0 +1,6 @@
+# Only pyserial is required to CAPTURE logs.
+pyserial>=3.5
+
+# Only needed if you want the optional PNG plots from the analysis scripts.
+# The numbers themselves are computed in pure Python and work without these.
+matplotlib>=3.5

@@ -1,0 +1,14 @@
+.pio/
+__pycache__/
+*.pyc
+*.csv
+*.png
+*.bak
+
+# Dashboard / database
+*.db
+*.sqlite
+*.sqlite3
+.venv/
+venv/
+.env
