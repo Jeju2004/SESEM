@@ -5,6 +5,10 @@ why, and whether it has been verified on hardware.
 
 ## 2026-09-24
 
+- Added `tools/vault_sync/Sync-TroDesVault.ps1`: two-way, newest-wins sync between the
+  Obsidian vault (`Jeju_Data\TroDes - Elderly Monitoring`) and the SESEM folder,
+  with folder mapping and backups of overwritten files. Supports `-WhatIf`.
+
 - Seeded the repository from the vault's `Firmware/trodes_phase1` package
   (state as of 2026-09-21): `firmware/` (beacon_node, wearable, door_sensor),
   `tools/rssi_calibration/`, `docs/`, `CLAUDE.md`, `AGENTS.md`.
