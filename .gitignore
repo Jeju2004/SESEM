@@ -12,3 +12,6 @@ __pycache__/
 .venv/
 venv/
 .env
+
+# Firmware credentials (WiFi password, backend address)
+firmware/**/secrets.h

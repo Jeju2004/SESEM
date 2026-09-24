@@ -365,10 +365,10 @@ static void taskBle(void *arg) {
   BLEDevice::init("");
   BLEScan *scan = BLEDevice::getScan();
   scan->setAdvertisedDeviceCallbacks(new BeaconCallbacks(), /*wantDuplicates=*/true);
-  // Active scan pulls the beacon's scan response (its readable name) too.
-  // It costs more current than a passive scan; if battery runtime becomes the
-  // binding constraint, this is the first knob to turn.
-  scan->setActiveScan(true);
+  // Active scan also pulls each beacon's scan response (its readable name),
+  // which costs transmit current; zone detection never needs it. POWER_PROFILE
+  // 1 turns it off.
+  scan->setActiveScan(SCAN_ACTIVE);
   scan->setInterval(SCAN_INTERVAL);
   scan->setWindow(SCAN_WINDOW);
 
@@ -416,7 +416,9 @@ static void classifyZone() {
     }
     gCandidateIdx = -1;
   } else if (curIdx < 0) {
-    newIdx = bestIdx;                       // first fix — take it immediately
+    // First fix — take it immediately, but in proximity mode only once the
+    // wearable is actually close to a beacon.
+    if (bestRssi >= ZONE_ENTRY_DBM) newIdx = bestIdx;
     gCandidateIdx = -1;
     gCandidateTicks = 0;
   } else if (bestIdx == curIdx) {
@@ -425,8 +427,10 @@ static void classifyZone() {
   } else {
     // A challenger must beat the incumbent by HYSTERESIS_DB, and keep doing so
     // for CONFIRM_TICKS consecutive ticks, before the zone actually changes.
-    // This is what stops the dashboard flickering on a zone boundary.
-    if (bestRssi > curRssi + HYSTERESIS_DB) {
+    // This is what stops the dashboard flickering on a zone boundary. In
+    // proximity mode it must also be above ZONE_ENTRY_DBM, so walking across
+    // a shared room keeps the last zone until the next beacon is close.
+    if (bestRssi > curRssi + HYSTERESIS_DB && bestRssi >= ZONE_ENTRY_DBM) {
       if (bestIdx == gCandidateIdx) {
         if (++gCandidateTicks >= CONFIRM_TICKS) {
           newIdx = bestIdx;
@@ -763,6 +767,10 @@ static void printStatusLine() {
 // =============================================================================
 
 void setup() {
+  // Before anything else starts: the radio stacks and LEDC run from the 80 MHz
+  // APB clock, which stays fixed whatever the CPU clock is.
+  setCpuFrequencyMhz(CPU_FREQ_MHZ);
+
   Serial.begin(115200);
   delay(300);
 
@@ -773,6 +781,16 @@ void setup() {
   Serial.printf("UUID     : %s  major=%d\n", BEACON_UUID, BEACON_MAJOR);
   Serial.printf("Zones    : %u\n", (unsigned)kZoneCount);
   Serial.printf("SOS long : %d ms (proposed, unconfirmed)\n", SOS_LONG_PRESS_MS);
+  Serial.printf("Power    : profile %d - CPU %lu MHz, %s scan %d%% duty, status every %d s\n",
+                POWER_PROFILE, (unsigned long)getCpuFrequencyMhz(),
+                SCAN_ACTIVE ? "active" : "passive",
+                (100 * SCAN_WINDOW) / SCAN_INTERVAL, STATUS_REPORT_PERIOD_MS / 1000);
+  if (ZONE_ENTRY_DBM > -900.0f) {
+    Serial.printf("Zones    : proximity mode - enter a zone only above %.0f dBm\n",
+                  (float)ZONE_ENTRY_DBM);
+  } else {
+    Serial.println(F("Zones    : room mode - strongest beacon wins (entry threshold off)"));
+  }
   Serial.println(F("========================================"));
 
   if (!parseUuid(BEACON_UUID, gUuidBytes)) {

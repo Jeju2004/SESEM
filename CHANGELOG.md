@@ -5,6 +5,24 @@ why, and whether it has been verified on hardware.
 
 ## 2026-09-24
 
+- **Proximity mode** (`ZONE_ENTRY_DBM`, default off = unchanged behaviour):
+  a zone is entered only when its beacon is at least this strong, and between
+  beacons the wearable keeps its last zone. For zones sharing one room (the
+  defense room). Motivated by Test 2 Run 1: in one room only the ~1 m points
+  classified reliably (−65 to −73 dBm); mid-room beacons were within 2–4 dB.
+  Boot log states the mode.
+- **Power profile** (`POWER_PROFILE`, default 0 = unchanged): profile 1 uses
+  a passive scan at 30 % radio duty, CPU 80 MHz and a 10 s status period.
+  Both settings can be overridden with `PLATFORMIO_BUILD_FLAGS` without
+  editing `config.h`. Runtime not yet measured.
+- **Credentials** moved to `firmware/wearable/include/secrets.h` (git-ignored;
+  template `secrets.h.example`); `config.h` falls back to offline defaults.
+- **`tools/runtime/runtime_report.py`**: battery runtime, report gaps and
+  discharge curve (CSV, optional plot) from the dashboard SQLite database.
+- **Verified:** compiles in the default, proximity (−72) and low-power
+  configurations. Not yet flashed; proximity mode and profile 1 untested on
+  hardware. Runtime report tested on a simulator database only.
+
 - **Three-zone demo scope** (adviser-approved 21 Sep): `bedroom_wing` (1),
   `dining_hall` (2), `medicine_room` (11, restricted). Applied to
   `firmware/wearable/include/zone_table.h`, `dashboard/config/zones.json`
