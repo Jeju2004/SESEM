@@ -297,22 +297,23 @@ def build_args() -> argparse.Namespace:
 
 
 # The scripted run for rehearsing the defense. Times are seconds from start,
-# scaled by --speed. Every graded behaviour appears at least once.
+# scaled by --speed. Every graded behaviour appears at least once. Matches the
+# approved demo scope: one wearable, three zones, one door node.
 DEMO_SCRIPT = [
     (10,  "move",        {"who": 0, "zone": "dining_hall"}),
-    (25,  "move",        {"who": 1, "zone": "common_area_garden"}),
+    (25,  "move",        {"who": 0, "zone": "bedroom_wing"}),
     (40,  "door",        {"door": "medicine_room", "state": "open"}),
     (50,  "move",        {"who": 0, "zone": "medicine_room"}),
     (65,  "door",        {"door": "medicine_room", "state": "closed"}),
     (70,  "move",        {"who": 0, "zone": "dining_hall"}),
-    (85,  "sos",         {"who": 1}),
-    (100, "sos_dismiss", {"who": 1}),
+    (85,  "sos",         {"who": 0}),
+    (100, "sos_dismiss", {"who": 0}),
     (115, "zone_lost",   {"who": 0}),
     (130, "move",        {"who": 0, "zone": "bedroom_wing"}),
     (145, "battery",     {"who": 0, "pct": 22}),
     (160, "battery",     {"who": 0, "pct": 11}),
-    (175, "door",        {"door": "main_exit", "state": "open"}),
-    (190, "move",        {"who": 1, "zone": "main_exit"}),
+    (175, "door",        {"door": "medicine_room", "state": "open"}),
+    (190, "door",        {"door": "medicine_room", "state": "closed"}),
 ]
 
 

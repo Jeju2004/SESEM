@@ -85,9 +85,11 @@ dashboard/
 ## Changing the facility
 
 Everything about the facility lives in `config/zones.json` — zone count, names,
-safe/restricted class, door nodes, resident names, and thresholds. The zone
-count is still an open adviser decision, so nothing assumes six. Edit the file
-and restart the backend, or call `GET /api/v1/config?reload=true`.
+safe/restricted class, door nodes, resident names, and thresholds. It is set
+to the approved defense demo: three zones (`bedroom_wing`, `dining_hall`,
+`medicine_room`), one door node and one wearable. Nothing is hard-coded, so to
+add zones edit the file and restart the backend, or call
+`GET /api/v1/config?reload=true`.
 
 Safe zone ids are 1-9, restricted 11-19, matching the firmware.
 

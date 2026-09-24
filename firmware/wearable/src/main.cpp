@@ -6,7 +6,8 @@
 //   * Continuously scans for TroDes iBeacons and decides which ZONE the
 //     resident is in (EMA-smoothed RSSI + hysteresis + confirm ticks).
 //   * SOS button: short press = raise alert, long press = dismiss false alarm.
-//   * Reads heart rate (MAX30102) and battery state of charge (MAX17048).
+//   * Reads heart rate (MAX30102) and battery state of charge (R3/R4 divider
+//     on GPIO 34, or the optional MAX17043 gauge when fitted).
 //   * Reports status to the caregiver backend over WiFi, with an offline
 //     retry queue and a local buzzer/LED fallback when WiFi is down.
 //   * Logs everything to Serial regardless of WiFi, so Phase 1 zone-detection
@@ -518,7 +519,7 @@ static void sosService() {
 // =============================================================================
 
 static MAX30105  gHrSensor;
-static SFE_MAX1704X gGauge(MAX1704X_MAX17048);
+static SFE_MAX1704X gGauge(MAX1704X_MAX17043);   // U3 on the Rev B/C schematic
 
 // Rolling average of the last few beat-to-beat intervals, as in SparkFun's
 // reference example. Optical HR on a wrist is noisy; averaging is not optional.
@@ -546,10 +547,10 @@ static void sensorsInit() {
   if (gGauge.begin()) {
     gGauge.quickStart();
     gGaugePresent = true;
-    Serial.println(F("[BATT] MAX17048 found."));
+    Serial.println(F("[BATT] MAX17043 found."));
   } else {
     gGaugePresent = false;
-    Serial.println(F("[BATT] MAX17048 NOT found - falling back to ADC divider."));
+    Serial.println(F("[BATT] MAX17043 NOT found - using ADC divider on GPIO 34."));
     analogReadResolution(12);
     analogSetPinAttenuation(PIN_BATTERY_ADC, ADC_11db);
   }
@@ -582,6 +583,29 @@ static void hrService() {
 #endif
 }
 
+// Typical single-cell Li-Po resting voltage vs state of charge. A generic
+// curve, not measured on this cell — voltage-based SOC is approximate, and
+// reads high while charging and low under a WiFi burst.
+struct LipoPoint { float volts; float pct; };
+static const LipoPoint kLipoCurve[] = {
+    {3.30f,   0}, {3.45f,   5}, {3.68f,  10}, {3.74f,  20}, {3.77f,  30},
+    {3.79f,  40}, {3.82f,  50}, {3.87f,  60}, {3.92f,  70}, {3.98f,  80},
+    {4.06f,  90}, {4.20f, 100},
+};
+
+static float lipoPercent(float volts) {
+  const size_t n = sizeof(kLipoCurve) / sizeof(kLipoCurve[0]);
+  if (volts <= kLipoCurve[0].volts)     return 0.0f;
+  if (volts >= kLipoCurve[n - 1].volts) return 100.0f;
+  for (size_t i = 1; i < n; i++) {
+    if (volts <= kLipoCurve[i].volts) {
+      const LipoPoint &a = kLipoCurve[i - 1], &b = kLipoCurve[i];
+      return a.pct + (volts - a.volts) * (b.pct - a.pct) / (b.volts - a.volts);
+    }
+  }
+  return 100.0f;
+}
+
 static void batteryService() {
   float pct, volts;
 
@@ -589,14 +613,13 @@ static void batteryService() {
     volts = gGauge.getVoltage();
     pct   = gGauge.getSOC();
   } else {
-    // ADC fallback. Voltage-based SOC on Li-Po is crude (the discharge curve
-    // is flat through the middle), which is exactly why the MAX17048 is on
-    // the board — this path exists so the prototype still reports something
-    // if the gauge is unpopulated.
-    int raw = analogRead(PIN_BATTERY_ADC);
-    volts = (raw / 4095.0f) * BATTERY_ADC_REF_V * BATTERY_DIVIDER_RATIO;
-    pct   = 100.0f * (volts - BATTERY_EMPTY_V) / (BATTERY_FULL_V - BATTERY_EMPTY_V);
-    pct   = constrain(pct, 0.0f, 100.0f);
+    // R3/R4 divider — the primary battery source on Rev B/C. analogReadMilliVolts
+    // applies the chip's factory ADC calibration, which a raw count / 4095 does
+    // not; averaging takes out the ESP32 ADC's sample-to-sample noise.
+    uint32_t mvSum = 0;
+    for (int i = 0; i < BATTERY_ADC_SAMPLES; i++) mvSum += analogReadMilliVolts(PIN_BATTERY_ADC);
+    volts = (mvSum / (float)BATTERY_ADC_SAMPLES) / 1000.0f * BATTERY_DIVIDER_RATIO;
+    pct   = lipoPercent(volts);
   }
 
   static bool lowSent = false, critSent = false;

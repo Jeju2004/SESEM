@@ -3,24 +3,20 @@
 
   "facility_name": "Home for the Aged - Demo Facility",
 
+  "_demo_scope": "Defense demo, approved 21 Sep 2026: three zones, one door node, one wearable. The full facility map also had common_area_garden (3), main_exit (12) and stairwell (13), each restricted zone with its own door node.",
+
   "zones": [
     { "id": 1,  "key": "bedroom_wing",       "name": "Bedroom Wing",   "class": "safe" },
     { "id": 2,  "key": "dining_hall",        "name": "Dining Hall",    "class": "safe" },
-    { "id": 3,  "key": "common_area_garden", "name": "Common Area / Garden", "class": "safe" },
-    { "id": 11, "key": "medicine_room",      "name": "Medicine Room",  "class": "restricted" },
-    { "id": 12, "key": "main_exit",          "name": "Main Exit",      "class": "restricted" },
-    { "id": 13, "key": "stairwell",          "name": "Stairwell",      "class": "restricted" }
+    { "id": 11, "key": "medicine_room",      "name": "Medicine Room",  "class": "restricted" }
   ],
 
   "doors": [
-    { "id": 11, "key": "medicine_room", "name": "Medicine Room Door", "node_id": "door-11", "restricted": true },
-    { "id": 12, "key": "main_exit",     "name": "Main Exit Door",     "node_id": "door-12", "restricted": true },
-    { "id": 13, "key": "stairwell",     "name": "Stairwell Door",     "node_id": "door-13", "restricted": true }
+    { "id": 11, "key": "medicine_room", "name": "Medicine Room Door", "node_id": "door-11", "restricted": true }
   ],
 
   "residents": [
-    { "device_id": "wearable-01", "name": "Resident A", "room": "Bedroom Wing - Bed 1" },
-    { "device_id": "wearable-02", "name": "Resident B", "room": "Bedroom Wing - Bed 2" }
+    { "device_id": "wearable-01", "name": "Resident A", "room": "Bedroom Wing - Bed 1" }
   ],
 
   "thresholds": {

@@ -66,8 +66,8 @@
 #define PIN_SOS_BUTTON         27       // to GND, INPUT_PULLUP
 #define PIN_BUZZER             25       // NPN driver base via resistor
 #define PIN_STATUS_LED         2        // on-board LED on most devkits
-#define PIN_I2C_SDA            21
-#define PIN_I2C_SCL            22
+#define PIN_I2C_SDA            22       // was 21 - swapped for the Rev C single-layer PCB
+#define PIN_I2C_SCL            21       // was 22 - swapped for the Rev C single-layer PCB
 
 // -----------------------------------------------------------------------------
 // SOS button
@@ -88,17 +88,19 @@
 // If thresholds are approved later, add them here and in the alert logic.
 
 // -----------------------------------------------------------------------------
-// Battery (MAX17048, with ADC divider fallback)
+// Battery (R3/R4 divider on GPIO 34; MAX17043 gauge optional)
 // -----------------------------------------------------------------------------
 #define BATTERY_READ_PERIOD_MS 30000
 #define BATTERY_LOW_PCT        20.0f    // not yet adviser-reviewed
 #define BATTERY_CRITICAL_PCT   10.0f    // not yet adviser-reviewed
-// Fallback path if the MAX17048 is absent: ADC on a 2:1 divider.
+// On Rev B/C the divider is the PRIMARY battery source; the MAX17043 is used
+// instead only if it is fitted and answers on I2C.
 #define PIN_BATTERY_ADC        34
-#define BATTERY_DIVIDER_RATIO  2.0f
-#define BATTERY_ADC_REF_V      3.30f
-#define BATTERY_FULL_V         4.20f
-#define BATTERY_EMPTY_V        3.30f
+#define BATTERY_DIVIDER_RATIO  2.0f     // R3 = R4 = 100 k
+#define BATTERY_ADC_SAMPLES    16       // averaged per read; one sample is too noisy
+// Voltage -> percentage uses the piecewise Li-Po table in main.cpp
+// (kLipoCurve), not a straight line: the cell sits near 3.7-3.8 V for most of
+// its discharge, so a linear map would misreport the middle of the range.
 
 // -----------------------------------------------------------------------------
 // WiFi / backend

@@ -25,14 +25,20 @@ but if you do, change it in *both* files and reflash *every* board.
 
 ## 2. Zone table
 
+**Defense demo — three zones, approved by the adviser on 21 Sep 2026:**
+
 | Minor (zone id) | Zone name | Class | Door sensor? |
 |---|---|---|---|
 | 1 | `bedroom_wing` | Safe | No |
 | 2 | `dining_hall` | Safe | No |
-| 3 | `common_area_garden` | Safe | No |
 | 11 | `medicine_room` | **Restricted** | Yes |
-| 12 | `main_exit` | **Restricted** | Yes |
-| 13 | `stairwell` | **Restricted** | Yes |
+
+Hardware for the demo: three beacons (one per zone), one door node on the
+medicine room, one wearable.
+
+The full facility map, kept for extending the system after the defense, also
+had `common_area_garden` (3, safe), `main_exit` (12, restricted, door sensor)
+and `stairwell` (13, restricted, door sensor).
 
 Safe zones use ids 1–9, restricted zones 11–19. The gap is deliberate: it keeps
 the two classes readable at a glance in a serial log or a database dump.
@@ -44,12 +50,11 @@ This table appears in three places and they must stay in sync:
 - `firmware/wearable/include/zone_table.h` — the full `kZones[]` array
 - `firmware/door_sensor/include/config.h` — `DOOR_ID` / `DOOR_NAME`, one value
   per flashed board
+- `dashboard/config/zones.json` — zones, doors and residents shown on the
+  caregiver dashboard
 
-> **Open question — do not assume.** How many zones and door nodes are actually
-> demonstrated in the Week 9 defence has not been settled with the adviser.
-> This is the full six-zone sample map. If the demo uses three zones, delete the
-> unused rows from `kZones[]` and flash only the beacons you have; nothing else
-> needs to change.
+To add a zone back, add its row to `kZones[]` and `zones.json`, flash a beacon
+for it, and (if restricted) flash and register a door node.
 
 ---
 
@@ -74,7 +79,7 @@ Repeat for every zone before starting any test in `PHASE1_TEST_GUIDE.md`.
 
 | Setting | Value | Why it matters |
 |---|---|---|
-| `BEACON_TX_POWER` | `ESP_PWR_LVL_P3` (0 dBm) | If one beacon transmits harder than the others, its zone "wins" from further away and the RSSI-to-distance model stops being comparable between rooms. |
+| `BEACON_TX_POWER` | `ESP_PWR_LVL_P9` (+9 dBm; raised from P3 on 13 Sep 2026) | If one beacon transmits harder than the others, its zone "wins" from further away and the RSSI-to-distance model stops being comparable between rooms. |
 | `ADV_INTERVAL_MIN/MAX` | `160` (100 ms) | Sets how quickly the wearable can notice a zone change. Beacons are mains-powered, so a fast interval costs nothing. |
 | `MEASURED_POWER_1M` | `-59` dBm (placeholder) | Declared in the iBeacon frame. Replace with the value Test 1 measures. |
 

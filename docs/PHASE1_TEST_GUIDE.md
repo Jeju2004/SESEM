@@ -165,7 +165,7 @@ and the named misclassification pairs.
 **Exit criteria**
 
 - [ ] Overall accuracy ≥ 90% across all passes
-- [ ] **Every restricted zone** (`medicine_room`, `main_exit`, `stairwell`) has
+- [ ] **The restricted zone** (`medicine_room` in the three-zone demo) has
       recall ≥ 95% — missing a resident at a restricted door is the failure
       mode that matters, and it is worth trading safe-zone precision for it
 - [ ] No safe zone is confused with a restricted zone more than 2% of the time
@@ -271,9 +271,9 @@ it now than during the defence. In rough order of what to try:
 2. **Raise `HYSTERESIS_DB` and `CONFIRM_TICKS`.** Buys stability, costs latency.
 3. **Lower `RSSI_EMA_ALPHA`** (more smoothing, slower response).
 4. **Raise `RSSI_FLOOR_DBM`** so distant beacons stop competing at all.
-5. **Reduce the zone count for the demo** — three well-separated zones that
-   work beat six that flicker, and the adviser has not yet fixed the demo zone
-   count.
+5. **Separate the three demo zones further.** The demo is already down to
+   three zones (approved 21 Sep 2026); if two of them still confuse each other,
+   choose rooms with more distance or a solid wall between them.
 
 Whatever you change, record the before-and-after numbers. A documented
 limitation with measurements behind it is a Chapter 5 recommendation. An
