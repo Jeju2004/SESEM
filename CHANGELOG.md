@@ -5,6 +5,25 @@ why, and whether it has been verified on hardware.
 
 ## 2026-09-25
 
+- **Offline queue fix (door node and wearable).** While WiFi was down, both
+  boards queued periodic heartbeats/status snapshots, and a full queue discards
+  its oldest entry — so real events were lost. Bench test: the door node
+  dropped 3 events (`q=16 dropped=3`); the wearable (status every 5 s, 24
+  slots) would have lost an SOS pressed during an outage after ~2 minutes.
+  Now only real events (door changes; wearable alerts) are queued while
+  offline; heartbeats/status are sent only while the link is up. Queue depth:
+  door 16 → 64, wearable 24 → 48. **Verified** on the door node (offline, the
+  queue held only the boot event after 30 s); wearable compiles, not yet
+  flashed.
+- **Door node reed moved from GPIO 27 to GPIO 18** (`PIN_REED 18`) so the
+  perfboard needs only two short links beside the devkit. **Verified** on the
+  bench: 8 opens + 8 closes, one event per movement, correct polarity.
+- **Perfboard and wiring diagrams** in `tools/deliverables/`:
+  `perfboard_map.js` (wearable, 6 × 8 cm, devkit soldered directly),
+  `perfboard_door_map.js` and `perfboard_door_underside.js` (door node,
+  5 × 7 cm, component and solder side), `door_wiring.js` (complete door-node
+  wiring). Pin names follow the team's ESP32 DevKitC pinout.
+
 - **Door node credentials** moved to a git-ignored
   `firmware/door_sensor/include/secrets.h` (template `secrets.h.example`),
   matching the wearable; `config.h` falls back to offline defaults. Zone

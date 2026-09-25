@@ -694,12 +694,17 @@ static void taskNetwork(void *arg) {
       }
     }
 
-    // Periodic status heartbeat -> queue (so it survives a WiFi outage too).
+    // Periodic status heartbeat. Queued only while the link is up: a status is
+    // a snapshot, and stale ones queued during an outage would push alerts —
+    // an SOS pressed while offline — out of the full queue. Alerts are always
+    // queued (raiseAlert); the first status after reconnection is current.
     if (millis() - lastStatus >= STATUS_REPORT_PERIOD_MS) {
       lastStatus = millis();
-      char body[384];
-      buildStatusJson(body, sizeof(body));
-      queuePush(ENDPOINT_STATUS, body);
+      if (gWifiUp) {
+        char body[384];
+        buildStatusJson(body, sizeof(body));
+        queuePush(ENDPOINT_STATUS, body);
+      }
     }
 
     // Drain the queue while the link holds. One event per pass keeps the

@@ -209,9 +209,14 @@ void loop() {
   // --- heartbeat ---
   if (millis() - lastHeartbeat >= HEARTBEAT_PERIOD_MS) {
     lastHeartbeat = millis();
-    char body[224];
-    buildEventJson(body, sizeof(body), "heartbeat", gDoorOpen);
-    queuePush(body);
+    // Queued only while the link is up: stale heartbeats queued during an
+    // outage would push door events out of the full queue (bench test,
+    // 25 Sep: q=16, 3 dropped). The first heartbeat after reconnection is live.
+    if (gWifiUp) {
+      char body[224];
+      buildEventJson(body, sizeof(body), "heartbeat", gDoorOpen);
+      queuePush(body);
+    }
     Serial.printf("[HB] %s state=%s wifi=%s q=%u dropped=%lu\n",
                   DOOR_NAME, gDoorOpen ? "open" : "closed",
                   gWifiUp ? "up" : "down", gQCount, (unsigned long)gQDropped);

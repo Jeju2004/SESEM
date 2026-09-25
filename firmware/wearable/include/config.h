@@ -174,7 +174,7 @@
 #define HTTP_TIMEOUT_MS        4000
 
 // STATUS_REPORT_PERIOD_MS is set by POWER_PROFILE above.
-#define OFFLINE_QUEUE_DEPTH    24       // events kept while WiFi is down
+#define OFFLINE_QUEUE_DEPTH    48       // alerts kept while WiFi is down (status is not queued offline)
 
 // -----------------------------------------------------------------------------
 // WiFi-down local fallback

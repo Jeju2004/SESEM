@@ -24,7 +24,9 @@
   #define PIN_STATUS_LED       D4     // GPIO2, on-board LED (active LOW)
   #define LED_ACTIVE_LOW       1
 #else
-  #define PIN_REED             27
+  // GPIO 18 (devkit pin 28): right-hand header, two rows below a GND pin, so the
+  // perfboard needs only two short links. Was GPIO 27 on the breadboard.
+  #define PIN_REED             18
   #define PIN_STATUS_LED       2
   #define LED_ACTIVE_LOW       0
 #endif
@@ -64,7 +66,7 @@
 
 // Events held while WiFi is down. A door node is mains-powered but the AP can
 // still drop; a missed open event is the one thing this node must not lose.
-#define OFFLINE_QUEUE_DEPTH    16
+#define OFFLINE_QUEUE_DEPTH    64       // door events only while offline; 64 x 224 B ≈ 14 KB
 
 // NOTE: battery backup for door nodes is an OPEN question with the adviser.
 // As written this node is mains-only: a power cut silences it, and the
