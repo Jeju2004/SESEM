@@ -1,0 +1,13 @@
+{
+  "name": "trodes-deliverables",
+  "private": true,
+  "description": "Generators for the TroDes defense deliverables (User's Manual, presentation, IEEE paper, progress report).",
+  "dependencies": {
+    "docx": "^9.0.0",
+    "pptxgenjs": "^3.12.0",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0",
+    "react-icons": "^5.0.0",
+    "sharp": "^0.33.0"
+  }
+}

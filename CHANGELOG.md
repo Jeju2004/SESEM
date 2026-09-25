@@ -3,6 +3,19 @@
 Dated record of every code change. Newest first. Each entry says what changed,
 why, and whether it has been verified on hardware.
 
+## 2026-09-25
+
+- **Defense deliverable drafts** added under `deliverables/drafts/` (Word,
+  PowerPoint and PDF): User's Manual v0.1 (15 pp.), defense presentation v0.1
+  (13 slides, 10 min), IEEE paper Revision 3 (21 pp.), Progress Report 3 draft
+  (4 pp.). Yellow highlights mark values not yet measured or decided.
+- **Generators** added under `tools/deliverables/` (`manual.js`, `deck.js`,
+  `paper.js`, `pr3.js`, `package.json`, README) with the paper's figures in
+  `figures/`. `.gitignore` now allows those figures and ignores `node_modules/`.
+- **Verified:** each draft opens in Word/PowerPoint and was rendered to PDF for
+  a visual check; `paper.js` and `pr3.js` regenerate from the repository
+  location.
+
 ## 2026-09-24
 
 - **Proximity mode** (`ZONE_ENTRY_DBM`, default off = unchanged behaviour):

@@ -5,6 +5,8 @@ __pycache__/
 *.png
 # ...except raw test captures, which are Chapter 4 evidence
 !data/**/*.csv
+!tools/deliverables/figures/*.png
+node_modules/
 *.bak
 
 # Dashboard / database
