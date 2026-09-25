@@ -5,6 +5,18 @@ why, and whether it has been verified on hardware.
 
 ## 2026-09-25
 
+- **Door node credentials** moved to a git-ignored
+  `firmware/door_sensor/include/secrets.h` (template `secrets.h.example`),
+  matching the wearable; `config.h` falls back to offline defaults. Zone
+  comment corrected to the one-door demo scope. Compiles (esp32dev); not yet
+  flashed.
+- **`tools/field/field_report.py`** for the multi-room field test: `latency`
+  pairs each `[ALERT]` in a serial capture with the dashboard's `received_at`
+  (same laptop clock) for end-to-end alert latency; `doors` counts open/close
+  events, door-opened alerts and heartbeat gaps in a time window. Tested
+  against a live dashboard on a temporary database (0.40 s measured against a
+  deliberate 0.4 s delay; 5 of 5 door openings counted).
+
 - **Defense deliverable drafts** added under `deliverables/drafts/` (Word,
   PowerPoint and PDF): User's Manual v0.1 (15 pp.), defense presentation v0.1
   (13 slides, 10 min), IEEE paper Revision 3 (21 pp.), Progress Report 3 draft

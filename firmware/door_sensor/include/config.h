@@ -5,8 +5,9 @@
 // EDIT DOOR_ID / DOOR_NAME PER PHYSICAL UNIT before flashing.
 // =============================================================================
 
-// Must match a restricted zone in docs/ZONE_CONFIG.md:
-//   11 medicine_room | 12 main_exit | 13 stairwell
+// Must match a restricted zone in docs/ZONE_CONFIG.md and a door in
+// dashboard/config/zones.json. Defense demo: one door node, on medicine_room.
+// (The full facility map also had 12 main_exit and 13 stairwell.)
 #define DOOR_ID                11
 #define DOOR_NAME              "medicine_room"
 #define NODE_ID                "door-11"
@@ -34,13 +35,27 @@
 // -----------------------------------------------------------------------------
 // WiFi / backend
 // -----------------------------------------------------------------------------
-#define WIFI_SSID              ""
-#define WIFI_PASSWORD          ""
+// WiFi name, password and the backend address live in include/secrets.h,
+// which git ignores so the password never reaches GitHub. Copy
+// include/secrets.h.example to include/secrets.h and fill it in (same values
+// as the wearable's). Without it the node runs offline.
+#if __has_include("secrets.h")
+  #include "secrets.h"
+#endif
+#ifndef WIFI_SSID
+  #define WIFI_SSID            ""
+#endif
+#ifndef WIFI_PASSWORD
+  #define WIFI_PASSWORD        ""
+#endif
+// The PC running the dashboard. Backend hosting (local vs cloud) is still an
+// open question with the adviser.
+#ifndef BACKEND_BASE_URL
+  #define BACKEND_BASE_URL     "http://192.168.1.100:8000"
+#endif
 #define WIFI_CONNECT_TIMEOUT_MS 15000
 #define WIFI_RETRY_PERIOD_MS   20000
 
-// PLACEHOLDER — backend hosting (local vs cloud) is still an open question.
-#define BACKEND_BASE_URL       "http://192.168.1.100:8000"
 #define ENDPOINT_DOOR          "/api/v1/door"
 #define HTTP_TIMEOUT_MS        4000
 
