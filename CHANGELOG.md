@@ -3,6 +3,16 @@
 Dated record of every code change. Newest first. Each entry says what changed,
 why, and whether it has been verified on hardware.
 
+## 2026-09-26
+
+- **Fuel gauge on its own I2C bus (wearable PCB Rev C2).** The MAX17043 is now
+  fitted and, so that it and the MAX30102 both route on the single-sided board,
+  it uses `Wire1` on IO4 (SDA) and IO16 (SCL): new `PIN_FG_SDA` / `PIN_FG_SCL`
+  in `config.h`, `Wire1.begin()` and `gGauge.begin(Wire1)` in `main.cpp`. The
+  heart-rate bus is unchanged (SDA IO22, SCL IO21). **Compiles**; not yet
+  flashed. On a Rev B/C1 board or the perfboard (gauge absent or on the main
+  bus) the firmware falls back to the R3/R4 divider as before.
+
 ## 2026-09-25
 
 - **Offline queue fix (door node and wearable).** While WiFi was down, both

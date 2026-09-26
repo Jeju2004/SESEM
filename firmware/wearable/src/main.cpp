@@ -548,7 +548,8 @@ static void sensorsInit() {
   }
 #endif
 
-  if (gGauge.begin()) {
+  Wire1.begin(PIN_FG_SDA, PIN_FG_SCL);   // fuel gauge on its own bus (Rev C2)
+  if (gGauge.begin(Wire1)) {
     gGauge.quickStart();
     gGaugePresent = true;
     Serial.println(F("[BATT] MAX17043 found."));

@@ -110,6 +110,10 @@
 #define PIN_STATUS_LED         2        // on-board LED on most devkits
 #define PIN_I2C_SDA            22       // was 21 - swapped for the Rev C single-layer PCB
 #define PIN_I2C_SCL            21       // was 22 - swapped for the Rev C single-layer PCB
+// Rev C2: the MAX17043 fuel gauge has its own I2C bus (Wire1) so both modules
+// route on one copper layer. The heart-rate bus above is unchanged.
+#define PIN_FG_SDA             4
+#define PIN_FG_SCL             16
 
 // -----------------------------------------------------------------------------
 // SOS button
