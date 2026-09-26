@@ -19,3 +19,10 @@ venv/
 
 # Firmware credentials (WiFi password, backend address)
 firmware/**/secrets.h
+
+# KiCad (hardware/)
+!hardware/**/artwork/*.png
+*.lck
+*.kicad_prl
+fp-info-cache
+*-backups/

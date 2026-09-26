@@ -5,6 +5,22 @@ why, and whether it has been verified on hardware.
 
 ## 2026-09-26
 
+- **Wearable PCB Rev C2 added** under `hardware/wearable_pcb/` (KiCad 9 project,
+  project symbol/footprint libraries, etching/drill/placement PDFs, schematic
+  PDF, 3D preview, DRC/ERC reports, README with the net-by-net connection
+  table).
+  - **Parts:**
+    - MAX30102 on a 2 × 4 socket;
+    - MAX17043 fuel gauge fitted on a 2 × 3 socket;
+    - 12 × 12 mm SOS switch;
+    - ESP32 devkit 55 × 28 mm on female headers.
+  - **Layout:** no pour under the antenna.
+  - **Verified in KiCad 9.0.3:**
+    - DRC 0 errors, 0 warnings, 0 unconnected pads;
+    - ERC 0;
+    - schematic ↔ PCB 0 differences;
+    - 7 courtyard overlaps excluded after checking the physical clearance.
+
 - **Fuel gauge on its own I2C bus (wearable PCB Rev C2).** The MAX17043 is now
   fitted and, so that it and the MAX30102 both route on the single-sided board,
   it uses `Wire1` on IO4 (SDA) and IO16 (SCL): new `PIN_FG_SDA` / `PIN_FG_SCL`
