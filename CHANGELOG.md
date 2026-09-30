@@ -3,14 +3,125 @@
 Dated record of every code change. Newest first. Each entry says what changed,
 why, and whether it has been verified on hardware.
 
-## 2026-09-30
+## 2026-09-30 (night) — house test, data export
 
 - **Dashboard database export** — `tools/field/export_db.py` writes
   `status_log`, `alerts`, `door_log` and `ack_log` to CSV, with a readable
   local-time column beside every timestamp. Opens the database read-only, so
-  it can run while the dashboard is up. Added to back up the pre-demo dry run
-  and video demo (house test, SESEMSG network). Tested against a database
-  built from the dashboard schema; not yet run on the field database.
+  it can run while the dashboard is up.
+  - **Run on the laptop (30 Sep, 22:20):** `C:\TroDesData\dashboard\data\trodes.db`
+    returned 0 rows for 30 Sep. Expected: the house dry run and video used the
+    SESEMSG hub (standalone, no uplink), so nothing reached the laptop server.
+- **`.gitignore`:** Office lock files (`~$*`) excluded.
+- No firmware change. Session record: `docs/project/House_Test_2026-09-30.md`.
+
+## 2026-09-30 (evening) — fixes from the test run
+
+Most of this code was already included in the build commits below. This section
+records what each change is and how far it has been verified.
+
+- **Heart rate never detected (wearable).**
+  - **Cause:** SparkFun's `checkForBeat()` handles 16-bit samples only. Its DC estimator takes a `uint16_t`, and a pulse only counts if it swings 20–1000. The MAX30102 is set to 18 bits (411 µs pulses), so a finger reads about 100k–250k. The value wrapped at 65536 and strong pulses were rejected.
+  - **Fix:** samples go to the detector as `ir >> 2`.
+  - **New serial line:** `[HR] …` every 2 s while something is on the sensor, showing the IR level, beats seen and beats kept. It also flags a finger that reads below the 50 000 finger level.
+  - **Verified on hardware (30 Sep, fingertip on the bench wearable, 60 s):**
+    - IR about 125k–130k;
+    - 86 beats detected;
+    - about 5 s from finger on to the first reading;
+    - it read 78–102 bpm and settled at 86–90 bpm;
+    - one outlier re-learn, which recovered in about 4 s.
+- **MAX17043 when fitted later (wearable).**
+  - **Why:** the gauge is powered from the cell on its own JST lead, so it only answers while a battery is connected.
+  - **Detection:** while the gauge is missing, the firmware probes again on every battery read, using a quiet address ping. The first read after it is found still uses the divider, because the gauge's SOC is still settling after its quick-start.
+  - **Fallback:** it drops back to the R3/R4 divider if the gauge stops answering or reads outside 2.5–4.5 V. SOC is clamped to 0–100 %.
+  - **Timing:** the first battery read is at 5 s instead of 30 s.
+  - **Reporting:** the status JSON and the `[STAT]` line now say where the reading came from (`batt_src` / `src=gauge|adc`).
+  - **Verified:** compiled. Not tested with a gauge, as none is fitted yet.
+- **Status LED (wearable):** it now blinks briefly every 2 s, stays on while an SOS is open, and still flashes with each beep. Before, it only lit during beeps.
+- **Dashboard on iPhone (`static/v2`):**
+  - **Keyboard popping up:** iOS's "sign in to network" window auto-focused the name box, and AutoFill kept asking for a name. The box is now read-only, with AutoFill off, until a finger touches it. It unlocks on `touchstart`, so the keyboard opens on the first tap. The old blur-on-scroll made the keyboard flicker and is removed.
+  - **Page jumping (Safari has no scroll anchoring):**
+    - before each 1 s update, the row in view is noted and scrolled back into place afterwards;
+    - updates wait while a finger is on the screen or the page is still moving;
+    - near the bottom, the page may not get shorter during an update, helped by `main { display: flow-root }` in the CSS;
+    - lists are only rewritten when their markup has changed.
+  - **Verified in the browser at phone size:**
+    - 5 alerts arriving mid-list: the row in view moved 374 px before, 0 px now;
+    - rows removed at the end of the page: 0 px;
+    - auto-focus on page load leaves the name box read-only (no keyboard).
+  - **iPhone re-test pending.**
+- **Door node:** it was found boot-looping (`rst:0x3` with no application output, i.e. no valid app in flash). Reflashed with the standalone hub build (`HUB_UPLINK=0`); SESEMSG is back on the air. No code change.
+
+## 2026-09-30
+
+Committed on branch `build-2026-09-30`. The work of 27–30 Sep: code, hardware
+files, deliverables and notes.
+
+- **Door node as a stand-alone hub (`env:esp32hub`, `-DHUB_MODE=1`).** New `src/hub.cpp`, `include/hub.h`, and `scripts/embed_dashboard.py`, which packs `dashboard/static/v2` into the generated, git-ignored `hub_page.h`.
+  - **Network:** a WPA2 access point, SESEMSG at 192.168.4.1, with a DNS captive portal so phones open the dashboard on joining.
+  - **Server:** a non-blocking HTTP server (10 connections), serving the same `/api/v1` contract as the laptop backend.
+  - **State:** alerts, sessions and passcode lock-out are kept in RAM.
+  - **Forwarding:** optional forwarding to the laptop, and a relay push.
+  - **Why:** the system has to run with no laptop, router or internet.
+  - **Verified on hardware:**
+    - 17 of 17 network checks passed;
+    - with 4 phones polling, the median reply is 32 ms;
+    - the wearable held its connection for 10 min;
+    - the dashboard opens on joining, on both Android and iPhone.
+  - **Stall fix:** a phone in power-save mode could stall every client for more than 4 s. Replies are now sent without blocking, and simultaneous polls share one cached summary.
+- **Wearable (firmware):**
+  - **Networking:** it prefers the hub's network when in range. Auto-reconnect is off; it disconnects before scanning and re-picks a network after 4 failed POSTs.
+  - **SOS patterns:** 1, 2 or 3 presses less than 0.7 s apart send three urgency levels, each confirmed by the same number of beeps. A stronger pattern escalates an open SOS.
+  - **Acknowledgement:** the SOS state clears when the server reports no unacknowledged SOS.
+  - **Timing log:** `[DELIVERED]` records how many ms each alert took to arrive.
+  - **Verified:** on the bench, against a scratch server.
+- **`firmware/wearable_selftest`** (new): a one-shot hardware report plus a live readout.
+  - It covers the battery sense, both I²C buses, the MAX30102 ID, the button, buzzer and LED, and Wi-Fi and BLE scans.
+  - **Run on the wearable, 30 Sep:** everything passed except battery sense (0.28 V), which is under investigation.
+- **Dashboard:**
+  - **New `static/v2` page:**
+    - theme follows the phone;
+    - alarm sound and vibration for an unacknowledged SOS, with the SOS message in the banner;
+    - "reduce motion" respected.
+  - **`app/auth.py`:** passcode sessions.
+  - **Duplicate guard in `post_alert`:** an identical report within 30 s is merged, so a retried SOS is not stored twice.
+  - **SOS escalation:** a new SOS retires the older open SOS.
+  - **Classic page:** polls every 1 s.
+  - **Verified:** self-test 38/38.
+- **`relay/`** (new): a Cloudflare Worker and Durable Object for viewing the hub from any network.
+  - **Verified:** local tests 15/15.
+  - **Not deployed:** the hosting decision is still open.
+- **Hardware files:**
+  - **`hardware/wearable_pcb_revC3/`:** the etched board's KiCad project, its artwork and the power-pad map. The unsaved 28 Sep autosave is not included.
+  - **`hardware/beacon_node/`:** the beacon node schematic and perfboard layout.
+  - **`hardware/enclosures/`:** enclosures Rev A, Rev B and the node boxes, with STLs, A1 plate files and renders.
+    - **Wearable Rev B:**
+      - +5 mm for the wiring under the PCB;
+      - four snap hooks into side-wall windows;
+      - a 15 × 11 mm ESP32 USB-C opening;
+      - a TP4056 charge-light window;
+      - rounded edges;
+      - a sliding dovetail belt clip with a detent.
+    - **Checked in the model:** all parts manifold, and 31 part and component pairs with 0 overlap. **Not printed yet.**
+- **Deliverables:**
+  - **Generators:**
+    - `paper_ieee.js`: an IEEE two-column full paper with Methods of Research, equations and appendices;
+    - `make_figures.py` and `make_appendix_images.py`;
+    - `perfboard_beacon.js`;
+    - updated `paper.js` (Rev 4), `manual.js` (v0.2) and `deck.js` (v0.2).
+  - **Output files:** the drafts, the figures, and the final Progress Report 3.
+  - **Test tool:** `tools/field/test_day_report.py`.
+- **Credentials:**
+  - **The hub's Wi-Fi password is in two committed items**, added in a later commit at the team's request (the repository is private):
+    - the panel QR card images (`tools/deliverables/figures/a_qr_card*.png`);
+    - the IEEE paper Rev 5, which embeds that card in Appendix H.
+  - **The dashboard passcode is kept out:**
+    - the door node's `secrets.h.example` now shows a placeholder;
+    - the repo copy of the Test Day note has it removed.
+- **Docs and data:**
+  - `docs/project/`: the hub note, the Test Day procedure and the shopping list;
+  - `data/walk/`: the 30 Sep three-beacon walk capture;
+  - `data/field/`: the 25 Sep door bench logs.
 
 ## 2026-09-26
 

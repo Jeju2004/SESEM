@@ -1,0 +1,15 @@
+(version 1)
+
+# Paper phenolic (FR-2), UV-etched, hand-drilled and hand-cut.
+# Copper lifts more easily than on FR-4, so keep generous pad rings and keep
+# tracks and pads away from the cut edge. The ground pour may come to 0.5 mm.
+
+(rule "FR-2: tracks and pads at least 1 mm from the board edge"
+  (condition "A.Type == 'Track' || A.Type == 'Pad'")
+  (constraint edge_clearance (min 1mm)))
+
+(rule "FR-2: pad ring at least 0.45 mm"
+  (constraint annular_width (min 0.45mm)))
+
+(rule "FR-2: tracks at least 0.5 mm wide"
+  (constraint track_width (min 0.5mm)))

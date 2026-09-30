@@ -19,10 +19,23 @@ venv/
 
 # Firmware credentials (WiFi password, backend address)
 firmware/**/secrets.h
+# Generated at build time from dashboard/static/v2 (scripts/embed_dashboard.py)
+firmware/door_sensor/include/hub_page.h
 
 # KiCad (hardware/)
 !hardware/**/artwork/*.png
+# Enclosure renders and perfboard diagrams (the build notes embed them)
+!hardware/enclosures/**/*.png
+!hardware/beacon_node/*.png
 *.lck
 *.kicad_prl
 fp-info-cache
 *-backups/
+
+# Cloud relay: local secrets, generated page, wrangler cache
+relay/.dev.vars
+relay/src/page.html
+relay/.wrangler/
+
+# Office lock files
+~$*

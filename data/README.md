@@ -21,3 +21,20 @@ doorway points. Full write-up in the vault's `Work Log.md` (24 Sep, night).
 
 Planned: `test2_run2_room.csv` and `test2_run2_prox.csv` (dorm, single room,
 room mode vs proximity mode) — see the vault's `Defense Demo Plan.md`.
+
+## Added 30 Sep 2026
+
+| File | What it is | Usable? |
+|---|---|---|
+| `walk/2026-09-30_beacon_walk_serial.txt` | Informal three-beacon walk on the final firmware, 30 Sep 00:22–00:37 (wearable on the SESEMSG hub). Filtered serial log: `[RSSI]` every 30 s plus every `[ZONE]`/`[ALERT]`/`[NET]` line. **No ground truth** - a functional check, not a Test 2 run | Yes, for the zone timeline (paper Fig. 6); not for accuracy |
+| `field/door_bench_test*.log` | Door node bench serial logs, 25 Sep 11:26–12:10: boot, reed state, heartbeats with Wi-Fi down and the queue counters (`q=`, `dropped=`), around the offline-queue fix | Yes (record) |
+
+## Added 1 Oct 2026 (house test, night of 30 Sep)
+
+| File | What it is | Usable? |
+|---|---|---|
+| `demo/2026-09-30/hub_diag_after_video.json` | SESEMSG hub `/api/v1/hub` at 00:25, after the video demo: uptime 633 s, `alerts_stored` 0 - the hub had restarted and its RAM-only alert history was gone | Yes, as the record of that restart; it holds no demo alerts |
+
+The dry run and video demo themselves have no data file: no serial capture was
+made and the hub lost its alerts on restart. The team's video recordings are
+the record. See `docs/project/House_Test_2026-09-30.md`.

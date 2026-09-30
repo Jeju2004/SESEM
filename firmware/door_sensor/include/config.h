@@ -59,6 +59,8 @@
 #define WIFI_RETRY_PERIOD_MS   20000
 
 #define ENDPOINT_DOOR          "/api/v1/door"
+#define ENDPOINT_STATUS        "/api/v1/status"   // hub mode: wearable ingest
+#define ENDPOINT_ALERT         "/api/v1/alert"
 #define HTTP_TIMEOUT_MS        4000
 
 // Heartbeat so the dashboard can distinguish "door closed" from "node dead".
@@ -71,3 +73,51 @@
 // NOTE: battery backup for door nodes is an OPEN question with the adviser.
 // As written this node is mains-only: a power cut silences it, and the
 // dashboard will see the heartbeat stop.
+
+// -----------------------------------------------------------------------------
+// SESEMSG hub mode (env esp32hub, -DHUB_MODE=1) - see src/hub.cpp
+// -----------------------------------------------------------------------------
+// The node also runs its own Wi-Fi network and the whole dashboard, so the
+// system works with no laptop. The network name, its password and the
+// dashboard passcode are credentials: they live in include/secrets.h only.
+#ifndef HUB_MODE
+  #define HUB_MODE             0
+#endif
+#if HUB_MODE
+  #if !defined(HUB_AP_SSID) || !defined(HUB_AP_PASSWORD) || !defined(HUB_PASSCODE)
+    #error "Hub mode needs HUB_AP_SSID, HUB_AP_PASSWORD (8+ chars) and HUB_PASSCODE in include/secrets.h - see secrets.h.example"
+  #endif
+  #define HUB_AP_CHANNEL       6      // follows the uplink's channel once that connects
+  #define HUB_MAX_CLIENTS      8      // the ESP32's DHCP server leases 8 addresses
+  // Radio power of the hub's network. Full power (19.5 dBm) for the defense
+  // room. For bench tests with the wearable a few cm away, build with
+  // PLATFORMIO_BUILD_FLAGS=-DHUB_TX_POWER=WIFI_POWER_2dBm or keep them 1 m apart.
+  #ifndef HUB_TX_POWER
+    #define HUB_TX_POWER       WIFI_POWER_19_5dBm
+  #endif
+  // 1 = also join WIFI_SSID (if in range) and forward everything to the laptop
+  // server at BACKEND_BASE_URL, so the laptop dashboard keeps working too.
+  #ifndef HUB_UPLINK
+    #define HUB_UPLINK         1
+  #endif
+  // More uplink networks, tried in order after WIFI_SSID (e.g. the pocket
+  // router, a phone hotspot). Set them in secrets.h.
+  #ifndef WIFI2_SSID
+    #define WIFI2_SSID         ""
+    #define WIFI2_PASSWORD     ""
+  #endif
+  #ifndef WIFI3_SSID
+    #define WIFI3_SSID         ""
+    #define WIFI3_PASSWORD     ""
+  #endif
+  // SESEMSG cloud relay (relay/, a Cloudflare Worker) for viewing from any
+  // network. RELAY_URL like "https://sesemsg.<account>.workers.dev" and
+  // RELAY_KEY = the relay's HUB_KEY secret. Empty = no remote viewing.
+  #ifndef RELAY_URL
+    #define RELAY_URL          ""
+  #endif
+  #ifndef RELAY_KEY
+    #define RELAY_KEY          ""
+  #endif
+  #define RELAY_PUSH_MS        3000
+#endif

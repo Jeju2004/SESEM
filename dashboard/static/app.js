@@ -18,7 +18,7 @@
 
 'use strict';
 
-const POLL_MS = 2000;
+const POLL_MS = 1000;   // was 2000
 const API = '/api/v1';
 
 let state = null;          // last successful /summary payload
@@ -78,6 +78,8 @@ async function poll() {
   try {
     const t0 = Date.now();
     const res = await fetch(API + '/summary', { cache: 'no-store' });
+    // Passcode on (app/auth.py) and no session: go to the lock screen.
+    if (res.status === 401) { window.location.href = '/'; return; }
     if (!res.ok) throw new Error('HTTP ' + res.status);
     const data = await res.json();
     // Halve the round trip so the offset is not skewed by network latency.

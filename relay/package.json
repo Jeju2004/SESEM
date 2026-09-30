@@ -1,0 +1,13 @@
+{
+  "name": "sesemsg-relay",
+  "private": true,
+  "description": "SESEMSG cloud relay: remote viewing of the hub's caregiver dashboard (Cloudflare Worker).",
+  "scripts": {
+    "page": "python build_page.py",
+    "dev": "python build_page.py && wrangler dev --local --port 8787",
+    "deploy": "python build_page.py && wrangler deploy"
+  },
+  "devDependencies": {
+    "wrangler": "^4"
+  }
+}
