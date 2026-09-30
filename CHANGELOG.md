@@ -3,6 +3,17 @@
 Dated record of every code change. Newest first. Each entry says what changed,
 why, and whether it has been verified on hardware.
 
+## 2026-10-01 (02:45) — Test B and C results into the drafts
+
+- **Paper Rev 6, Tables "sos" and "hr", and deck v0.3 results slide** now carry the measured values from `data/test_day/`:
+  - **SOS delivery:** n = 6, median 295 ms, maximum 408 ms;
+  - **patterns:** 6 of 6 with the right message, and 2 escalations;
+  - **acknowledgements:** 3 of 3 cleared the wearable;
+  - **hold:** 1 of 1 cancelled an open SOS;
+  - **heart rate:** n = 2, +3 and +0.5 bpm (MAE 1.75 bpm, preliminary).
+- **Procedure text** states the actual counts (n = 6 and n = 2, not the planned 10). The Chapter 5 conclusions quote the same figures.
+- **Still yellow:** Run 3 (A), door cycles (D), the network-loss trials, battery runtime, and the abstract sentence.
+
 ## 2026-10-01 (02:30) — documents and deliverables
 
 - **Drafts regenerated** in `deliverables/drafts/`:

@@ -288,8 +288,8 @@ async function icon(Comp, color) {
     title(s, "Results on the final firmware", "Test day, 1 October 2026 · earlier Run 1 (24 Sep): 0 cross-room errors, 56.2 % where two zones shared a room");
     const cards = [
       [I.radio, "Zone accuracy (Run 3)", "overall % · unresolved % · flicker / min"],
-      [I.timer, "SOS delivery time", "median · max (ms), n = 10"],
-      [I.heart, "Heart rate vs oximeter", "mean abs. error (bpm), n = 10"],
+      [I.timer, "SOS delivery time", "median 295 ms · max 408 ms (n = 6)"],
+      [I.heart, "Heart rate vs oximeter", "+3 and +0.5 bpm (2 readings, preliminary)"],
       [I.door, "Door node, 20 cycles", "detected / 20 · false events"],
       [I.wifi, "Hub: 4 phones polling", "median 32 ms · worst 60 ms"],
       [I.check, "Dashboard self-test", "38 / 38 checks · hub 17 / 17"],

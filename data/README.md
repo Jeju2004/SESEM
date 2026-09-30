@@ -48,3 +48,12 @@ delivery-time data: the screenshots give minutes only. See
 |---|---|---|
 | `test_day/sos.csv` | Test B attempt, 02:06:20–02:06:35: **15 s only**, boot and WiFi join, label `transit` throughout, **no SOS press recorded**. The only delivery logged is a queued `zone_change` (8127 ms, held while WiFi was joining) | **No.** Test B must be repeated with the log running for all trials |
 | `test_day/hr.csv` | Test C attempt, 02:07:36–02:09:31: **one** oximeter reading (label `ox109`, with a typo `oc109` just before it); the wearable reported 111–113 bpm, error +3 bpm. The wearable's reading also moved from 72–75 to 100–113 bpm within the same minute | **One of the 10 readings.** Repeat for the other nine |
+
+## Test day, 1 Oct 2026 (house) — redo
+
+| File | What it is | Usable? |
+|---|---|---|
+| `test_day/sos2.csv` | Test B, 02:18:36–02:20:02, hub stand-alone. 6 SOS deliveries: 197, 327, 166, 262, 408, 408 ms (mean 295, median 295). Patterns 3 × one press, 1 × two, 2 × three (both escalations), all with the right message; 3 of 3 acknowledgements cleared the wearable; 1 of 1 hold cancelled an open SOS (delivered in 446 ms). Labels were not typed (all `transit`); the report does not need them | **Yes**, n = 6 (planned 10 presses + 5 dismissals not all done). Paper Table "sos" |
+| `test_day/hr2.csv` | Test C, 02:20:17–02:21:37: one oximeter reading, 85 bpm; wearable median 85.5 bpm | **Yes**, one reading. With `hr.csv`: n = 2, MAE 1.75 bpm, bias +1.75. Paper Table "hr" (preliminary) |
+
+At every boot the wearable's first join to SESEMSG failed once (`WiFi dropped, reason 15`, a WPA2 handshake timeout) and succeeded on the retry about 4 s later; the zone change queued at boot was delivered 7.5–11 s after it was raised.
