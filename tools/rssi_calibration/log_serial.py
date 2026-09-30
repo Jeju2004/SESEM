@@ -21,6 +21,7 @@ Output CSV columns: iso_time, elapsed_s, label, line
 """
 
 import argparse
+import os
 import csv
 import datetime
 import sys
@@ -93,6 +94,21 @@ def stdin_reader(box, stop_event):
             print(f"--- label is now: {newlabel} ---", flush=True)
 
 
+def free_path(path):
+    """Never overwrite a capture: an existing file gets _2, _3 ... instead.
+
+    1 Oct 2026: a 25-minute Test 2 capture was replaced by a 9 s one when the
+    same command was run again afterwards. Raw captures are evidence.
+    """
+    if not os.path.exists(path) or os.path.getsize(path) == 0:
+        return path
+    stem, ext = os.path.splitext(path)
+    n = 2
+    while os.path.exists(f"{stem}_{n}{ext}"):
+        n += 1
+    return f"{stem}_{n}{ext}"
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__,
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
@@ -105,6 +121,11 @@ def main():
     ap.add_argument("--echo", action="store_true", default=True,
                     help="Also print lines to the terminal (default on)")
     args = ap.parse_args()
+
+    out = free_path(args.out)
+    if out != args.out:
+        print(f"{args.out} already exists - NOT overwriting it. Writing to {out} instead.")
+    args.out = out
 
     box = LabelBox(args.label)
     stop = threading.Event()

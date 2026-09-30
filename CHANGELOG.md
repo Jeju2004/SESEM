@@ -3,6 +3,12 @@
 Dated record of every code change. Newest first. Each entry says what changed,
 why, and whether it has been verified on hardware.
 
+## 2026-10-01 (05:45) — log_serial.py never overwrites
+
+- **Change:** `tools/rssi_calibration/log_serial.py` now writes to `name_2.csv`, `name_3.csv`, … when the output file already exists and is not empty, and says so at start.
+- **Why:** the Test A (Run 3) capture was lost this way. The pushed `test2_run3.csv` holds only 9 s.
+- **Verified:** `free_path()` returns `x_2.csv` for an existing file and the name unchanged for a new one.
+
 ## 2026-10-01 (03:20) — dashboard: tabs not switching, page pulled up at the bottom
 
 - **Tabs did not switch on the phone (a regression from 01:30).** The guard against swipe-taps used the settle timer that also starts when a finger lifts, so every plain tap on a tab was ignored.

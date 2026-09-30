@@ -57,3 +57,11 @@ delivery-time data: the screenshots give minutes only. See
 | `test_day/hr2.csv` | Test C, 02:20:17–02:21:37: one oximeter reading, 85 bpm; wearable median 85.5 bpm | **Yes**, one reading. With `hr.csv`: n = 2, MAE 1.75 bpm, bias +1.75. Paper Table "hr" (preliminary) |
 
 At every boot the wearable's first join to SESEMSG failed once (`WiFi dropped, reason 15`, a WPA2 handshake timeout) and succeeded on the retry about 4 s later; the zone change queued at boot was delivered 7.5–11 s after it was raised.
+| `test_day/test2_run3.csv` | **Not the Test A run.** 9 s at 05:32:20–05:32:29, label `transit` only. The 15-point run was most likely overwritten when the logging command was started again afterwards (`log_serial.py` opened files with "w"; fixed 1 Oct: it now writes `_2`, `_3`, … instead) | **No** |
+
+**Run 3 layout (team's description, 1 Oct):** a dorm unit of about 20 × 15 (units to be confirmed).
+- DH beacon: in the kitchen near the main door.
+- BW beacon: on the bed frame, about 4 m from DH, in the same open room.
+- MR beacon: in the comfort room, about 2 m from BW, behind a wall.
+- Door node: on the CR door.
+- People present: 3, two of them seated and asleep.
