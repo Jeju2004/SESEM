@@ -467,7 +467,9 @@ async function ackAll() {
  * a swipe that starts on the tab bar barely moves and iOS delivers it as a tap
  * on the tab under the finger - usually the one already open - and switching
  * tab jumps to the top. The open tab's button now does nothing, and a tab tap
- * while the page is still moving (momentum, the bounce at the end) is ignored. */
+ * within 300 ms of the page actually scrolling (momentum, the bounce at the
+ * end) is ignored. Only real scroll events count: lifting the finger after a
+ * plain tap must not block it (that broke the tabs on the first try). */
 function setTab(t) {
   if (t === tab) return;
   tab = t;
@@ -488,7 +490,7 @@ document.addEventListener('click', ev => {
   if (a) { ack(Number(a.dataset.ack)); return; }
   if (ev.target.closest('#ack-all')) { ackAll(); return; }
   const t = ev.target.closest('.tabs button');
-  if (t) { if (Date.now() >= scrollingUntil) setTab(t.dataset.tab); return; }
+  if (t) { if (Date.now() - lastUserScrollAt > 300) setTab(t.dataset.tab); return; }
   if (ev.target.closest('#bell')) setTab('alerts');
 });
 
@@ -512,12 +514,14 @@ function scrollAnchor() {
   }
   return best;
 }
+let selfScroll = false;                                  // our own scrollBy, not the user's
+let lastUserScrollAt = 0;                                // a tab tap this soon after is the end of a swipe
 function holdAnchor(a) {
   if (!a) return;
   const el = document.querySelector('main ' + a.sel);
   if (!el) return;                                       // that row went away (acknowledged)
   const moved = el.getBoundingClientRect().top - a.top;
-  if (Math.abs(moved) >= 1) window.scrollBy(0, moved);
+  if (Math.abs(moved) >= 1) { selfScroll = true; window.scrollBy(0, moved); }
 }
 
 /* Page updates also wait while a finger is on the screen or the page is still
@@ -540,7 +544,14 @@ function scheduleRender() {
 document.addEventListener('touchstart', () => { touching = true; }, { passive: true });
 document.addEventListener('touchend', () => { touching = false; scrollingUntil = Date.now() + SETTLE_MS; scheduleRender(); }, { passive: true });
 document.addEventListener('touchcancel', () => { touching = false; scheduleRender(); }, { passive: true });
+/* 1 Oct: the height hold was dropped by the page's own anchor scroll (which
+ * fires a scroll event too), and it only remembered the height at the moment
+ * it was set, so an alert clearing later (they now clear by themselves) still
+ * made the page shorter and pulled it up by a row. The hold now only grows
+ * while you stay near the bottom, and only YOUR scrolling up releases it. */
 window.addEventListener('scroll', () => {
+  if (selfScroll) { selfScroll = false; return; }
+  lastUserScrollAt = Date.now();
   scrollingUntil = Date.now() + SETTLE_MS;
   if (mainEl.style.minHeight && !nearBottom()) releaseHeight();
 }, { passive: true });
@@ -550,7 +561,8 @@ function render() {
   if (!state) return;
   renderNotice();
   if (touching || Date.now() < scrollingUntil) { scheduleRender(); return; }
-  if (nearBottom() && window.scrollY > 0) mainEl.style.minHeight = mainEl.offsetHeight + 'px';
+  if (nearBottom() && window.scrollY > 0)
+    mainEl.style.minHeight = Math.max(mainEl.offsetHeight, parseFloat(mainEl.style.minHeight) || 0) + 'px';
   const anchor = scrollAnchor();
   renderHero(); renderDoorTile(); renderHrTile(); renderPlan(); renderZones(); renderLists();
   holdAnchor(anchor);

@@ -3,6 +3,22 @@
 Dated record of every code change. Newest first. Each entry says what changed,
 why, and whether it has been verified on hardware.
 
+## 2026-10-01 (03:20) — dashboard: tabs not switching, page pulled up at the bottom
+
+- **Tabs did not switch on the phone (a regression from 01:30).** The guard against swipe-taps used the settle timer that also starts when a finger lifts, so every plain tap on a tab was ignored.
+  - **Fix:** only a real scroll event within the last 300 ms blocks a tab tap.
+  - **Kept:** the open tab's button still does nothing, so a swipe that ends on the tab bar cannot jump to the top.
+- **Page pulled up by a row near the bottom** when an alert cleared (more frequent now that "location unknown" and "not reporting" clear by themselves). Two causes:
+  - the height hold was released by the page's own anchor scroll;
+  - the hold only kept the height from when it was set.
+  - **Fix:** the hold now only grows while you stay near the bottom, and only your own scrolling up releases it.
+- **Verified in headless Chromium,** 390 × 664 phone viewport with touch, scroll anchoring turned off to behave like Safari, and the simulator feeding live alerts:
+  - Alerts tab over 40 s: the page no longer shrinks under the reader (before, it lost 212 px and jumped up);
+  - a tap on each tab switches it;
+  - a tap on the open tab at the bottom keeps the position;
+  - `node --check` passes, and `embed_dashboard.py` packs the page.
+- **Takes effect on the hub after the door node is reflashed** (`pio run -e esp32hub`, COM7). The laptop dashboard needs the copied `static/`.
+
 ## 2026-10-01 (03:00) — charging indicator: recommendation only
 
 - **No hardware or firmware change.** The wearable has no signal from the TP4056 to the ESP32, so it cannot know it is charging. A fuel gauge would not solve this either: the MAX17043 reports state of charge only.
