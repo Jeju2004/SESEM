@@ -193,6 +193,7 @@ static const BuzzPattern kBeepSos1        = {2700, 150, 100, 1};   // pattern se
 static const BuzzPattern kBeepSos2        = {2700, 150, 100, 2};   // ... per press in it
 static const BuzzPattern kBeepSos3        = {2700, 150, 100, 3};
 static const BuzzPattern kBeepSosDismiss  = {1500, 400, 150, 1};
+static const BuzzPattern kBeepHoldTick    = {1500,  50,  50, 1};   // each second of a hold
 static const BuzzPattern kBeepRestricted  = {3200, 120,  80, 4};
 static const BuzzPattern kBeepBatteryLow  = {2000, 250, 250, 2};
 static const BuzzPattern kBeepOffline     = {1800,  60, 120, 2};
@@ -500,6 +501,7 @@ static bool     gBtnLastRead = HIGH;
 static uint32_t gBtnChangeAt = 0;
 static uint32_t gBtnPressAt  = 0;
 static bool     gLongHandled = false;
+static uint8_t  gHoldTicks   = 0;        // seconds of the current hold already ticked
 static uint8_t  gPatCount    = 0;        // presses in the pattern being entered
 static uint32_t gPatLastEdge = 0;        // last press or release of that pattern
 
@@ -525,6 +527,7 @@ static void sosService() {
     if (gBtnStable == LOW) {            // pressed
       gBtnPressAt  = now;
       gLongHandled = false;
+      gHoldTicks   = 0;
       // Every press is heard at once (short tick). The presses are counted,
       // and the alert goes out when the pattern ends (below), so 1, 2 or 3
       // quick presses can say how urgent it is.
@@ -559,6 +562,15 @@ static void sosService() {
       buzzerPlay(kBeepSos1);
       Serial.printf("[SOS] %u press%s -> an SOS at this level is already active\n", level, level > 1 ? "es" : "");
     }
+  }
+
+  // While the button is held, a soft low tick each second says "keep holding".
+  // Without it a hold let go at 2-2.5 s went out as a 1-press SOS, which is why
+  // a cancel and a call looked the same on the dashboard (1 Oct).
+  if (gBtnStable == LOW && !gLongHandled) {
+    uint32_t held = now - gBtnPressAt;
+    uint8_t  secs = held / 1000;
+    if (secs > gHoldTicks && held < SOS_LONG_PRESS_MS) { gHoldTicks = secs; buzzerPlay(kBeepHoldTick); }
   }
 
   // LONG PRESS = dismiss a false alarm. Fires while still held, so the

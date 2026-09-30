@@ -268,6 +268,27 @@ function renderBanner() {
   bannerFresh = false;
 }
 
+/* A long press on the wearable means the resident cancelled the SOS. That is
+ * good news, not an alarm, so it gets its own short green notice instead of
+ * the red card just disappearing (1 Oct: a cancel and a call looked the
+ * same). Once per cancel, for 8 s; tap it to close. History already on the
+ * server when the page opens is not news, so the first update only notes it. */
+let lastDismissId = null, noticeTimer = 0;
+function renderNotice() {
+  const ids = ((state && state.alerts_recent) || []).filter(a => a.type === 'sos_dismissed').map(a => a.id);
+  const top = ids.length ? Math.max(...ids) : 0;
+  if (lastDismissId === null || top < lastDismissId) { lastDismissId = top; return; }   // first load, or the hub restarted
+  if (top === lastDismissId) return;
+  lastDismissId = top;
+  const a = state.alerts_recent.find(x => x.id === top);
+  const who = a.resident || a.device_id || '';
+  $('notice').innerHTML = `<button type="button" class="notice-card" data-notice>
+      <b>SOS cancelled by the resident</b>
+      <span>${esc(who)}${who ? ' · ' : ''}${clockTime(a.event_at)} · long press on the wearable</span></button>`;
+  clearTimeout(noticeTimer);
+  noticeTimer = setTimeout(() => { $('notice').innerHTML = ''; }, 8000);
+}
+
 /* ------------------------------------------------------------------ tiles */
 function renderHero() {
   const host = $('hero');
@@ -460,6 +481,7 @@ document.addEventListener('click', ev => {
   const k = ev.target.closest('[data-k]');
   if (k) { keypad(k.dataset.k); return; }
   if (ev.target.closest('#lock-btn')) { logout(); return; }
+  if (ev.target.closest('[data-notice]')) { clearTimeout(noticeTimer); $('notice').innerHTML = ''; return; }
   if (ev.target.closest('[data-collapse]')) { collapsed = true; bannerKey = ''; renderBanner(); return; }
   if (ev.target.closest('[data-expand]')) { collapsed = false; bannerKey = ''; renderBanner(); return; }
   const a = ev.target.closest('[data-ack]');
@@ -526,6 +548,7 @@ window.addEventListener('scroll', () => {
 function render() {
   renderHello(); renderBanner();
   if (!state) return;
+  renderNotice();
   if (touching || Date.now() < scrollingUntil) { scheduleRender(); return; }
   if (nearBottom() && window.scrollY > 0) mainEl.style.minHeight = mainEl.offsetHeight + 'px';
   const anchor = scrollAnchor();

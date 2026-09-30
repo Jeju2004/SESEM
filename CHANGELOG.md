@@ -17,6 +17,10 @@ From the house test and the video-demo screenshots (`data/demo/2026-09-30/`).
 - **iPhone dashboard jumping to the top at the end of a list (`static/v2`).**
   - **Cause:** at the bottom, a swipe starting on the tab bar barely moves, and iOS treats it as a tap on the open tab. `setTab()` then scrolled to the top.
   - **Fix:** the open tab's button now does nothing, and tab taps while the page is still moving are ignored.
+- **SOS long press looked the same as a short press.**
+  - **Evidence:** the video run shows two "SOS PRESSED" entries and no "SOS dismissed". The hold was let go before 3 s, so the wearable correctly sent a 1-press SOS.
+  - **Wearable:** a soft low tick each second while the button is held (`kBeepHoldTick`). The existing long low tone still marks the cancel at 3 s. The threshold is unchanged (3000 ms, still open with the adviser).
+  - **Dashboard (`static/v2`):** a cancel now shows a short green notice, "SOS cancelled by the resident" (8 s, tap to close), instead of the red card just disappearing.
 - **Verified:**
   - dashboard self-test 38/38;
   - a scratch-server test of the new rules:
