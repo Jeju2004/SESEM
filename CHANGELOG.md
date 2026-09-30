@@ -77,7 +77,9 @@ From the house test and the video-demo screenshots (`data/demo/2026-09-30/`).
     - an Acknowledged offline alert is not raised again over 20 s, and clears on the next status;
   - `node --check` passes on `home.js`;
   - `embed_dashboard.py` packs the page.
-- **Not yet verified:** the firmware was **not compiled here**, because the PlatformIO registry is blocked in the cloud environment. Build both boards with `pio run` before flashing, and check on hardware.
+- **Not yet verified here:** the firmware was **not compiled in the cloud session**, because the PlatformIO registry is blocked there.
+  - **Compiled and flashed on the laptop, 1 Oct, about 03:00:** wearable on COM8, door node on COM7 (`esp32hub`), together with the SOS hold-tick and cancel-notice changes.
+  - **Behaviour on hardware:** not yet reported.
 
 ## 2026-09-30 (night) — house test, data export
 

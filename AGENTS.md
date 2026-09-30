@@ -119,7 +119,7 @@ sub-threshold samples when fitting path loss — that biases the exponent.
 **Tests:**
 - **Test 1:** done, 21 Sep (`data/test1/test1_los.csv`).
 - **Test 2 Run 1:** done, 24 Sep (56.2 %, no cross-room errors).
-- **Test day, 1 Oct:** SOS (B) and heart rate (C) were captured on the laptop but are **not yet in the repo**.
+- **Test day, 1 Oct:** SOS (B) done, n = 6, median 295 ms, max 408 ms; heart rate (C) preliminary, n = 2, MAE 1.75 bpm (`data/test_day/`, in paper Rev 6).
 - **Still to do:** Run 3 (A) and door cycles (D).
 - **Battery runtime is unmeasured**, and the wearable has a power-path fault (paper Section 4.12).
 
@@ -131,7 +131,7 @@ sub-threshold samples when fitting path loss — that biases the exponent.
 
 Yellow highlights mark values not yet measured.
 
-**Firmware changes of 1 Oct are not yet compiled or flashed.** The cloud session cannot reach the PlatformIO registry, so build on the laptop first.
+**Firmware changes of 1 Oct were compiled and flashed on the laptop (about 03:00):** wearable on COM8, door node on COM7 (`esp32hub`). The hardware checks after flashing are still to be reported. The cloud session cannot reach the PlatformIO registry, so builds happen on the laptop.
 
 ---
 

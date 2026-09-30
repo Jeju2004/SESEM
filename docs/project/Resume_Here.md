@@ -3,11 +3,8 @@
 ## Now (defense day, Thursday 1 October)
 
 1. **`Defense_Day_Checklist.md`**: what to bring and cover, and the morning technical checks.
-2. **Flash the 1 Oct fixes, if they build.** Pull `claude/zealous-turing-0kdneb`, run `pio run` for the wearable and for the door node (`-e esp32hub`), and flash each board alone. See CHANGELOG "2026-10-01".
-3. **Tests B and C are captured.**
-   - Push `sos.csv` and `hr.csv` to `data/test_day/`.
-   - Run `tools/field/test_day_report.py` on each.
-   - Put the numbers into the paper's yellow cells, then rebuild the drafts.
+2. **1 Oct fixes flashed** (wearable COM8, door node COM7 `esp32hub`, about 03:00). Check on hardware: ticks on hold, green cancel notice, no "Location unknown" in a short hallway pass, iPhone stays at the bottom.
+3. **Tests B and C are in the paper.** B: n = 6, median 295 ms. C: n = 2, preliminary. More heart-rate readings would strengthen C.
 4. **Still to do:** Test A (Run 3, room accuracy) and Test D (door node, 20 cycles, last).
 5. **Print:** paper Rev 6 (4 copies, after updating the table of contents in Word) and the manual v0.3.
 
