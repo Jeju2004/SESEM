@@ -3,6 +3,15 @@
 Dated record of every code change. Newest first. Each entry says what changed,
 why, and whether it has been verified on hardware.
 
+## 2026-09-30
+
+- **Dashboard database export** — `tools/field/export_db.py` writes
+  `status_log`, `alerts`, `door_log` and `ack_log` to CSV, with a readable
+  local-time column beside every timestamp. Opens the database read-only, so
+  it can run while the dashboard is up. Added to back up the pre-demo dry run
+  and video demo (house test, SESEMSG network). Tested against a database
+  built from the dashboard schema; not yet run on the field database.
+
 ## 2026-09-26
 
 - **Wearable PCB Rev C2 added** under `hardware/wearable_pcb/` (KiCad 9 project,
