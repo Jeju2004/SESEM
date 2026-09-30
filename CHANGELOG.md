@@ -3,6 +3,35 @@
 Dated record of every code change. Newest first. Each entry says what changed,
 why, and whether it has been verified on hardware.
 
+## 2026-10-01 (02:30) — documents and deliverables
+
+- **Drafts regenerated** in `deliverables/drafts/`:
+  - `TroDes_IEEE_Paper_DRAFT_Rev6.docx`;
+  - `TroDes_Users_Manual_DRAFT_v0.3.docx`;
+  - `TroDes_Defense_Presentation_DRAFT_v0.3.pptx`.
+- **Paper Rev 6:**
+  - the zone-unknown delay and its Wi-Fi pause (3.5, 3.10);
+  - SOS hold ticks and the green cancel notice;
+  - one-episode "location unknown" and "not reporting" alerts;
+  - the Run 3 constants now ask which build was measured;
+  - new paragraph in 4.10: the 30 Sep integrated demonstration, from the dashboard screenshots, with the three defects it exposed.
+- **Manual v0.3:**
+  - hold ticks and the green cancel notice in 4.1, 4.3 and 6.3;
+  - alert table: when "location unknown" and "not reporting" are raised and cleared;
+  - troubleshooting for "zone shows unknown";
+  - specifications.
+- **Deck v0.3:**
+  - hardware subtitle and fabrication row now say etched wearable board with perfboard nodes;
+  - SOS hold ticks;
+  - the zone-unknown bullet;
+  - results slide dated 1 Oct.
+- **New `docs/project/Defense_Day_Checklist.md`,** from the adviser's briefing. It maps constraints, standards, design and "what we let go" to the deck slides and paper sections 3.8, 3.12 and 3.14.
+- **Updated:**
+  - `CLAUDE.md` / `AGENTS.md` "Where things stand";
+  - `Resume_Here.md`;
+  - `docs/project/INDEX.md`.
+- **No test numbers added.** Tests B and C were captured on the laptop but are not in the repository yet; A and D are pending. Their cells stay yellow.
+
 ## 2026-10-01 (early morning) — alert flood, iPhone scroll, beacon dropouts
 
 From the house test and the video-demo screenshots (`data/demo/2026-09-30/`).

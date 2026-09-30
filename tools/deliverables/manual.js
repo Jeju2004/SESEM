@@ -1,4 +1,4 @@
-// Generates the TroDes User's Manual draft (.docx). Draft v0.2, 30 Sep 2026.
+// Generates the TroDes User's Manual draft (.docx). Draft v0.3, 1 Oct 2026.
 const fs = require("fs");
 const {
   Document, Packer, Paragraph, TextRun, HeadingLevel, AlignmentType, Table, TableRow, TableCell,
@@ -99,7 +99,7 @@ const title = [
   new Paragraph({ alignment: AlignmentType.CENTER, children: [t("An Indoor BLE-Based Localization and Safety Monitoring System for a Home for the Aged", { italics: true, size: 24 })] }),
   new Paragraph({ children: [], spacing: { before: 720 } }),
   new Paragraph({ alignment: AlignmentType.CENTER, children: [t("USER'S MANUAL", { bold: true, size: 44 })] }),
-  new Paragraph({ alignment: AlignmentType.CENTER, spacing: { after: 1200 }, children: [t("Draft v0.2 — 30 September 2026", { size: 22 })] }),
+  new Paragraph({ alignment: AlignmentType.CENTER, spacing: { after: 1200 }, children: [t("Draft v0.3 — 1 October 2026", { size: 22 })] }),
   new Paragraph({ alignment: AlignmentType.CENTER, children: [t("Prepared by: Chester John B. Cirio and Pathrish Anne R. Cruz — Section C1")] }),
   new Paragraph({ alignment: AlignmentType.CENTER, children: [t("Adviser: Engr. Glenn V. Magwili")] }),
   new Paragraph({ alignment: AlignmentType.CENTER, children: [t("BS Electronics and Communications Engineering — Electronics Design")] }),
@@ -170,7 +170,7 @@ const s4 = [
   FIG("Wearable device — front view with labelled SOS button, status LED, power switch; back view with charging port"),
   H2("4.1 Parts of the wearable"),
   table(["Part", "What it does"], [
-    ["**SOS button**", "1, 2 or 3 quick presses: send an SOS of increasing urgency (Section 6.3). Press and hold for 3 seconds: cancel a false alarm."],
+    ["**SOS button**", "1, 2 or 3 quick presses: send an SOS of increasing urgency (Section 6.3). Press and hold for 3 seconds: cancel a false alarm. The wearable ticks softly once a second while the button is held; let go after the long, low tone."],
     ["**Power switch**", "Slide to ON (battery) or OFF."],
     ["**Buzzer**", "Sounds tones to confirm actions and to warn the resident (Section 4.3)."],
     ["**Status LED**", "A short blink every 2 seconds shows the device is running. It stays lit while an SOS is waiting for a caregiver, and lights with every tone."],
@@ -185,6 +185,7 @@ const s4 = [
     ["Two short beeps", "Device has switched on and started", "Nothing — normal start-up"],
     ["One very short tick", "The SOS button press was registered", "Press again within 0.7 s to raise the urgency"],
     ["One, two or three beeps", "An SOS was sent: 1 = needs assistance, 2 = urgent, 3 = emergency", "A caregiver will respond"],
+    ["Soft low tick, once a second", "The SOS button is being held", "Keep holding until the long, low tone to cancel"],
     ["One long, low tone", "The SOS was acknowledged by a caregiver, or cancelled by holding the button 3 s", "Nothing — the device is ready for a new SOS"],
     ["Four quick high beeps", "Resident has entered a **restricted zone**", "Caregiver: check on the resident"],
     ["Two medium beeps", "Battery low (20 %) or critical (10 %)", "Charge the device soon"],
@@ -259,10 +260,11 @@ const s6 = [
     ["**Once**", "SOS: Needs assistance", "Tick, then one beep"],
     ["**Twice quickly**", "SOS: URGENT - please come now", "Two beeps"],
     ["**Three times quickly**", "SOS: EMERGENCY - immediate help needed", "Three beeps"],
-    ["**Hold 3 seconds**", "SOS dismissed by resident (false alarm)", "One long, low tone"],
+    ["**Hold 3 seconds**", "Green notice: SOS cancelled by the resident (false alarm); the red SOS clears", "A soft tick each second, then one long, low tone"],
   ], [2200, 4300, 2860]),
   SP(),
   B("Presses count as one pattern when they are less than 0.7 s apart. The message is sent 0.7 s after the last press."),
+  B("To cancel, keep holding until the long, low tone (3 s). A hold released earlier counts as a press and sends an SOS."),
   B("If no one has come, the resident can press again with **more** presses; the alert is raised to the higher level. Pressing the same or fewer times repeats the confirmation only."),
   B("While an SOS is waiting, the wearable's LED stays lit. When a caregiver acknowledges it, the wearable plays a long low tone and is ready for a new SOS."),
   H2("6.4 Reading the dashboard"),
@@ -295,8 +297,8 @@ const s6 = [
     ["Restricted door opened", "**Critical**", "Check the door and who opened it"],
     ["Battery critical (10 %)", "**Critical**", "Charge or replace the wearable now"],
     ["Battery low (20 %)", "Warning", "Charge soon"],
-    ["Location unknown - no beacon in range", "Warning", "Locate the resident"],
-    ["Device not reporting", "Warning", "Check the resident and the wearable"],
+    ["Location unknown - no beacon in range", "Warning", "Locate the resident. Raised once when no beacon has been heard for about 8 seconds; clears by itself when the resident is detected in a zone again"],
+    ["Device not reporting", "Warning", "Check the resident and the wearable. One alert per outage; clears by itself when the wearable reports again"],
     ["SOS dismissed, zone change, door closed", "Information", "No action needed"],
   ], [3600, 1600, 4160]),
   SP(),
@@ -320,7 +322,7 @@ const s8 = [
   table(["Problem", "Likely cause", "What to do"], [
     ["Wearable does not beep when switched on", "Battery flat, or charger protection has tripped", "Charge for at least 30 minutes, then switch on again"],
     ["Resident shows NOT REPORTING", "Wearable off, out of range, or battery flat", "Check the resident; check the wearable is on and charged"],
-    ["Zone shows unknown", "Resident is between zones or near a doorway", "Normal near doorways; if it persists in the middle of a zone, check that zone's beacon is powered"],
+    ["Zone shows unknown", "No beacon heard for about 8 seconds, e.g. a hallway or room without a beacon", "Normal in spaces without a beacon; if it appears in the middle of a zone, check that zone's beacon is powered"],
     ["Wrong zone shown", "Beacon moved, blocked or too close to another beacon", "Check beacon placement (Section 5.1)"],
     ["Chirps every minute", "Wearable cannot reach the hub or the computer", "Check that the door node (hub) is powered"],
     ["Dashboard does not open after joining SESEMSG", "Phone is using mobile data, or the sign-in page was closed", "Turn off mobile data; scan QR code 2 or open http://192.168.4.1"],
@@ -350,10 +352,10 @@ const s10 = [
   table(["Item", "Specification"], [
     ["Microcontroller (all devices)", "ESP32-WROOM-32 development board"],
     ["Localization method", "BLE iBeacon received signal strength (RSSI), one beacon per zone; the strongest beacon wins"],
-    ["Zone decision", "Every 200 ms; a new zone must lead by 5 dB — for 0.4 s when it leads by 10 dB or more, otherwise for 1.6 s"],
+    ["Zone decision", "Every 200 ms; a new zone must lead by 5 dB — for 0.4 s when it leads by 10 dB or more, otherwise for 1.6 s. Zone unknown after about 8.5 s with no beacon heard"],
     ["Beacons", "+9 dBm, advertising every 100 ms (all beacons identical)"],
     ["Status report", "Every 5 s; alerts sent at once"],
-    ["SOS button", "1–3 presses within 0.7 s gaps choose the urgency; hold 3 s = cancel"],
+    ["SOS button", "1–3 presses within 0.7 s gaps choose the urgency; hold 3 s = cancel (a tick each second while held)"],
     ["Hub network", "Wi-Fi \"SESEMSG\", WPA2, dashboard at 192.168.4.1; up to 8 devices (the wearable and 7 phones)"],
     ["Dashboard", "Web page on any phone browser, refreshed every second, passcode-protected; served by the hub, or by a FastAPI/SQLite server on a computer"],
     ["Wearable battery", "3.7 V, 1000 mAh lithium-polymer; alerts at 20 % and 10 %"],
@@ -394,7 +396,7 @@ const s10 = [
 
 // ---------- document ----------
 const doc = new Document({
-  creator: "TroDes team", title: "TroDes User's Manual — Draft v0.2",
+  creator: "TroDes team", title: "TroDes User's Manual — Draft v0.3",
   styles: {
     default: { document: { run: { font: FONT, size: 22 } } },
     paragraphStyles: [
@@ -415,7 +417,7 @@ const doc = new Document({
   },
   sections: [
     { properties: { page: { size: { width: 12240, height: 15840 }, margin: { top: 1440, right: 1440, bottom: 1440, left: 1440 } }, titlePage: true },
-      headers: { default: new Header({ children: [new Paragraph({ alignment: AlignmentType.RIGHT, children: [t("TroDes User's Manual — Draft v0.2", { size: 16, color: "808080" })] })] }) },
+      headers: { default: new Header({ children: [new Paragraph({ alignment: AlignmentType.RIGHT, children: [t("TroDes User's Manual — Draft v0.3", { size: 16, color: "808080" })] })] }) },
       footers: { default: new Footer({ children: [new Paragraph({ alignment: AlignmentType.CENTER, children: [t("Page ", { size: 16 }), new TextRun({ children: [PageNumber.CURRENT], font: FONT, size: 16 }), t(" of ", { size: 16 }), new TextRun({ children: [PageNumber.TOTAL_PAGES], font: FONT, size: 16 })] })] }) },
       children: [...title, ...toc, ...s1, ...s2, ...s3, ...s4, ...s5, ...s6, ...s7, ...s8, ...s9, ...s10] },
   ],

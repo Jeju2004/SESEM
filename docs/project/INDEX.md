@@ -18,6 +18,7 @@ tooling (progress reports, the IEEE paper, the user manual).
 | `Test_Day_2026-09-30.md` | Test-day procedure for the final data (Run 3, SOS, heart rate, doors, Wi-Fi loss) and the defense-day checklist (passcode removed in this copy) |
 | `Shopping_List_2026-09-27.md` | Parts bought for the Rev C3 build |
 | `House_Test_2026-09-30.md` | Night-before house test: dry run and video done, hub restarts, what was lost, open actions |
+| `Defense_Day_Checklist.md` | Adviser briefing: what to cover, what to bring, after-defense submissions, morning checks |
 
 Also in the vault root: `Decisions Log.md`, `Open Questions.md`,
 `Deliverables Tracker.md`, `Wearable Schematic Spec.md`.

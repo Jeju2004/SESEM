@@ -1,4 +1,4 @@
-// TroDes defense deck, draft v0.2 (30 Sep 2026) — 10-minute slot on Thu 1 Oct.
+// TroDes defense deck, draft v0.3 (1 Oct 2026) — 10-minute slot on Thu 1 Oct.
 // Usage: node deck.js <out.pptx>
 // Order follows the defense briefing (26 Sep): brief background, design,
 // constraints, standards, what we let go, results, then the live demo.
@@ -113,7 +113,7 @@ async function icon(Comp, color) {
     const items = [
       [I.radio, "Zone detection", "Wearable identifies the resident's zone from fixed BLE beacons"],
       [I.door, "Restricted areas", "Alerts on entering a restricted zone or opening its door"],
-      [I.sos, "SOS button", "1, 2 or 3 presses set the urgency; hold 3 s to cancel"],
+      [I.sos, "SOS button", "1, 2 or 3 presses set the urgency; hold 3 s (ticks each second) to cancel"],
       [I.battery, "Power awareness", "Battery level reported, with low and critical alerts"],
       [I.heart, "Heart rate", "Displayed for information (not clinical)"],
       [I.web, "Caregiver dashboard", "Live on any phone — join by QR, no laptop needed"],
@@ -142,7 +142,7 @@ async function icon(Comp, color) {
   // 5. Hardware
   {
     const s = pres.addSlide(); s.background = { color: C.white };
-    title(s, "Hardware", "Module-carrier design · hand-soldered perfboard (adviser-approved) · 3D-printed PETG enclosures");
+    title(s, "Hardware", "Module-carrier design · etched single-sided wearable board · perfboard beacons and door node · PETG enclosures");
     card(s, 0.6, 1.9, 6.4, 4.9);
     circleIcon(s, I.watch, 0.9, 2.15, 0.7, C.teal);
     txt(s, "Wearable", { x: 1.75, y: 2.2, w: 4.9, h: 0.55, fontSize: 22, bold: true, color: C.ink, margin: 0, valign: "middle" });
@@ -186,12 +186,13 @@ async function icon(Comp, color) {
       { text: "Strongest beacon wins — if it leads by 5 dB:", options: { bullet: true, breakLine: true } },
       { text: "for 0.4 s when it leads by 10 dB or more (clear move)", options: { bullet: { indent: 18 }, indentLevel: 1, breakLine: true } },
       { text: "for 1.6 s when signals are close (no flicker)", options: { bullet: { indent: 18 }, indentLevel: 1, breakLine: true } },
+      { text: "No beacon for ~8.5 s → \"location unknown\" (once; clears itself)", options: { bullet: true, breakLine: true } },
       { text: "Restricted zone → buzzer + critical alert", options: { bullet: true } },
     ], { x: 0.9, y: 2.95, w: 5.5, h: 3.7, fontSize: 15, paraSpaceAfter: 6, margin: 0 });
     card(s, 6.9, 1.8, 5.8, 5.0, C.alertTint);
     circleIcon(s, I.sos, 7.2, 2.05, 0.7, C.alert);
     txt(s, "SOS in three levels", { x: 8.05, y: 2.1, w: 4.4, h: 0.6, fontSize: 20, bold: true, color: C.ink, margin: 0, valign: "middle" });
-    const lv = [["1 press", "Needs assistance"], ["2 presses", "URGENT – please come now"], ["3 presses", "EMERGENCY – immediate help"], ["Hold 3 s", "Cancel a false alarm"]];
+    const lv = [["1 press", "Needs assistance"], ["2 presses", "URGENT – please come now"], ["3 presses", "EMERGENCY – immediate help"], ["Hold 3 s", "Cancel (ticks each second; phones show green)"]];
     lv.forEach(([a, b], i) => {
       const y = 2.95 + i * 0.62;
       s.addShape(pres.shapes.ROUNDED_RECTANGLE, { x: 7.2, y, w: 1.45, h: 0.48, fill: { color: i < 3 ? C.alert : C.muted }, line: { color: i < 3 ? C.alert : C.muted }, rectRadius: 0.08 });
@@ -213,7 +214,7 @@ async function icon(Comp, color) {
       ["Caregiver interface", "Web page on any phone, joined by QR", "Native mobile app — per-platform effort, installation"],
       ["Security and privacy", "WPA2 network + passcode with lock-out; data on site", "Open network; cloud storage of health data"],
       ["Wearable power", "Boost 5 V → devkit regulator", "Low-dropout regulator — none sourceable in time"],
-      ["Fabrication", "Perfboard module carrier (approved 24 Sep)", "Hand-etched single-sided PCB (layout kept)"],
+      ["Fabrication", "Etched single-sided wearable board; beacons and door node on perfboard (approved 24 Sep)", "All perfboard; all etched boards"],
     ], [2.5, 4.9, 4.7], 1.85, 14, 0.62);
     footer(s);
     s.addNotes("~40 s. The weighted decision matrix is Table 3.3 of the paper. Backend hosting is the newest decision: running the server inside the door node removes the laptop and the internet from the list of things that can fail.");
@@ -284,7 +285,7 @@ async function icon(Comp, color) {
   // 11. Results on the final firmware (30 Sep)
   {
     const s = pres.addSlide(); s.background = { color: C.white };
-    title(s, "Results on the final firmware", "Test day, 30 September 2026 · earlier Run 1 (24 Sep): 0 cross-room errors, 56.2 % where two zones shared a room");
+    title(s, "Results on the final firmware", "Test day, 1 October 2026 · earlier Run 1 (24 Sep): 0 cross-room errors, 56.2 % where two zones shared a room");
     const cards = [
       [I.radio, "Zone accuracy (Run 3)", "overall % · unresolved % · flicker / min"],
       [I.timer, "SOS delivery time", "median · max (ms), n = 10"],

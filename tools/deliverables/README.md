@@ -6,8 +6,8 @@ script, regenerate, then open the result in Word/PowerPoint.
 ```powershell
 cd C:\Users\Chester\Desktop\Vaya\SESEM\tools\deliverables
 npm install                                   # once
-node manual.js ..\..\deliverables\drafts\TroDes_Users_Manual_DRAFT_v0.1.docx
-node deck.js   ..\..\deliverables\drafts\TroDes_Defense_Presentation_DRAFT_v0.1.pptx
+node manual.js ..\..\deliverables\drafts\TroDes_Users_Manual_DRAFT_v0.3.docx
+node deck.js   ..\..\deliverables\drafts\TroDes_Defense_Presentation_DRAFT_v0.3.pptx
 node paper.js  ..\..\deliverables\drafts\TroDes_IEEE_Paper_DRAFT_Rev3.docx
 node pr3.js    ..\..\deliverables\drafts\TroDes_Progress_Report_3_DRAFT.docx
 ```
@@ -15,12 +15,12 @@ node pr3.js    ..\..\deliverables\drafts\TroDes_Progress_Report_3_DRAFT.docx
 After regenerating a Word file, open it and right-click the table of contents →
 **Update Field**, then save and export to PDF.
 
-**IEEE-format paper (Revision 5, two columns):**
+**IEEE-format paper (Revision 6, two columns):**
 
 ```powershell
 python make_figures.py <dir with sch.pdf and pcb.pdf> <walk log txt>   # f5, f6, schematic, copper
 python make_appendix_images.py "<...>\SESEMSG_Panel_QR_Card.pdf"      # rotated schematic, board crop, one QR card
-node paper_ieee.js ..\..\deliverables\drafts\TroDes_IEEE_Paper_DRAFT_Rev5.docx
+node paper_ieee.js ..\..\deliverables\drafts\TroDes_IEEE_Paper_DRAFT_Rev6.docx
 ```
 
 Tables, figures and equations are numbered from the `TABLES`, `FIGS` and `EQS`
