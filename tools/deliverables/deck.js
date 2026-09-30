@@ -346,7 +346,8 @@ async function icon(Comp, color) {
       { text: "Measure the runtime; replace the boost + linear chain with a buck-boost or sub-400 mV regulator (≈ 27 h calculated)", options: { bullet: true, breakLine: true } },
       { text: "Deploy the remote relay and push notifications once hosting is decided", options: { bullet: true, breakLine: true } },
       { text: "Doorway coverage: tune the floor or add beacons", options: { bullet: true, breakLine: true } },
-      { text: "Validate heart rate on more people against clinical equipment", options: { bullet: true } },
+      { text: "Validate heart rate on more people against clinical equipment", options: { bullet: true, breakLine: true } },
+      { text: "Show charging on the dashboard (USB-input sense); fuel gauge for accurate %", options: { bullet: true } },
     ], { x: 7.2, y: 2.65, w: 5.3, h: 3.9, fontSize: 15, paraSpaceAfter: 10, margin: 0 });
     footer(s);
     s.addNotes("~40 s. Be direct about the runtime gap: it follows from a sourcing constraint, the fix is known, and it belongs in Chapter 5 as a recommendation.");

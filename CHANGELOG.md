@@ -3,6 +3,13 @@
 Dated record of every code change. Newest first. Each entry says what changed,
 why, and whether it has been verified on hardware.
 
+## 2026-10-01 (03:00) — charging indicator: recommendation only
+
+- **No hardware or firmware change.** The wearable has no signal from the TP4056 to the ESP32, so it cannot know it is charging. A fuel gauge would not solve this either: the MAX17043 reports state of charge only.
+- **Paper Rev 6, 5.2:** new recommendation to sense the charger's USB input through a divider on a free input pin (charging below 4.15 V, charged at 4.15 V or above). The fuel-gauge recommendation now names the MAX17048's charge rate.
+- **Deck v0.3:** a matching next-steps bullet.
+- **Manual v0.3, 6.2:** the dashboard does not show charging; check the charger's lights.
+
 ## 2026-10-01 (02:45) — Test B and C results into the drafts
 
 - **Paper Rev 6, Tables "sos" and "hr", and deck v0.3 results slide** now carry the measured values from `data/test_day/`:

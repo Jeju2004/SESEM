@@ -253,6 +253,7 @@ const s6 = [
   N("Connect a standard 5 V USB-C charger to the wearable's charging port."),
   N("Watch the charger's two lights, next to the charging port: **red = charging**, **blue = fully charged**."),
   N("Disconnect the charger when charging is complete."),
+  P("The dashboard does not show whether the wearable is charging; check the charger's lights. The battery percentage on the dashboard rises while the device is charging."),
   CAUTION("If the **red light blinks while the blue light is on**, the charger cannot see the battery: the battery is disconnected or its wires are loose. Do not use the device on battery until technical staff have checked the battery connection (Section 8)."),
   P(["Battery life per charge: ", tbd("not yet measured — see Section 10.1"), ". Charge the device every day, and whenever the dashboard shows a low-battery alert."]),
   H2("6.3 Using the SOS button (resident)"),
