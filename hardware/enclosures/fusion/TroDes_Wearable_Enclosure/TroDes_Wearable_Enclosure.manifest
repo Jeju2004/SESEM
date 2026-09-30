@@ -1,0 +1,10 @@
+{
+	"autodeskProduct":	"Fusion",
+	"type":	"script",
+	"author":	"TroDes (Cirio, Cruz)",
+	"description":	{
+		"":	"Builds the TroDes wearable enclosure (base with power compartment, shelf, snap lid, SOS plunger, belt clip) as a parametric design and exports STLs for the Bambu Lab A1."
+	},
+	"supportedOS":	"windows|mac",
+	"editEnabled":	true
+}

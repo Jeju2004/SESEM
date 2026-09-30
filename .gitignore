@@ -24,6 +24,9 @@ firmware/door_sensor/include/hub_page.h
 
 # KiCad (hardware/)
 !hardware/**/artwork/*.png
+# Enclosure renders and perfboard diagrams (the build notes embed them)
+!hardware/enclosures/**/*.png
+!hardware/beacon_node/*.png
 *.lck
 *.kicad_prl
 fp-info-cache
