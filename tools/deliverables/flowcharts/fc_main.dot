@@ -1,0 +1,32 @@
+digraph M {
+  #include
+  rankdir=TB;
+  subgraph cluster_main { label="Main loop (core 1)"; fontname="Liberation Serif"; fontsize=11; style=solid;
+    s  [label="Power on", shape=box, style=rounded];
+    i  [label="Initialise serial, pins, buzzer,\nheart-rate sensor; boot tone"];
+    t  [label="Start BLE task and network task"];
+    sos[label="SOS button service (Fig. 16)"];
+    bl [label="Buzzer and LED service"];
+    h  [label="20 ms\nelapsed?", shape=diamond]; h1 [label="Read heart-rate sensor"];
+    b  [label="30 s\nelapsed?", shape=diamond]; b1 [label="Read battery voltage"];
+    z  [label="200 ms\nelapsed?", shape=diamond]; z1 [label="Zone classification (Fig. 15)"];
+    s->i->t->sos->bl->h; h->h1 [xlabel="Yes"]; h->b [xlabel="No"]; h1->b;
+    b->b1 [xlabel="Yes"]; b->z [xlabel="No"]; b1->z; z->z1 [xlabel="Yes"]; z->sos [xlabel="No"]; z1->sos;
+  }
+  subgraph cluster_ble { label="BLE task (core 1)"; fontname="Liberation Serif"; fontsize=11;
+    ble1 [label="Scan 2 s (active,\n62.5 ms interval)", shape=parallelogram];
+    ble2 [label="Project UUID\nand major?", shape=diamond];
+    ble3 [label="Update that zone's\nsmoothed RSSI (α = 0.4)"];
+    ble1->ble2; ble2->ble3 [xlabel="Yes"]; ble2->ble1 [xlabel="No"]; ble3->ble1;
+  }
+  subgraph cluster_net { label="Network task (core 0)"; fontname="Liberation Serif"; fontsize=11;
+    n1 [label="Link up?", shape=diamond];
+    n2 [label="Every 10 s: join the hub's\nnetwork if on the air,\notherwise the facility Wi-Fi"];
+    n3 [label="Every 5 s: queue a status report"];
+    n4 [label="Send the oldest queued\nevent to the server", shape=parallelogram];
+    n5 [label="Delivered?", shape=diamond];
+    n6 [label="Remove from queue;\nlog delivery time"];
+    n7 [label="Keep it queued; offline:\ntwo chirps every minute"];
+    n1->n2 [xlabel="No"]; n2->n1; n1->n3 [xlabel="Yes"]; n3->n4->n5; n5->n6 [xlabel="Yes"]; n5->n7 [xlabel="No"]; n6->n1; n7->n1;
+  }
+}

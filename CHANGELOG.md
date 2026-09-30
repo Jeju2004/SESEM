@@ -3,6 +3,26 @@
 Dated record of every code change. Newest first. Each entry says what changed,
 why, and whether it has been verified on hardware.
 
+## 2026-10-01 (07:45) — software flowcharts; paper layout check
+
+- **New `tools/deliverables/flowcharts/`:** Graphviz sources for four flowcharts in ANSI symbols (terminator, process, decision, input/output), drawn from the code:
+  - the wearable program: `setup()`/`loop()`, the BLE task and the network task;
+  - `classifyZone()`;
+  - `sosService()`;
+  - the hub's ingest, merge, clear and watchdog rules.
+
+  The PNGs are in `figures/`. To re-render: `dot -Tpng -Gdpi=300` after inlining `common.inc`.
+- **Paper Rev 6:**
+  - new **Appendix G — Software Flowcharts** (Figs. 14–17), referenced from 3.10;
+  - Test Data, the manual/QR card and Signed Forms become H, I and J.
+  - The charts were first placed in 3.10 as full-width figures, but that left half-empty pages, so they are now in the appendix.
+- **Abstract:** the results sentence is now bold like the rest of the abstract, and no longer repeats the wall result stated in the sentence before it.
+- **Layout checked** by rendering all 22 pages with LibreOffice:
+  - two-column body without gaps;
+  - tables I–XXIII and figures 1–18 in order;
+  - references [1]–[13].
+  - **Remaining:** the author e-mail placeholder.
+
 ## 2026-10-01 (07:00) — BOM from the team's purchase record; 2000 mAh cell; PLA
 
 - **Paper Rev 6, Appendix A**, rebuilt from the prices the team gave:
