@@ -1,0 +1,19 @@
+digraph H { #include
+    r  [label="Request received", shape=parallelogram];
+    st [label="Status?", shape=diamond];   st1 [label="Update card; clear \"not\nreporting\"; zone known:\nclear \"location unknown\""];
+    al [label="Alert?", shape=diamond];    du [label="Repeat in 30 s, or\n\"location unknown\"\nalready open?", shape=diamond];
+    mg [label="Merge; no\nnew alert"];
+    ty [label="SOS: retire weaker SOS;\nzone change: clear\n\"location unknown\"; store"];
+    dr [label="Door?", shape=diamond];     dr1 [label="Update door; opened:\ncritical alert"];
+    ak [label="Acknowledgement:\nrecord name, time"];
+    sh [label="Dashboards update\nwithin 1 s", shape=parallelogram];
+    r->st; st->st1 [xlabel="Yes"]; st->al [xlabel="No"]; al->du [xlabel="Yes"]; al->dr [xlabel="No"];
+    du->mg [xlabel="Yes"]; du->ty [xlabel="No"]; dr->dr1 [xlabel="Yes"]; dr->ak [xlabel="No"];
+    st1->sh; mg->sh; ty->sh; dr1->sh; ak->sh;
+    {rank=same; st; st1;} {rank=same; al; du;} {rank=same; dr; ty;}
+    w0 [label="Watchdog: every 5 s", style=rounded];
+    wd [label="Silent > 30 s and no\nopen \"not reporting\"?", shape=diamond]; we [label="End", style=rounded];
+    wo [label="Raise \"device\nnot reporting\""];
+    w0->wd; wd->we [xlabel="No"]; wd->wo [xlabel="Yes"]; {rank=same; wd; we;}
+  sh->w0 [style=invis];
+}

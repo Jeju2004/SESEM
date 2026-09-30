@@ -1,0 +1,18 @@
+digraph T { #include
+  subgraph cluster_b { label="(a) BLE task"; fontname="Liberation Serif"; fontsize=12;
+    b1 [label="Scan 2 s (active)", shape=parallelogram];
+    b2 [label="Project UUID\nand major?", shape=diamond];
+    b3 [label="Update zone's\nsmoothed RSSI"];
+    b1->b2; b2->b3 [xlabel="Yes"]; b2->b1 [xlabel="No"]; b3->b1; }
+  subgraph cluster_n { label="(b) Network task"; fontname="Liberation Serif"; fontsize=12;
+    n1 [label="Link up?", shape=diamond];
+    n2 [label="Every 10 s: join\nhub, else facility\nWi-Fi"];
+    n3 [label="Every 5 s: queue\nstatus report"];
+    n4 [label="Send oldest\nqueued event", shape=parallelogram];
+    n5 [label="Delivered?", shape=diamond];
+    n6 [label="Dequeue; log\ndelivery time"];
+    n7 [label="Keep queued;\nchirp each minute"];
+    n1->n2 [xlabel="No"]; n2->n1; n1->n3 [xlabel="Yes"]; n3->n4->n5; n5->n6 [xlabel="Yes"]; n5->n7 [xlabel="No"]; n6->n1; n7->n1;
+    {rank=same; n1; n2;} {rank=same; n5; n7;} }
+  b3->n1 [style=invis];
+}

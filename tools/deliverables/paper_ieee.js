@@ -26,8 +26,8 @@ const FULL = 10440;          // full text width, twips (7.25 in)
 const TABLES = ["instr", "ipo", "runtime", "matrix", "constraints", "descoped",
   "t1", "fit", "match", "r1cm", "r1zone", "r1pts", "walk", "r3snap", "sos", "hr", "door", "wifi",
   "hub", "selftest", "power", "notdone", "bom"];
-const FIGS = ["arch", "pcb3d", "encl", "t1", "r1", "walk", "dash", "power",
-  "sch", "copper", "doorwire", "beacon", "nodes", "fc_main", "fc_zone", "fc_sos", "fc_hub", "qr"];
+const FIGS = ["arch", "pcb3d", "fc_main", "fc_tasks", "fc_zone", "fc_sos", "fc_hub", "encl", "t1", "r1", "walk", "dash", "power",
+  "sch", "copper", "doorwire", "beacon", "nodes", "qr"];
 const EQS = ["pathloss", "ema", "acc", "prec", "rec", "f1", "mean", "sd", "se", "mae", "bias", "det",
   "icell", "runtime", "div", "ib", "led", "tr", "bpm"];
 const roman = (n) => ["", "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X", "XI", "XII", "XIII", "XIV",
@@ -279,11 +279,16 @@ const ch3 = [
   H3("3.9.4 Beacon transmit power."),
   P("At +3 dBm the beacons were near the −88 dBm floor at 2.45 m. At 1 m the reading rose from −61 to −55 dBm when the power was raised to +9 dBm, a 6 dB gain extending the usable range from about 4 m to 7–8 m. All beacons therefore transmit at +9 dBm every 100 ms; being mains-powered, this does not affect wearable battery life."),
   H2("3.10 Software Development"),
-  P(`**Zone classification.** The scanner accepts only advertisements carrying the project's UUID and major value and keeps a smoothed signal per beacon. Every 200 ms the classifier drops beacons not heard for 2.5 s or weaker than −88 dBm and selects the strongest; a challenger replaces the current zone only when it leads by more than 5 dB for a confirmation time that adapts to the margin — 0.4 s at a lead of 10 dB or more (a clear move) and 1.6 s otherwise (similar signals near a boundary). The adaptive confirmation was introduced after the reported zone was observed to alternate between two beacons of similar strength when people moved near the wearable. When no beacon is heard at all, the zone is declared unknown only after a further 6 s (about 8.5 s of silence in total), and this count pauses while a Wi-Fi scan or connection attempt occupies the radio, which the ESP32 shares between Wi-Fi and BLE; with a 0.4 s count, the house test of 30 Sep 2026 raised a 'location unknown' alert in every hallway and doorway. The structure of the wearable program is shown in ${F("fc_main")} and one classification pass in ${F("fc_zone")} (Appendix G).`),
-  P(`**SOS and acknowledgement.** Each press is confirmed by a short tone; presses less than 0.7 s apart are counted and the pattern is sent when no press follows — one press 'Needs assistance', two 'URGENT – please come now', three 'EMERGENCY – immediate help needed' — confirmed by the same number of beeps. A stronger pattern escalates an open SOS and the server retires the weaker alert. A 3 s hold dismisses a false alarm; a soft low tick each second tells the resident to keep holding, and a long low tone marks the dismissal, after which the dashboard shows a green 'SOS cancelled by the resident' notice in place of the red alert. The ticks were added after the 30 Sep demonstration, in which holds released before 3 s were recorded as new calls. Each status reply states how many of the wearable's SOS alerts remain unacknowledged; at zero the wearable leaves SOS mode, ready for a new call. Every delivered alert is logged with its delivery time. The button logic is shown in ${F("fc_sos")} (Appendix G).`),
+  P(`**Zone classification.** The scanner accepts only advertisements carrying the project's UUID and major value and keeps a smoothed signal per beacon. Every 200 ms the classifier drops beacons not heard for 2.5 s or weaker than −88 dBm and selects the strongest; a challenger replaces the current zone only when it leads by more than 5 dB for a confirmation time that adapts to the margin — 0.4 s at a lead of 10 dB or more (a clear move) and 1.6 s otherwise (similar signals near a boundary). The adaptive confirmation was introduced after the reported zone was observed to alternate between two beacons of similar strength when people moved near the wearable. When no beacon is heard at all, the zone is declared unknown only after a further 6 s (about 8.5 s of silence in total), and this count pauses while a Wi-Fi scan or connection attempt occupies the radio, which the ESP32 shares between Wi-Fi and BLE; with a 0.4 s count, the house test of 30 Sep 2026 raised a 'location unknown' alert in every hallway and doorway. The wearable program is shown in ${F("fc_main")}, its two background tasks in ${F("fc_tasks")} and one classification pass in ${F("fc_zone")}.`),
+  ...fig("fc_main", "fc_main.png", COL, "Wearable firmware main loop (core 1)."),
+  ...fig("fc_tasks", "fc_tasks.png", COL, "Wearable background tasks: (a) BLE scanning; (b) network and delivery queue (core 0)."),
+  ...fig("fc_zone", "fc_zone.png", COL, "Zone classification pass, executed every 200 ms; connector A continues the no-beacon branch."),
+  P(`**SOS and acknowledgement.** Each press is confirmed by a short tone; presses less than 0.7 s apart are counted and the pattern is sent when no press follows — one press 'Needs assistance', two 'URGENT – please come now', three 'EMERGENCY – immediate help needed' — confirmed by the same number of beeps. A stronger pattern escalates an open SOS and the server retires the weaker alert. A 3 s hold dismisses a false alarm; a soft low tick each second tells the resident to keep holding, and a long low tone marks the dismissal, after which the dashboard shows a green 'SOS cancelled by the resident' notice in place of the red alert. The ticks were added after the 30 Sep demonstration, in which holds released before 3 s were recorded as new calls. Each status reply states how many of the wearable's SOS alerts remain unacknowledged; at zero the wearable leaves SOS mode, ready for a new call. Every delivered alert is logged with its delivery time. The button logic is shown in ${F("fc_sos")}.`),
+  ...fig("fc_sos", "fc_sos.png", COL, "SOS button logic, executed on every pass of the main loop."),
   P(`**Heart rate.** The MAX30102 is read at 100 samples per second. After a finger is detected and the signal settles for 1.5 s, beat intervals outside 40–180 bpm or more than 25 percent from the running median are rejected, and the rate ${E("bpm")} is computed from the median of the last eight accepted intervals Δt (in milliseconds):`),
   EQ("bpm", "HR = 60 000 / median(Δt)"),
-  P(`**Hub and dashboard.** The door node reads its reed switch with a 50 ms debounce and a 30 s heartbeat. In hub mode the same ESP32 runs a WPA2 access point, a DNS server that makes phones open the dashboard as a sign-in page, and a non-blocking HTTP server implementing the same interface as the computer backend, which lets one dashboard page serve both modes. The computer backend (FastAPI with SQLite) reconstructs event time from device uptime, merges a report repeated after a timed-out reply, and keeps critical and warning alerts until acknowledged. A 'location unknown' or 'device not reporting' alert stands for one episode: a repeat is merged while it is uncleared, and it clears itself when the wearable reports a zone again or resumes reporting. The dashboard refreshes every second, is passcode-protected, follows the phone's light or dark setting, and sounds an alarm with vibration for an unacknowledged SOS. The hub's request handling and alert rules are shown in ${F("fc_hub")} (Appendix G).`),
+  P(`**Hub and dashboard.** The door node reads its reed switch with a 50 ms debounce and a 30 s heartbeat. In hub mode the same ESP32 runs a WPA2 access point, a DNS server that makes phones open the dashboard as a sign-in page, and a non-blocking HTTP server implementing the same interface as the computer backend, which lets one dashboard page serve both modes. The computer backend (FastAPI with SQLite) reconstructs event time from device uptime, merges a report repeated after a timed-out reply, and keeps critical and warning alerts until acknowledged. A 'location unknown' or 'device not reporting' alert stands for one episode: a repeat is merged while it is uncleared, and it clears itself when the wearable reports a zone again or resumes reporting. The dashboard refreshes every second, is passcode-protected, follows the phone's light or dark setting, and sounds an alarm with vibration for an unacknowledged SOS. The hub's request handling and alert rules are shown in ${F("fc_hub")}.`),
+  ...fig("fc_hub", "fc_hub.png", COL, "Hub request handling and watchdog; the computer backend applies the same rules."),
   H2("3.11 Prototype Development"),
   P(`The door node and beacons are built on perfboard and the wearable on the etched Revision C3 board, with modules on headers as approved by the adviser on 24 September 2026. Enclosures for the wearable (${F("encl")}), the beacons and the door node were modelled parametrically and 3-D printed in PLA.`),
   ...fig("encl", "Wearable_Enclosure_Exploded.png", COL, "Wearable enclosure, exploded view (3-D model): base, power deck and lid."),
@@ -498,6 +503,7 @@ const references = [
 const AH = (text) => new Paragraph({ children: [t(text, { smallCaps: true, bold: true, size: 22 })], alignment: AlignmentType.LEFT, spacing: { before: 240, after: 120 }, keepNext: true });
 const appendices = [
   new Paragraph({ children: [t("Appendices", { smallCaps: true, bold: true, size: 26 })], alignment: AlignmentType.CENTER, spacing: { after: 200 } }),
+  WIDE([
   AH("Appendix A — Bill of Materials"),
   ...table("bom", "Bill of materials of the demonstration system (team purchase record, 1 Oct 2026; * = estimate from Philippine supplier listings, Aug 2026, where no purchase price was recorded)", ["Ref.", "Part", "Qty", "Unit (₱)", "Line (₱)"], [
     ["U1", "ESP32-WROOM-32 DevKitC, 38-pin: wearable, three beacons, door node, and the wearable's first board (failed, replaced)", "6", "350*", "2,100*"],
@@ -520,16 +526,12 @@ const appendices = [
     ["", "**Total**", "", "", "**4,774** (of which 2,265 estimated)"],
   ], [1.1, 3.3, 0.6, 0.8, 1.2], FULL),
   PN("Chargers for the beacons and the door node, wire and solder were already owned and are not included; no JST connectors were used. The schematic lists the 1000 mAh cell first specified; a 2000 mAh cell was fitted."),
-  AH("Appendix B — Wearable Schematic"),
-  ...fig("sch", "a_schematic_rot.png", 8200, "Wearable schematic, Revision C3 (KiCad; page rotated)."),
-  AH("Appendix C — Printed Circuit Board"),
-  ...fig("copper", "a_pcb_board.png", 6200, "Revision C3 copper (B.Cu) with component-side silkscreen, 69 × 66 mm; design-rule check: 0 errors, 0 unconnected pads."),
-  AH("Appendix D — Door Node and Beacon Construction"),
-  ...fig("doorwire", "Door_Node_Wiring.png", 7600, "Door sensor node wiring (reed switch on GPIO 18 with the internal pull-up)."),
-  ...fig("beacon", "Beacon_Perfboard_ComponentSide.png", 6400, "Beacon node on perfboard, component side."),
-  AH("Appendix E — Enclosures"),
-  ...fig("nodes", "Node_Enclosures_Closed.png", 6000, "Beacon and door-node enclosures (3-D model), printed in PLA."),
-  AH("Appendix F — Firmware Excerpts"),
+  ]),
+  WIDE([AH("Appendix B — Wearable Schematic"), ...fig("sch", "a_schematic_rot.png", 8200, "Wearable schematic, Revision C3 (KiCad; page rotated).")]),
+  WIDE([AH("Appendix C — Printed Circuit Board"), ...fig("copper", "a_pcb_board.png", 6480, "Revision C3 copper (B.Cu) with component-side silkscreen, 69 × 66 mm; design-rule check: 0 errors, 0 unconnected pads.")]),
+  WIDE([AH("Appendix D — Door Node, Beacon and Enclosures"), ...fig("doorwire", "Door_Node_Wiring.png", FULL, "Door sensor node wiring (reed switch on GPIO 18 with the internal pull-up)."), ...fig("beacon", "Beacon_Perfboard_ComponentSide.png", 5760, "Beacon node on perfboard, component side."), ...fig("nodes", "Node_Enclosures_Closed.png", 5040, "Beacon and door-node enclosures (3-D model), printed in PLA.")]),
+  WIDE([
+  AH("Appendix E — Firmware Excerpts"),
   PN("Zone classification with adaptive confirmation (wearable, `classifyZone`):", { spacing: { after: 60 } }),
   ...[
     "float lead = bestRssi - curRssi;",
@@ -553,18 +555,13 @@ const appendices = [
     "}",
   ].map(CODE),
   PN("Complete source code: private GitHub repository Jeju2004/SESEM (wearable, beacon, door node and hub firmware; dashboard; analysis scripts).", { spacing: { before: 120 } }),
-  AH("Appendix G — Software Flowcharts"),
-  PN("Drawn from the firmware and hub source code with ANSI flowchart symbols: rounded rectangle = start or end, rectangle = process, diamond = decision, parallelogram = input or output.", { keepNext: true }),
-  ...fig("fc_main", "fc_main.png", FULL, "Wearable firmware: main loop, BLE scanning task and network task, which run concurrently on the two cores of the ESP32."),
-  ...fig("fc_zone", "fc_zone.png", FULL, "Zone classification pass on the wearable, executed every 200 ms."),
-  ...fig("fc_sos", "fc_sos.png", 7200, "SOS button logic on the wearable, executed on every pass of the main loop."),
-  ...fig("fc_hub", "fc_hub.png", FULL, "Hub request handling and alert rules; the computer backend applies the same rules."),
-  AH("Appendix H — Test Data"),
+  ]),
+  AH("Appendix F — Test Data"),
   PN("Raw captures (unmodified) and analysis outputs: Test 1 (21 Sep 2026), Test 2 Run 1 and results (24 Sep 2026), three-beacon walk (30 Sep 2026), demonstration screenshots (30 Sep 2026) and test-day captures (1 Oct 2026: sos2.csv, hr.csv, hr2.csv, and the 9 s test2_run3.csv), with the analysis scripts named in Table I."),
-  AH("Appendix I — User's Manual and Panel Access Card"),
+  AH("Appendix G — User's Manual and Panel Access Card"),
   PN("The User's Manual is a separate document. The access card below lets panel members join the hub's network and open the dashboard.", { keepNext: true }),
-  ...fig("qr", "a_qr_card_one.png", 7200, "Panel access card: QR code 1 joins the SESEMSG network; QR code 2 opens the dashboard."),
-  AH("Appendix J — Signed Forms"),
+  ...fig("qr", "a_qr_card_one.png", COL, "Panel access card: QR code 1 joins the SESEMSG network; QR code 2 opens the dashboard."),
+  AH("Appendix H — Signed Forms"),
   PN("The signed progress reports and the Design Oral Presentation and Billing Form (FM-EEC-25) are attached to the printed copies."),
 ];
 
@@ -588,7 +585,16 @@ for (const item of body) {
 flush();
 // a continuous one-column break balances the two columns of the last page
 sections.push({ properties: { type: SectionType.CONTINUOUS, page, column: { count: 1 } }, footers, children: [new Paragraph({ children: [] })] });
-sections.push({ properties: { type: SectionType.NEXT_PAGE, page, column: { count: 1 } }, footers, children: appendices });
+// appendices: new page, same two-column layout; WIDE items span both columns
+sections.push({ properties: { type: SectionType.NEXT_PAGE, page, column: two }, footers, children: [appendices[0]] });
+for (const item of appendices.slice(1)) {
+  if (item && item.wide) {
+    flush();
+    sections.push({ properties: { type: SectionType.CONTINUOUS, page, column: { count: 1 } }, footers, children: item.wide });
+  } else run.push(item);
+}
+flush();
+sections.push({ properties: { type: SectionType.CONTINUOUS, page, column: { count: 1 } }, footers, children: [new Paragraph({ children: [] })] });
 
 // every numbered item must appear exactly once, in its declared order
 const check = (used, list, what) => {

@@ -3,6 +3,30 @@
 Dated record of every code change. Newest first. Each entry says what changed,
 why, and whether it has been verified on hardware.
 
+## 2026-10-01 (08:30) — flowcharts in-column; appendices in two columns
+
+- **Flowcharts redrawn narrow** (`tools/deliverables/flowcharts/c_*.dot`, shared style `col.inc`) so each fits one IEEE column at 7–11 pt:
+  - wearable main loop;
+  - background tasks: (a) BLE, (b) network and queue;
+  - zone classification, with connector A for the no-beacon branch;
+  - SOS button logic;
+  - hub request handling and watchdog.
+
+  They are placed in-line in 3.10 as Figs. 3–7, beside the text that describes them. Appendix G (the wide versions) is removed.
+- **Appendices use the paper's two-column layout.** The BOM, schematic, PCB, door-node/beacon/enclosure figures and the firmware excerpts span both columns together with their headings; the text appendices are in columns, and the last page's columns are balanced.
+- **Appendices relettered:**
+  - A BOM;
+  - B schematic;
+  - C PCB;
+  - D door node, beacon and enclosures;
+  - E firmware excerpts;
+  - F test data;
+  - G manual and access card;
+  - H signed forms.
+
+  The body refers only to B and C, which are unchanged.
+- **Checked** by rendering all 22 pages with LibreOffice: 19 figures and 23 tables in order.
+
 ## 2026-10-01 (07:45) — software flowcharts; paper layout check
 
 - **New `tools/deliverables/flowcharts/`:** Graphviz sources for four flowcharts in ANSI symbols (terminator, process, decision, input/output), drawn from the code:

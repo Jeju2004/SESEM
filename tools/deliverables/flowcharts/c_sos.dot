@@ -1,0 +1,18 @@
+digraph S { #include
+  s  [label="Each loop pass", style=rounded];
+  k  [label="Caregiver\nacknowledged?", shape=diamond];   k1 [label="Leave SOS mode;\nlong low tone"];
+  p  [label="New press?", shape=diamond];                   p1 [label="Count (max 3);\nshort tick"];
+  q  [label="Released and\n0.7 s idle?", shape=diamond];
+  w  [label="No SOS open, or\nmore presses?", shape=diamond];
+  w1 [label="Send SOS,\nurgency 1–3;\n1–3 beeps", shape=parallelogram]; w2 [label="Repeat\ntone only"];
+  h  [label="Button\nheld?", shape=diamond];
+  h3 [label="Held ≥ 3 s?", shape=diamond];                h1 [label="Soft tick\neach second"];
+  d  [label="Leave SOS mode;\n\"SOS dismissed\";\nlong low tone", shape=parallelogram];
+  e  [label="Return", style=rounded];
+  s->k; k->k1 [xlabel="Yes"]; k->p [xlabel="No"]; k1->p;
+  p->p1 [xlabel="Yes"]; p->q [xlabel="No"]; p1->q;
+  q->w [xlabel="Yes"]; q->h [xlabel="No"];
+  w->w1 [xlabel="Yes"]; w->w2 [xlabel="No"]; w1->h; w2->h;
+  h->h3 [xlabel="Yes"]; h->e [xlabel="No"]; h3->d [xlabel="Yes"]; h3->h1 [xlabel="No"]; d->e; h1->e;
+  {rank=same; k; k1;} {rank=same; p; p1;} {rank=same; w; w2;} {rank=same; h3; h1;}
+}
