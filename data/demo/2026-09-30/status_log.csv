@@ -1,0 +1,1 @@
+id,device_id,received_at,received_at_local,event_at,event_at_local,boot_id,uptime_s,zone_id,zone,restricted,rssi,distance_m,hr_bpm,batt_pct,batt_v,sos,is_late

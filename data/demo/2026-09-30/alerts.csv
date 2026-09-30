@@ -1,0 +1,1 @@
+id,source,device_id,node_id,type,severity,detail,zone,zone_id,door,door_id,batt_pct,hr_bpm,uptime_s,received_at,received_at_local,event_at,event_at_local,is_late,acknowledged_at,acknowledged_at_local,acknowledged_by,cleared_at,cleared_at_local,cleared_reason

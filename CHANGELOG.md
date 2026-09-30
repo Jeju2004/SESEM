@@ -12,7 +12,12 @@ records what each change is and how far it has been verified.
   - **Cause:** SparkFun's `checkForBeat()` handles 16-bit samples only. Its DC estimator takes a `uint16_t`, and a pulse only counts if it swings 20–1000. The MAX30102 is set to 18 bits (411 µs pulses), so a finger reads about 100k–250k. The value wrapped at 65536 and strong pulses were rejected.
   - **Fix:** samples go to the detector as `ir >> 2`.
   - **New serial line:** `[HR] …` every 2 s while something is on the sensor, showing the IR level, beats seen and beats kept. It also flags a finger that reads below the 50 000 finger level.
-  - **Verified:** compiled and flashed. Not yet confirmed with a finger: no finger reading was captured during the test.
+  - **Verified on hardware (30 Sep, fingertip on the bench wearable, 60 s):**
+    - IR about 125k–130k;
+    - 86 beats detected;
+    - about 5 s from finger on to the first reading;
+    - it read 78–102 bpm and settled at 86–90 bpm;
+    - one outlier re-learn, which recovered in about 4 s.
 - **MAX17043 when fitted later (wearable).**
   - **Why:** the gauge is powered from the cell on its own JST lead, so it only answers while a battery is connected.
   - **Detection:** while the gauge is missing, the firmware probes again on every battery read, using a quiet address ping. The first read after it is found still uses the divider, because the gauge's SOC is still settling after its quick-start.
