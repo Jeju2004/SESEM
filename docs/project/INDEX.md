@@ -14,6 +14,9 @@ tooling (progress reports, the IEEE paper, the user manual).
 | `RF_Link_Budget_Findings.md` | Why the beacons run at P9, and the diagnostic method |
 | `iBeacon_Byte_Order_Bugs.md` | The three silent byte-order faults. Read before debugging any BLE reception problem |
 | `Schematic_Work_Package.md` | KiCad build order and the IEEE symbol rules |
+| `SESEMSG_Hub_No_Laptop.md` | The door node as a stand-alone hub: its own Wi-Fi, the dashboard on phones, no laptop or internet (copied from the vault, 30 Sep) |
+| `Test_Day_2026-09-30.md` | Test-day procedure for the final data (Run 3, SOS, heart rate, doors, Wi-Fi loss) and the defense-day checklist (passcode removed in this copy) |
+| `Shopping_List_2026-09-27.md` | Parts bought for the Rev C3 build |
 
 Also in the vault root: `Decisions Log.md`, `Open Questions.md`,
 `Deliverables Tracker.md`, `Wearable Schematic Spec.md`.

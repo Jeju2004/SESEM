@@ -3,6 +3,77 @@
 Dated record of every code change. Newest first. Each entry says what changed,
 why, and whether it has been verified on hardware.
 
+## 2026-09-30
+
+Committed on branch `build-2026-09-30`. The work of 27–30 Sep: code, hardware
+files, deliverables and notes.
+
+- **Door node as a stand-alone hub (`env:esp32hub`, `-DHUB_MODE=1`).** New `src/hub.cpp`, `include/hub.h`, and `scripts/embed_dashboard.py`, which packs `dashboard/static/v2` into the generated, git-ignored `hub_page.h`.
+  - **Network:** a WPA2 access point, SESEMSG at 192.168.4.1, with a DNS captive portal so phones open the dashboard on joining.
+  - **Server:** a non-blocking HTTP server (10 connections), serving the same `/api/v1` contract as the laptop backend.
+  - **State:** alerts, sessions and passcode lock-out are kept in RAM.
+  - **Forwarding:** optional forwarding to the laptop, and a relay push.
+  - **Why:** the system has to run with no laptop, router or internet.
+  - **Verified on hardware:**
+    - 17 of 17 network checks passed;
+    - with 4 phones polling, the median reply is 32 ms;
+    - the wearable held its connection for 10 min;
+    - the dashboard opens on joining, on both Android and iPhone.
+  - **Stall fix:** a phone in power-save mode could stall every client for more than 4 s. Replies are now sent without blocking, and simultaneous polls share one cached summary.
+- **Wearable (firmware):**
+  - **Networking:** it prefers the hub's network when in range. Auto-reconnect is off; it disconnects before scanning and re-picks a network after 4 failed POSTs.
+  - **SOS patterns:** 1, 2 or 3 presses less than 0.7 s apart send three urgency levels, each confirmed by the same number of beeps. A stronger pattern escalates an open SOS.
+  - **Acknowledgement:** the SOS state clears when the server reports no unacknowledged SOS.
+  - **Timing log:** `[DELIVERED]` records how many ms each alert took to arrive.
+  - **Verified:** on the bench, against a scratch server.
+- **`firmware/wearable_selftest`** (new): a one-shot hardware report plus a live readout.
+  - It covers the battery sense, both I²C buses, the MAX30102 ID, the button, buzzer and LED, and Wi-Fi and BLE scans.
+  - **Run on the wearable, 30 Sep:** everything passed except battery sense (0.28 V), which is under investigation.
+- **Dashboard:**
+  - **New `static/v2` page:**
+    - theme follows the phone;
+    - alarm sound and vibration for an unacknowledged SOS, with the SOS message in the banner;
+    - "reduce motion" respected.
+  - **`app/auth.py`:** passcode sessions.
+  - **Duplicate guard in `post_alert`:** an identical report within 30 s is merged, so a retried SOS is not stored twice.
+  - **SOS escalation:** a new SOS retires the older open SOS.
+  - **Classic page:** polls every 1 s.
+  - **Verified:** self-test 38/38.
+- **`relay/`** (new): a Cloudflare Worker and Durable Object for viewing the hub from any network.
+  - **Verified:** local tests 15/15.
+  - **Not deployed:** the hosting decision is still open.
+- **Hardware files:**
+  - **`hardware/wearable_pcb_revC3/`:** the etched board's KiCad project, its artwork and the power-pad map. The unsaved 28 Sep autosave is not included.
+  - **`hardware/beacon_node/`:** the beacon node schematic and perfboard layout.
+  - **`hardware/enclosures/`:** enclosures Rev A, Rev B and the node boxes, with STLs, A1 plate files and renders.
+    - **Wearable Rev B:**
+      - +5 mm for the wiring under the PCB;
+      - four snap hooks into side-wall windows;
+      - a 15 × 11 mm ESP32 USB-C opening;
+      - a TP4056 charge-light window;
+      - rounded edges;
+      - a sliding dovetail belt clip with a detent.
+    - **Checked in the model:** all parts manifold, and 31 part and component pairs with 0 overlap. **Not printed yet.**
+- **Deliverables:**
+  - **Generators:**
+    - `paper_ieee.js`: an IEEE two-column full paper with Methods of Research, equations and appendices;
+    - `make_figures.py` and `make_appendix_images.py`;
+    - `perfboard_beacon.js`;
+    - updated `paper.js` (Rev 4), `manual.js` (v0.2) and `deck.js` (v0.2).
+  - **Output files:** the drafts, the figures, and the final Progress Report 3.
+  - **Test tool:** `tools/field/test_day_report.py`.
+- **Not committed (credentials):**
+  - they contain the hub's Wi-Fi password:
+    - the panel QR card images (`tools/deliverables/figures/a_qr_card*.png`);
+    - the IEEE paper Rev 5, which embeds that card in Appendix H;
+  - the dashboard passcode:
+    - the door node's `secrets.h.example` now shows a placeholder;
+    - the repo copy of the Test Day note has it removed.
+- **Docs and data:**
+  - `docs/project/`: the hub note, the Test Day procedure and the shopping list;
+  - `data/walk/`: the 30 Sep three-beacon walk capture;
+  - `data/field/`: the 25 Sep door bench logs.
+
 ## 2026-09-26
 
 - **Wearable PCB Rev C2 added** under `hardware/wearable_pcb/` (KiCad 9 project,

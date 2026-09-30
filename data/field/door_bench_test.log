@@ -1,0 +1,17 @@
+11:26:29.931  0x1 (POWERON_RESET),boot:0x13 (SPI_FAST_FLASH_BOOT)
+11:26:29.933  configsip: 0, SPIWP:0xee
+11:26:29.939  clk_drv:0x00,q_drv:0x00,d_drv:0x00,cs0_drv:0x00,hd_drv:0x00,wp_drv:0x00
+11:26:29.942  mode:DIO, clock div:2
+11:26:29.944  load:0x3fff0030,len:1184
+11:26:29.947  load:0x40078000,len:13232
+11:26:29.947  load:0x40080400,len:3028
+11:26:29.949  entry 0x400805e4
+11:26:30.503  
+11:26:30.506  ========================================
+11:26:30.508  TroDes Phase 1 - Door Sensor Node
+11:26:30.509  Node  : door-11
+11:26:30.514  Door  : 11 (medicine_room)  [RESTRICTED]
+11:26:30.517  ========================================
+11:26:30.519  [DOOR] Initial state: OPEN
+11:27:00.196  [HB] medicine_room state=open wifi=down q=2 dropped=0
+11:27:30.194  [HB] medicine_room state=open wifi=down q=3 dropped=0

@@ -1,0 +1,33 @@
+12:06:36.464  0x1 (POWERON_RESET),boot:0x13 (SPI_FAST_FLASH_BOOT)
+12:06:36.467  configsip: 0, SPIWP:0xee
+12:06:36.472  clk_drv:0x00,q_drv:0x00,d_drv:0x00,cs0_drv:0x00,hd_drv:0x00,wp_drv:0x00
+12:06:36.474  mode:DIO, clock div:2
+12:06:36.478  load:0x3fff0030,len:1184
+12:06:36.481  load:0x40078000,len:13232
+12:06:36.482  load:0x40080400,len:3028
+12:06:36.486  entry 0x400805e4
+12:06:37.037  
+12:06:37.039  ========================================
+12:06:37.042  TroDes Phase 1 - Door Sensor Node
+12:06:37.043  Node  : door-11
+12:06:37.048  Door  : 11 (medicine_room)  [RESTRICTED]
+12:06:37.051  ========================================
+12:06:37.053  [DOOR] Initial state: CLOSED
+12:06:41.082  [DOOR] medicine_room -> OPEN
+12:06:44.713  [DOOR] medicine_room -> CLOSED
+12:06:48.702  [DOOR] medicine_room -> OPEN
+12:06:52.683  [DOOR] medicine_room -> CLOSED
+12:06:56.538  [DOOR] medicine_room -> OPEN
+12:06:59.893  [DOOR] medicine_room -> CLOSED
+12:07:03.847  [DOOR] medicine_room -> OPEN
+12:07:06.727  [HB] medicine_room state=open wifi=down q=9 dropped=0
+12:07:07.063  [DOOR] medicine_room -> CLOSED
+12:07:10.883  [DOOR] medicine_room -> OPEN
+12:07:14.468  [DOOR] medicine_room -> CLOSED
+12:07:17.592  [DOOR] medicine_room -> OPEN
+12:07:20.859  [DOOR] medicine_room -> CLOSED
+12:07:23.897  [DOOR] medicine_room -> OPEN
+12:07:27.438  [DOOR] medicine_room -> CLOSED
+12:07:30.583  [DOOR] medicine_room -> OPEN
+12:07:34.303  [DOOR] medicine_room -> CLOSED
+12:07:36.730  [HB] medicine_room state=closed wifi=down q=16 dropped=3

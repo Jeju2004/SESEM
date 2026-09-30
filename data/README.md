@@ -21,3 +21,10 @@ doorway points. Full write-up in the vault's `Work Log.md` (24 Sep, night).
 
 Planned: `test2_run2_room.csv` and `test2_run2_prox.csv` (dorm, single room,
 room mode vs proximity mode) — see the vault's `Defense Demo Plan.md`.
+
+## Added 30 Sep 2026
+
+| File | What it is | Usable? |
+|---|---|---|
+| `walk/2026-09-30_beacon_walk_serial.txt` | Informal three-beacon walk on the final firmware, 30 Sep 00:22–00:37 (wearable on the SESEMSG hub). Filtered serial log: `[RSSI]` every 30 s plus every `[ZONE]`/`[ALERT]`/`[NET]` line. **No ground truth** - a functional check, not a Test 2 run | Yes, for the zone timeline (paper Fig. 6); not for accuracy |
+| `field/door_bench_test*.log` | Door node bench serial logs, 25 Sep 11:26–12:10: boot, reed state, heartbeats with Wi-Fi down and the queue counters (`q=`, `dropped=`), around the offline-queue fix | Yes (record) |

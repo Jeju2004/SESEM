@@ -1,0 +1,588 @@
+// TroDes — full paper in IEEE format (two columns), Revision 5, 30 Sep 2026.
+// Usage: node paper_ieee.js <out.docx>
+// IEEE conventions applied: two-column body in 10-pt Times New Roman, 24-pt title,
+// centred byline, 150–250-word abstract and Index Terms, tables numbered TABLE I, II …
+// with the caption above, figures numbered Fig. 1, 2 … with the caption below,
+// equations numbered (1), (2) … at the right margin, references numbered in order
+// of first citation. The drop cap on the first paragraph is applied by Word when
+// the file is exported (see README). Wide tables and figures use full-width blocks.
+// Yellow text marks a value still to be measured or decided — never an estimate.
+const fs = require("fs");
+const path = require("path");
+const {
+  Document, Packer, Paragraph, TextRun, AlignmentType, Table, TableRow, TableCell, WidthType,
+  BorderStyle, Footer, PageNumber, ImageRun, SectionType, TabStopType, TableLayoutType, VerticalAlign,
+} = require("docx");
+
+const OUT = process.argv[2];
+const FIGDIR = path.join(__dirname, "figures");
+const FONT = "Times New Roman";
+const COL = 5040;            // column width, twips (3.5 in)
+const FULL = 10440;          // full text width, twips (7.25 in)
+
+// ---------------------------------------------------------------- numbering
+// Keys in order of appearance: IEEE numbers tables, figures and equations in the
+// order they occur. T("key") -> "Table IV", F("key") -> "Fig. 3", E("key") -> "(2)".
+const TABLES = ["instr", "ipo", "runtime", "matrix", "constraints", "descoped",
+  "t1", "fit", "match", "r1cm", "r1zone", "r1pts", "walk", "r3cm", "r3zone", "sos", "hr", "door", "wifi",
+  "hub", "selftest", "power", "notdone", "bom"];
+const FIGS = ["arch", "pcb3d", "encl", "t1", "r1", "walk", "dash", "power",
+  "sch", "copper", "doorwire", "beacon", "nodes", "qr"];
+const EQS = ["pathloss", "ema", "acc", "prec", "rec", "f1", "mean", "sd", "se", "mae", "bias", "det",
+  "icell", "runtime", "div", "ib", "led", "tr", "bpm"];
+const roman = (n) => ["", "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X", "XI", "XII", "XIII", "XIV",
+  "XV", "XVI", "XVII", "XVIII", "XIX", "XX", "XXI", "XXII", "XXIII", "XXIV", "XXV", "XXVI"][n];
+const idx = (list, k) => { const i = list.indexOf(k); if (i < 0) throw new Error("unknown label " + k); return i + 1; };
+const T = (k) => `Table ${roman(idx(TABLES, k))}`;
+const F = (k) => `Fig. ${idx(FIGS, k)}`;
+const E = (k) => `(${idx(EQS, k)})`;
+const usedT = [], usedF = [], usedE = [];
+
+// ---------------------------------------------------------------- text helpers
+const t = (text, o = {}) => new TextRun({ text, font: FONT, size: 20, ...o });
+const tbd = (text, o = {}) => new TextRun({ text: `[${text}]`, font: FONT, size: 20, highlight: "yellow", bold: true, ...o });
+function runs(parts, base = {}) {
+  const list = Array.isArray(parts) ? parts : [parts];
+  const out = [];
+  for (const p of list) {
+    if (typeof p !== "string") { out.push(p); continue; }
+    const re = /(_\{[^}]+\}|\^\{[^}]+\}|\*\*[^*]+\*\*|(?<![A-Za-z0-9])_[^_{]+_(?![A-Za-z0-9])|`[^`]+`)/g;
+    let last = 0, m;
+    while ((m = re.exec(p))) {
+      if (m.index > last) out.push(t(p.slice(last, m.index), base));
+      const s = m[0];
+      if (s.startsWith("_{")) out.push(t(s.slice(2, -1), { ...base, subScript: true }));
+      else if (s.startsWith("^{")) out.push(t(s.slice(2, -1), { ...base, superScript: true }));
+      else if (s.startsWith("**")) out.push(t(s.slice(2, -2), { ...base, bold: true }));
+      else if (s.startsWith("_")) out.push(t(s.slice(1, -1), { ...base, italics: true }));
+      else out.push(new TextRun({ text: s.slice(1, -1), font: "Courier New", size: (base.size || 20) - 2 }));
+      last = m.index + s.length;
+    }
+    if (last < p.length) out.push(t(p.slice(last), base));
+  }
+  return out;
+}
+const P = (parts, o = {}) => new Paragraph({ children: runs(parts), alignment: AlignmentType.JUSTIFIED, indent: { firstLine: 202 }, spacing: { after: 0, line: 240 }, ...o });
+const PN = (parts, o = {}) => P(parts, { indent: { firstLine: 0 }, ...o });   // no first-line indent
+const H1 = (text) => new Paragraph({ children: [t(text, { smallCaps: true })], alignment: AlignmentType.CENTER, spacing: { before: 200, after: 100 }, keepNext: true, keepLines: true });
+const H2 = (text) => new Paragraph({ children: [t(text, { italics: true })], spacing: { before: 120, after: 60 }, keepNext: true, keepLines: true });
+const H3 = (text) => new Paragraph({ children: [t(text, { italics: true })], indent: { firstLine: 202 }, spacing: { before: 60, after: 0 }, keepNext: true });
+const B = (parts) => new Paragraph({ children: [t("• "), ...runs(parts)], alignment: AlignmentType.JUSTIFIED, indent: { left: 360, hanging: 200 }, spacing: { after: 0 } });
+const N = (n, parts) => new Paragraph({ children: [t(`${n}) `), ...runs(parts)], alignment: AlignmentType.JUSTIFIED, indent: { left: 360, hanging: 260 }, spacing: { after: 0 } });
+const TODO = (text) => new Paragraph({ children: [tbd(text)], spacing: { before: 60, after: 60 } });
+const SP = (after = 80) => new Paragraph({ children: [], spacing: { after } });
+function EQ(key, text) {
+  usedE.push(key);
+  return new Paragraph({
+    tabStops: [{ type: TabStopType.CENTER, position: COL / 2 }, { type: TabStopType.RIGHT, position: COL }],
+    spacing: { before: 60, after: 60 },
+    children: [t("\t"), ...runs(text, { italics: true }), t("\t" + E(key))],
+  });
+}
+const CODE = (line) => new Paragraph({ children: [new TextRun({ text: line || " ", font: "Courier New", size: 14 })], spacing: { after: 0, line: 200 } });
+
+// ---------------------------------------------------------------- figures and tables
+function fig(key, file, widthTw, caption) {
+  usedF.push(key);
+  const buf = fs.readFileSync(path.join(FIGDIR, file));
+  const w = buf.readUInt32BE(16), h = buf.readUInt32BE(20);
+  const wPx = Math.round(widthTw / 1440 * 96), hPx = Math.round(wPx * h / w);
+  return [
+    new Paragraph({ alignment: AlignmentType.CENTER, spacing: { before: 100 }, keepNext: true, children: [new ImageRun({ type: "png", data: buf, transformation: { width: wPx, height: hPx } })] }),
+    new Paragraph({ alignment: AlignmentType.JUSTIFIED, spacing: { before: 60, after: 140 }, children: [t(`${F(key)}.  `, { size: 16 }), ...runs(caption, { size: 16 })] }),
+  ];
+}
+const border = { style: BorderStyle.SINGLE, size: 4, color: "000000" };
+const none = { style: BorderStyle.NONE, size: 0, color: "FFFFFF" };
+function table(key, title, header, rows, rel, width = COL, fontSize = 16) {
+  usedT.push(key);
+  const sum = rel.reduce((a, b) => a + b, 0);
+  const widths = rel.map((r) => Math.floor(width * r / sum));
+  const cell = (content, w, isHead, keep) => new TableCell({
+    width: { size: w, type: WidthType.DXA }, verticalAlign: VerticalAlign.CENTER,
+    borders: { top: isHead ? border : none, bottom: isHead ? border : none, left: none, right: none },
+    margins: { top: 20, bottom: 20, left: 60, right: 60 },
+    children: [new Paragraph({ spacing: { after: 0 }, keepNext: keep, children: isHead ? [t(content, { size: fontSize, bold: true })] : runs(content, { size: fontSize }) })],
+  });
+  const keepAll = rows.length <= 16;   // longer tables may break, with the header repeated
+  const body = rows.map((r, i) => new TableRow({ cantSplit: true, children: r.map((c, j) => cell(c, widths[j], false, keepAll && i < rows.length - 1)) }));
+  const tbl = new Table({
+    width: { size: width, type: WidthType.DXA }, columnWidths: widths, layout: TableLayoutType.FIXED,
+    borders: { top: border, bottom: border, left: none, right: none, insideHorizontal: none, insideVertical: none },
+    rows: [new TableRow({ tableHeader: true, children: header.map((h, i) => cell(h, widths[i], true, true)) }), ...body],
+  });
+  return [
+    new Paragraph({ alignment: AlignmentType.CENTER, spacing: { before: 140, after: 0 }, keepNext: true, children: [t(`TABLE ${roman(idx(TABLES, key))}`, { size: 16 })] }),
+    new Paragraph({ alignment: AlignmentType.CENTER, spacing: { after: 60 }, keepNext: true, children: [t(title, { size: 16, smallCaps: true })] }),
+    tbl,
+    SP(120),
+  ];
+}
+const Y = (text) => tbd(text, { size: 16 });   // a yellow table cell
+
+// Content is a list of blocks. WIDE([...]) marks a full-width block (a one-column
+// section between two-column sections).
+const WIDE = (children) => ({ wide: children });
+
+// =============================================================================
+// FRONT MATTER
+// =============================================================================
+const title = [
+  new Paragraph({ alignment: AlignmentType.CENTER, spacing: { before: 120, after: 120 }, children: [t("TroDes: An Indoor Bluetooth Low Energy-Based Localization and Safety Monitoring System for a Home for the Aged", { size: 48 })] }),
+  new Paragraph({ alignment: AlignmentType.CENTER, spacing: { after: 40 }, children: [t("Chester John B. Cirio and Pathrish Anne R. Cruz", { size: 22 })] }),
+  new Paragraph({ alignment: AlignmentType.CENTER, spacing: { after: 0 }, children: [t("School of Electrical, Electronics and Computer Engineering, Mapúa University, Manila, Philippines", { size: 20, italics: true })] }),
+  new Paragraph({ alignment: AlignmentType.CENTER, spacing: { after: 0 }, children: [t("Electronics Design, Section C1 · Adviser: Engr. Glenn V. Magwili", { size: 20, italics: true })] }),
+  new Paragraph({ alignment: AlignmentType.CENTER, spacing: { after: 240 }, children: [tbd("author e-mail addresses", { size: 18 })] }),
+];
+
+const abstract = [
+  new Paragraph({ alignment: AlignmentType.JUSTIFIED, spacing: { after: 100 }, children: [
+    t("Abstract", { bold: true, italics: true, size: 18 }), t("—", { bold: true, size: 18 }),
+    t("Residents of homes for the aged, especially those with cognitive decline, may wander into unsafe areas or need help when no caregiver is nearby, and satellite trackers do not work reliably indoors. This paper presents TroDes, an indoor safety monitoring system built around Bluetooth Low Energy. A wearable device identifies the resident's zone by selecting the strongest of the beacons installed one per zone, using smoothing, a detection floor, hysteresis and a confirmation time that adapts to the signal margin. It also reports heart rate, battery level and emergency calls at three urgency levels chosen by the number of button presses, while a magnetic sensor monitors a restricted door. Caregivers follow a live dashboard on their phones, served by the door sensor node over its own wireless network, so the system operates with or without an internet connection. The study followed a developmental research design with experimental evaluation. A signal-strength-versus-distance test gave path-loss exponents of 0.28 and 0.55, far below the free-space value of 2.0, showing that indoor distance estimation is unreliable and justifying classification by comparison between beacons. An initial run produced no errors between zones separated by a wall. ", { bold: true, size: 18 }),
+    tbd("one sentence, at most 40 words: final classification accuracy, alert delivery time, heart-rate error and door detection rate from the 30 September 2026 tests", { size: 18 }),
+    t(" The results show that room-level monitoring is achievable with low-cost components and without subscription services.", { bold: true, size: 18 }),
+  ] }),
+  new Paragraph({ alignment: AlignmentType.JUSTIFIED, spacing: { after: 160 }, children: [
+    t("Index Terms", { bold: true, italics: true, size: 18 }),
+    t("—Bluetooth Low Energy, elderly care, indoor localization, received signal strength, wearable sensors.", { bold: true, size: 18 }),
+  ] }),
+];
+
+// =============================================================================
+// CHAPTER 1
+// =============================================================================
+const ch1 = [
+  H1("Chapter 1: Background and Introduction"),
+  H2("1.1 Overview"),
+  P("The Philippine population is ageing. In the 2020 Census of Population and Housing, persons aged 65 years and over accounted for 5.4 percent of the household population, or approximately 5.86 million persons [1]. As the number of older Filipinos grows, so does reliance on residential care facilities such as homes for the aged, where a small number of caregivers must monitor many residents simultaneously. Two safety concerns dominate: residents wandering into areas that are unsafe or restricted, and residents needing urgent assistance with no staff nearby to notice. This design project proposes an indoor localization and safety monitoring system, built around Bluetooth Low Energy (BLE), that identifies a resident's zone within the facility, monitors entry into restricted areas through door sensors, and delivers real-time alerts to caregivers through a web-based dashboard."),
+  H2("1.2 Target Customer"),
+  P("The primary beneficiaries are elderly residents of a home for the aged, particularly those with cognitive decline or a tendency to wander. The direct users are the facility's caregivers and staff, who need to monitor the location and status of residents continuously without checking each room in person, and to be notified immediately when a resident needs help or enters a restricted area."),
+  H2("1.3 Statement of the Problem"),
+  P("Care facilities for the elderly face a persistent monitoring gap:"),
+  B("Caregiver-to-resident ratios make continuous direct supervision of every resident impractical, especially during night shifts."),
+  B("Wandering is a recognized behavioural problem in people with dementia and can lead residents into unsafe areas or out of the facility unnoticed [2]."),
+  B("A resident who needs urgent help often has no reliable way to summon a caregiver from wherever he or she happens to be."),
+  B("Existing commercial monitoring products are largely designed for outdoor satellite tracking of individuals and typically require recurring subscriptions, which matches an indoor institutional setting poorly."),
+  H2("1.4 Proposed Solution"),
+  P("The proposed system has three parts. First, a wearable device built around an ESP32 microcontroller continuously scans for BLE beacons installed throughout the facility and decides the resident's zone by comparing their received signal strengths; it also carries a heart rate sensor, a battery measurement, a buzzer, a status LED and an SOS button through which the resident can call for help at three levels of urgency. Second, fixed infrastructure: one BLE beacon per zone and a magnetic reed sensor on the door of each restricted area. Third, a web-based caregiver dashboard that shows each resident's zone, classified as safe or restricted, with battery level and heart rate, and raises real-time alerts. The dashboard is served either by a computer on the facility network or by the door sensor node itself, which then operates as a stand-alone hub with its own Wi-Fi network; the system therefore works with or without an internet connection."),
+  H2("1.5 Objectives"),
+  P("**General objective.** To design and develop an indoor elderly localization and safety monitoring system for a home for the aged that integrates BLE-based zone tracking, restricted-area door monitoring, resident-initiated emergency alerting and a web-based caregiver dashboard."),
+  PN("**Specific objectives.**"),
+  N(1, "To design a wearable device that determines the resident's current zone through BLE signal strength from fixed beacons."),
+  N(2, "To implement door sensors at restricted-area entry points that generate immediate alerts when a door is opened."),
+  N(3, "To implement an SOS button with distinct alert and dismiss behaviour."),
+  N(4, "To monitor and report the wearable's battery level and the resident's heart rate to the caregiver dashboard."),
+  N(5, "To develop a web-based caregiver interface displaying resident location, device status and active alerts in real time."),
+  N(6, "To define and validate a fallback alerting behaviour for periods when network connectivity is unavailable."),
+  N(7, "To evaluate the system's zone detection accuracy, alert response time and battery endurance against the approved 24-hour runtime target."),
+  H2("1.6 Scope and Limitations"),
+  P("The system is designed for a single indoor care facility; outdoor tracking is outside the scope. Localization is zone-based: it identifies the room or area the resident occupies and flags restricted areas. The demonstration uses three zones — the bedroom wing and dining hall (safe) and the medicine room (restricted) — and one wearable; the architecture scales to more residents. The caregiver interface is a web application for any browser, including phone browsers."),
+  P("BLE localization is affected by wall materials, multipath propagation and beacon placement, so the system provides zone-level rather than coordinate positioning. Fall detection is not included. Heart rate readings from a wearable optical sensor are indicative, not clinical. The dashboard is reachable on the facility network or the hub's own network; viewing from outside the facility was designed but not deployed, and alerts reach caregivers whose dashboard page is open. The stand-alone hub keeps its alert history in memory, whereas the computer backend keeps a persistent history."),
+  H2("1.7 Comparison to Existing Products"),
+  P("Commercial elderly monitoring devices such as GPS tracking watches and pendants provide location tracking, geofencing and emergency buttons, but they rely on outdoor satellite positioning and cellular connectivity and generally require recurring subscription fees. Satellite positioning performs poorly indoors [3], and per-device subscriptions scale badly when a facility must equip many residents. The proposed system uses BLE for indoor zone localization, operates on the facility's own equipment without subscriptions, and adds fixed door sensors at restricted areas."),
+  TODO("Name one or two specific commercial products examined by the team, with citations."),
+  H2("1.8 Significance of the Study"),
+  P("For residents, the system provides a means to summon help from anywhere in the facility and a safeguard against entering unsafe areas unnoticed. For caregivers, it reduces the burden of continuous physical monitoring and shortens the time between an incident and a response. For the facility, it offers a locally deployable, subscription-free capability built from commonly available components. The project contributes to Sustainable Development Goal 3, Good Health and Well-Being [4]."),
+];
+
+// =============================================================================
+// CHAPTER 2
+// =============================================================================
+const ch2 = [
+  H1("Chapter 2: Review of Related Literature"),
+  H2("2.1 Indoor Localization Technologies"),
+  P("Zafari, Gkelias and Leung [3] survey indoor localization systems and technologies, including Wi-Fi, Bluetooth, Zigbee, radio-frequency identification, ultra-wideband (UWB), visible light, acoustic and ultrasound systems, and the techniques used with them: angle of arrival, time of flight and received signal strength (RSS). Satellite positioning is designed for outdoor use; inside buildings the signals are attenuated and reflected, which motivates dedicated indoor technologies. RSS-based methods need no specialised receiver hardware and run on commodity radios, at the cost of accuracy that depends strongly on the environment [3]."),
+  P("BLE suits institutional deployment because its beacons are inexpensive, low-power and simple to install, and because BLE radios are built into common microcontrollers such as the ESP32 [5]. Beacons following the iBeacon format broadcast a proximity identifier with major and minor fields [6], so a receiver can identify the zone a beacon represents without establishing a connection."),
+  H2("2.2 Radio Propagation and Received Signal Strength"),
+  P(`The log-distance path-loss model ${E("pathloss")} expresses the received power at distance _d_ as a reference power at 1 m less 10·_n_·log₁₀(_d_), where _n_ is the path-loss exponent: _n_ = 2 in free space and typically larger indoors [7]. The model describes the average trend; at any point, multipath interference adds large position-dependent deviations. Faragher and Harle [8] showed with 19 beacons over approximately 600 m² that BLE is highly susceptible to fast fading and that achievable accuracy depends on how fading is mitigated, for example by combining advertising channels and filtering over time.`),
+  H2("2.3 BLE Localization in Elderly and Care Settings"),
+  P("Kolakowski _et al._ [9] developed a hybrid UWB and BLE tracking system for monitoring elderly people; in static tests the median localization error was approximately 23 cm with UWB and approximately 1 m with BLE. Garcia and Inoue [10] deployed 25 stationary BLE beacons on one floor of a nursing care facility to track caregivers and used machine learning with a relabeling technique to improve the classification of rarely visited locations. Both confirm that BLE is practical in care settings, and both obtain their accuracy from dense infrastructure or trained models."),
+  H2("2.4 Wandering in Dementia"),
+  P("Cipriani _et al._ [2] review wandering as a behavioural problem of people with dementia, including its consequences such as injury and elopement, and the approaches used to manage it. The review supports alerting caregivers when a resident enters a restricted area rather than attempting to prevent movement."),
+  H2("2.5 Synthesis and Research Gap"),
+  P("The reviewed BLE systems pursue fine-grained accuracy through dense beacon deployments [10], hybrid UWB hardware [9] or fingerprinting [8]. A home for the aged, however, needs to know which room a resident is in and whether that room is restricted, at low cost and with components that can be maintained locally. This project addresses room-level classification with one beacon per zone, using relative signal strength with smoothing and hysteresis instead of distance estimation, combined with door sensors, a resident-operated SOS button and a subscription-free dashboard that works without an internet connection."),
+];
+
+// =============================================================================
+// CHAPTER 3 — METHODOLOGY AND DESIGN PROCEDURES
+// =============================================================================
+const ch3 = [
+  H1("Chapter 3: Methodology and Design Procedures"),
+  H2("3.1 Research Design"),
+  P("The study used a **developmental research design** with **experimental evaluation**. The developmental part covers the iterative design, construction and refinement of the wearable, the beacons, the door sensor node and the dashboard (Sections 3.5 to 3.12). The experimental part measures the performance of the completed prototype under controlled conditions: independent variables such as distance to a beacon, the wearer's position and the button pattern are set by the tester, and the dependent variables — received signal strength, reported zone, delivery time, detected door events and heart rate — are recorded by instruments and compared with ground truth or a reference device."),
+  H2("3.2 Materials and Instruments"),
+  ...table("instr", "Instruments used in the tests", ["Instrument", "Use"], [
+    ["Digital multimeter (DC volts, continuity, 10 A range)", "Power-path voltages, joint continuity, boost converter setting"],
+    ["Fingertip pulse oximeter", "Reference heart rate for the MAX30102 comparison"],
+    ["Laptop with a USB serial logger", "Timestamped capture of the wearable's and door node's serial output, with the tester's ground-truth label on every line"],
+    ["Python analysis scripts (zone accuracy, distance profile, test-day report)", "Confusion matrices, fitted path-loss model, delivery time, heart-rate error, door detection"],
+    ["Tape measure", "Distances from the wearable to each beacon"],
+    ["Phones (Android and iOS)", "Dashboard verification over the hub's network"],
+  ], [3, 4]),
+  H2("3.3 Data-Gathering Procedure"),
+  P("Every test records the device's own serial output on the laptop while the tester types the ground truth — the true distance, the true zone, the oximeter reading or the door cycle number — as a label that is attached to every captured line. Each test fixes its constants beforehand (firmware version, beacon power, heights), follows a written procedure, and stores the raw capture unmodified; analysis is done afterwards by script, so that no result depends on manual transcription. The first 5 s after each label change are discarded in zone tests, because the wearable needs time to settle after the tester stops."),
+  H2("3.4 Statistical Treatment of Data"),
+  P(`Signal strength is modelled with the log-distance path-loss equation ${E("pathloss")} and smoothed on the wearable with an exponential moving average ${E("ema")}:`),
+  EQ("pathloss", "RSSI(d) = A − 10 n log_{10}(d)"),
+  EQ("ema", "S_{k} = α x_{k} + (1 − α) S_{k−1}"),
+  P(`where _A_ is the received power at 1 m and _n_ the path-loss exponent, both fitted by least squares, _S_ is the smoothed signal strength, _x_ the new sample and α the smoothing factor. Zone classification is evaluated with a confusion matrix whose rows are the true zones and whose columns are the reported zones. Overall accuracy ${E("acc")}, and precision ${E("prec")}, recall ${E("rec")} and F1 score ${E("f1")} per zone are computed from the counts of true positives (TP), false positives (FP) and false negatives (FN):`),
+  EQ("acc", "Accuracy = (correct samples / total samples) × 100%"),
+  EQ("prec", "P = TP / (TP + FP)"),
+  EQ("rec", "R = TP / (TP + FN)"),
+  EQ("f1", "F1 = 2PR / (P + R)"),
+  P(`Measured quantities are summarised by their mean ${E("mean")}, sample standard deviation ${E("sd")} and standard error of the mean ${E("se")}:`),
+  EQ("mean", "x̄ = (1/n) Σ xᵢ"),
+  EQ("sd", "s = √[ Σ (xᵢ − x̄)² / (n − 1) ]"),
+  EQ("se", "SE = s / √n"),
+  P(`The heart rate _w_ᵢ reported by the wearable is compared with the oximeter reading _r_ᵢ by the mean absolute error ${E("mae")} and the bias ${E("bias")}; door reliability is expressed as the detection rate ${E("det")}:`),
+  EQ("mae", "MAE = (1/n) Σ | wᵢ − rᵢ |"),
+  EQ("bias", "Bias = (1/n) Σ (wᵢ − rᵢ)"),
+  EQ("det", "Detection rate = (detected openings / cycles) × 100%"),
+  H2("3.5 Conceptual Framework"),
+  ...table("ipo", "Input–process–output framework", ["Input", "Process", "Output"], [
+    ["BLE advertisements", "Filter by project UUID and major; smooth RSSI with α = 0.4; drop beacons older than 2.5 s or below −88 dBm; select the strongest with 5 dB hysteresis and an adaptive confirmation (0.4 s at a lead ≥ 10 dB, else 1.6 s), every 200 ms", "Zone; zone-change and restricted-zone alerts"],
+    ["SOS button", "40 ms debounce; count presses less than 0.7 s apart (1–3); 3 s hold dismisses", "SOS at three urgency levels, escalation, dismissal"],
+    ["Battery voltage (GPIO 34)", "16-sample average; Li-Po table; below 2.5 V means no cell", "Battery %; alerts at 20 % and 10 %"],
+    ["Optical pulse (MAX30102)", "100 samples/s; finger detection; interval limits and median filter", "Heart rate or no reading"],
+    ["Reed switch", "Pull-up; 50 ms debounce; 30 s heartbeat", "Door events; node offline detection"],
+    ["Device reports (Wi-Fi)", "Event time from device uptime; repeated reports merged; stale detection", "Dashboard; alerts until acknowledged"],
+  ], [2, 4, 2.4]),
+  H2("3.6 Block Diagram"),
+  P(`${F("arch")} shows the two deployment modes. Beacons only broadcast; the wearable decides the zone itself, so localization never depends on the network. In the stand-alone mode (a), which is demonstrated, the door sensor node also acts as the hub: it creates a WPA2-protected Wi-Fi network, receives the wearable's reports, applies the alert rules and serves the dashboard to phones that join. In the facility-network mode (b), the devices report over the building's Wi-Fi to a computer running the same dashboard with a persistent database. The wearable selects the hub when its network is present and otherwise falls back to the facility network; with no network at all it queues events and sounds a periodic local chirp.`),
+  WIDE([...fig("arch", "f1_arch_v2.png", FULL, "System block diagram: (a) stand-alone hub, as demonstrated — no computer, router or internet connection; (b) facility-network alternative. Remote viewing (dashed) is further study.")]),
+  H2("3.7 Schematic Diagram and Printed Circuit Board"),
+  P(`The wearable schematic (Appendix B) comprises the ESP32 development board (U1), the MAX30102 heart rate module (U2), the optional MAX17043 fuel gauge (U3), the TP4056 charger with DW01 protection, the MT3608 boost converter, the power switch (SW1), the SOS button (SW2), the buzzer driver (Q1, R1, D1, BZ1), the status LED (D2, R2), the battery divider (R3, R4, C4), the I²C pull-ups (R5, R6) and bulk and decoupling capacitors (C1–C3). The single-sided Revision C3 board (${F("pcb3d")}; copper layout in Appendix C) passed the KiCad design-rule check and schematic-parity check with no errors, no unconnected pads and no differences; all power traces are 0.8 mm wide over a ground pour.`),
+  ...fig("pcb3d", "a_pcb_3d.png", COL, "Wearable printed circuit board, Revision C3 (KiCad 3-D view, component side). The battery, charger, boost converter and switch are wired off-board to J1, J2 and SW1."),
+  H2("3.8 Applicable Standards and Regulations"),
+  B("IEC 62133-2 — safety of portable lithium cells and batteries [11], for the wearable's Li-Po cell."),
+  B("IEC 62368-1 — safety of information and communication technology equipment."),
+  B("Bluetooth Core Specification [12] (formerly IEEE 802.15.1) — the BLE advertising used for localization."),
+  B("IEEE 802.11 — the Wi-Fi link; the hub's network uses WPA2 personal security."),
+  B("Republic Act No. 10173, the Data Privacy Act of 2012 [13] — location and heart rate are personal and health information; access is limited by a passcode, data stays on the facility's equipment by default, and acknowledgements are logged."),
+  H2("3.9 Component Computations"),
+  H3("3.9.1 Power chain and runtime."),
+  P(`No low-dropout regulator could be sourced in time, so the wearable uses a boost topology: cell → TP4056/DW01 → switch → MT3608 boost to 5.0 V → development-board regulator → 3.3 V. The cell current ${E("icell")} and the runtime ${E("runtime")} are`),
+  EQ("icell", "I_{cell} = (V_{out} · I_{out}) / (η · V_{cell})"),
+  EQ("runtime", "t = C / I_{cell}"),
+  P(`With V_{out} = 5.0 V, η ≈ 0.88 and V_{cell} = 3.7 V, a 60 mA load plus about 5 mA regulator current gives I_{cell} ≈ 100 mA and t ≈ 10 h for C = 1000 mAh; reducing the load to 35 mA gives about 61 mA and 16 h (${T("runtime")}). These are calculated values; the approved 24-hour target is not reachable with this topology.`),
+  ...table("runtime", "Calculated runtime of the 1000 mAh cell", ["3.3 V load", "Cell current", "Runtime"], [
+    ["60 mA (continuous scanning, 5 s reports)", "≈ 100 mA", "≈ 10 h"],
+    ["35 mA (after duty-cycle reduction)", "≈ 61 mA", "≈ 16 h"],
+  ], [3, 1.4, 1]),
+  H3("3.9.2 Battery sense divider."),
+  P(`With R3 = R4 = 100 kΩ, the divider ${E("div")} presents 2.1 V to GPIO 34 for a full 4.2 V cell, inside the ADC range at 11 dB attenuation [5], and draws 21 µA. A reading below 2.5 V cannot come from a working cell and is reported as no battery.`),
+  EQ("div", "V_{ADC} = V_{bat} · R_{4} / (R_{3} + R_{4})"),
+  H3("3.9.3 Buzzer driver, LED and I²C bus."),
+  P(`The base current ${E("ib")} of Q1 is (3.3 − 0.7) V / 1 kΩ ≈ 2.6 mA; for a 25 mA buzzer the forced gain of about 10 saturates the 2N2222, and D1 clamps the turn-off spike. The LED current ${E("led")} is (3.3 − 2.0) V / 330 Ω ≈ 3.9 mA. The I²C rise time ${E("tr")} with 4.7 kΩ and 50 pF is about 0.20 µs, within the 0.3 µs limit of 400 kHz fast mode.`),
+  EQ("ib", "I_{B} = (V_{GPIO} − V_{BE}) / R_{1}"),
+  EQ("led", "I_{LED} = (V_{CC} − V_{F}) / R_{2}"),
+  EQ("tr", "t_{r} ≈ 0.8473 · R · C"),
+  H3("3.9.4 Beacon transmit power."),
+  P("At +3 dBm the beacons were near the −88 dBm floor at 2.45 m. At 1 m the reading rose from −61 to −55 dBm when the power was raised to +9 dBm, a 6 dB gain extending the usable range from about 4 m to 7–8 m. All beacons therefore transmit at +9 dBm every 100 ms; being mains-powered, this does not affect wearable battery life."),
+  H2("3.10 Software Development"),
+  P("**Zone classification.** The scanner accepts only advertisements carrying the project's UUID and major value and keeps a smoothed signal per beacon. Every 200 ms the classifier drops beacons not heard for 2.5 s or weaker than −88 dBm and selects the strongest; a challenger replaces the current zone only when it leads by more than 5 dB for a confirmation time that adapts to the margin — 0.4 s at a lead of 10 dB or more (a clear move) and 1.6 s otherwise (similar signals near a boundary). The adaptive confirmation was introduced after the reported zone was observed to alternate between two beacons of similar strength when people moved near the wearable."),
+  P("**SOS and acknowledgement.** Each press is confirmed by a short tone; presses less than 0.7 s apart are counted and the pattern is sent when no press follows — one press 'Needs assistance', two 'URGENT – please come now', three 'EMERGENCY – immediate help needed' — confirmed by the same number of beeps. A stronger pattern escalates an open SOS and the server retires the weaker alert. A 3 s hold dismisses a false alarm. Each status reply states how many of the wearable's SOS alerts remain unacknowledged; at zero the wearable leaves SOS mode, ready for a new call. Every delivered alert is logged with its delivery time."),
+  P(`**Heart rate.** The MAX30102 is read at 100 samples per second. After a finger is detected and the signal settles for 1.5 s, beat intervals outside 40–180 bpm or more than 25 percent from the running median are rejected, and the rate ${E("bpm")} is computed from the median of the last eight accepted intervals Δt (in milliseconds):`),
+  EQ("bpm", "HR = 60 000 / median(Δt)"),
+  P("**Hub and dashboard.** The door node reads its reed switch with a 50 ms debounce and a 30 s heartbeat. In hub mode the same ESP32 runs a WPA2 access point, a DNS server that makes phones open the dashboard as a sign-in page, and a non-blocking HTTP server implementing the same interface as the computer backend, which lets one dashboard page serve both modes. The computer backend (FastAPI with SQLite) reconstructs event time from device uptime, merges a report repeated after a timed-out reply, and keeps critical and warning alerts until acknowledged. The dashboard refreshes every second, is passcode-protected, follows the phone's light or dark setting, and sounds an alarm with vibration for an unacknowledged SOS."),
+  TODO("Insert flowcharts: wearable main loop, SOS pattern logic, hub request handling."),
+  H2("3.11 Prototype Development"),
+  P(`The door node and beacons are built on perfboard and the wearable on the etched Revision C3 board, with modules on headers as approved by the adviser on 24 September 2026. Enclosures for the wearable (${F("encl")}), the beacons and the door node were modelled parametrically and printed in PETG.`),
+  ...fig("encl", "Wearable_Enclosure_Exploded.png", COL, "Wearable enclosure, exploded view (3-D model): base, power deck and lid."),
+  TODO("Insert photographs of the assembled prototype."),
+  H2("3.12 Design Constraints and Decision Matrix"),
+  P(`${T("matrix")} compares candidate localization technologies; weights reflect the needs of a home for the aged and scores (1–5) are the team's assessment informed by Chapter 2. ${T("constraints")} lists the other design constraints.`),
+  ...table("matrix", "Weighted decision matrix — localization technology", ["Criterion (weight)", "BLE", "Wi-Fi RSSI", "UWB", "RFID", "GPS"], [
+    ["Indoor reliability (0.30)", "4", "3", "5", "3", "1"], ["Cost per zone (0.25)", "5", "4", "2", "3", "4"],
+    ["Wearable power (0.20)", "4", "2", "3", "3", "2"], ["ESP32 integration (0.15)", "5", "5", "2", "2", "3"],
+    ["Positioning accuracy (0.10)", "3", "3", "5", "2", "1"], ["**Weighted score**", "**4.30**", "3.35", "3.40", "2.75", "2.25"],
+  ], [3, 1, 1.2, 1, 1, 1]),
+  ...table("constraints", "Design constraints and decisions", ["Constraint", "Decision and justification"], [
+    ["Localization", "BLE beacons, one per zone; strongest beacon wins"],
+    ["Backend hosting", "Door node as stand-alone hub (demonstrated); computer server as the alternative; cloud hosting for remote viewing designed, not deployed"],
+    ["Caregiver interface", "Web page on any phone; no native application"],
+    ["Security and privacy", "WPA2 network, passcode with lock-out, data on site [13]"],
+    ["Wearable regulation", "Boost to 5 V plus board regulator; low-dropout parts unavailable"],
+    ["Fabrication", "Etched single-sided wearable board and perfboard nodes (adviser-approved)"],
+    ["Societal — SDG 3", "Subscription-free, locally maintainable components [4]"],
+  ], [1.3, 3]),
+  H2("3.13 Engineering Tools"),
+  P("KiCad 9 (schematic, layout, design-rule check), Blender with a Bambu Lab A1 printer (enclosures), PlatformIO with the Arduino framework (firmware), Python with FastAPI and SQLite (backend), Python analysis scripts, and Git for version control."),
+  H2("3.14 Descoped Features"),
+  ...table("descoped", "Features descoped from the prototype", ["Feature", "Reason", "Status"], [
+    ["GPS and GSM (SIM800L)", "Unreliable indoors [3]; 2G sunset risk", "Removed (adviser)"],
+    ["Fall detection", "Priority on localization and SOS", "Removed (adviser)"],
+    ["Native mobile app", "Browser works on every phone", "Not developed"],
+    ["Low-dropout regulator", "No part sourced in time", "Boost converter used"],
+    ["MAX17043 fuel gauge", "Not delivered in time", "Divider used; firmware ready"],
+    ["Measured 24 h runtime", "No full discharge test possible", "Calculated only"],
+    ["Remote viewing, push notifications", "Needs cloud hosting (open decision)", "Built and tested locally; further study"],
+  ], [1.6, 2, 1.6]),
+];
+
+// =============================================================================
+// CHAPTER 4 — DATA AND RESULTS
+// =============================================================================
+const run1Points = [
+  ["BW-near (first visit)", "113", "83 %", "0 %", "MR 17 %*"], ["BW-near (second visit)", "28", "93 %", "0 %", "MR 7 %"],
+  ["BW-mid", "41", "0 %", "0 %", "MR 100 %"], ["BW-far", "17", "0 %", "0 %", "MR 100 %"],
+  ["BW-boundary, from inside", "26", "54 %", "46 %", "—"], ["BW-boundary, from outside", "46", "0 %", "100 %", "—"],
+  ["DH-near", "31", "100 %", "0 %", "—"], ["DH-mid", "18", "100 %", "0 %", "—"], ["DH-far", "19", "100 %", "0 %", "—"],
+  ["DH-boundary, from inside", "24", "83 %", "17 %", "—"], ["DH-boundary, from outside", "12", "0 %", "100 %", "—"],
+  ["MR-near", "22", "100 %", "0 %", "—"], ["MR-mid", "25", "16 %", "0 %", "BW 84 %"], ["MR-far", "28", "100 %", "0 %", "—"],
+  ["MR-boundary, from inside", "25", "8 %", "84 %", "BW 8 %"], ["MR-boundary, from outside", "20", "0 %", "100 %", "—"],
+];
+const ch4 = [
+  H1("Chapter 4: Testing, Presentation and Interpretation of Data"),
+  P("Each test is presented with its purpose, assumptions and constants, procedure, data and analysis, following Sections 3.1 to 3.4. Raw captures are kept unmodified in the project repository."),
+  H2("4.1 Test 1 — Received Signal Strength versus Distance"),
+  P(`**Purpose.** To fit the log-distance model ${E("pathloss")} for converting signal strength into distance. **Constants.** One beacon at +9 dBm, 1.5 m high; wearable 0.75 m high; line of sight. **Procedure.** At 1.0, 1.5, 2.0, 4.0 and 6.0 m the stationary wearable captured at least 60 samples; two runs with independent beacons are reported (A: 492 samples; B: 459). **Data.** ${T("t1")}, ${T("fit")} and ${F("t1")}.`),
+  ...table("t1", "Test 1 results", ["d", "n (A)", "Mean (dBm)", "SD (dB)", "Resid. A", "Resid. B"], [
+    ["1.0 m", "68", "−72.3", "2.41", "−0.3", "+0.1"], ["1.5 m", "100", "−71.1", "2.28", "+1.4", "+1.5"],
+    ["2.0 m", "137", "−75.5", "2.14", "−2.6", "−3.2"], ["4.0 m", "92", "−70.4", "3.05", "+3.3", "+3.5"], ["6.0 m", "95", "−76.1", "2.47", "−1.9", "−1.8"],
+  ], [0.9, 0.9, 1.2, 1, 1, 1]),
+  ...table("fit", "Fitted path-loss model", ["Run", "Exponent n", "R²"], [["A — bedroom_wing", "0.28", "0.118"], ["B — dining_hall", "0.55", "0.302"]], [2, 1, 1]),
+  ...fig("t1", "f2_test1.png", COL, "Mean received signal strength against distance, run A."),
+  P(`**Analysis.** Both exponents are far below 2.0, the free-space value and physical lower bound, so neither was used. The standard error ${E("se")} of each mean is about 0.3 dB, yet deviations from the model reach 3.5 dB, and the residual pattern is nearly identical for two independent beacons — a property of the positions, not the transmitters. This is consistent with standing-wave fading at the 12.5 cm wavelength [7], [8]. Distance estimation is unreliable here; classification by comparison between beacons is unaffected.`),
+  H2("4.2 Beacon Transmit Power and Matching"),
+  P(`**Purpose.** To ensure equal effective power, since unequal power biases classification. **Procedure.** Each beacon was measured alone at 1 m (21 Sep), then side by side and spaced 30 cm apart with two beacons exchanged (24 Sep). **Data.** ${T("match")}.`),
+  ...table("match", "Beacon matching at 1 m (+9 dBm)", ["Beacon", "Alone", "Side by side", "Spaced, swapped"], [
+    ["bedroom_wing", "−67.0", "−72.8", "−67.0"], ["dining_hall", "−65.0", "−62.2", "−71.1"], ["medicine_room", "−67.0", "−61.7", "−69.1"], ["**Spread (dB)**", "2", "11", "4"],
+  ], [1.6, 1, 1.2, 1.3]),
+  P("**Analysis.** Measured alone, the beacons agree within 2 dB; the 11 dB spread side by side followed the position when beacons were exchanged, so it was caused by placement. Beacons are therefore mounted apart, at equal height and orientation."),
+  H2("4.3 Test 2 — Zone Classification, Run 1 (Earlier Firmware)"),
+  P(`**Constants.** Firmware f5b2e92: α = 0.35, floor −88 dBm, hysteresis 4 dB, 3 confirmation checks, 300 ms period. The bedroom_wing and medicine_room beacons shared one room. **Procedure.** 16 labelled points (near, mid, far and boundary per zone), 24 Sep 2026; first 5 s after each label discarded. **Data.** ${T("r1cm")}, ${T("r1zone")}, ${T("r1pts")} and ${F("r1")}.`),
+  ...table("r1cm", "Run 1 confusion matrix (rows: true; columns: reported)", ["True", "BW", "DH", "MR", "Unkn.", "Total"], [
+    ["bedroom_wing", "134", "0", "79", "58", "271"], ["dining_hall", "0", "88", "0", "16", "104"], ["medicine_room", "23", "0", "56", "41", "120"],
+  ], [1.8, 0.8, 0.8, 0.8, 0.9, 0.9]),
+  ...table("r1zone", "Run 1 per-zone metrics", ["Zone", "n", "P", "R", "F1"], [
+    ["bedroom_wing", "271", "0.854", "0.494", "0.626"], ["dining_hall", "104", "1.000", "0.846", "0.917"], ["medicine_room", "120", "0.415", "0.467", "0.439"],
+    ["**Accuracy**", "495", "", "**56.2 %**", ""], ["**Unresolved**", "", "", "**23.2 %**", ""],
+  ], [1.8, 0.8, 0.9, 0.9, 0.9]),
+  WIDE([...table("r1pts", "Run 1 per-point results", ["Point", "n", "Correct", "Unresolved", "Most common wrong answer"], run1Points, [3, 0.8, 1.2, 1.3, 2.4], FULL),
+    PN("* The first 24 s at BW-near were recorded while the tester was still arriving; after arrival the point classified correctly throughout.", { spacing: { after: 120 } })]),
+  ...fig("r1", "f3_test2.png", COL, "Recall by zone, Test 2 Run 1."),
+  P("**Analysis.** There were no cross-room errors across the wall. In the shared room, points beyond about 1 m from a beacon were confused, and all 115 unresolved samples occurred at boundaries where every beacon was below the floor. An a-priori prediction (74 % overall, 21 % unresolved) matched the unresolved rate; accuracy was lower because the prediction assumed separate rooms. These findings led to the larger hysteresis, adaptive confirmation and shorter timing of the final firmware (Section 3.10)."),
+  H2("4.4 Three-Beacon Walk on the Final Firmware (Functional Check)"),
+  P(`**Purpose.** To verify, before the controlled run, that the final firmware follows a person between all three beacons. **Procedure.** On 30 Sep 2026 (00:22–00:37) the team walked between the beacons while the wearable's log was captured; the true position was not recorded, so the walk verifies function but does not score accuracy. **Data.** ${T("walk")} and ${F("walk")}.`),
+  ...table("walk", "Zone changes reported during the walk", ["Time", "Reported zone", "Strongest (dBm)"], [
+    ["00:25:13", "Medicine Room (restricted)", "−51.3"], ["00:25:25", "Dining Hall", "−71.8"], ["00:25:26", "Bedroom Wing", "−66.3"],
+    ["00:27:21", "Medicine Room (restricted)", "−56.1"], ["00:27:37", "Bedroom Wing", "−64.8"], ["00:27:45", "Dining Hall", "−59.4"],
+    ["00:27:59", "Bedroom Wing", "−63.2"], ["00:32:35", "Medicine Room (restricted)", "−56.3"], ["00:32:41", "Bedroom Wing", "−75.0"],
+    ["00:33:06", "Dining Hall", "−56.9"], ["00:33:24", "Bedroom Wing", "−53.8"],
+  ], [1, 2.2, 1.2]),
+  ...fig("walk", "f6_walk_timeline.png", COL, "Walk of 30 Sep 2026: reported zone (top) and smoothed signal of each beacon sampled every 30 s from the log (bottom)."),
+  P("**Analysis.** All three beacons were received (B1 −53 to −84 dBm, B2 −56 to −93 dBm, B3 −51 to −82 dBm) and the wearable reported eleven zone changes, raising a restricted-zone alert at each of the three entries into the medicine room. The Dining Hall to Bedroom Wing change within 1 s at 00:25:25 is either walking past the dining beacon or a brief reversal; the controlled run (Section 4.5) quantifies such effects."),
+  H2("4.5 Test 2 — Zone Classification, Run 3 (Final Firmware)"),
+  P(["**Constants.** Room mode, α = 0.4, floor −88 dBm, hysteresis 5 dB, confirmation 0.4 s or 1.6 s, 200 ms period, 2.5 s staleness; beacons +9 dBm, 100 ms, 1.2–1.5 m high. ", Y("layout and room dimensions"), " **Procedure.** The same 15 points as Run 1, 60 s each, 30 Sep 2026."]),
+  ...table("r3cm", "Run 3 confusion matrix (rows: true; columns: reported)", ["True", "BW", "DH", "MR", "Unkn.", "Total"], [
+    ["bedroom_wing", Y("—"), Y("—"), Y("—"), Y("—"), Y("—")], ["dining_hall", Y("—"), Y("—"), Y("—"), Y("—"), Y("—")], ["medicine_room", Y("—"), Y("—"), Y("—"), Y("—"), Y("—")],
+  ], [1.8, 0.8, 0.8, 0.8, 0.9, 0.9]),
+  ...table("r3zone", "Run 3 per-zone metrics and stability", ["Zone", "n", "P", "R", "F1"], [
+    ["bedroom_wing", Y("—"), Y("—"), Y("—"), Y("—")], ["dining_hall", Y("—"), Y("—"), Y("—"), Y("—")], ["medicine_room", Y("—"), Y("—"), Y("—"), Y("—")],
+    ["**Accuracy**", Y("—"), "", Y("—"), ""], ["**Unresolved**", "", "", Y("—"), ""], ["**Flicker (changes/min)**", "", "", Y("—"), "Run 1: 1.50"],
+  ], [1.8, 0.8, 0.9, 0.9, 0.9]),
+  TODO("Analysis: compare with Run 1 point by point and state the cause of every remaining error (Test 3 stability from the stationary segments)."),
+  H2("4.6 SOS Delivery Time, Urgency Patterns and Dismissal"),
+  P(`**Purpose.** To measure the time from a completed SOS pattern to its storage by the hub, and to verify patterns, escalation, acknowledgement and dismissal. **Procedure.** Ten single presses, each acknowledged before the next; one two-press and one three-press pattern; two escalations; five dismissals. The wearable timed each delivery on its own clock; display on the dashboard adds at most one refresh interval (1 s). **Data.** ${T("sos")}.`),
+  ...table("sos", "SOS delivery time and pattern outcomes", ["Measure", "Result"], [
+    ["Delivery time, n = 10 (mean / median)", Y("— / — ms")], ["Minimum / maximum / 95th percentile", Y("— / — / — ms")],
+    ["1, 2 and 3 presses produced the matching message", Y("— of —")], ["Escalations shown as one alert", Y("— of 2")],
+    ["Acknowledgement cleared the wearable", Y("— of —")], ["Dismissals by a 3 s hold", Y("— of 5")],
+  ], [2.6, 1.4]),
+  H2("4.7 Heart Rate Compared with a Pulse Oximeter"),
+  P(`**Procedure.** The wearable's sensor and a fingertip oximeter were applied to fingers of opposite hands at rest; at each of ten readings the oximeter value was recorded and the wearable's value was the median of its reports over the next 10 s. **Data.** ${T("hr")}, evaluated with ${E("mae")} and ${E("bias")}.`),
+  ...table("hr", "Heart rate: wearable against pulse oximeter (bpm)", ["#", "Oximeter", "Wearable", "Error"], [
+    ...Array.from({ length: 10 }, (_, i) => [String(i + 1), Y("—"), Y("—"), Y("—")]),
+    ["**MAE / bias**", "", "", Y("— / —")], ["**Within ±5 bpm**", "", "", Y("— of 10")],
+  ], [0.8, 1.2, 1.2, 1.2]),
+  P("The heart rate is displayed for information only; the system raises no heart-rate alert."),
+  H2("4.8 Door Sensor Reliability and Latency"),
+  P(`**Procedure.** Twenty open–close cycles with the door node operating as the hub, every reed change and alert logged; detection rate by ${E("det")}. The integration test of 29 Sep 2026 (facility network) is included. **Data.** ${T("door")}.`),
+  ...table("door", "Door sensor results", ["Test", "Cycles", "Detected", "Delivery / false events"], [
+    ["29 Sep, facility network", "3", "3 (100 %)", "0.09–0.96 s to the server"], ["30 Sep, hub", "20", Y("— (— %)"), Y("false: —")],
+  ], [1.8, 0.8, 1.1, 1.8]),
+  H2("4.9 Operation during Network Loss"),
+  P(`**Procedure.** Three trials: the hub was switched off, an SOS pressed, and the hub restored after 20 s. **Expected.** The wearable chirps, queues the alert and delivers it on reconnection; the dashboard marks it 'delivered late' with its original time. **Data.** ${T("wifi")}.`),
+  ...table("wifi", "SOS delivered after a network outage", ["Trial", "Press to delivery", "Shown with original time"], [
+    ["1", Y("— s"), Y("yes/no")], ["2", Y("— s"), Y("yes/no")], ["3", Y("— s"), Y("yes/no")],
+  ], [0.8, 1.4, 1.8]),
+  H2("4.10 Dashboard and Hub Verification"),
+  P(`**Computer backend.** An automated self-test covering zones, restarts, out-of-order delivery, door states, the SOS lifecycle and acknowledgement passed 38 of 38 checks (24 Sep, repeated 30 Sep); a repeated SOS report was confirmed to be merged rather than stored twice. **Stand-alone hub.** A computer joined to the hub's network ran the page, passcode, lock-out, data contract, clock, door state, captive-portal redirection and simultaneous-polling checks (${T("hub")}); ${F("dash")} shows the dashboard on a phone.`),
+  ...table("hub", "Hub verification (29–30 Sep 2026)", ["Measurement", "Result"], [
+    ["Network checks passed", "17 of 17"], ["Page load (15 KB compressed)", "78–97 ms"],
+    ["4 clients polling 1 s for 10 s (104 requests)", "median 32 ms, worst 60 ms"], ["Request with 3 idle connections", "47 ms"],
+    ["Wearable connection held", "10 min, −34 to −52 dBm, no drop"], ["Dashboard opened on joining", "Android and iPhone"],
+  ], [2.4, 1.6]),
+  ...fig("dash", "f4_dashboard_phone.png", 2600, "Caregiver dashboard on a phone with an urgent SOS awaiting acknowledgement (test data)."),
+  P("**Finding.** In the first phone test the hub sometimes took more than 4 s to answer the wearable: each reply was written in one blocking call, and a phone in Wi-Fi power-save mode receiving a 10 KB summary through the 5.7 KB send buffer held up every other client. Replies are now sent without blocking and simultaneous polls share one summary."),
+  H2("4.11 Wearable Hardware Self-Test"),
+  P(`**Purpose.** To verify each subsystem of the assembled wearable independently. **Procedure.** A diagnostic program flashed on 30 Sep 2026 scanned both I²C buses, read the battery-sense input, the button, the buzzer and LED, and scanned Wi-Fi and BLE. **Data.** ${T("selftest")}.`),
+  ...table("selftest", "Wearable hardware self-test (30 Sep 2026)", ["Subsystem", "Result"], [
+    ["MAX30102 (I²C 0x57)", "Found, part ID 0x15; IR 616 with no finger"], ["Fuel-gauge bus", "Empty (gauge not fitted)"],
+    ["SOS button (GPIO 27)", "Released at rest"], ["Buzzer and LED", "3 beeps and flashes"],
+    ["Wi-Fi radio", "11 networks, strongest −21 dBm"], ["BLE radio", "65 advertisers received"],
+    ["Battery sense (GPIO 34)", "**0.28 V — no battery voltage on the sense line**"],
+  ], [1.6, 2.4]),
+  H2("4.12 Power Supply Verification"),
+  P("During the first power-up of the breadboard wearable a development board failed: the MT3608 output measured 17.64 V unloaded, its factory setting. After adjustment to 5.03 V a replacement board worked normally, and the adjustment became a required service step."),
+  P(`On 30 Sep 2026 the wearable ran from USB but not from its battery: the MT3608 gave 5.01 V unloaded but fell to about 3.2 V with the wearable connected, and a second, new module behaved identically. Voltages measured along the power path under load are given in ${T("power")} and ${F("power")}.`),
+  ...table("power", "Voltages along the power path under load", ["Point", "Measured (V)", "Expected (V)"], [
+    ["Battery terminals", "3.83", "3.7–4.2"], ["TP4056 B+", "3.76", "= battery"], ["TP4056 OUT+", "3.76", "= battery"],
+    ["MT3608 VIN", "**3.42**", "= battery"], ["MT3608 VOUT", "**3.25**", "5.0"],
+  ], [1.8, 1.2, 1.2]),
+  ...fig("power", "f5_power_path.png", COL, "Voltage along the wearable power path with the load connected (multimeter, 30 Sep 2026)."),
+  P("**Analysis.** The design itself passed the design-rule, schematic-parity and electrical-rules checks with no errors, and its 0.8 mm power traces are about 0.01 Ω. The 0.34 V lost between the TP4056 output and the MT3608 input at low average current therefore comes from a physical joint, wire or the switch contact; under the converter's current pulses this loss grows until the converter cannot start, so its output only passes the input voltage less a diode drop. The self-test (Section 4.11) likewise found no battery voltage on the board's battery-sense line, consistent with a break between the charger output and J1. The remedy is to re-solder the TP4056 output to J1 and to test or replace the switch."),
+  TODO("Result after the repair: MT3608 output under load and wearable operation on battery."),
+  H2("4.13 Tests Not Performed"),
+  ...table("notdone", "Tests not performed", ["Test", "Reason", "Recommendation"], [
+    ["Battery endurance", "No full discharge possible before the defense; fuel gauge not delivered", "Measure runtime from full charge"],
+    ["Low-battery alerting", "Requires a discharging cell", "Verify with a bench supply"],
+  ], [1.2, 2, 1.6]),
+];
+
+// =============================================================================
+// CHAPTER 5
+// =============================================================================
+const ch5 = [
+  H1("Chapter 5: Conclusion and Recommendations"),
+  H2("5.1 Conclusions"),
+  PN(["**Zone detection (objective 1).** BLE classification by the strongest beacon produced no cross-room errors across walls, and the final firmware followed a walker between all three beacons. On the controlled run it achieved ", Y("accuracy and unresolved rate"), "."]),
+  PN("**Classification without distance.** Test 1 showed that distance estimation from signal strength is unreliable indoors because of standing-wave fading; comparing beacons with hysteresis and adaptive confirmation avoids this dependence."),
+  PN(["**Restricted areas and SOS (objectives 2 and 3).** Door and restricted-zone alerts work end to end; the SOS button carries three urgency levels with escalation and dismissal, and acknowledgement returns the wearable to normal operation. Delivery time: ", Y("median and maximum"), "."]),
+  PN(["**Battery and heart rate (objective 4).** Heart rate deviated from the oximeter by ", Y("MAE"), ". Battery reporting could not be verified on the cell because of the power-path fault of Section 4.12."]),
+  PN("**Caregiver interface (objective 5).** The dashboard passed all automated checks and runs on any phone; the door node doubles as a hub, so the system works with or without an internet connection."),
+  PN("**Network fallback (objective 6).** Events are queued during outages with a local chirp and delivered with their original time."),
+  PN("**Battery endurance (objective 7).** The boost-plus-linear chain does not reach the 24-hour target by calculation, and the runtime could not be measured."),
+  H2("5.2 Recommendations"),
+  B("Measure battery runtime; replace the boost-plus-linear chain with a buck-boost converter or a regulator with dropout below 400 mV (about 27 h calculated at 35 mA)."),
+  B("Use a switch rated at least 1 A in the battery path and short, thick power wiring; verify every power joint under load."),
+  B("Fit the MAX17043 fuel gauge for state-of-charge reporting (the firmware detects it automatically)."),
+  B("Deploy the cloud relay once hosting is decided, and add push notifications for locked phones."),
+  B("Improve doorway coverage by tuning the floor or adding beacons; study per-zone thresholds where zones share a room [8], [10]."),
+  B("Validate heart rate on more people against clinical equipment; persist the hub's history and add battery backup to door nodes."),
+  B("Evaluate a hybrid BLE/UWB design [9] where sub-metre accuracy is needed."),
+];
+
+// =============================================================================
+// REFERENCES
+// =============================================================================
+const refs = [
+  "Philippine Statistics Authority, “Age and sex distribution in the Philippine population (2020 Census of Population and Housing),” Quezon City, Philippines. [Online]. Available: https://psa.gov.ph/content/age-and-sex-distribution-philippine-population-2020-census-population-and-housing",
+  "G. Cipriani, C. Lucetti, A. Nuti, and S. Danti, “Wandering and dementia,” _Psychogeriatrics_, vol. 14, no. 2, pp. 135–142, 2014, doi: 10.1111/psyg.12044.",
+  "F. Zafari, A. Gkelias, and K. K. Leung, “A survey of indoor localization systems and technologies,” _IEEE Commun. Surveys Tuts._, vol. 21, no. 3, pp. 2568–2599, 2019.",
+  "United Nations General Assembly, “Transforming our world: The 2030 Agenda for Sustainable Development,” A/RES/70/1, 2015.",
+  "Espressif Systems, “ESP32 series datasheet.” [Online]. Available: https://www.espressif.com/sites/default/files/documentation/esp32_datasheet_en.pdf",
+  "Apple Inc., “Proximity beacon specification,” Release R1, 2015.",
+  "T. S. Rappaport, _Wireless Communications: Principles and Practice_, 2nd ed. Upper Saddle River, NJ, USA: Prentice Hall, 2002.",
+  "R. Faragher and R. Harle, “Location fingerprinting with Bluetooth Low Energy beacons,” _IEEE J. Sel. Areas Commun._, vol. 33, no. 11, pp. 2418–2428, Nov. 2015, doi: 10.1109/JSAC.2015.2430281.",
+  "J. Kolakowski, V. Djaja-Josko, M. Kolakowski, and K. Broczek, “UWB/BLE tracking system for elderly people monitoring,” _Sensors_, vol. 20, no. 6, Art. no. 1574, 2020, doi: 10.3390/s20061574.",
+  "C. Garcia and S. Inoue, “Relabeling for indoor localization using stationary beacons in nursing care facilities,” _Sensors_, vol. 24, no. 2, Art. no. 319, 2024, doi: 10.3390/s24020319.",
+  "_Secondary Cells and Batteries Containing Alkaline or Other Non-Acid Electrolytes — Safety Requirements for Portable Sealed Secondary Cells, and for Batteries Made From Them, for Use in Portable Applications — Part 2: Lithium Systems_, IEC 62133-2:2017.",
+  "Bluetooth SIG, “Bluetooth Core Specification.” [Online]. Available: https://www.bluetooth.com/specifications/specs/",
+  "Republic of the Philippines, “Data Privacy Act of 2012,” Republic Act No. 10173, Aug. 15, 2012.",
+];
+const references = [
+  H1("References"),
+  ...refs.map((r, i) => new Paragraph({ alignment: AlignmentType.JUSTIFIED, indent: { left: 400, hanging: 400 }, spacing: { after: 40 },
+    children: [t(`[${i + 1}]  `, { size: 16 }), ...runs(r, { size: 16 })] })),
+];
+
+// =============================================================================
+// APPENDICES (one column, new page)
+// =============================================================================
+const AH = (text) => new Paragraph({ children: [t(text, { smallCaps: true, bold: true, size: 22 })], alignment: AlignmentType.LEFT, spacing: { before: 240, after: 120 }, keepNext: true });
+const appendices = [
+  new Paragraph({ children: [t("Appendices", { smallCaps: true, bold: true, size: 26 })], alignment: AlignmentType.CENTER, spacing: { after: 200 } }),
+  AH("Appendix A — Bill of Materials"),
+  ...table("bom", "Bill of materials of the demonstration system", ["Ref.", "Part", "Qty", "Unit cost (₱)"], [
+    ["U1", "ESP32-WROOM-32 DevKitC (wearable) + 2 spare", "3", Y("—")], ["—", "ESP32 DevKitC (beacons, door node)", "4", Y("—")],
+    ["U2", "MAX30102 heart rate breakout", "1", Y("—")], ["U3", "MAX17043 fuel gauge (optional)", "1", "252"],
+    ["BT1", "Li-Po cell 3.7 V, 1000 mAh", "1", Y("—")], ["M1", "TP4056 charger with DW01 protection, USB-C", "2", Y("—")],
+    ["M2", "MT3608 boost converter module", "3", "39"], ["SW1", "SPDT switch (battery / off)", "3", Y("—")],
+    ["SW2", "Tactile push button (SOS)", "1", Y("—")], ["BZ1", "Passive piezo buzzer (pack of 10)", "1", "99"],
+    ["Q1, D1, D2", "2N2222, 1N4148, LED", "1 each", Y("—")], ["R1–R6", "1 kΩ, 330 Ω, 2 × 100 kΩ, 2 × 4.7 kΩ", "6", Y("—")],
+    ["C1–C4", "100 µF, 100 nF, 470 µF, 100 nF", "4", Y("—")], ["—", "Magnetic reed switch set", "2", Y("—")],
+    ["—", "Copper-clad board, FeCl₃, perfboard, headers, wire", "lot", Y("—")], ["—", "PETG filament for enclosures", "≈ 85 g", Y("—")],
+    ["", "**Total**", "", Y("—")],
+  ], [0.9, 3.4, 0.8, 1.2], FULL),
+  AH("Appendix B — Wearable Schematic"),
+  ...fig("sch", "a_schematic_rot.png", 8200, "Wearable schematic, Revision C3 (KiCad; page rotated)."),
+  AH("Appendix C — Printed Circuit Board"),
+  ...fig("copper", "a_pcb_board.png", 6200, "Revision C3 copper (B.Cu) with component-side silkscreen, 69 × 66 mm; design-rule check: 0 errors, 0 unconnected pads."),
+  AH("Appendix D — Door Node and Beacon Construction"),
+  ...fig("doorwire", "Door_Node_Wiring.png", 7600, "Door sensor node wiring (reed switch on GPIO 18 with the internal pull-up)."),
+  ...fig("beacon", "Beacon_Perfboard_ComponentSide.png", 6400, "Beacon node on perfboard, component side."),
+  AH("Appendix E — Enclosures"),
+  ...fig("nodes", "Node_Enclosures_Closed.png", 6000, "Beacon and door-node enclosures (3-D model), printed in PETG."),
+  AH("Appendix F — Firmware Excerpts"),
+  PN("Zone classification with adaptive confirmation (wearable, `classifyZone`):", { spacing: { after: 60 } }),
+  ...[
+    "float lead = bestRssi - curRssi;",
+    "if (lead > HYSTERESIS_DB && bestRssi >= ZONE_ENTRY_DBM) {",
+    "  int need = (lead >= FAST_LEAD_DB) ? CONFIRM_TICKS_FAST   // 2 x 200 ms",
+    "                                    : CONFIRM_TICKS_SLOW;  // 8 x 200 ms",
+    "  if (bestIdx == gCandidateIdx) {",
+    "    if (++gCandidateTicks >= need) newIdx = bestIdx;",
+    "  } else { gCandidateIdx = bestIdx; gCandidateTicks = 1; }",
+    "}",
+  ].map(CODE),
+  PN("SOS pattern completion (wearable, `sosService`):", { spacing: { before: 120, after: 60 } }),
+  ...[
+    "if (gPatCount && gBtnStable == HIGH && now - gPatLastEdge >= SOS_PATTERN_GAP_MS) {",
+    "  uint8_t level = gPatCount; gPatCount = 0;",
+    "  if (!gSosActive || level > gSosLevel) {           // new SOS, or escalation",
+    "    const char *msg = level >= 3 ? SOS_MSG_3 : level == 2 ? SOS_MSG_2 : SOS_MSG_1;",
+    "    gSosActive = true; gSosLevel = level;",
+    "    raiseAlert(\"sos\", msg, level);                   // 1-3 confirmation beeps",
+    "  }",
+    "}",
+  ].map(CODE),
+  PN("Complete source code: private GitHub repository Jeju2004/SESEM (wearable, beacon, door node and hub firmware; dashboard; analysis scripts).", { spacing: { before: 120 } }),
+  AH("Appendix G — Test Data"),
+  PN("Raw captures (unmodified) and analysis outputs: Test 1 (21 Sep 2026), Test 2 Run 1 and results (24 Sep 2026), three-beacon walk and test-day captures (30 Sep 2026: test2_run3.csv, sos.csv, hr.csv, doors.csv), with the analysis scripts named in Table I."),
+  AH("Appendix H — User's Manual and Panel Access Card"),
+  PN("The User's Manual is a separate document. The access card below lets panel members join the hub's network and open the dashboard.", { keepNext: true }),
+  ...fig("qr", "a_qr_card_one.png", 7200, "Panel access card: QR code 1 joins the SESEMSG network; QR code 2 opens the dashboard."),
+  AH("Appendix I — Photographs of the Prototype"),
+  TODO("Insert photographs: wearable (front, back, worn), beacon installed, door node with reed switch, test setup."),
+  AH("Appendix J — Signed Forms"),
+  TODO("Insert the signed progress reports and the Request for Billing form."),
+];
+
+// =============================================================================
+// ASSEMBLY — sections: title (1 col) · body (2 col, with full-width blocks) ·
+// balance break · appendices (1 col, new page)
+// =============================================================================
+const page = { size: { width: 12240, height: 15840 }, margin: { top: 1080, right: 900, bottom: 1440, left: 900 } };
+const footers = { default: new Footer({ children: [new Paragraph({ alignment: AlignmentType.CENTER, children: [new TextRun({ children: [PageNumber.CURRENT], font: FONT, size: 16 })] })] }) };
+const two = { count: 2, space: 360, equalWidth: true };
+const body = [...abstract, ...ch1, ...ch2, ...ch3, ...ch4, ...ch5, ...references];
+const sections = [{ properties: { page }, footers, children: title }];
+let run = [];
+const flush = () => { if (run.length) { sections.push({ properties: { type: SectionType.CONTINUOUS, page, column: two }, footers, children: run }); run = []; } };
+for (const item of body) {
+  if (item && item.wide) {
+    flush();
+    sections.push({ properties: { type: SectionType.CONTINUOUS, page, column: { count: 1 } }, footers, children: item.wide });
+  } else run.push(item);
+}
+flush();
+// a continuous one-column break balances the two columns of the last page
+sections.push({ properties: { type: SectionType.CONTINUOUS, page, column: { count: 1 } }, footers, children: [new Paragraph({ children: [] })] });
+sections.push({ properties: { type: SectionType.NEXT_PAGE, page, column: { count: 1 } }, footers, children: appendices });
+
+// every numbered item must appear exactly once, in its declared order
+const check = (used, list, what) => {
+  const missing = list.filter((k) => !used.includes(k));
+  if (missing.length) throw new Error(`${what} declared but never placed: ${missing.join(", ")}`);
+  used.forEach((k, i) => { if (k !== list[i]) throw new Error(`${what} out of order: ${k} is #${i + 1}, declared #${list.indexOf(k) + 1}`); });
+};
+check(usedT, TABLES, "table"); check(usedF, FIGS, "figure"); check(usedE, EQS, "equation");
+
+const doc = new Document({
+  creator: "Chester John B. Cirio; Pathrish Anne R. Cruz", title: "TroDes — IEEE-format paper, Revision 5",
+  styles: { default: { document: { run: { font: FONT, size: 20 } } } },
+  sections,
+});
+Packer.toBuffer(doc).then((buf) => { fs.writeFileSync(OUT, buf); console.log("wrote", OUT, buf.length, `| ${TABLES.length} tables, ${FIGS.length} figures, ${EQS.length} equations`); });

@@ -15,6 +15,19 @@ node pr3.js    ..\..\deliverables\drafts\TroDes_Progress_Report_3_DRAFT.docx
 After regenerating a Word file, open it and right-click the table of contents →
 **Update Field**, then save and export to PDF.
 
+**IEEE-format paper (Revision 5, two columns):**
+
+```powershell
+python make_figures.py <dir with sch.pdf and pcb.pdf> <walk log txt>   # f5, f6, schematic, copper
+python make_appendix_images.py "<...>\SESEMSG_Panel_QR_Card.pdf"      # rotated schematic, board crop, one QR card
+node paper_ieee.js ..\..\deliverables\drafts\TroDes_IEEE_Paper_DRAFT_Rev5.docx
+```
+
+Tables, figures and equations are numbered from the `TABLES`, `FIGS` and `EQS`
+lists at the top of `paper_ieee.js` (IEEE order of appearance); the script stops
+if one is missing or out of order. In Word, add the drop cap to the first
+paragraph of 1.1 (Format → Drop Cap → Dropped, 2 lines), then export to PDF.
+
 `figures/` holds the paper's figures, cropped from the presentation's slides 4,
 8 and 9 (architecture, Test 1 chart, Test 2 chart).
 
