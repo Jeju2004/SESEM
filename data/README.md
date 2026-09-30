@@ -41,3 +41,10 @@ room mode vs proximity mode) — see the vault's `Defense Demo Plan.md`.
 No serial capture was made during the dry run or video, so there is no
 delivery-time data: the screenshots give minutes only. See
 `docs/project/House_Test_2026-09-30.md`.
+
+## Test day, 1 Oct 2026 (house) — first attempts, not usable as results
+
+| File | What it is | Usable? |
+|---|---|---|
+| `test_day/sos.csv` | Test B attempt, 02:06:20–02:06:35: **15 s only**, boot and WiFi join, label `transit` throughout, **no SOS press recorded**. The only delivery logged is a queued `zone_change` (8127 ms, held while WiFi was joining) | **No.** Test B must be repeated with the log running for all trials |
+| `test_day/hr.csv` | Test C attempt, 02:07:36–02:09:31: **one** oximeter reading (label `ox109`, with a typo `oc109` just before it); the wearable reported 111–113 bpm, error +3 bpm. The wearable's reading also moved from 72–75 to 100–113 bpm within the same minute | **One of the 10 readings.** Repeat for the other nine |
