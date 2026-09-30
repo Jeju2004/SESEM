@@ -1,0 +1,223 @@
+iso_time,elapsed_s,label,line
+2026-10-01T02:20:17.300,0.004,transit,"POWERON_RESET),boot:0x13 (SPI_FAST_FLASH_BOOT)"
+2026-10-01T02:20:17.302,0.006,transit,"configsip: 0, SPIWP:0xee"
+2026-10-01T02:20:17.308,0.012,transit,"clk_drv:0x00,q_drv:0x00,d_drv:0x00,cs0_drv:0x00,hd_drv:0x00,wp_drv:0x00"
+2026-10-01T02:20:17.310,0.015,transit,"mode:DIO, clock div:2"
+2026-10-01T02:20:17.313,0.018,transit,"load:0x3fff0030,len:1184"
+2026-10-01T02:20:17.313,0.018,transit,"load:0x40078000,len:13232"
+2026-10-01T02:20:17.317,0.021,transit,"load:0x40080400,len:3028"
+2026-10-01T02:20:17.321,0.026,transit,entry 0x400805e4
+2026-10-01T02:20:18.316,1.020,transit,========================================
+2026-10-01T02:20:18.319,1.024,transit,TroDes Phase 1 - Wearable
+2026-10-01T02:20:18.322,1.026,transit,Device   : wearable-01 (Resident 1)
+2026-10-01T02:20:18.327,1.031,transit,UUID     : 5ca9015e-adc8-40a9-a1e2-d539f3b065bd  major=1
+2026-10-01T02:20:18.327,1.031,transit,Zones    : 3
+2026-10-01T02:20:18.330,1.035,transit,"SOS long : 3000 ms (proposed, unconfirmed)"
+2026-10-01T02:20:18.339,1.043,transit,"Power    : profile 0 - CPU 240 MHz, active scan 99% duty, status every 5 s"
+2026-10-01T02:20:18.344,1.048,transit,Zones    : room mode - strongest beacon wins (entry threshold off)
+2026-10-01T02:20:18.347,1.051,transit,========================================
+2026-10-01T02:20:18.352,1.056,transit,[HR] MAX30102 found.
+2026-10-01T02:20:18.357,1.061,transit,[BATT] MAX17043 not answering - using the ADC divider on GPIO 34.
+2026-10-01T02:20:18.366,1.070,transit,       (It needs the battery on its JST lead; checked again every 30 s.)
+2026-10-01T02:20:18.372,1.076,transit,"[SYS] Running. Press = SOS, hold 3 s = dismiss."
+2026-10-01T02:20:18.989,1.693,transit,[RSSI] bedroom_wing=-- dining_hall=-- medicine_room=--
+2026-10-01T02:20:18.996,1.700,transit,[STAT] zone=unknown hr=0 batt=-1% sos=no wifi=down q=0 bv=-1.00 src=adc
+2026-10-01T02:20:19.057,1.761,transit,[BLE] Scanner running.
+2026-10-01T02:20:19.371,2.075,transit,"[ZONE] -> dining_hall (id=2, rssi=-80.0 dBm, ~6.9 m)"
+2026-10-01T02:20:19.386,2.090,transit,"[ALERT] {""device_id"":""wearable-01"",""type"":""zone_change"",""detail"":""dining_hall"",""zone"":""dining_hall"",""zone_id"":2,""batt_pct"":-1,""hr_bpm"":-1,""uptime_s"":1}"
+2026-10-01T02:20:19.989,2.694,transit,[RSSI] bedroom_wing=-- dining_hall=-83 medicine_room=-90
+2026-10-01T02:20:19.996,2.700,transit,[STAT] zone=dining_hall hr=0 batt=-1% sos=no wifi=down q=1 bv=-1.00 src=adc
+2026-10-01T02:20:20.582,3.287,transit,[HR] something on the sensor but IR 7813 is below the finger level 50000
+2026-10-01T02:20:20.991,3.695,transit,[RSSI] bedroom_wing=-- dining_hall=-71 medicine_room=-86
+2026-10-01T02:20:20.996,3.701,transit,[STAT] zone=dining_hall hr=0 batt=-1% sos=no wifi=down q=1 bv=-1.00 src=adc
+2026-10-01T02:20:21.928,4.632,transit,"[NET] Connecting to ""SESEMSG"" (server http://192.168.4.1) ..."
+2026-10-01T02:20:21.992,4.696,transit,[RSSI] bedroom_wing=-- dining_hall=-70 medicine_room=-91
+2026-10-01T02:20:21.998,4.702,transit,[STAT] zone=dining_hall hr=0 batt=-1% sos=no wifi=down q=1 bv=-1.00 src=adc
+2026-10-01T02:20:22.595,5.300,transit,"[HR] finger: IR 128611, beats seen 1, kept 0 of 4 needed, bpm 0"
+2026-10-01T02:20:22.993,5.698,transit,[RSSI] bedroom_wing=-- dining_hall=-76 medicine_room=-91
+2026-10-01T02:20:23.000,5.704,transit,[STAT] zone=dining_hall hr=0 batt=71% sos=no wifi=down q=1 bv=3.92 src=adc
+2026-10-01T02:20:23.993,6.698,transit,[RSSI] bedroom_wing=-- dining_hall=-76 medicine_room=-91
+2026-10-01T02:20:24.000,6.705,transit,[STAT] zone=dining_hall hr=0 batt=71% sos=no wifi=down q=1 bv=3.92 src=adc
+2026-10-01T02:20:24.608,7.313,transit,"[HR] finger: IR 126306, beats seen 2, kept 0 of 4 needed, bpm 0"
+2026-10-01T02:20:24.995,7.699,transit,[RSSI] bedroom_wing=-- dining_hall=-76 medicine_room=-92
+2026-10-01T02:20:25.001,7.706,transit,[STAT] zone=dining_hall hr=0 batt=71% sos=no wifi=down q=1 bv=3.92 src=adc
+2026-10-01T02:20:25.995,8.700,transit,[RSSI] bedroom_wing=-- dining_hall=-77 medicine_room=-90
+2026-10-01T02:20:26.002,8.707,transit,[STAT] zone=dining_hall hr=0 batt=71% sos=no wifi=down q=1 bv=3.92 src=adc
+2026-10-01T02:20:26.023,8.727,transit,"[NET] WiFi dropped, reason 15"
+2026-10-01T02:20:26.622,9.326,transit,"[HR] finger: IR 130112, beats seen 6, kept 3 of 4 needed, bpm 0"
+2026-10-01T02:20:26.995,9.700,transit,[RSSI] bedroom_wing=-- dining_hall=-74 medicine_room=-87
+2026-10-01T02:20:27.002,9.707,transit,[STAT] zone=dining_hall hr=0 batt=71% sos=no wifi=down q=1 bv=3.92 src=adc
+2026-10-01T02:20:27.995,10.699,transit,[RSSI] bedroom_wing=-- dining_hall=-74 medicine_room=-89
+2026-10-01T02:20:28.005,10.709,transit,[STAT] zone=dining_hall hr=0 batt=71% sos=no wifi=down q=1 bv=3.92 src=adc
+2026-10-01T02:20:28.637,11.341,transit,"[HR] finger: IR 129558, beats seen 10, kept 4 of 4 needed, bpm 83"
+2026-10-01T02:20:28.996,11.700,transit,[RSSI] bedroom_wing=-- dining_hall=-73 medicine_room=-89
+2026-10-01T02:20:29.002,11.707,transit,[STAT] zone=dining_hall hr=83 batt=71% sos=no wifi=down q=1 bv=3.92 src=adc
+2026-10-01T02:20:29.882,12.587,transit,[NET] got IP 192.168.4.2 (gateway 192.168.4.1)
+2026-10-01T02:20:29.998,12.702,transit,[RSSI] bedroom_wing=-- dining_hall=-73 medicine_room=-91
+2026-10-01T02:20:30.003,12.708,transit,[STAT] zone=dining_hall hr=85 batt=71% sos=no wifi=down q=1 bv=3.92 src=adc
+2026-10-01T02:20:30.136,12.840,transit,"[NET] WiFi connected, IP 192.168.4.2"
+2026-10-01T02:20:30.513,13.217,transit,[DELIVERED] zone_change 11126 ms after it was raised (server hub)
+2026-10-01T02:20:30.648,13.353,transit,"[HR] finger: IR 129022, beats seen 12, kept 6 of 4 needed, bpm 85"
+2026-10-01T02:20:30.997,13.701,transit,[RSSI] bedroom_wing=-- dining_hall=-74 medicine_room=-90
+2026-10-01T02:20:31.003,13.707,transit,[STAT] zone=dining_hall hr=85 batt=71% sos=no wifi=up q=0 bv=3.92 src=adc
+2026-10-01T02:20:31.998,14.702,transit,[RSSI] bedroom_wing=-- dining_hall=-75 medicine_room=-90
+2026-10-01T02:20:32.004,14.708,transit,[STAT] zone=dining_hall hr=85 batt=71% sos=no wifi=up q=0 bv=3.92 src=adc
+2026-10-01T02:20:32.661,15.365,transit,"[HR] finger: IR 129195, beats seen 15, kept 8 of 4 needed, bpm 83"
+2026-10-01T02:20:32.997,15.702,transit,[RSSI] bedroom_wing=-- dining_hall=-73 medicine_room=-92
+2026-10-01T02:20:33.004,15.708,transit,[STAT] zone=dining_hall hr=85 batt=71% sos=no wifi=up q=0 bv=3.92 src=adc
+2026-10-01T02:20:33.997,16.702,transit,[RSSI] bedroom_wing=-- dining_hall=-73 medicine_room=-92
+2026-10-01T02:20:34.004,16.709,transit,[STAT] zone=dining_hall hr=85 batt=71% sos=no wifi=up q=0 bv=3.92 src=adc
+2026-10-01T02:20:34.673,17.378,transit,"[HR] finger: IR 130892, beats seen 18, kept 8 of 4 needed, bpm 85"
+2026-10-01T02:20:34.998,17.703,transit,[RSSI] bedroom_wing=-- dining_hall=-73 medicine_room=-91
+2026-10-01T02:20:35.005,17.709,transit,[STAT] zone=dining_hall hr=85 batt=71% sos=no wifi=up q=0 bv=3.92 src=adc
+2026-10-01T02:20:36.000,18.704,transit,[RSSI] bedroom_wing=-- dining_hall=-77 medicine_room=-90
+2026-10-01T02:20:36.009,18.714,transit,[STAT] zone=dining_hall hr=83 batt=71% sos=no wifi=up q=0 bv=3.92 src=adc
+2026-10-01T02:20:36.687,19.391,transit,"[HR] finger: IR 130573, beats seen 20, kept 8 of 4 needed, bpm 83"
+2026-10-01T02:20:37.000,19.704,transit,[RSSI] bedroom_wing=-- dining_hall=-75 medicine_room=-93
+2026-10-01T02:20:37.005,19.710,transit,[STAT] zone=dining_hall hr=86 batt=71% sos=no wifi=up q=0 bv=3.92 src=adc
+2026-10-01T02:20:38.000,20.705,transit,[RSSI] bedroom_wing=-- dining_hall=-74 medicine_room=-89
+2026-10-01T02:20:38.007,20.712,transit,[STAT] zone=dining_hall hr=86 batt=71% sos=no wifi=up q=0 bv=3.92 src=adc
+2026-10-01T02:20:38.707,21.411,transit,"[HR] finger: IR 130984, beats seen 23, kept 8 of 4 needed, bpm 86"
+2026-10-01T02:20:39.002,21.706,transit,[RSSI] bedroom_wing=-- dining_hall=-76 medicine_room=-90
+2026-10-01T02:20:39.007,21.712,transit,[STAT] zone=dining_hall hr=86 batt=71% sos=no wifi=up q=0 bv=3.92 src=adc
+2026-10-01T02:20:40.003,22.707,transit,[RSSI] bedroom_wing=-- dining_hall=-75 medicine_room=-88
+2026-10-01T02:20:40.012,22.716,transit,[STAT] zone=dining_hall hr=85 batt=71% sos=no wifi=up q=0 bv=3.92 src=adc
+2026-10-01T02:20:40.717,23.421,transit,"[HR] finger: IR 131302, beats seen 26, kept 8 of 4 needed, bpm 86"
+2026-10-01T02:20:41.002,23.707,transit,[RSSI] bedroom_wing=-- dining_hall=-77 medicine_room=-89
+2026-10-01T02:20:41.009,23.713,transit,[STAT] zone=dining_hall hr=86 batt=71% sos=no wifi=up q=0 bv=3.92 src=adc
+2026-10-01T02:20:42.003,24.708,transit,[RSSI] bedroom_wing=-- dining_hall=-80 medicine_room=-90
+2026-10-01T02:20:42.010,24.715,transit,[STAT] zone=dining_hall hr=85 batt=71% sos=no wifi=up q=0 bv=3.92 src=adc
+2026-10-01T02:20:42.730,25.435,transit,"[HR] finger: IR 131136, beats seen 29, kept 8 of 4 needed, bpm 86"
+2026-10-01T02:20:43.003,25.708,transit,[RSSI] bedroom_wing=-- dining_hall=-77 medicine_room=-90
+2026-10-01T02:20:43.010,25.714,transit,[STAT] zone=dining_hall hr=86 batt=71% sos=no wifi=up q=0 bv=3.92 src=adc
+2026-10-01T02:20:44.003,26.709,transit,[RSSI] bedroom_wing=-- dining_hall=-77 medicine_room=-91
+2026-10-01T02:20:44.011,26.716,transit,[STAT] zone=dining_hall hr=85 batt=71% sos=no wifi=up q=0 bv=3.92 src=adc
+2026-10-01T02:20:44.745,27.449,transit,"[HR] finger: IR 131168, beats seen 32, kept 8 of 4 needed, bpm 88"
+2026-10-01T02:20:45.005,27.709,transit,[RSSI] bedroom_wing=-- dining_hall=-80 medicine_room=-91
+2026-10-01T02:20:45.012,27.716,transit,[STAT] zone=dining_hall hr=88 batt=71% sos=no wifi=up q=0 bv=3.92 src=adc
+2026-10-01T02:20:46.005,28.710,transit,[RSSI] bedroom_wing=-- dining_hall=-79 medicine_room=-91
+2026-10-01T02:20:46.011,28.717,transit,[STAT] zone=dining_hall hr=88 batt=71% sos=no wifi=up q=0 bv=3.92 src=adc
+2026-10-01T02:20:46.757,29.461,transit,"[HR] finger: IR 131136, beats seen 35, kept 8 of 4 needed, bpm 90"
+2026-10-01T02:20:47.005,29.710,transit,[RSSI] bedroom_wing=-- dining_hall=-78 medicine_room=-91
+2026-10-01T02:20:47.012,29.716,transit,[STAT] zone=dining_hall hr=90 batt=71% sos=no wifi=up q=0 bv=3.92 src=adc
+2026-10-01T02:20:48.006,30.711,transit,[RSSI] bedroom_wing=-- dining_hall=-73 medicine_room=-91
+2026-10-01T02:20:48.013,30.717,transit,[STAT] zone=dining_hall hr=94 batt=71% sos=no wifi=up q=0 bv=3.92 src=adc
+2026-10-01T02:20:48.773,31.477,transit,"[HR] finger: IR 131255, beats seen 38, kept 8 of 4 needed, bpm 94"
+2026-10-01T02:20:49.006,31.711,transit,[RSSI] bedroom_wing=-- dining_hall=-74 medicine_room=-94
+2026-10-01T02:20:49.017,31.721,transit,[STAT] zone=dining_hall hr=94 batt=71% sos=no wifi=up q=0 bv=3.92 src=adc
+2026-10-01T02:20:50.007,32.711,transit,[RSSI] bedroom_wing=-- dining_hall=-75 medicine_room=-93
+2026-10-01T02:20:50.015,32.719,transit,[STAT] zone=dining_hall hr=94 batt=71% sos=no wifi=up q=0 bv=3.92 src=adc
+2026-10-01T02:20:50.788,33.493,transit,"[HR] finger: IR 131165, beats seen 42, kept 8 of 4 needed, bpm 95"
+2026-10-01T02:20:51.008,33.713,transit,[RSSI] bedroom_wing=-- dining_hall=-75 medicine_room=-92
+2026-10-01T02:20:51.015,33.720,transit,[STAT] zone=dining_hall hr=95 batt=71% sos=no wifi=up q=0 bv=3.92 src=adc
+2026-10-01T02:20:52.009,34.714,transit,[RSSI] bedroom_wing=-- dining_hall=-74 medicine_room=-92
+2026-10-01T02:20:52.015,34.720,transit,[STAT] zone=dining_hall hr=95 batt=71% sos=no wifi=up q=0 bv=3.92 src=adc
+2026-10-01T02:20:52.802,35.507,transit,"[HR] finger: IR 131198, beats seen 46, kept 8 of 4 needed, bpm 97"
+2026-10-01T02:20:53.009,35.714,transit,[RSSI] bedroom_wing=-- dining_hall=-75 medicine_room=-92
+2026-10-01T02:20:53.017,35.721,transit,[STAT] zone=dining_hall hr=97 batt=70% sos=no wifi=up q=0 bv=3.92 src=adc
+2026-10-01T02:20:54.009,36.714,transit,[RSSI] bedroom_wing=-- dining_hall=-74 medicine_room=-93
+2026-10-01T02:20:54.015,36.720,transit,[STAT] zone=dining_hall hr=95 batt=70% sos=no wifi=up q=0 bv=3.92 src=adc
+2026-10-01T02:20:54.820,37.525,transit,"[HR] finger: IR 131284, beats seen 49, kept 8 of 4 needed, bpm 97"
+2026-10-01T02:20:55.011,37.715,transit,[RSSI] bedroom_wing=-- dining_hall=-81 medicine_room=-92
+2026-10-01T02:20:55.019,37.724,transit,[STAT] zone=dining_hall hr=97 batt=70% sos=no wifi=up q=0 bv=3.92 src=adc
+2026-10-01T02:20:56.010,38.715,transit,[RSSI] bedroom_wing=-- dining_hall=-76 medicine_room=-91
+2026-10-01T02:20:56.019,38.724,transit,[STAT] zone=dining_hall hr=95 batt=70% sos=no wifi=up q=0 bv=3.92 src=adc
+2026-10-01T02:20:56.833,39.538,transit,"[HR] finger: IR 131211, beats seen 52, kept 8 of 4 needed, bpm 90"
+2026-10-01T02:20:57.011,39.715,transit,[RSSI] bedroom_wing=-- dining_hall=-74 medicine_room=-91
+2026-10-01T02:20:57.016,39.721,transit,[STAT] zone=dining_hall hr=90 batt=70% sos=no wifi=up q=0 bv=3.92 src=adc
+2026-10-01T02:20:58.012,40.717,transit,[RSSI] bedroom_wing=-- dining_hall=-73 medicine_room=-91
+2026-10-01T02:20:58.020,40.725,transit,[STAT] zone=dining_hall hr=90 batt=70% sos=no wifi=up q=0 bv=3.92 src=adc
+2026-10-01T02:20:58.847,41.551,transit,"[HR] finger: IR 131262, beats seen 55, kept 8 of 4 needed, bpm 85"
+2026-10-01T02:20:59.011,41.716,transit,[RSSI] bedroom_wing=-- dining_hall=-73 medicine_room=-92
+2026-10-01T02:20:59.018,41.722,transit,[STAT] zone=dining_hall hr=85 batt=70% sos=no wifi=up q=0 bv=3.92 src=adc
+2026-10-01T02:21:00.013,42.717,transit,[RSSI] bedroom_wing=-- dining_hall=-76 medicine_room=-91
+2026-10-01T02:21:00.019,42.724,transit,[STAT] zone=dining_hall hr=85 batt=70% sos=no wifi=up q=0 bv=3.92 src=adc
+2026-10-01T02:21:00.862,43.567,transit,"[HR] finger: IR 131054, beats seen 58, kept 8 of 4 needed, bpm 85"
+2026-10-01T02:21:01.013,43.718,transit,[RSSI] bedroom_wing=-- dining_hall=-76 medicine_room=-93
+2026-10-01T02:21:01.022,43.727,transit,[STAT] zone=dining_hall hr=85 batt=70% sos=no wifi=up q=0 bv=3.92 src=adc
+2026-10-01T02:21:02.013,44.718,transit,[RSSI] bedroom_wing=-- dining_hall=-74 medicine_room=-91
+2026-10-01T02:21:02.019,44.724,transit,[STAT] zone=dining_hall hr=85 batt=70% sos=no wifi=up q=0 bv=3.92 src=adc
+2026-10-01T02:21:02.880,45.584,transit,"[HR] finger: IR 131236, beats seen 60, kept 8 of 4 needed, bpm 85"
+2026-10-01T02:21:03.014,45.719,transit,[RSSI] bedroom_wing=-- dining_hall=-75 medicine_room=-91
+2026-10-01T02:21:03.021,45.725,transit,[STAT] zone=dining_hall hr=85 batt=70% sos=no wifi=up q=0 bv=3.92 src=adc
+2026-10-01T02:21:04.015,46.720,transit,[RSSI] bedroom_wing=-- dining_hall=-77 medicine_room=-92
+2026-10-01T02:21:04.024,46.729,transit,[STAT] zone=dining_hall hr=85 batt=70% sos=no wifi=up q=0 bv=3.92 src=adc
+2026-10-01T02:21:04.892,47.597,transit,"[HR] finger: IR 130544, beats seen 62, kept 8 of 4 needed, bpm 85"
+2026-10-01T02:21:05.015,47.720,transit,[RSSI] bedroom_wing=-- dining_hall=-80 medicine_room=-93
+2026-10-01T02:21:05.022,47.727,transit,[STAT] zone=dining_hall hr=85 batt=70% sos=no wifi=up q=0 bv=3.92 src=adc
+2026-10-01T02:21:06.016,48.721,transit,[RSSI] bedroom_wing=-- dining_hall=-78 medicine_room=-93
+2026-10-01T02:21:06.025,48.730,transit,[STAT] zone=dining_hall hr=85 batt=70% sos=no wifi=up q=0 bv=3.92 src=adc
+2026-10-01T02:21:06.911,49.616,transit,"[HR] finger: IR 130562, beats seen 65, kept 8 of 4 needed, bpm 85"
+2026-10-01T02:21:07.018,49.722,transit,[RSSI] bedroom_wing=-- dining_hall=-79 medicine_room=-94
+2026-10-01T02:21:07.023,49.728,transit,[STAT] zone=dining_hall hr=85 batt=70% sos=no wifi=up q=0 bv=3.92 src=adc
+2026-10-01T02:21:08.017,50.722,ox85,[RSSI] bedroom_wing=-- dining_hall=-78 medicine_room=-95
+2026-10-01T02:21:08.023,50.727,ox85,[STAT] zone=dining_hall hr=85 batt=70% sos=no wifi=up q=0 bv=3.92 src=adc
+2026-10-01T02:21:08.924,51.629,ox85,"[HR] finger: IR 129831, beats seen 68, kept 8 of 4 needed, bpm 85"
+2026-10-01T02:21:09.018,51.723,ox85,[RSSI] bedroom_wing=-- dining_hall=-78 medicine_room=-91
+2026-10-01T02:21:09.028,51.732,ox85,[STAT] zone=dining_hall hr=85 batt=70% sos=no wifi=up q=0 bv=3.92 src=adc
+2026-10-01T02:21:10.019,52.723,ox85,[RSSI] bedroom_wing=-- dining_hall=-79 medicine_room=-91
+2026-10-01T02:21:10.025,52.730,ox85,[STAT] zone=dining_hall hr=85 batt=70% sos=no wifi=up q=0 bv=3.92 src=adc
+2026-10-01T02:21:10.938,53.643,ox85,"[HR] finger: IR 131395, beats seen 71, kept 8 of 4 needed, bpm 85"
+2026-10-01T02:21:11.020,53.724,ox85,[RSSI] bedroom_wing=-- dining_hall=-80 medicine_room=-91
+2026-10-01T02:21:11.027,53.731,ox85,[STAT] zone=dining_hall hr=85 batt=70% sos=no wifi=up q=0 bv=3.92 src=adc
+2026-10-01T02:21:12.020,54.724,ox85,[RSSI] bedroom_wing=-- dining_hall=-80 medicine_room=-90
+2026-10-01T02:21:12.027,54.732,ox85,[STAT] zone=dining_hall hr=85 batt=70% sos=no wifi=up q=0 bv=3.92 src=adc
+2026-10-01T02:21:12.954,55.659,ox85,"[HR] finger: IR 131046, beats seen 75, kept 8 of 4 needed, bpm 86"
+2026-10-01T02:21:13.021,55.725,ox85,[RSSI] bedroom_wing=-- dining_hall=-78 medicine_room=-91
+2026-10-01T02:21:13.028,55.732,ox85,[STAT] zone=dining_hall hr=86 batt=70% sos=no wifi=up q=0 bv=3.92 src=adc
+2026-10-01T02:21:14.021,56.725,ox85,[RSSI] bedroom_wing=-- dining_hall=-76 medicine_room=-91
+2026-10-01T02:21:14.029,56.734,ox85,[STAT] zone=dining_hall hr=86 batt=70% sos=no wifi=up q=0 bv=3.92 src=adc
+2026-10-01T02:21:14.970,57.675,ox85,"[HR] finger: IR 131023, beats seen 78, kept 8 of 4 needed, bpm 87"
+2026-10-01T02:21:15.023,57.727,ox85,[RSSI] bedroom_wing=-- dining_hall=-75 medicine_room=-93
+2026-10-01T02:21:15.029,57.733,ox85,[STAT] zone=dining_hall hr=87 batt=70% sos=no wifi=up q=0 bv=3.92 src=adc
+2026-10-01T02:21:16.023,58.727,ox85,[RSSI] bedroom_wing=-- dining_hall=-76 medicine_room=-91
+2026-10-01T02:21:16.031,58.735,ox85,[STAT] zone=dining_hall hr=87 batt=70% sos=no wifi=up q=0 bv=3.92 src=adc
+2026-10-01T02:21:16.985,59.689,ox85,"[HR] finger: IR 130691, beats seen 81, kept 8 of 4 needed, bpm 87"
+2026-10-01T02:21:17.023,59.727,ox85,[RSSI] bedroom_wing=-- dining_hall=-82 medicine_room=-92
+2026-10-01T02:21:17.032,59.737,ox85,[STAT] zone=dining_hall hr=87 batt=70% sos=no wifi=up q=0 bv=3.92 src=adc
+2026-10-01T02:21:18.024,60.728,ox85,[RSSI] bedroom_wing=-- dining_hall=-75 medicine_room=-91
+2026-10-01T02:21:18.032,60.736,ox85,[STAT] zone=dining_hall hr=87 batt=70% sos=no wifi=up q=0 bv=3.92 src=adc
+2026-10-01T02:21:19.003,61.707,ox85,"[HR] finger: IR 128696, beats seen 83, kept 8 of 4 needed, bpm 86"
+2026-10-01T02:21:19.025,61.729,ox85,[RSSI] bedroom_wing=-- dining_hall=-78 medicine_room=-92
+2026-10-01T02:21:19.033,61.737,ox85,[STAT] zone=dining_hall hr=86 batt=70% sos=no wifi=up q=0 bv=3.92 src=adc
+2026-10-01T02:21:20.025,62.730,ox85,[RSSI] bedroom_wing=-- dining_hall=-76 medicine_room=-91
+2026-10-01T02:21:20.035,62.739,ox85,[STAT] zone=dining_hall hr=86 batt=70% sos=no wifi=up q=0 bv=3.92 src=adc
+2026-10-01T02:21:21.016,63.721,ox85,"[HR] finger: IR 129702, beats seen 86, kept 8 of 4 needed, bpm 86"
+2026-10-01T02:21:21.026,63.730,ox85,[RSSI] bedroom_wing=-- dining_hall=-76 medicine_room=-91
+2026-10-01T02:21:21.034,63.739,ox85,[STAT] zone=dining_hall hr=86 batt=70% sos=no wifi=up q=0 bv=3.92 src=adc
+2026-10-01T02:21:22.027,64.731,ox85,[RSSI] bedroom_wing=-- dining_hall=-77 medicine_room=-92
+2026-10-01T02:21:22.034,64.739,ox85,[STAT] zone=dining_hall hr=88 batt=70% sos=no wifi=up q=0 bv=3.92 src=adc
+2026-10-01T02:21:23.028,65.732,ox85,[RSSI] bedroom_wing=-- dining_hall=-74 medicine_room=-90
+2026-10-01T02:21:23.036,65.740,ox85,[STAT] zone=dining_hall hr=88 batt=71% sos=no wifi=up q=0 bv=3.92 src=adc
+2026-10-01T02:21:23.040,65.745,ox85,"[HR] finger: IR 130732, beats seen 89, kept 8 of 4 needed, bpm 88"
+2026-10-01T02:21:24.026,66.731,ox85,[RSSI] bedroom_wing=-- dining_hall=-74 medicine_room=-92
+2026-10-01T02:21:24.036,66.740,ox85,[STAT] zone=dining_hall hr=88 batt=71% sos=no wifi=up q=0 bv=3.92 src=adc
+2026-10-01T02:21:25.028,67.732,ox85,[RSSI] bedroom_wing=-- dining_hall=-76 medicine_room=-93
+2026-10-01T02:21:25.036,67.740,ox85,[STAT] zone=dining_hall hr=100 batt=71% sos=no wifi=up q=0 bv=3.92 src=adc
+2026-10-01T02:21:25.045,67.750,ox85,"[HR] finger: IR 130070, beats seen 91, kept 8 of 4 needed, bpm 100"
+2026-10-01T02:21:26.030,68.734,transit,[RSSI] bedroom_wing=-- dining_hall=-76 medicine_room=-92
+2026-10-01T02:21:26.039,68.744,transit,[STAT] zone=dining_hall hr=87 batt=71% sos=no wifi=up q=0 bv=3.92 src=adc
+2026-10-01T02:21:27.030,69.734,transit,[RSSI] bedroom_wing=-- dining_hall=-72 medicine_room=-90
+2026-10-01T02:21:27.037,69.742,transit,[STAT] zone=dining_hall hr=87 batt=71% sos=no wifi=up q=0 bv=3.92 src=adc
+2026-10-01T02:21:27.057,69.762,transit,"[HR] finger: IR 129664, beats seen 94, kept 8 of 4 needed, bpm 87"
+2026-10-01T02:21:28.031,70.736,transit,[RSSI] bedroom_wing=-- dining_hall=-73 medicine_room=-90
+2026-10-01T02:21:28.040,70.745,transit,[STAT] zone=dining_hall hr=87 batt=71% sos=no wifi=up q=0 bv=3.92 src=adc
+2026-10-01T02:21:29.032,71.736,transit,[RSSI] bedroom_wing=-- dining_hall=-79 medicine_room=-93
+2026-10-01T02:21:29.041,71.745,transit,[STAT] zone=dining_hall hr=0 batt=71% sos=no wifi=up q=0 bv=3.92 src=adc
+2026-10-01T02:21:29.073,71.778,transit,[HR] something on the sensor but IR 7584 is below the finger level 50000
+2026-10-01T02:21:30.032,72.737,transit,[RSSI] bedroom_wing=-- dining_hall=-77 medicine_room=-92
+2026-10-01T02:21:30.039,72.743,transit,[STAT] zone=dining_hall hr=0 batt=71% sos=no wifi=up q=0 bv=3.92 src=adc
+2026-10-01T02:21:31.032,73.737,transit,[RSSI] bedroom_wing=-- dining_hall=-73 medicine_room=-92
+2026-10-01T02:21:31.041,73.746,transit,[STAT] zone=dining_hall hr=0 batt=71% sos=no wifi=up q=1 bv=3.92 src=adc
+2026-10-01T02:21:32.034,74.738,transit,[RSSI] bedroom_wing=-- dining_hall=-71 medicine_room=-91
+2026-10-01T02:21:32.043,74.747,transit,[STAT] zone=dining_hall hr=0 batt=71% sos=no wifi=up q=0 bv=3.92 src=adc
+2026-10-01T02:21:33.034,75.739,transit,[RSSI] bedroom_wing=-- dining_hall=-71 medicine_room=-92
+2026-10-01T02:21:33.041,75.746,transit,[STAT] zone=dining_hall hr=0 batt=71% sos=no wifi=up q=0 bv=3.92 src=adc
+2026-10-01T02:21:34.034,76.738,transit,[RSSI] bedroom_wing=-- dining_hall=-72 medicine_room=-93
+2026-10-01T02:21:34.043,76.747,transit,[STAT] zone=dining_hall hr=0 batt=71% sos=no wifi=up q=0 bv=3.92 src=adc
+2026-10-01T02:21:35.034,77.738,transit,[RSSI] bedroom_wing=-- dining_hall=-71 medicine_room=-96
+2026-10-01T02:21:35.041,77.745,transit,[STAT] zone=dining_hall hr=0 batt=71% sos=no wifi=up q=0 bv=3.92 src=adc
+2026-10-01T02:21:36.034,78.738,transit,[RSSI] bedroom_wing=-- dining_hall=-72 medicine_room=-94
+2026-10-01T02:21:36.042,78.747,transit,[STAT] zone=dining_hall hr=0 batt=71% sos=no wifi=up q=1 bv=3.92 src=adc
+2026-10-01T02:21:37.035,79.740,transit,[RSSI] bedroom_wing=-- dining_hall=-76 medicine_room=-94
+2026-10-01T02:21:37.044,79.748,transit,[STAT] zone=dining_hall hr=0 batt=71% sos=no wifi=up q=0 bv=3.92 src=adc
