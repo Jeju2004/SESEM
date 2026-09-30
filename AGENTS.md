@@ -35,7 +35,7 @@ toward any of them, **flag it rather than going along with it**:
 | Battery runtime target | **24 h** — see the gap below |
 | Defense contingency | If the etched board fails, demo on breadboard with the board shown as under-debug |
 
-**Battery gap, open:** 24 h target with a 1000 mAh cell needs average draw
+**Battery gap, open (update 1 Oct: a 2000 mAh cell is fitted, ₱154 — about 20 h calculated at the present ~60 mA, about 33 h at 35 mA; still unmeasured).** Original note: 24 h target with a 1000 mAh cell needs average draw
 ≈35 mA. Present draw is ~60 mA, giving ~14–16 h. Closing it is a firmware
 duty-cycle change — longer scan and report intervals. Measure the result; do
 not calculate it and call it measured.

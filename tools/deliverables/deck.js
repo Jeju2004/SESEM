@@ -142,7 +142,7 @@ async function icon(Comp, color) {
   // 5. Hardware
   {
     const s = pres.addSlide(); s.background = { color: C.white };
-    title(s, "Hardware", "Module-carrier design · etched single-sided wearable board · perfboard beacons and door node · PETG enclosures");
+    title(s, "Hardware", "Module-carrier design · etched single-sided wearable board · perfboard beacons and door node · PLA enclosures");
     card(s, 0.6, 1.9, 6.4, 4.9);
     circleIcon(s, I.watch, 0.9, 2.15, 0.7, C.teal);
     txt(s, "Wearable", { x: 1.75, y: 2.2, w: 4.9, h: 0.55, fontSize: 22, bold: true, color: C.ink, margin: 0, valign: "middle" });
@@ -251,7 +251,7 @@ async function icon(Comp, color) {
       ["Fall detection (accelerometer)", "Priority on localization and SOS", "Removed (adviser)"],
       ["Native mobile app", "Browser page works on every phone", "Not developed"],
       ["Etched PCB · low-dropout regulator", "Schedule and part availability", "Perfboard · boost converter"],
-      ["Measured 24 h battery runtime", "No cell or fuel gauge available", "Calculated only (~10 h)"],
+      ["Measured 24 h battery runtime", "No cell or fuel gauge available", "Calculated only (~20 h, 2000 mAh cell)"],
       ["Remote viewing · push notifications", "Needs cloud hosting (open decision)", "Built and tested locally; further study"],
     ], [4.2, 4.5, 3.4], 1.85, 14, 0.62);
     footer(s);
@@ -343,7 +343,7 @@ async function icon(Comp, color) {
     circleIcon(s, I.lightbulb, 7.2, 1.8, 0.65, C.alert);
     txt(s, "Limits and next steps", { x: 8.0, y: 1.85, w: 4.5, h: 0.55, fontSize: 22, bold: true, color: C.ink, margin: 0, valign: "middle" });
     txt(s, [
-      { text: "Measure the runtime; replace the boost + linear chain with a buck-boost or sub-400 mV regulator (≈ 27 h calculated)", options: { bullet: true, breakLine: true } },
+      { text: "Measure the runtime; replace the boost + linear chain with a buck-boost or sub-400 mV regulator (≈ 54 h calculated, 2000 mAh)", options: { bullet: true, breakLine: true } },
       { text: "Deploy the remote relay and push notifications once hosting is decided", options: { bullet: true, breakLine: true } },
       { text: "Doorway coverage: tune the floor or add beacons", options: { bullet: true, breakLine: true } },
       { text: "Validate heart rate on more people against clinical equipment", options: { bullet: true, breakLine: true } },

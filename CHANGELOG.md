@@ -3,6 +3,28 @@
 Dated record of every code change. Newest first. Each entry says what changed,
 why, and whether it has been verified on hardware.
 
+## 2026-10-01 (07:00) — BOM from the team's purchase record; 2000 mAh cell; PLA
+
+- **Paper Rev 6, Appendix A**, rebuilt from the prices the team gave:
+  - 6 ESP32 boards (one failed and was replaced);
+  - MAX17043 ordered but not delivered, ₱252;
+  - Li-Po **2000 mAh**, ₱154;
+  - TP4056 4 × ₱25;
+  - MT3608 3 × ₱30;
+  - SPDT ₱80;
+  - passives and diodes from stock;
+  - 2 reed switches ₱90;
+  - headers ₱100;
+  - screw terminals ₱90 (pack of 10);
+  - perfboards 4 × ₱26;
+  - presensitized copper-clad ₱700;
+  - PLA printing ₱500;
+  - 3 USB cables × ₱50.
+  - **Still estimates (*), from the August spreadsheet:** ESP32 (₱350), MAX30102 (₱150), tactile switch (₱15).
+  - **Total ₱4,774, of which ₱2,265 is estimated.** No JST connectors were used.
+- **Battery 2000 mAh:** calculated runtime 20 h at 60 mA and 33 h at 35 mA (was 10 h and 16 h for 1000 mAh). Updated in paper 3.9.1, Table "runtime", conclusions and recommendations, the manual's specifications, and the deck. The schematic still shows 1000 mAh; the paper says so.
+- **Enclosures are PLA, not PETG** (paper 3.11, Appendix figure, deck).
+
 ## 2026-10-01 (06:30) — drafts completed from the data that exist
 
 The team decided not to repeat Test A. Every remaining placeholder was either replaced with logged data or stated plainly as not done; no value was estimated or invented.
