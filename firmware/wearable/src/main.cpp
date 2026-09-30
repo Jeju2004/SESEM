@@ -627,6 +627,7 @@ static bool gaugeRead(float &volts, float &pct) {
 //     carries over.
 #define HR_SAMPLE_MS      10           // 400 sps / 4-sample average = 100 sps
 #define HR_FINGER_IR      50000        // IR below this = nothing on the sensor
+#define HR_NEAR_IR        5000         // above this something is close (for the [HR] serial line)
 #define HR_SETTLE_MS      1500         // ignore beats while the finger settles
 #define HR_MIN_BEATS      4            // good intervals needed before reporting
 #define HR_BUF            8
@@ -695,6 +696,7 @@ static void hrService() {
     gHrSampleIdx++;
     uint32_t tMs = gHrSampleIdx * HR_SAMPLE_MS;
 
+    gHrLastIr = ir;
     if (ir < HR_FINGER_IR) {                           // no finger (or it lifted)
       if (gHrFinger) { gHrFinger = false; hrReset(); }
       continue;
@@ -707,7 +709,6 @@ static void hrService() {
     // the value wrapped at 65536 and strong pulses swung past 1000, and beats
     // were never detected (30 Sep: no heart rate at all). >> 2 brings the full
     // 18-bit range into 16 bits and a normal pulse into the 20-1000 window.
-    gHrLastIr = ir;
     if (!checkForBeat((long)(ir >> 2))) continue;
     gHrBeatsSeen++;
     if (tMs - gHrFingerSince < HR_SETTLE_MS) { gHrLastBeatIdx = gHrSampleIdx; continue; }
@@ -735,15 +736,20 @@ static void hrService() {
     }
   }
 
-  // While a finger is on: one line every 2 s, so a failed reading can be
-  // diagnosed on the spot (IR level, beats the detector saw, beats kept).
+  // While something is on the sensor: one line every 2 s, so a failed reading
+  // can be diagnosed on the spot (IR level, beats the detector saw, beats
+  // kept). Below HR_FINGER_IR it says so: a finger that reads too weak.
   static uint32_t lastHrLog = 0;
-  if (gHrFinger && millis() - lastHrLog >= 2000) {
+  if (gHrLastIr > HR_NEAR_IR && millis() - lastHrLog >= 2000) {
     lastHrLog = millis();
     float bpm;
     LOCK(); bpm = gHeartRateBpm; UNLOCK();
-    Serial.printf("[HR] finger: IR %lu, beats seen %lu, kept %u of %d needed, bpm %.0f\n",
-                  (unsigned long)gHrLastIr, (unsigned long)gHrBeatsSeen, gHrIvCount, HR_MIN_BEATS, bpm);
+    if (gHrFinger)
+      Serial.printf("[HR] finger: IR %lu, beats seen %lu, kept %u of %d needed, bpm %.0f\n",
+                    (unsigned long)gHrLastIr, (unsigned long)gHrBeatsSeen, gHrIvCount, HR_MIN_BEATS, bpm);
+    else
+      Serial.printf("[HR] something on the sensor but IR %lu is below the finger level %d\n",
+                    (unsigned long)gHrLastIr, HR_FINGER_IR);
   }
 #endif
 }

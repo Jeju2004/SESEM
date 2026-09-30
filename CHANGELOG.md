@@ -3,6 +3,38 @@
 Dated record of every code change. Newest first. Each entry says what changed,
 why, and whether it has been verified on hardware.
 
+## 2026-09-30 (evening) — fixes from the test run
+
+Most of this code was already included in the build commits below. This section
+records what each change is and how far it has been verified.
+
+- **Heart rate never detected (wearable).**
+  - **Cause:** SparkFun's `checkForBeat()` handles 16-bit samples only. Its DC estimator takes a `uint16_t`, and a pulse only counts if it swings 20–1000. The MAX30102 is set to 18 bits (411 µs pulses), so a finger reads about 100k–250k. The value wrapped at 65536 and strong pulses were rejected.
+  - **Fix:** samples go to the detector as `ir >> 2`.
+  - **New serial line:** `[HR] …` every 2 s while something is on the sensor, showing the IR level, beats seen and beats kept. It also flags a finger that reads below the 50 000 finger level.
+  - **Verified:** compiled and flashed. Not yet confirmed with a finger: no finger reading was captured during the test.
+- **MAX17043 when fitted later (wearable).**
+  - **Why:** the gauge is powered from the cell on its own JST lead, so it only answers while a battery is connected.
+  - **Detection:** while the gauge is missing, the firmware probes again on every battery read, using a quiet address ping. The first read after it is found still uses the divider, because the gauge's SOC is still settling after its quick-start.
+  - **Fallback:** it drops back to the R3/R4 divider if the gauge stops answering or reads outside 2.5–4.5 V. SOC is clamped to 0–100 %.
+  - **Timing:** the first battery read is at 5 s instead of 30 s.
+  - **Reporting:** the status JSON and the `[STAT]` line now say where the reading came from (`batt_src` / `src=gauge|adc`).
+  - **Verified:** compiled. Not tested with a gauge, as none is fitted yet.
+- **Status LED (wearable):** it now blinks briefly every 2 s, stays on while an SOS is open, and still flashes with each beep. Before, it only lit during beeps.
+- **Dashboard on iPhone (`static/v2`):**
+  - **Keyboard popping up:** iOS's "sign in to network" window auto-focused the name box, and AutoFill kept asking for a name. The box is now read-only, with AutoFill off, until a finger touches it. It unlocks on `touchstart`, so the keyboard opens on the first tap. The old blur-on-scroll made the keyboard flicker and is removed.
+  - **Page jumping (Safari has no scroll anchoring):**
+    - before each 1 s update, the row in view is noted and scrolled back into place afterwards;
+    - updates wait while a finger is on the screen or the page is still moving;
+    - near the bottom, the page may not get shorter during an update, helped by `main { display: flow-root }` in the CSS;
+    - lists are only rewritten when their markup has changed.
+  - **Verified in the browser at phone size:**
+    - 5 alerts arriving mid-list: the row in view moved 374 px before, 0 px now;
+    - rows removed at the end of the page: 0 px;
+    - auto-focus on page load leaves the name box read-only (no keyboard).
+  - **iPhone re-test pending.**
+- **Door node:** it was found boot-looping (`rst:0x3` with no application output, i.e. no valid app in flash). Reflashed with the standalone hub build (`HUB_UPLINK=0`); SESEMSG is back on the air. No code change.
+
 ## 2026-09-30
 
 Committed on branch `build-2026-09-30`. The work of 27–30 Sep: code, hardware
