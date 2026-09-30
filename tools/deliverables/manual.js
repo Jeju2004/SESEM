@@ -254,7 +254,7 @@ const s6 = [
   N("Disconnect the charger when charging is complete."),
   P("The dashboard does not show whether the wearable is charging; check the charger's lights. The battery percentage on the dashboard rises while the device is charging."),
   CAUTION("If the **red light blinks while the blue light is on**, the charger cannot see the battery: the battery is disconnected or its wires are loose. Do not use the device on battery until technical staff have checked the battery connection (Section 8)."),
-  P("Battery life per charge has not yet been measured (Section 10.1). Charge the device every day, and whenever the dashboard shows a low-battery alert."),
+  P("Battery life per charge: **about 20 hours** (estimated from the device's current draw with the 2000 mAh battery; not yet measured, Section 10.1). Charge the device every day, and whenever the dashboard shows a low-battery alert."),
   H2("6.3 Using the SOS button (resident)"),
   table(["Press", "Message shown to caregivers", "Confirmation on the wearable"], [
     ["**Once**", "SOS: Needs assistance", "Tick, then one beep"],
@@ -364,7 +364,7 @@ const s10 = [
     ["Battery measurement", "Voltage divider on GPIO 34 (MAX17043 fuel gauge optional)"],
     ["Heart-rate sensor", "MAX30102 optical sensor at 100 samples/s; median of 8 beats (display only)"],
     ["Door sensor", "Magnetic reed switch on GPIO 18; heartbeat every 30 s; marked offline after 90 s"],
-    ["Wearable battery life", "Target 24 h; calculated about 20 h at the present load (about 33 h if the load is reduced to 35 mA); not yet measured"],
+    ["Wearable battery life", "Target 24 h; estimated about 20 h at the present load (about 33 h if the load is reduced to 35 mA), calculated from the current draw; not yet measured"],
   ], [3300, 6060]),
   SP(),
   H2("10.2 Measured localization performance"),
