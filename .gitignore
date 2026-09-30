@@ -39,3 +39,6 @@ relay/.wrangler/
 
 # Office lock files
 ~$*
+
+# 30 Sep demo evidence: phone screenshots of the hub dashboard
+!data/demo/**/*.png

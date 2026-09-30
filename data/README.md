@@ -35,6 +35,9 @@ room mode vs proximity mode) — see the vault's `Defense Demo Plan.md`.
 |---|---|---|
 | `demo/2026-09-30/hub_diag_after_video.json` | SESEMSG hub `/api/v1/hub` at 00:25, after the video demo: uptime 633 s, `alerts_stored` 0 - the hub had restarted and its RAM-only alert history was gone | Yes, as the record of that restart; it holds no demo alerts |
 
-The dry run and video demo themselves have no data file: no serial capture was
-made and the hub lost its alerts on restart. The team's video recordings are
-the record. See `docs/project/House_Test_2026-09-30.md`.
+| `demo/2026-09-30/hub_activity_screenshots/*.png` | Five phone screenshots of the hub dashboard after the video demo (last update at about 09:58 PM) | Yes: the only surviving record of the demo alerts |
+| `demo/2026-09-30/hub_activity_transcript.md` | The screenshots transcribed into a timeline, with what they show and the defects seen | Yes |
+
+No serial capture was made during the dry run or video, so there is no
+delivery-time data: the screenshots give minutes only. See
+`docs/project/House_Test_2026-09-30.md`.

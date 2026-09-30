@@ -22,7 +22,8 @@ timestamp was printed. Only what was observed or logged is stated here.
 - **No serial capture** was made during either run, so no delivery time or
   zone-accuracy figure comes from this session.
 - **Evidence kept:** the phone video of the walk and the dashboard screen
-  recording, which are held by the team and not in the repository.
+  recording, which are held by the team and not in the repository, and five
+  phone screenshots of the hub dashboard (in `data/demo/2026-09-30/`).
 
 ## Data recovery attempts
 
@@ -39,11 +40,20 @@ attempts sent a placeholder passcode, and the laptop then dropped off SESEMSG.
 ## Findings
 
 1. **The hub restarted at about 00:14**, after the video: the uptime was 633 s
-   at 00:25.
-   - Because the hub keeps alerts in RAM only, **the dry-run and video alerts
-     were lost** (`alerts_stored` 0).
-   - The video recordings are therefore the only record of the demonstration.
-   - Any timing taken from them must be reported as read from video.
+   at 00:25. Its RAM-only alert history was lost (`alerts_stored` 0).
+   - **A record of the video run survives in phone screenshots** of the
+     dashboard, taken from its last update at about 09:58 PM. They are
+     transcribed in `data/demo/2026-09-30/hub_activity_transcript.md`, with the
+     images beside it.
+   - The screenshots show door opened/closed, the restricted-zone entry, the
+     return to Dining Hall, two SOS alerts, acknowledgement by named
+     caregivers, and a "delivered late" zone change from the offline queue.
+   - They also show wearable Wi-Fi dropouts (up to 64 s) at 09:51–09:53, and a
+     **defect**: a new "Device not reporting" alert every ~5 s during one outage
+     once the previous one is acknowledged. The same rule exists in `hub.cpp`
+     (`watchdog`) and `main.py` (`_open_alert_exists`).
+   - Timings must still be reported as read from video; the screenshots give
+     minutes only.
 2. **A second restart** appears at about 00:38 (uptime 118 s at about 00:40).
    It is not known whether the node was replugged at that moment.
 3. **No reply from 01:07 to 01:12.** Not yet distinguished: whether the laptop
