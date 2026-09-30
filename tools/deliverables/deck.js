@@ -285,12 +285,12 @@ async function icon(Comp, color) {
   // 11. Results on the final firmware (30 Sep)
   {
     const s = pres.addSlide(); s.background = { color: C.white };
-    title(s, "Results on the final firmware", "Test day, 1 October 2026 · earlier Run 1 (24 Sep): 0 cross-room errors, 56.2 % where two zones shared a room");
+    title(s, "Results", "Measured 24 Sep – 1 Oct 2026 · values from logged captures only");
     const cards = [
-      [I.radio, "Zone accuracy (Run 3)", "overall % · unresolved % · flicker / min"],
+      [I.radio, "Zone accuracy (Run 1)", "0 cross-room errors · 56.2 % where two zones shared a room"],
       [I.timer, "SOS delivery time", "median 295 ms · max 408 ms (n = 6)"],
       [I.heart, "Heart rate vs oximeter", "+3 and +0.5 bpm (2 readings, preliminary)"],
-      [I.door, "Door node, 20 cycles", "detected / 20 · false events"],
+      [I.door, "Door openings", "4 of 4 detected (29 Sep: 3 · demo 30 Sep: 1)"],
       [I.wifi, "Hub: 4 phones polling", "median 32 ms · worst 60 ms"],
       [I.check, "Dashboard self-test", "38 / 38 checks · hub 17 / 17"],
     ];

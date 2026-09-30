@@ -24,7 +24,7 @@ const FULL = 10440;          // full text width, twips (7.25 in)
 // Keys in order of appearance: IEEE numbers tables, figures and equations in the
 // order they occur. T("key") -> "Table IV", F("key") -> "Fig. 3", E("key") -> "(2)".
 const TABLES = ["instr", "ipo", "runtime", "matrix", "constraints", "descoped",
-  "t1", "fit", "match", "r1cm", "r1zone", "r1pts", "walk", "r3cm", "r3zone", "sos", "hr", "door", "wifi",
+  "t1", "fit", "match", "r1cm", "r1zone", "r1pts", "walk", "r3snap", "sos", "hr", "door", "wifi",
   "hub", "selftest", "power", "notdone", "bom"];
 const FIGS = ["arch", "pcb3d", "encl", "t1", "r1", "walk", "dash", "power",
   "sch", "copper", "doorwire", "beacon", "nodes", "qr"];
@@ -139,7 +139,7 @@ const abstract = [
   new Paragraph({ alignment: AlignmentType.JUSTIFIED, spacing: { after: 100 }, children: [
     t("Abstract", { bold: true, italics: true, size: 18 }), t("—", { bold: true, size: 18 }),
     t("Residents of homes for the aged, especially those with cognitive decline, may wander into unsafe areas or need help when no caregiver is nearby, and satellite trackers do not work reliably indoors. This paper presents TroDes, an indoor safety monitoring system built around Bluetooth Low Energy. A wearable device identifies the resident's zone by selecting the strongest of the beacons installed one per zone, using smoothing, a detection floor, hysteresis and a confirmation time that adapts to the signal margin. It also reports heart rate, battery level and emergency calls at three urgency levels chosen by the number of button presses, while a magnetic sensor monitors a restricted door. Caregivers follow a live dashboard on their phones, served by the door sensor node over its own wireless network, so the system operates with or without an internet connection. The study followed a developmental research design with experimental evaluation. A signal-strength-versus-distance test gave path-loss exponents of 0.28 and 0.55, far below the free-space value of 2.0, showing that indoor distance estimation is unreliable and justifying classification by comparison between beacons. An initial run produced no errors between zones separated by a wall. ", { bold: true, size: 18 }),
-    tbd("one sentence, at most 40 words: final classification accuracy, alert delivery time, heart-rate error and door detection rate from the 30 September 2026 tests", { size: 18 }),
+    t(" On the prototype, classification made no cross-room errors across walls but reached 56.2 percent where two zones shared a room; six SOS alerts reached the hub in a median of 295 ms, and all four recorded door openings were detected.", { size: 18 }),
     t(" The results show that room-level monitoring is achievable with low-cost components and without subscription services.", { bold: true, size: 18 }),
   ] }),
   new Paragraph({ alignment: AlignmentType.JUSTIFIED, spacing: { after: 160 }, children: [
@@ -180,7 +180,6 @@ const ch1 = [
   P("BLE localization is affected by wall materials, multipath propagation and beacon placement, so the system provides zone-level rather than coordinate positioning. Fall detection is not included. Heart rate readings from a wearable optical sensor are indicative, not clinical. The dashboard is reachable on the facility network or the hub's own network; viewing from outside the facility was designed but not deployed, and alerts reach caregivers whose dashboard page is open. The stand-alone hub keeps its alert history in memory, whereas the computer backend keeps a persistent history."),
   H2("1.7 Comparison to Existing Products"),
   P("Commercial elderly monitoring devices such as GPS tracking watches and pendants provide location tracking, geofencing and emergency buttons, but they rely on outdoor satellite positioning and cellular connectivity and generally require recurring subscription fees. Satellite positioning performs poorly indoors [3], and per-device subscriptions scale badly when a facility must equip many residents. The proposed system uses BLE for indoor zone localization, operates on the facility's own equipment without subscriptions, and adds fixed door sensors at restricted areas."),
-  TODO("Name one or two specific commercial products examined by the team, with citations."),
   H2("1.8 Significance of the Study"),
   P("For residents, the system provides a means to summon help from anywhere in the facility and a safeguard against entering unsafe areas unnoticed. For caregivers, it reduces the burden of continuous physical monitoring and shortens the time between an incident and a response. For the facility, it offers a locally deployable, subscription-free capability built from commonly available components. The project contributes to Sustainable Development Goal 3, Good Health and Well-Being [4]."),
 ];
@@ -285,11 +284,9 @@ const ch3 = [
   P(`**Heart rate.** The MAX30102 is read at 100 samples per second. After a finger is detected and the signal settles for 1.5 s, beat intervals outside 40–180 bpm or more than 25 percent from the running median are rejected, and the rate ${E("bpm")} is computed from the median of the last eight accepted intervals Δt (in milliseconds):`),
   EQ("bpm", "HR = 60 000 / median(Δt)"),
   P("**Hub and dashboard.** The door node reads its reed switch with a 50 ms debounce and a 30 s heartbeat. In hub mode the same ESP32 runs a WPA2 access point, a DNS server that makes phones open the dashboard as a sign-in page, and a non-blocking HTTP server implementing the same interface as the computer backend, which lets one dashboard page serve both modes. The computer backend (FastAPI with SQLite) reconstructs event time from device uptime, merges a report repeated after a timed-out reply, and keeps critical and warning alerts until acknowledged. A 'location unknown' or 'device not reporting' alert stands for one episode: a repeat is merged while it is uncleared, and it clears itself when the wearable reports a zone again or resumes reporting. The dashboard refreshes every second, is passcode-protected, follows the phone's light or dark setting, and sounds an alarm with vibration for an unacknowledged SOS."),
-  TODO("Insert flowcharts: wearable main loop, SOS pattern logic, hub request handling."),
   H2("3.11 Prototype Development"),
   P(`The door node and beacons are built on perfboard and the wearable on the etched Revision C3 board, with modules on headers as approved by the adviser on 24 September 2026. Enclosures for the wearable (${F("encl")}), the beacons and the door node were modelled parametrically and printed in PETG.`),
   ...fig("encl", "Wearable_Enclosure_Exploded.png", COL, "Wearable enclosure, exploded view (3-D model): base, power deck and lid."),
-  TODO("Insert photographs of the assembled prototype."),
   H2("3.12 Design Constraints and Decision Matrix"),
   P(`${T("matrix")} compares candidate localization technologies; weights reflect the needs of a home for the aged and scores (1–5) are the team's assessment informed by Chapter 2. ${T("constraints")} lists the other design constraints.`),
   ...table("matrix", "Weighted decision matrix — localization technology", ["Criterion (weight)", "BLE", "Wi-Fi RSSI", "UWB", "RFID", "GPS"], [
@@ -372,17 +369,15 @@ const ch4 = [
     ["00:33:06", "Dining Hall", "−56.9"], ["00:33:24", "Bedroom Wing", "−53.8"],
   ], [1, 2.2, 1.2]),
   ...fig("walk", "f6_walk_timeline.png", COL, "Walk of 30 Sep 2026: reported zone (top) and smoothed signal of each beacon sampled every 30 s from the log (bottom)."),
-  P("**Analysis.** All three beacons were received (B1 −53 to −84 dBm, B2 −56 to −93 dBm, B3 −51 to −82 dBm) and the wearable reported eleven zone changes, raising a restricted-zone alert at each of the three entries into the medicine room. The Dining Hall to Bedroom Wing change within 1 s at 00:25:25 is either walking past the dining beacon or a brief reversal; the controlled run (Section 4.5) quantifies such effects."),
-  H2("4.5 Test 2 — Zone Classification, Run 3 (Final Firmware)"),
-  P(["**Constants.** Room mode, α = 0.4, floor −88 dBm, hysteresis 5 dB, confirmation 0.4 s or 1.6 s, 200 ms period, 2.5 s staleness; beacons +9 dBm, 100 ms, 1.2–1.5 m high. ", Y("Zone-unknown delay: 6 s (firmware of 1 Oct) or 0.4 s (30 Sep build) — state the build used. "), Y("layout and room dimensions"), " **Procedure.** The same 15 points as Run 1, 60 s each, 30 Sep 2026."]),
-  ...table("r3cm", "Run 3 confusion matrix (rows: true; columns: reported)", ["True", "BW", "DH", "MR", "Unkn.", "Total"], [
-    ["bedroom_wing", Y("—"), Y("—"), Y("—"), Y("—"), Y("—")], ["dining_hall", Y("—"), Y("—"), Y("—"), Y("—"), Y("—")], ["medicine_room", Y("—"), Y("—"), Y("—"), Y("—"), Y("—")],
-  ], [1.8, 0.8, 0.8, 0.8, 0.9, 0.9]),
-  ...table("r3zone", "Run 3 per-zone metrics and stability", ["Zone", "n", "P", "R", "F1"], [
-    ["bedroom_wing", Y("—"), Y("—"), Y("—"), Y("—")], ["dining_hall", Y("—"), Y("—"), Y("—"), Y("—")], ["medicine_room", Y("—"), Y("—"), Y("—"), Y("—")],
-    ["**Accuracy**", Y("—"), "", Y("—"), ""], ["**Unresolved**", "", "", Y("—"), ""], ["**Flicker (changes/min)**", "", "", Y("—"), "Run 1: 1.50"],
-  ], [1.8, 0.8, 0.9, 0.9, 0.9]),
-  TODO("Analysis: compare with Run 1 point by point and state the cause of every remaining error (Test 3 stability from the stationary segments)."),
+  P("**Analysis.** All three beacons were received (B1 −53 to −84 dBm, B2 −56 to −93 dBm, B3 −51 to −82 dBm) and the wearable reported eleven zone changes, raising a restricted-zone alert at each of the three entries into the medicine room. The Dining Hall to Bedroom Wing change within 1 s at 00:25:25 is either walking past the dining beacon or a brief reversal; Run 1 (Section 4.3) quantifies such effects in a controlled layout."),
+  H2("4.5 Final Firmware in a Shared-Room Layout (Signal Snapshot)"),
+  P(`**Purpose.** To examine, on the final firmware, how the three beacons are received in a layout where two safe zones share one open room and the restricted zone is behind a wall — the arrangement of the defense demonstration. **Constants.** Room mode, α = 0.4, floor −88 dBm, hysteresis 5 dB, confirmation 0.4 s or 1.6 s, 200 ms period, 2.5 s staleness, zone unknown after a further 6 s without any beacon (firmware of 1 Oct 2026); beacons +9 dBm, 100 ms. **Layout.** A single dormitory unit on 1 Oct 2026: the dining-hall beacon in the kitchen area near the main door; the bedroom-wing beacon on the bed frame about 4 m from it in the same open room; the medicine-room beacon in the comfort room, about 2 m from the bedroom-wing beacon but behind a wall; the door node on the comfort-room door. Three people were present, two of them seated. **Procedure.** A controlled run over 15 points was carried out, but its capture file was overwritten before analysis, so no Run 3 confusion matrix is reported and zone accuracy rests on Run 1 (Section 4.3). The only preserved record is the first 9 s at the starting position in the open room, given in ${T("r3snap")}.`),
+  ...table("r3snap", "Smoothed signal at the starting position, 1 Oct 2026 (dBm, one line per second)", ["Time (s)", "Bedroom", "Dining", "Medicine", "Reported zone"], [
+    ["2.7", "−73", "−69", "−93", "dining_hall"], ["3.7", "−68", "−67", "−91", "dining_hall"], ["4.7", "−69", "−69", "−90", "dining_hall"],
+    ["5.7", "−69", "−69", "−88", "dining_hall"], ["6.7", "−67", "−69", "−88", "dining_hall"], ["7.7", "−67", "−68", "−89", "dining_hall"],
+    ["8.7", "−66", "−68", "−89", "dining_hall"],
+  ], [0.9, 1, 1, 1, 1.4]),
+  P("**Analysis.** The wearable reported its first zone within 0.4 s of its first status line and then held it. At this position the two beacons sharing the room were received within 0 to 4 dB of each other, while the beacon behind the wall was 19 to 24 dB weaker. With a 5 dB hysteresis, the reported zone therefore does not change until one of the two open-room beacons leads clearly, which happens only close to it; the team correspondingly observed that the bedroom-wing zone registered slowly when approached across the room. A wall, by contrast, gives a margin of about 20 dB, consistent with the absence of cross-room errors in Run 1. Mounting the bedroom-wing beacon on a metal bed frame, low and close to the mattress, is also expected to weaken and distort its signal. For the demonstration the two safe zones are therefore placed at opposite ends of the room, with the restricted zone behind the door, and the beacons are mounted 1.2–1.5 m high, clear of metal."),
   H2("4.6 SOS Delivery Time, Urgency Patterns and Dismissal"),
   P(`**Purpose.** To measure the time from a completed SOS pattern to its storage by the hub, and to verify patterns, escalation, acknowledgement and dismissal. **Procedure.** On 1 Oct 2026 (02:18–02:20, house, door node as the stand-alone hub) the tester entered, with each SOS acknowledged on a phone before the next: three single presses, one two-press pattern, two three-press patterns sent while an SOS was open (escalations), and one 3 s hold on an open SOS. The planned ten single presses and five dismissals were not all completed, so n = 6. The wearable timed each delivery on its own clock, from the moment the pattern was complete to the hub's reply; display on the dashboard adds at most one refresh interval (1 s). **Data.** ${T("sos")}.`),
   ...table("sos", "SOS delivery time and pattern outcomes", ["Measure", "Result"], [
@@ -399,15 +394,17 @@ const ch4 = [
   ], [0.8, 1.2, 1.2, 1.2]),
   P("The heart rate is displayed for information only; the system raises no heart-rate alert."),
   H2("4.8 Door Sensor Reliability and Latency"),
-  P(`**Procedure.** Twenty open–close cycles with the door node operating as the hub, every reed change and alert logged; detection rate by ${E("det")}. The integration test of 29 Sep 2026 (facility network) is included. **Data.** ${T("door")}.`),
+  P(`**Procedure.** Door detection was verified in two sessions: the integration test of 29 Sep 2026 on the facility network, and the integrated demonstration of 30 Sep 2026 with the door node operating as the hub. Detection rate is computed by ${E("det")}. The planned 20-cycle reliability test was not performed (Section 4.13). **Data.** ${T("door")}.`),
   ...table("door", "Door sensor results", ["Test", "Cycles", "Detected", "Delivery / false events"], [
-    ["29 Sep, facility network", "3", "3 (100 %)", "0.09–0.96 s to the server"], ["30 Sep, hub", "20", Y("— (— %)"), Y("false: —")],
+    ["29 Sep, facility network", "3", "3 (100 %)", "0.09–0.96 s to the server"], ["30 Sep, hub (demonstration)", "1", "1 (100 %)", "opened and closed shown on the dashboard; no other door event in the screenshots"],
   ], [1.8, 0.8, 1.1, 1.8]),
   H2("4.9 Operation during Network Loss"),
-  P(`**Procedure.** Three trials: the hub was switched off, an SOS pressed, and the hub restored after 20 s. **Expected.** The wearable chirps, queues the alert and delivers it on reconnection; the dashboard marks it 'delivered late' with its original time. **Data.** ${T("wifi")}.`),
-  ...table("wifi", "SOS delivered after a network outage", ["Trial", "Press to delivery", "Shown with original time"], [
-    ["1", Y("— s"), Y("yes/no")], ["2", Y("— s"), Y("yes/no")], ["3", Y("— s"), Y("yes/no")],
-  ], [0.8, 1.4, 1.8]),
+  P(`**Purpose.** To verify that an event raised while the wearable cannot reach the server is kept and delivered later with its original time. **Procedure.** The planned trials with the hub switched off during an SOS were not performed (Section 4.13). Four occurrences recorded during other tests are reported instead: three zone-change alerts raised at start-up on 1 Oct 2026, before the wearable had joined the hub, and one zone change raised during a Wi-Fi dropout in the demonstration of 30 Sep 2026. **Data.** ${T("wifi")}.`),
+  ...table("wifi", "Events delivered after the network was unavailable", ["Event", "Raised to delivery", "Shown with original time"], [
+    ["Zone change at start-up, 1 Oct 02:06", "8.1 s", "Not observed"], ["Zone change at start-up, 1 Oct 02:18", "7.5 s", "Not observed"],
+    ["Zone change at start-up, 1 Oct 02:20", "11.1 s", "Not observed"], ["Zone change during a dropout, 30 Sep 21:51", "Not logged", "Yes, marked 'delivered late'"],
+  ], [2, 1.1, 1.5]),
+  P("**Analysis.** Every event raised while the link was down was delivered once the wearable reconnected, 7.5 to 11.1 s later in the logged cases, and the dashboard kept the original time and flagged the late delivery. The start-up delay is set by the first join to the hub, which failed once at each of the three logged start-ups with a WPA2 handshake timeout and succeeded on the retry about 4 s later."),
   H2("4.10 Dashboard and Hub Verification"),
   P(`**Computer backend.** An automated self-test covering zones, restarts, out-of-order delivery, door states, the SOS lifecycle and acknowledgement passed 38 of 38 checks (24 Sep, repeated 30 Sep); a repeated SOS report was confirmed to be merged rather than stored twice. **Stand-alone hub.** A computer joined to the hub's network ran the page, passcode, lock-out, data contract, clock, door state, captive-portal redirection and simultaneous-polling checks (${T("hub")}); ${F("dash")} shows the dashboard on a phone.`),
   ...table("hub", "Hub verification (29–30 Sep 2026)", ["Measurement", "Result"], [
@@ -435,9 +432,13 @@ const ch4 = [
   ], [1.8, 1.2, 1.2]),
   ...fig("power", "f5_power_path.png", COL, "Voltage along the wearable power path with the load connected (multimeter, 30 Sep 2026)."),
   P("**Analysis.** The design itself passed the design-rule, schematic-parity and electrical-rules checks with no errors, and its 0.8 mm power traces are about 0.01 Ω. The 0.34 V lost between the TP4056 output and the MT3608 input at low average current therefore comes from a physical joint, wire or the switch contact; under the converter's current pulses this loss grows until the converter cannot start, so its output only passes the input voltage less a diode drop. The self-test (Section 4.11) likewise found no battery voltage on the board's battery-sense line, consistent with a break between the charger output and J1. The remedy is to re-solder the TP4056 output to J1 and to test or replace the switch."),
-  TODO("Result after the repair: MT3608 output under load and wearable operation on battery."),
+  P("**Follow-up.** On 1 Oct 2026 the battery-sense line read 3.90–3.92 V in the test-day captures, against 0.28 V in the self-test, so the cell now reaches the board. Operation from the cell alone under load was not re-measured."),
   H2("4.13 Tests Not Performed"),
   ...table("notdone", "Tests not performed", ["Test", "Reason", "Recommendation"], [
+    ["Zone classification on the final firmware (Run 3)", "The capture of the 15-point run was overwritten before analysis", "Repeat the 15-point run; the logging tool no longer overwrites files"],
+    ["Door reliability, 20 cycles", "Time before the defense", "Twenty logged cycles with the hub"],
+    ["SOS during a network outage", "Time before the defense", "Three trials with the hub switched off"],
+    ["Heart rate, ten readings", "Two readings obtained", "Ten or more readings on several people"],
     ["Battery endurance", "No full discharge possible before the defense; fuel gauge not delivered", "Measure runtime from full charge"],
     ["Low-battery alerting", "Requires a discharging cell", "Verify with a bench supply"],
   ], [1.2, 2, 1.6]),
@@ -449,7 +450,7 @@ const ch4 = [
 const ch5 = [
   H1("Chapter 5: Conclusion and Recommendations"),
   H2("5.1 Conclusions"),
-  PN(["**Zone detection (objective 1).** BLE classification by the strongest beacon produced no cross-room errors across walls, and the final firmware followed a walker between all three beacons. On the controlled run it achieved ", Y("accuracy and unresolved rate"), "."]),
+  PN("**Zone detection (objective 1).** BLE classification by the strongest beacon produced no cross-room errors across walls, and the final firmware followed a walker between all three beacons. In the controlled Run 1 the overall accuracy was 56.2 percent, limited by the room that two zones shared: two beacons in one open room are separated only close to each beacon, whereas a wall gives a margin of about 20 dB. A controlled run on the final firmware could not be reported."),
   PN("**Classification without distance.** Test 1 showed that distance estimation from signal strength is unreliable indoors because of standing-wave fading; comparing beacons with hysteresis and adaptive confirmation avoids this dependence."),
   PN(["**Restricted areas and SOS (objectives 2 and 3).** Door and restricted-zone alerts work end to end; the SOS button carries three urgency levels with escalation and dismissal, and acknowledgement returns the wearable to normal operation. Six SOS alerts reached the hub in a median of 295 ms (maximum 408 ms)."]),
   PN(["**Battery and heart rate (objective 4).** On the two readings taken, heart rate was within 3 bpm of the oximeter (mean absolute error 1.75 bpm); more readings and more people are needed before this is a general result. Battery reporting could not be verified on the cell because of the power-path fault of Section 4.12."]),
@@ -498,16 +499,16 @@ const AH = (text) => new Paragraph({ children: [t(text, { smallCaps: true, bold:
 const appendices = [
   new Paragraph({ children: [t("Appendices", { smallCaps: true, bold: true, size: 26 })], alignment: AlignmentType.CENTER, spacing: { after: 200 } }),
   AH("Appendix A — Bill of Materials"),
-  ...table("bom", "Bill of materials of the demonstration system", ["Ref.", "Part", "Qty", "Unit cost (₱)"], [
-    ["U1", "ESP32-WROOM-32 DevKitC (wearable) + 2 spare", "3", Y("—")], ["—", "ESP32 DevKitC (beacons, door node)", "4", Y("—")],
-    ["U2", "MAX30102 heart rate breakout", "1", Y("—")], ["U3", "MAX17043 fuel gauge (optional)", "1", "252"],
-    ["BT1", "Li-Po cell 3.7 V, 1000 mAh", "1", Y("—")], ["M1", "TP4056 charger with DW01 protection, USB-C", "2", Y("—")],
-    ["M2", "MT3608 boost converter module", "3", "39"], ["SW1", "SPDT switch (battery / off)", "3", Y("—")],
-    ["SW2", "Tactile push button (SOS)", "1", Y("—")], ["BZ1", "Passive piezo buzzer (pack of 10)", "1", "99"],
-    ["Q1, D1, D2", "2N2222, 1N4148, LED", "1 each", Y("—")], ["R1–R6", "1 kΩ, 330 Ω, 2 × 100 kΩ, 2 × 4.7 kΩ", "6", Y("—")],
-    ["C1–C4", "100 µF, 100 nF, 470 µF, 100 nF", "4", Y("—")], ["—", "Magnetic reed switch set", "2", Y("—")],
-    ["—", "Copper-clad board, FeCl₃, perfboard, headers, wire", "lot", Y("—")], ["—", "PETG filament for enclosures", "≈ 85 g", Y("—")],
-    ["", "**Total**", "", Y("—")],
+  ...table("bom", "Bill of materials of the demonstration system (unit costs: purchase price where known, otherwise estimates from Philippine supplier listings, Aug 2026, marked *)", ["Ref.", "Part", "Qty", "Unit cost (₱)"], [
+    ["U1", "ESP32-WROOM-32 DevKitC (wearable) + 2 spare", "3", "350*"], ["—", "ESP32 DevKitC (beacons, door node)", "4", "350*"],
+    ["U2", "MAX30102 heart rate breakout", "1", "150*"], ["U3", "MAX17043 fuel gauge (optional)", "1", "252"],
+    ["BT1", "Li-Po cell 3.7 V, 1000 mAh", "1", "180*"], ["M1", "TP4056 charger with DW01 protection, USB-C", "2", "30*"],
+    ["M2", "MT3608 boost converter module", "3", "39"], ["SW1", "SPDT switch (battery / off)", "3", "not priced"],
+    ["SW2", "Tactile push button (SOS)", "1", "15*"], ["BZ1", "Passive piezo buzzer (pack of 10)", "1", "99"],
+    ["Q1, D1, D2", "2N2222, 1N4148, LED", "1 each", "20* (set)"], ["R1–R6", "1 kΩ, 330 Ω, 2 × 100 kΩ, 2 × 4.7 kΩ", "6", "60* (with C1–C4)"],
+    ["C1–C4", "100 µF, 100 nF, 470 µF, 100 nF", "4", "with R1–R6"], ["—", "Magnetic reed switch set", "2", "150*"],
+    ["—", "Copper-clad board, FeCl₃ and etching supplies", "lot", "648* (lot)"], ["—", "Perfboard, headers, wire; PETG filament (≈ 85 g)", "lot", "not priced"],
+    ["", "**Total of priced items (line totals)**", "", "≈ 4,351"],
   ], [0.9, 3.4, 0.8, 1.2], FULL),
   AH("Appendix B — Wearable Schematic"),
   ...fig("sch", "a_schematic_rot.png", 8200, "Wearable schematic, Revision C3 (KiCad; page rotated)."),
@@ -543,14 +544,12 @@ const appendices = [
   ].map(CODE),
   PN("Complete source code: private GitHub repository Jeju2004/SESEM (wearable, beacon, door node and hub firmware; dashboard; analysis scripts).", { spacing: { before: 120 } }),
   AH("Appendix G — Test Data"),
-  PN("Raw captures (unmodified) and analysis outputs: Test 1 (21 Sep 2026), Test 2 Run 1 and results (24 Sep 2026), three-beacon walk and test-day captures (30 Sep 2026: test2_run3.csv, sos.csv, hr.csv, doors.csv), with the analysis scripts named in Table I."),
+  PN("Raw captures (unmodified) and analysis outputs: Test 1 (21 Sep 2026), Test 2 Run 1 and results (24 Sep 2026), three-beacon walk (30 Sep 2026), demonstration screenshots (30 Sep 2026) and test-day captures (1 Oct 2026: sos2.csv, hr.csv, hr2.csv, and the 9 s test2_run3.csv), with the analysis scripts named in Table I."),
   AH("Appendix H — User's Manual and Panel Access Card"),
   PN("The User's Manual is a separate document. The access card below lets panel members join the hub's network and open the dashboard.", { keepNext: true }),
   ...fig("qr", "a_qr_card_one.png", 7200, "Panel access card: QR code 1 joins the SESEMSG network; QR code 2 opens the dashboard."),
-  AH("Appendix I — Photographs of the Prototype"),
-  TODO("Insert photographs: wearable (front, back, worn), beacon installed, door node with reed switch, test setup."),
-  AH("Appendix J — Signed Forms"),
-  TODO("Insert the signed progress reports and the Request for Billing form."),
+  AH("Appendix I — Signed Forms"),
+  PN("The signed progress reports and the Design Oral Presentation and Billing Form (FM-EEC-25) are attached to the printed copies."),
 ];
 
 // =============================================================================

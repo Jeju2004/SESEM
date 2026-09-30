@@ -3,6 +3,33 @@
 Dated record of every code change. Newest first. Each entry says what changed,
 why, and whether it has been verified on hardware.
 
+## 2026-10-01 (06:30) — drafts completed from the data that exist
+
+The team decided not to repeat Test A. Every remaining placeholder was either replaced with logged data or stated plainly as not done; no value was estimated or invented.
+
+- **Paper Rev 6:**
+  - **Abstract:** the results sentence now carries Run 1 (no cross-room errors; 56.2 % in a shared room), SOS delivery (n = 6, median 295 ms) and door detection (4 of 4).
+  - **4.5 rewritten as "Final Firmware in a Shared-Room Layout (Signal Snapshot)":**
+    - the dorm layout as the team described it;
+    - the 9 s of preserved data (open-room beacons within 0–4 dB; the beacon behind the wall 19–24 dB weaker);
+    - why the bedroom-wing zone registered slowly;
+    - a plain statement that the 15-point capture was overwritten.
+  - **4.8:** door detection from the 29 Sep test (3 of 3) and the 30 Sep demo (1 of 1).
+  - **4.9:** four events delivered after the link was down (7.5, 8.1 and 11.1 s at start-up; the demo's "delivered late").
+  - **4.12:** battery-sense now reads 3.90–3.92 V, against 0.28 V before.
+  - **4.13:** Run 3, the 20 door cycles, the outage trials, the ten heart-rate readings and runtime are listed as not performed.
+  - **Chapter 5:** conclusions updated.
+  - **BOM:** unit costs from the team's estimate spreadsheet (Aug 2026 supplier listings, marked *) where no purchase price is known.
+  - **Removed:** placeholders with no material behind them (commercial products, flowcharts, photographs). Appendix J became I (signed forms attached to the printed copies).
+  - **Remaining placeholder:** the author e-mail addresses.
+- **Manual v0.3:**
+  - enclosure renders and the door wiring diagram replace the photo placeholders;
+  - wearing position: waist, belt clip;
+  - heart-rate reading: fingertip on the sensor window;
+  - runtime stated as not measured;
+  - 10.2 carries the test-day results.
+- **Deck v0.3 results slide:** Run 1 accuracy, SOS n = 6, heart rate n = 2, door 4 of 4.
+
 ## 2026-10-01 (05:45) — log_serial.py never overwrites
 
 - **Change:** `tools/rssi_calibration/log_serial.py` now writes to `name_2.csv`, `name_3.csv`, … when the output file already exists and is not empty, and says so at start.
