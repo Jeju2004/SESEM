@@ -442,7 +442,13 @@ async function ackAll() {
 }
 
 /* ------------------------------------------------------------------- tabs */
+/* iPhone (1 Oct): at the bottom of a list the page can scroll no further, so
+ * a swipe that starts on the tab bar barely moves and iOS delivers it as a tap
+ * on the tab under the finger - usually the one already open - and switching
+ * tab jumps to the top. The open tab's button now does nothing, and a tab tap
+ * while the page is still moving (momentum, the bounce at the end) is ignored. */
 function setTab(t) {
+  if (t === tab) return;
   tab = t;
   for (const s of ['home', 'alerts', 'activity']) $('tab-' + s).hidden = s !== t;
   document.querySelectorAll('.tabs button').forEach(b => b.classList.toggle('on', b.dataset.tab === t));
@@ -460,7 +466,7 @@ document.addEventListener('click', ev => {
   if (a) { ack(Number(a.dataset.ack)); return; }
   if (ev.target.closest('#ack-all')) { ackAll(); return; }
   const t = ev.target.closest('.tabs button');
-  if (t) { setTab(t.dataset.tab); return; }
+  if (t) { if (Date.now() >= scrollingUntil) setTab(t.dataset.tab); return; }
   if (ev.target.closest('#bell')) setTab('alerts');
 });
 

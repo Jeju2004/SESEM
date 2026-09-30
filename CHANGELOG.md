@@ -3,6 +3,31 @@
 Dated record of every code change. Newest first. Each entry says what changed,
 why, and whether it has been verified on hardware.
 
+## 2026-10-01 (early morning) — alert flood, iPhone scroll, beacon dropouts
+
+From the house test and the video-demo screenshots (`data/demo/2026-09-30/`).
+
+- **"Location unknown" flood (wearable, hub, laptop server).** The alert is kept, but it now stands for one episode.
+  - **Wearable:** the zone becomes unknown only after no beacon has been heard for about 8.5 s. That is the 2.5 s beacon timeout, then `ZONE_LOST_CONFIRM_TICKS` = 30 ticks (6 s); it was 0.4 s, so about 3 s in all. The dashboard keeps the last zone meanwhile.
+  - **Wearable:** the count pauses while a WiFi scan or connection attempt holds the shared radio (`gRadioBusy`). During those, BLE hears almost nothing, which is why a beacon in the same room could appear to vanish.
+  - **Hub and server:**
+    - while a `zone_lost` alert is uncleared, a repeat is treated as the same episode;
+    - it clears by itself ("back in range") on the first status with a known zone, or on a `zone_change` or `zone_restricted` alert.
+- **"Device not reporting" raised every 5 s after an Acknowledge (hub and server).** The watchdog only looked for an *unacknowledged* open alert. It now looks for an *uncleared* one, so one outage gives one alert, which clears when the device reports again.
+- **iPhone dashboard jumping to the top at the end of a list (`static/v2`).**
+  - **Cause:** at the bottom, a swipe starting on the tab bar barely moves, and iOS treats it as a tap on the open tab. `setTab()` then scrolled to the top.
+  - **Fix:** the open tab's button now does nothing, and tab taps while the page is still moving are ignored.
+- **Verified:**
+  - dashboard self-test 38/38;
+  - a scratch-server test of the new rules:
+    - a repeat `zone_lost` is merged, even after an Acknowledge;
+    - an unknown status keeps it open, and a known zone clears it;
+    - a new episode raises a new alert;
+    - an Acknowledged offline alert is not raised again over 20 s, and clears on the next status;
+  - `node --check` passes on `home.js`;
+  - `embed_dashboard.py` packs the page.
+- **Not yet verified:** the firmware was **not compiled here**, because the PlatformIO registry is blocked in the cloud environment. Build both boards with `pio run` before flashing, and check on hardware.
+
 ## 2026-09-30 (night) — house test, data export
 
 - **Dashboard database export** — `tools/field/export_db.py` writes

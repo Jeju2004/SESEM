@@ -284,6 +284,17 @@ static int countOpen(const char *type, const char *deviceId) {
   return n;
 }
 
+// Not yet cleared, whether or not a caregiver has acknowledged it. Used where
+// one alert must stand for one whole episode: an acknowledged "not reporting"
+// or "location unknown" is still true until the wearable is back (1 Oct: an
+// acknowledged offline alert was raised again every 5 s during one outage).
+static int countUncleared(const char *type, const char *deviceId) {
+  int n = 0;
+  for (auto &a : gAlerts)
+    if (a.id && a.clearedAt < 0 && strcmp(a.type, type) == 0 && strcmp(a.deviceId, deviceId) == 0) n++;
+  return n;
+}
+
 static Dev *devFind(const char *id, bool create) {
   for (auto &d : gDevs) if (d.used && strcmp(d.id, id) == 0) return &d;
   if (!create) return nullptr;
@@ -498,6 +509,9 @@ static void ingestStatus(JsonObject in, JsonDocument &out, int &code) {
   d->sos = in["sos"] | false;
 
   clearAlerts("device_offline", id, "device reporting again");
+  // A known zone again ends a "location unknown" episode by itself, so the
+  // caregiver is not left with a pile of them to acknowledge.
+  if (d->zoneId != 0) clearAlerts("zone_lost", id, "back in range");
 
   code = 200;
   out["ok"] = true;
@@ -533,6 +547,19 @@ static void ingestAlert(JsonObject in, JsonDocument &out, int &code) {
       return;
     }
   }
+
+  // One "location unknown" per episode: while one is still uncleared, a
+  // repeat is the same episode (1 Oct: walking through rooms with no beacon
+  // filled the dashboard with them).
+  if (strcmp(type, "zone_lost") == 0 && countUncleared("zone_lost", id) > 0) {
+    code = 200;
+    out["ok"] = true;
+    out["duplicate"] = true;
+    out["cleared_sos"] = 0;
+    return;
+  }
+  if (strcmp(type, "zone_change") == 0 || strcmp(type, "zone_restricted") == 0)
+    clearAlerts("zone_lost", id, "back in range");
 
   AlertRec &a = newAlert(type, "wearable");
   cpy(a.deviceId, id);
@@ -863,7 +890,7 @@ static void watchdog() {
   for (auto &d : gDevs) {
     if (!d.used) continue;
     double silent = t - d.lastSeen;
-    if (silent > WEARABLE_STALE_S && countOpen("device_offline", d.id) == 0) {
+    if (silent > WEARABLE_STALE_S && countUncleared("device_offline", d.id) == 0) {
       AlertRec &a = newAlert("device_offline", "server");
       cpy(a.deviceId, d.id);
       snprintf(a.detail, sizeof(a.detail), "No status for %d s (threshold %d s)", (int)silent, WEARABLE_STALE_S);

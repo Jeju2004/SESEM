@@ -74,6 +74,10 @@ static float    gBatteryVolts   = -1.0f;
 static bool     gGaugePresent   = false;
 static bool     gBattFromGauge  = false;   // last reading came from the MAX17043, not the R3/R4 divider
 static bool     gWifiUp         = false;
+// True while a WiFi scan or connection attempt holds the shared 2.4 GHz radio.
+// BLE hears almost nothing then, so beacons time out even in their own room;
+// the "no beacon" count is paused rather than blaming the resident's position.
+static volatile bool gRadioBusy = false;
 
 static uint8_t  gUuidBytes[16];
 
@@ -421,9 +425,10 @@ static void classifyZone() {
 
   if (bestIdx < 0) {
     // Nothing in range at all — only give up after the confirm window, so a
-    // couple of missed advertising packets do not blank the dashboard.
-    if (curIdx >= 0) {
-      if (++gCandidateTicks >= CONFIRM_TICKS) { newIdx = -1; gCandidateTicks = 0; }
+    // walk through a hallway or a burst of missed packets does not blank the
+    // dashboard. Not counted while WiFi holds the radio (see gRadioBusy).
+    if (curIdx >= 0 && !gRadioBusy) {
+      if (++gCandidateTicks >= ZONE_LOST_CONFIRM_TICKS) { newIdx = -1; gCandidateTicks = 0; }
     }
     gCandidateIdx = -1;
   } else if (curIdx < 0) {
@@ -867,8 +872,10 @@ static bool hubInRange() {
   // kept retrying a network that was not there and never saw the hub come
   // back). Stop any attempt first, and try the scan twice.
   if (WiFi.status() != WL_CONNECTED) { WiFi.disconnect(); vTaskDelay(pdMS_TO_TICKS(100)); }
+  gRadioBusy = true;
   int n = WiFi.scanNetworks(false, false, false, 120);
   if (n < 0) { vTaskDelay(pdMS_TO_TICKS(300)); n = WiFi.scanNetworks(false, false, false, 120); }
+  gRadioBusy = false;
   bool found = false;
   for (int i = 0; i < n && !found; i++) found = (WiFi.SSID(i) == HUB_SSID);
   WiFi.scanDelete();
@@ -979,6 +986,7 @@ static void taskNetwork(void *arg) {
       const char *ssid, *pass;
       pickNetwork(ssid, pass);
       Serial.printf("[NET] Connecting to \"%s\" (server %s) ...\n", ssid, gBackendUrl);
+      gRadioBusy = true;
       WiFi.begin(ssid, pass);
       uint32_t t0 = millis();
       while (!linkUp() && millis() - t0 < WIFI_CONNECT_TIMEOUT_MS) {
@@ -986,6 +994,7 @@ static void taskNetwork(void *arg) {
         if (millis() - t0 > 1500 && (st == WL_NO_SSID_AVAIL || st == WL_CONNECT_FAILED)) break;   // not there: stop waiting
         vTaskDelay(pdMS_TO_TICKS(250));
       }
+      gRadioBusy = false;
     }
 
     // Periodic status heartbeat. Queued only while the link is up: a status is

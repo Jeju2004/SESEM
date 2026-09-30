@@ -102,14 +102,17 @@ async def no_stale_pages(request, call_next):
 # Alert helpers
 # ---------------------------------------------------------------------------
 
-def _open_alert_exists(conn, *, type_: str, device_id=None, node_id=None) -> bool:
+def _uncleared_alert_exists(conn, *, type_: str, device_id: str) -> bool:
+    """Not yet cleared, acknowledged or not.
+
+    Used where one alert stands for one whole episode: an acknowledged "not
+    reporting" or "location unknown" is still true until the wearable is back
+    (1 Oct: an acknowledged offline alert was raised again every 5 s during a
+    single outage).
+    """
     row = conn.execute(
-        """SELECT 1 FROM alerts
-           WHERE type = ? AND cleared_at IS NULL AND acknowledged_at IS NULL
-             AND (? IS NULL OR device_id = ?)
-             AND (? IS NULL OR node_id = ?)
-           LIMIT 1""",
-        (type_, device_id, device_id, node_id, node_id),
+        "SELECT 1 FROM alerts WHERE type = ? AND device_id = ? AND cleared_at IS NULL LIMIT 1",
+        (type_, device_id),
     ).fetchone()
     return row is not None
 
@@ -238,6 +241,11 @@ def post_status(payload: StatusIn):
         # than something a caregiver was asked to act on.
         _clear_alerts(conn, type_="device_offline", device_id=payload.device_id,
                       reason="device reporting again", at=received_at)
+        # A known zone again ends a "location unknown" episode by itself, so the
+        # caregiver is not left with a pile of them to acknowledge.
+        if payload.zone_id:
+            _clear_alerts(conn, type_="zone_lost", device_id=payload.device_id,
+                          reason="back in range", at=received_at)
 
         # Tell the wearable whether its SOS is still waiting for a caregiver, so
         # it leaves SOS mode (LED, repeat presses) once one is acknowledged.
@@ -278,6 +286,16 @@ def post_alert(payload: AlertIn):
         if dup is not None:
             return {"ok": True, "alert_id": dup["id"], "duplicate": True,
                     "cleared_sos": 0, "event_at": dup["event_at"]}
+
+        # One "location unknown" per episode: while one is still uncleared, a
+        # repeat is the same episode (1 Oct: walking through rooms with no
+        # beacon filled the dashboard with them).
+        if payload.type == "zone_lost" and _uncleared_alert_exists(
+                conn, type_="zone_lost", device_id=payload.device_id):
+            return {"ok": True, "duplicate": True, "cleared_sos": 0}
+        if payload.type in ("zone_change", "zone_restricted"):
+            _clear_alerts(conn, type_="zone_lost", device_id=payload.device_id,
+                          reason="back in range", at=received_at)
 
         prev = conn.execute(
             "SELECT * FROM device_state WHERE device_id = ?", (payload.device_id,)
@@ -499,8 +517,8 @@ def _check_stale_once() -> None:
         for r in rows:
             silent_for = t - float(r["last_seen_at"] or 0)
             if silent_for > cfg.wearable_stale_s:
-                if not _open_alert_exists(conn, type_="device_offline",
-                                          device_id=r["device_id"]):
+                if not _uncleared_alert_exists(conn, type_="device_offline",
+                                               device_id=r["device_id"]):
                     _insert_alert(
                         conn,
                         source="server",

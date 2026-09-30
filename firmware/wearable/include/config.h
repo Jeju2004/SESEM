@@ -76,7 +76,13 @@
 #define FAST_LEAD_DB           10.0f
 #define CONFIRM_TICKS_FAST     2      // x 200 ms = 0.4 s
 #define CONFIRM_TICKS_SLOW     8      // x 200 ms = 1.6 s
-#define CONFIRM_TICKS          CONFIRM_TICKS_FAST   // 'no beacon at all' -> unknown
+// 'No beacon at all' must hold for this many ticks, AFTER the BEACON_STALE_MS
+// timeout, before the zone becomes unknown: 30 x 200 ms = 6 s, so about 8.5 s
+// with no beacon heard. Was 2 ticks (0.4 s, about 3 s in all), which raised
+// "Location unknown" at every doorway and hallway and whenever a WiFi scan
+// briefly took the shared radio away from BLE (1 Oct, house test). The
+// dashboard keeps showing the last zone meanwhile.
+#define ZONE_LOST_CONFIRM_TICKS 30
 
 // Below this smoothed RSSI, a beacon is considered too weak to count as
 // "the room I am in" at all. Placeholder — Test 1 gives the real floor.
