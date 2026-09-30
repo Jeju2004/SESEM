@@ -1,0 +1,43 @@
+iso_time,elapsed_s,label,line
+2026-10-01T05:32:20.337,0.002,transit,PI_FAST_FLASH_BOOT)
+2026-10-01T05:32:20.340,0.005,transit,"configsip: 0, SPIWP:0xee"
+2026-10-01T05:32:20.345,0.011,transit,"clk_drv:0x00,q_drv:0x00,d_drv:0x00,cs0_drv:0x00,hd_drv:0x00,wp_drv:0x00"
+2026-10-01T05:32:20.347,0.013,transit,"mode:DIO, clock div:2"
+2026-10-01T05:32:20.351,0.016,transit,"load:0x3fff0030,len:1184"
+2026-10-01T05:32:20.353,0.018,transit,"load:0x40078000,len:13232"
+2026-10-01T05:32:20.354,0.019,transit,"load:0x40080400,len:3028"
+2026-10-01T05:32:20.356,0.021,transit,entry 0x400805e4
+2026-10-01T05:32:21.354,1.019,transit,========================================
+2026-10-01T05:32:21.357,1.022,transit,TroDes Phase 1 - Wearable
+2026-10-01T05:32:21.359,1.025,transit,Device   : wearable-01 (Resident 1)
+2026-10-01T05:32:21.362,1.029,transit,UUID     : 5ca9015e-adc8-40a9-a1e2-d539f3b065bd  major=1
+2026-10-01T05:32:21.365,1.031,transit,Zones    : 3
+2026-10-01T05:32:21.368,1.033,transit,"SOS long : 3000 ms (proposed, unconfirmed)"
+2026-10-01T05:32:21.376,1.042,transit,"Power    : profile 0 - CPU 240 MHz, active scan 99% duty, status every 5 s"
+2026-10-01T05:32:21.382,1.047,transit,Zones    : room mode - strongest beacon wins (entry threshold off)
+2026-10-01T05:32:21.385,1.050,transit,========================================
+2026-10-01T05:32:21.390,1.055,transit,[HR] MAX30102 found.
+2026-10-01T05:32:21.395,1.061,transit,[BATT] MAX17043 not answering - using the ADC divider on GPIO 34.
+2026-10-01T05:32:21.403,1.068,transit,       (It needs the battery on its JST lead; checked again every 30 s.)
+2026-10-01T05:32:21.407,1.072,transit,"[SYS] Running. Press = SOS, hold 3 s = dismiss."
+2026-10-01T05:32:22.027,1.692,transit,[RSSI] bedroom_wing=-- dining_hall=-- medicine_room=--
+2026-10-01T05:32:22.035,1.700,transit,[STAT] zone=unknown hr=0 batt=-1% sos=no wifi=down q=0 bv=-1.00 src=adc
+2026-10-01T05:32:22.093,1.758,transit,[BLE] Scanner running.
+2026-10-01T05:32:22.405,2.071,transit,"[ZONE] -> dining_hall (id=2, rssi=-64.0 dBm, ~1.6 m)"
+2026-10-01T05:32:22.419,2.084,transit,"[ALERT] {""device_id"":""wearable-01"",""type"":""zone_change"",""detail"":""dining_hall"",""zone"":""dining_hall"",""zone_id"":2,""batt_pct"":-1,""hr_bpm"":-1,""uptime_s"":1}"
+2026-10-01T05:32:23.028,2.693,transit,[RSSI] bedroom_wing=-73 dining_hall=-69 medicine_room=-93
+2026-10-01T05:32:23.035,2.700,transit,[STAT] zone=dining_hall hr=0 batt=-1% sos=no wifi=down q=1 bv=-1.00 src=adc
+2026-10-01T05:32:24.029,3.694,transit,[RSSI] bedroom_wing=-68 dining_hall=-67 medicine_room=-91
+2026-10-01T05:32:24.035,3.700,transit,[STAT] zone=dining_hall hr=0 batt=-1% sos=no wifi=down q=1 bv=-1.00 src=adc
+2026-10-01T05:32:24.965,4.630,transit,"[NET] Connecting to ""SESEMSG"" (server http://192.168.4.1) ..."
+2026-10-01T05:32:25.029,4.694,transit,[RSSI] bedroom_wing=-69 dining_hall=-69 medicine_room=-90
+2026-10-01T05:32:25.039,4.705,transit,[STAT] zone=dining_hall hr=0 batt=-1% sos=no wifi=down q=1 bv=-1.00 src=adc
+2026-10-01T05:32:26.030,5.696,transit,[RSSI] bedroom_wing=-69 dining_hall=-69 medicine_room=-88
+2026-10-01T05:32:26.040,5.705,transit,[STAT] zone=dining_hall hr=0 batt=66% sos=no wifi=down q=1 bv=3.90 src=adc
+2026-10-01T05:32:27.031,6.696,transit,[RSSI] bedroom_wing=-67 dining_hall=-69 medicine_room=-88
+2026-10-01T05:32:27.037,6.702,transit,[STAT] zone=dining_hall hr=0 batt=66% sos=no wifi=down q=1 bv=3.90 src=adc
+2026-10-01T05:32:28.031,7.697,transit,[RSSI] bedroom_wing=-67 dining_hall=-68 medicine_room=-89
+2026-10-01T05:32:28.041,7.706,transit,[STAT] zone=dining_hall hr=0 batt=66% sos=no wifi=down q=1 bv=3.90 src=adc
+2026-10-01T05:32:29.028,8.694,transit,"[NET] WiFi dropped, reason 15"
+2026-10-01T05:32:29.034,8.699,transit,[RSSI] bedroom_wing=-66 dining_hall=-68 medicine_room=-89
+2026-10-01T05:32:29.040,8.705,transit,[STAT] zone=dining_hall hr=0 batt=66% sos=no wifi=down q=1 bv=3.90 src=adc
