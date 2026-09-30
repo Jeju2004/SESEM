@@ -94,11 +94,11 @@ files, deliverables and notes.
     - updated `paper.js` (Rev 4), `manual.js` (v0.2) and `deck.js` (v0.2).
   - **Output files:** the drafts, the figures, and the final Progress Report 3.
   - **Test tool:** `tools/field/test_day_report.py`.
-- **Not committed (credentials):**
-  - they contain the hub's Wi-Fi password:
+- **Credentials:**
+  - **The hub's Wi-Fi password is in two committed items**, added in a later commit at the team's request (the repository is private):
     - the panel QR card images (`tools/deliverables/figures/a_qr_card*.png`);
-    - the IEEE paper Rev 5, which embeds that card in Appendix H;
-  - the dashboard passcode:
+    - the IEEE paper Rev 5, which embeds that card in Appendix H.
+  - **The dashboard passcode is kept out:**
     - the door node's `secrets.h.example` now shows a placeholder;
     - the repo copy of the Test Day note has it removed.
 - **Docs and data:**
