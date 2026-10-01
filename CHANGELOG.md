@@ -3,6 +3,17 @@
 Dated record of every code change. Newest first. Each entry says what changed,
 why, and whether it has been verified on hardware.
 
+## 2026-10-01 (09:00) — Fig. 1 single-column
+
+- **System block diagram redrawn for one column** (`tools/deliverables/flowcharts/arch_col.dot` → `figures/f1_arch_col.png`). It is now vertical:
+  - (a) stand-alone hub: beacons → wearable → SESEMSG hub ↔ phones;
+  - (b) facility-network alternative;
+  - the dashed cloud relay (further study) from the hub.
+
+  It keeps every item of the earlier wide figure. The "JSON over HTTP" note moved into the caption.
+- **Placed in 3.6 at column width** (about 8 pt printed). The paper body no longer has any full-width figure.
+- The wide `f1_arch_v2.png` is still used by the user manual (single-column) and the deck.
+
 ## 2026-10-01 (08:30) — flowcharts in-column; appendices in two columns
 
 - **Flowcharts redrawn narrow** (`tools/deliverables/flowcharts/c_*.dot`, shared style `col.inc`) so each fits one IEEE column at 7–11 pt:
