@@ -1,4 +1,4 @@
-// TroDes — full paper in IEEE format (two columns), Revision 6, 1 Oct 2026.
+// TroDes — full paper in IEEE format (two columns), Revision 7, 1 Oct 2026.
 // Usage: node paper_ieee.js <out.docx>
 // IEEE conventions applied: two-column body in 10-pt Times New Roman, 24-pt title,
 // centred byline, 150–250-word abstract and Index Terms, tables numbered TABLE I, II …
@@ -27,7 +27,7 @@ const TABLES = ["instr", "ipo", "runtime", "matrix", "constraints", "descoped",
   "t1", "fit", "match", "r1cm", "r1zone", "r1pts", "walk", "r3snap", "sos", "hr", "door", "wifi",
   "hub", "selftest", "power", "notdone", "bom"];
 const FIGS = ["arch", "pcb3d", "fc_main", "fc_tasks", "fc_zone", "fc_sos", "fc_hub", "encl", "t1", "r1", "walk", "dash", "power",
-  "sch", "copper", "doorwire", "beacon", "nodes", "qr"];
+  "qr", "sch", "copper", "beacon", "doorwire", "nodes"];
 const EQS = ["pathloss", "ema", "acc", "prec", "rec", "f1", "mean", "sd", "se", "mae", "bias", "det",
   "icell", "runtime", "div", "ib", "led", "tr", "bpm"];
 const roman = (n) => ["", "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X", "XI", "XII", "XIII", "XIV",
@@ -128,24 +128,25 @@ const WIDE = (children) => ({ wide: children });
 // FRONT MATTER
 // =============================================================================
 // IEEE author block: one centred column per author, side by side, borderless.
-const AUTHORS = [
-  ["Chester John B. Cirio", "cjbcirio@mymail.mapua.edu.ph"],
-  ["Pathrish Anne R. Cruz", "pathrishcruz@mymail.mapua.edu.ph"],
-];
 const AFFIL = ["Bachelor of Electronics and Communication Engineering", "School of AI, Electrical, Electronics, and Computer Engineering", "Mapúa University"];
-const authorCell = ([name, mail]) => new TableCell({
-  width: { size: FULL / 2, type: WidthType.DXA },
-  borders: { top: none, bottom: none, left: none, right: none }, margins: { left: 0, right: 0 },
+const AUTHORS = [
+  ["Chester John B. Cirio", ...AFFIL, "cjbcirio@mymail.mapua.edu.ph"],
+  ["Pathrish Anne R. Cruz", ...AFFIL, "pathrishcruz@mymail.mapua.edu.ph"],
+  ["Engr. Glenn V. Magwili", "BSEE, MSECE", "Faculty of AI, Electrical, Electronics, and Computer Engineering", "Mapúa University", "gvmagwili@mapua.edu.ph"],
+];
+const AW = Math.floor(FULL / AUTHORS.length);
+const authorCell = ([name, ...lines]) => new TableCell({
+  width: { size: AW, type: WidthType.DXA },
+  borders: { top: none, bottom: none, left: none, right: none }, margins: { left: 40, right: 40 },
   children: [
-    new Paragraph({ alignment: AlignmentType.CENTER, spacing: { after: 20 }, children: [t(name, { size: 22 })] }),
-    ...AFFIL.map((a) => new Paragraph({ alignment: AlignmentType.CENTER, spacing: { after: 0 }, children: [t(a, { size: 18 })] })),
-    new Paragraph({ alignment: AlignmentType.CENTER, spacing: { after: 0 }, children: [t(mail, { size: 18 })] }),
+    new Paragraph({ alignment: AlignmentType.CENTER, spacing: { after: 20 }, children: [t(name, { size: 22, bold: true })] }),
+    ...lines.map((a) => new Paragraph({ alignment: AlignmentType.CENTER, spacing: { after: 0 }, children: [t(a, { size: 18, italics: true })] })),
   ],
 });
 const title = [
   new Paragraph({ alignment: AlignmentType.CENTER, spacing: { before: 120, after: 240 }, children: [t("Smart Elderly Safety and Emergency Monitoring System with Geofencing: An Indoor BLE Based Localization and Safety Monitoring System for a Home for the Aged", { size: 48 })] }),
   new Table({
-    width: { size: FULL, type: WidthType.DXA }, columnWidths: [FULL / 2, FULL / 2], layout: TableLayoutType.FIXED,
+    width: { size: FULL, type: WidthType.DXA }, columnWidths: AUTHORS.map(() => AW), layout: TableLayoutType.FIXED,
     borders: { top: none, bottom: none, left: none, right: none, insideHorizontal: none, insideVertical: none },
     rows: [new TableRow({ children: AUTHORS.map(authorCell) })],
   }),
@@ -267,7 +268,7 @@ const ch3 = [
   P(`${F("arch")} shows the two deployment modes. Beacons only broadcast; the wearable decides the zone itself, so localization never depends on the network. In the stand-alone mode (a), which is demonstrated, the door sensor node also acts as the hub: it creates a WPA2-protected Wi-Fi network, receives the wearable's reports, applies the alert rules and serves the dashboard to phones that join. In the facility-network mode (b), the devices report over the building's Wi-Fi to a computer running the same dashboard with a persistent database. The wearable selects the hub when its network is present and otherwise falls back to the facility network; with no network at all it queues events and sounds a periodic local chirp.`),
   ...fig("arch", "f1_arch_col.png", COL, "System block diagram: (a) stand-alone hub, as demonstrated — no computer, router or internet connection; (b) facility-network alternative. Both modes use JSON over HTTP (status every 5 s, alerts at once); the wearable prefers the hub when SESEMSG is on the air. Remote viewing (dashed) is further study."),
   H2("3.7 Schematic Diagram and Printed Circuit Board"),
-  P(`The wearable schematic (Appendix B) comprises the ESP32 development board (U1), the MAX30102 heart rate module (U2), the optional MAX17043 fuel gauge (U3), the TP4056 charger with DW01 protection, the MT3608 boost converter, the power switch (SW1), the SOS button (SW2), the buzzer driver (Q1, R1, D1, BZ1), the status LED (D2, R2), the battery divider (R3, R4, C4), the I²C pull-ups (R5, R6) and bulk and decoupling capacitors (C1–C3). The single-sided Revision C3 board (${F("pcb3d")}; copper layout in Appendix C) passed the KiCad design-rule check and schematic-parity check with no errors, no unconnected pads and no differences; all power traces are 0.8 mm wide over a ground pour.`),
+  P(`The wearable schematic (Appendix F) comprises the ESP32 development board (U1), the MAX30102 heart rate module (U2), the optional MAX17043 fuel gauge (U3), the TP4056 charger with DW01 protection, the MT3608 boost converter, the power switch (SW1), the SOS button (SW2), the buzzer driver (Q1, R1, D1, BZ1), the status LED (D2, R2), the battery divider (R3, R4, C4), the I²C pull-ups (R5, R6) and bulk and decoupling capacitors (C1–C3). The single-sided Revision C3 board (${F("pcb3d")}; copper layout in Appendix G) passed the KiCad design-rule check and schematic-parity check with no errors, no unconnected pads and no differences; all power traces are 0.8 mm wide over a ground pour.`),
   ...fig("pcb3d", "a_pcb_3d.png", COL, "Wearable printed circuit board, Revision C3 (KiCad 3-D view, component side). The battery, charger, boost converter and switch are wired off-board to J1, J2 and SW1."),
   H2("3.8 Applicable Standards and Regulations"),
   B("IEC 62133-2 — safety of portable lithium cells and batteries [11], for the wearable's Li-Po cell."),
@@ -297,11 +298,11 @@ const ch3 = [
   P("At +3 dBm the beacons were near the −88 dBm floor at 2.45 m. At 1 m the reading rose from −61 to −55 dBm when the power was raised to +9 dBm, a 6 dB gain extending the usable range from about 4 m to 7–8 m. All beacons therefore transmit at +9 dBm every 100 ms; being mains-powered, this does not affect wearable battery life."),
   H2("3.10 Software Development"),
   P(`**Zone classification.** The scanner accepts only advertisements carrying the project's UUID and major value and keeps a smoothed signal per beacon. Every 200 ms the classifier drops beacons not heard for 2.5 s or weaker than −88 dBm and selects the strongest; a challenger replaces the current zone only when it leads by more than 5 dB for a confirmation time that adapts to the margin — 0.4 s at a lead of 10 dB or more (a clear move) and 1.6 s otherwise (similar signals near a boundary). The adaptive confirmation was introduced after the reported zone was observed to alternate between two beacons of similar strength when people moved near the wearable. When no beacon is heard at all, the zone is declared unknown only after a further 6 s (about 8.5 s of silence in total), and this count pauses while a Wi-Fi scan or connection attempt occupies the radio, which the ESP32 shares between Wi-Fi and BLE; with a 0.4 s count, the house test of 30 Sep 2026 raised a 'location unknown' alert in every hallway and doorway. The wearable program is shown in ${F("fc_main")}, its two background tasks in ${F("fc_tasks")} and one classification pass in ${F("fc_zone")}.`),
-  ...fig("fc_main", "fc_main.png", COL, "Wearable firmware main loop (core 1)."),
-  ...fig("fc_tasks", "fc_tasks.png", COL, "Wearable background tasks: (a) BLE scanning; (b) network and delivery queue (core 0)."),
-  ...fig("fc_zone", "fc_zone.png", COL, "Zone classification pass, executed every 200 ms; connector A continues the no-beacon branch."),
+  ...fig("fc_main", "fc_main.png", 3600, "Wearable firmware main loop (core 1)."),
+  ...fig("fc_tasks", "fc_tasks.png", 3900, "Wearable background tasks: (a) BLE scanning; (b) network and delivery queue (core 0)."),
+  ...fig("fc_zone", "fc_zone.png", 4800, "Zone classification pass, executed every 200 ms; connector B joins the shortcut taken when the zone is unknown."),
   P(`**SOS and acknowledgement.** Each press is confirmed by a short tone; presses less than 0.7 s apart are counted and the pattern is sent when no press follows — one press 'Needs assistance', two 'URGENT – please come now', three 'EMERGENCY – immediate help needed' — confirmed by the same number of beeps. A stronger pattern escalates an open SOS and the server retires the weaker alert. A 3 s hold dismisses a false alarm; a soft low tick each second tells the resident to keep holding, and a long low tone marks the dismissal, after which the dashboard shows a green 'SOS cancelled by the resident' notice in place of the red alert. The ticks were added after the 30 Sep demonstration, in which holds released before 3 s were recorded as new calls. Each status reply states how many of the wearable's SOS alerts remain unacknowledged; at zero the wearable leaves SOS mode, ready for a new call. Every delivered alert is logged with its delivery time. The button logic is shown in ${F("fc_sos")}.`),
-  ...fig("fc_sos", "fc_sos.png", COL, "SOS button logic, executed on every pass of the main loop."),
+  ...fig("fc_sos", "fc_sos.png", 4400, "SOS button logic, executed on every pass of the main loop."),
   P(`**Heart rate.** The MAX30102 is read at 100 samples per second. After a finger is detected and the signal settles for 1.5 s, beat intervals outside 40–180 bpm or more than 25 percent from the running median are rejected, and the rate ${E("bpm")} is computed from the median of the last eight accepted intervals Δt (in milliseconds):`),
   EQ("bpm", "HR = 60 000 / median(Δt)"),
   P(`**Hub and dashboard.** The door node reads its reed switch with a 50 ms debounce and a 30 s heartbeat. In hub mode the same ESP32 runs a WPA2 access point, a DNS server that makes phones open the dashboard as a sign-in page, and a non-blocking HTTP server implementing the same interface as the computer backend, which lets one dashboard page serve both modes. The computer backend (FastAPI with SQLite) reconstructs event time from device uptime, merges a report repeated after a timed-out reply, and keeps critical and warning alerts until acknowledged. A 'location unknown' or 'device not reporting' alert stands for one episode: a repeat is merged while it is uncleared, and it clears itself when the wearable reports a zone again or resumes reporting. The dashboard refreshes every second, is passcode-protected, follows the phone's light or dark setting, and sounds an alarm with vibration for an unacknowledged SOS. The hub's request handling and alert rules are shown in ${F("fc_hub")}.`),
@@ -378,8 +379,8 @@ const ch4 = [
     ["bedroom_wing", "271", "0.854", "0.494", "0.626"], ["dining_hall", "104", "1.000", "0.846", "0.917"], ["medicine_room", "120", "0.415", "0.467", "0.439"],
     ["**Accuracy**", "495", "", "**56.2 %**", ""], ["**Unresolved**", "", "", "**23.2 %**", ""],
   ], [1.8, 0.8, 0.9, 0.9, 0.9]),
-  WIDE([...table("r1pts", "Run 1 per-point results", ["Point", "n", "Correct", "Unresolved", "Most common wrong answer"], run1Points, [3, 0.8, 1.2, 1.3, 2.4], FULL),
-    PN("* The first 24 s at BW-near were recorded while the tester was still arriving; after arrival the point classified correctly throughout.", { spacing: { after: 120 } })]),
+  ...table("r1pts", "Run 1 per-point results", ["Point", "n", "Correct", "Unres.", "Wrong (most)"], run1Points, [2.3, 0.5, 0.8, 0.8, 1.1], COL, 14),
+  PN("* The first 24 s at BW-near were recorded while the tester was still arriving; after arrival the point classified correctly throughout.", { spacing: { after: 120 } }),
   ...fig("r1", "f3_test2_bw.png", COL, "Recall by zone, Test 2 Run 1."),
   P("**Analysis.** There were no cross-room errors across the wall. In the shared room, points beyond about 1 m from a beacon were confused, and all 115 unresolved samples occurred at boundaries where every beacon was below the floor. An a-priori prediction (74 % overall, 21 % unresolved) matched the unresolved rate; accuracy was lower because the prediction assumed separate rooms. These findings led to the larger hysteresis, adaptive confirmation and shorter timing of the final firmware (Section 3.10)."),
   H2("4.4 Three-Beacon Walk on the Final Firmware (Functional Check)"),
@@ -521,8 +522,8 @@ const references = [
 // =============================================================================
 const AH = (text) => new Paragraph({ children: [t(text, { smallCaps: true, bold: true, size: 22 })], alignment: AlignmentType.LEFT, spacing: { before: 240, after: 120 }, keepNext: true });
 const appendices = [
-  new Paragraph({ children: [t("Appendices", { smallCaps: true, bold: true, size: 26 })], alignment: AlignmentType.CENTER, spacing: { after: 200 } }),
   WIDE([
+  new Paragraph({ children: [t("Appendices", { smallCaps: true, bold: true, size: 26 })], alignment: AlignmentType.CENTER, spacing: { before: 120, after: 160 }, keepNext: true }),
   AH("Appendix A — Bill of Materials"),
   ...table("bom", "Bill of materials of the demonstration system (team purchase record, 1 Oct 2026; * = estimate from Philippine supplier listings, Aug 2026, where no purchase price was recorded)", ["Ref.", "Part", "Qty", "Unit (₱)", "Line (₱)"], [
     ["U1", "ESP32-WROOM-32 DevKitC, 38-pin: wearable, three beacons, door node, and the wearable's first board (failed, replaced)", "6", "350*", "2,100*"],
@@ -546,11 +547,8 @@ const appendices = [
   ], [1.1, 3.3, 0.6, 0.8, 1.2], FULL),
   PN("Chargers for the beacons and the door node, wire and solder were already owned and are not included; no JST connectors were used. The schematic lists the 1000 mAh cell first specified; a 2000 mAh cell was fitted."),
   ]),
-  WIDE([AH("Appendix B — Wearable Schematic"), ...fig("sch", "a_schematic_rot.png", 8200, "Wearable schematic, Revision C3 (KiCad; page rotated).")]),
-  WIDE([AH("Appendix C — Printed Circuit Board"), ...fig("copper", "a_pcb_board.png", 6480, "Revision C3 copper (B.Cu) with component-side silkscreen, 69 × 66 mm; design-rule check: 0 errors, 0 unconnected pads.")]),
-  WIDE([AH("Appendix D — Door Node, Beacon and Enclosures"), ...fig("doorwire", "Door_Node_Wiring.png", FULL, "Door sensor node wiring (reed switch on GPIO 18 with the internal pull-up)."), ...fig("beacon", "Beacon_Perfboard_ComponentSide.png", 5760, "Beacon node on perfboard, component side."), ...fig("nodes", "Node_Enclosures_Closed.png", 5040, "Beacon and door-node enclosures (3-D model), printed in PLA.")]),
   WIDE([
-  AH("Appendix E — Firmware Excerpts"),
+  AH("Appendix B — Firmware Excerpts"),
   PN("Zone classification with adaptive confirmation (wearable, `classifyZone`):", { spacing: { after: 60 } }),
   ...[
     "float lead = bestRssi - curRssi;",
@@ -575,18 +573,27 @@ const appendices = [
   ].map(CODE),
   PN("Complete source code: private GitHub repository Jeju2004/SESEM (wearable, beacon, door node and hub firmware; dashboard; analysis scripts).", { spacing: { before: 120 } }),
   ]),
-  AH("Appendix F — Test Data"),
+  WIDE([
+  AH("Appendix C — Test Data"),
   PN("Raw captures (unmodified) and analysis outputs: Test 1 (21 Sep 2026), Test 2 Run 1 and results (24 Sep 2026), three-beacon walk (30 Sep 2026), demonstration screenshots (30 Sep 2026) and test-day captures (1 Oct 2026: sos2.csv, hr.csv, hr2.csv, and the 9 s test2_run3.csv), with the analysis scripts named in Table I."),
-  AH("Appendix G — User's Manual and Panel Access Card"),
+  AH("Appendix D — User's Manual and Panel Access Card"),
   PN("The User's Manual is a separate document. The access card below lets panel members join the hub's network and open the dashboard.", { keepNext: true }),
   ...fig("qr", "a_qr_card_one.png", COL, "Panel access card: QR code 1 joins the SESEMSG network; QR code 2 opens the dashboard."),
-  AH("Appendix H — Signed Forms"),
+  AH("Appendix E — Signed Forms"),
   PN("The signed progress reports and the Design Oral Presentation and Billing Form (FM-EEC-25) are attached to the printed copies."),
+  ]),
+  WIDE([AH("Appendix F — Wearable Schematic"), ...fig("sch", "a_schematic.png", 9936, "Wearable schematic, Revision C3 (KiCad).")]),
+  AH("Appendix G — Printed Circuit Board"),
+  ...fig("copper", "a_pcb_board.png", 4032, "Revision C3 copper (B.Cu) with component-side silkscreen, 69 × 66 mm; design-rule check: 0 errors, 0 unconnected pads."),
+  AH("Appendix H — Door Node, Beacon and Enclosures"),
+  ...fig("beacon", "Beacon_Perfboard_ComponentSide.png", 4320, "Beacon node on perfboard, component side."),
+  WIDE([...fig("doorwire", "Door_Node_Wiring.png", 9792, "Door sensor node wiring (reed switch on GPIO 18 with the internal pull-up).")]),
+  ...fig("nodes", "Node_Enclosures_Closed.png", COL, "Beacon and door-node enclosures (3-D model), printed in PLA."),
 ];
 
 // =============================================================================
 // ASSEMBLY — sections: title (1 col) · body (2 col, with full-width blocks) ·
-// balance break · appendices (1 col, new page)
+// balance break · appendices (2 col, continuing on the same page)
 // =============================================================================
 const page = { size: { width: 12240, height: 15840 }, margin: { top: 1080, right: 900, bottom: 1440, left: 900 } };
 const footers = { default: new Footer({ children: [new Paragraph({ alignment: AlignmentType.CENTER, children: [new TextRun({ children: [PageNumber.CURRENT], font: FONT, size: 16 })] })] }) };
@@ -604,16 +611,14 @@ for (const item of body) {
 flush();
 // a continuous one-column break balances the two columns of the last page
 sections.push({ properties: { type: SectionType.CONTINUOUS, page, column: { count: 1 } }, footers, children: [new Paragraph({ children: [] })] });
-// appendices: new page, same two-column layout; WIDE items span both columns
-sections.push({ properties: { type: SectionType.NEXT_PAGE, page, column: two }, footers, children: [appendices[0]] });
-for (const item of appendices.slice(1)) {
+// appendices follow on the same page, same two-column layout; WIDE items span both columns
+for (const item of appendices) {
   if (item && item.wide) {
     flush();
     sections.push({ properties: { type: SectionType.CONTINUOUS, page, column: { count: 1 } }, footers, children: item.wide });
   } else run.push(item);
 }
 flush();
-sections.push({ properties: { type: SectionType.CONTINUOUS, page, column: { count: 1 } }, footers, children: [new Paragraph({ children: [] })] });
 
 // every numbered item must appear exactly once, in its declared order
 const check = (used, list, what) => {
@@ -624,7 +629,7 @@ const check = (used, list, what) => {
 check(usedT, TABLES, "table"); check(usedF, FIGS, "figure"); check(usedE, EQS, "equation");
 
 const doc = new Document({
-  creator: "Chester John B. Cirio; Pathrish Anne R. Cruz", title: "TroDes — IEEE-format paper, Revision 6",
+  creator: "Chester John B. Cirio; Pathrish Anne R. Cruz; Glenn V. Magwili", title: "TroDes — IEEE-format paper, Revision 7",
   styles: { default: { document: { run: { font: FONT, size: 20 } } } },
   sections,
 });

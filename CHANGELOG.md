@@ -3,6 +3,32 @@
 Dated record of every code change. Newest first. Each entry says what changed,
 why, and whether it has been verified on hardware.
 
+## 2026-10-01 (10:30) — paper Rev 7: layout tightened
+
+- **Starting point:** the team's Word copy of Rev 7. Its only change was a third author, Engr. Glenn V. Magwili (BSEE, MSECE), with bold names and italic affiliations. Both are now in `paper_ieee.js`.
+- **Measured on the LibreOffice render**, which reproduced the Word layout of the team's copy (21 pages):
+  - before: 21 pages, about 78 blank column-inches;
+  - after: 17 pages, about 23 blank column-inches.
+- **Zone flowchart redrawn** (`flowcharts/c_zone.dot`): 5.2 in tall instead of 8.4 in, with larger text.
+  - The equivalent checks "strongest = current?" and "lead > 5 dB?" are merged.
+  - The no-beacon branch runs beside the main chain.
+  - Connector B carries the shortcut taken when the zone is unknown.
+  - The logic is unchanged.
+- **Flowchart widths:** each flowchart prints at about 8 pt text, so the main loop, background tasks and SOS charts are narrower and shorter.
+- **Table XII** (Run 1 per-point results) moved from full width into a column at 7 pt, removing a half-empty page.
+- **Appendices** now start under the references, without a new page. New order:
+  - A BOM;
+  - B firmware excerpts;
+  - C test data;
+  - D manual and access card;
+  - E signed forms;
+  - F schematic (landscape, full width);
+  - G PCB;
+  - H door node, beacon and enclosures.
+
+  The schematic, copper and beacon share one page; the door wiring and enclosures share the next. The body reference to the schematic (now F) and the copper layout (now G) is updated.
+- **Not yet checked:** the result in Word. Word can place figures slightly differently from LibreOffice.
+
 ## 2026-10-01 (09:40) — paper title, author block, black-and-white figures
 
 - **Title** set to the team's edited wording: "Smart Elderly Safety and Emergency Monitoring System with Geofencing: An Indoor BLE Based Localization and Safety Monitoring System for a Home for the Aged". No other text in the team's edited copy differed from the generated paper.

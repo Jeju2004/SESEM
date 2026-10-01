@@ -1,30 +1,30 @@
 digraph Z { #include
+  // centre: classification with reset terminators; connector B: zone-unknown shortcut; right: no-beacon branch
+  node [margin="0.04,0.02"];
   s  [label="Every 200 ms", style=rounded];
   a  [label="Drop beacons silent 2.5 s\nor below −88 dBm"];
-  d1 [label="Any beacon\nleft?", shape=diamond];     cA [label="A", shape=circle, width=0.3, fixedsize=true];
-  d2 [label="Zone\nunknown?", shape=diamond];         t  [label="Zone =\nstrongest"];
-  d3 [label="Strongest\n= current?", shape=diamond];  e1 [label="Reset;\nend", style=rounded];
-  d4 [label="Lead\n> 5 dB?", shape=diamond];          e2 [label="Reset;\nend", style=rounded];
+  d1 [label="Any beacon\nleft?", shape=diamond];
+  d2 [label="Zone\nunknown?", shape=diamond];
+  d3 [label="Strongest\nleads current\nby > 5 dB?", shape=diamond];  e1 [label="Reset;\nend", style=rounded];
   p  [label="Hold 0.4 s if lead ≥ 10 dB,\notherwise 1.6 s"];
-  d5 [label="Held\nthroughout?", shape=diamond];     e3 [label="End", style=rounded];
-  c  [label="Zone = challenger"];
-  d6 [label="Restricted?", shape=diamond];          ar [label="Buzzer; send\n\"restricted zone\"", shape=parallelogram];
-  az [label="Send \"moved zone\"", shape=parallelogram];
+  d5 [label="Lead held\nthroughout?", shape=diamond];  e3 [label="Reset;\nend", style=rounded];
+  c  [label="Zone = strongest"];
+  b1 [label="B", shape=circle, width=0.3, fixedsize=true];  b2 [label="B", shape=circle, width=0.3, fixedsize=true];
+  d6 [label="Restricted?", shape=diamond];
+  ar [label="Buzzer; send\n\"restricted zone\"", shape=parallelogram, fixedsize=true, width=1.75, height=0.5];
+  az [label="Send\n\"moved zone\"", shape=parallelogram, fixedsize=true, width=1.45, height=0.5];
   e4 [label="End", style=rounded];
-  cA2 [label="A", shape=circle, width=0.3, fixedsize=true];
-  n1 [label="Zone known and\nradio free?", shape=diamond]; e5 [label="End", style=rounded];
-  n2 [label="No-beacon count + 1"];
-  n3 [label="Count ≥ 30\n(6 s)?", shape=diamond];      e6 [label="End", style=rounded];
-  n4 [label="Zone = unknown; send\n\"location unknown\"", shape=parallelogram];
+  n1 [label="Zone known,\nradio free?", shape=diamond];
+  n2 [label="No-beacon\ncount + 1"];
+  n3 [label="Count ≥ 30\n(6 s)?", shape=diamond];
+  n4 [label="Zone = unknown;\nsend \"location\nunknown\"", shape=parallelogram, fixedsize=true, width=1.75, height=0.68];
   e7 [label="End", style=rounded];
-  s->a->d1; d1->cA [xlabel="No"]; d1->d2 [xlabel="Yes"];
-  d2->t [xlabel="Yes"]; d2->d3 [xlabel="No"]; t->d6;
-  d3->e1 [xlabel="Yes"]; d3->d4 [xlabel="No"];
-  d4->e2 [xlabel="No"]; d4->p [xlabel="Yes"]; p->d5;
+  s->a->d1; d1->n1 [xlabel="No"]; d1->d2 [xlabel="Yes"];
+  d2->b1 [xlabel="Yes"]; b2->c; d2->d3 [xlabel="No"];
+  d3->e1 [xlabel="No"]; d3->p [xlabel="Yes"]; p->d5;
   d5->e3 [xlabel="No"]; d5->c [xlabel="Yes"]; c->d6;
   d6->ar [xlabel="Yes"]; d6->az [xlabel="No"]; ar->e4; az->e4;
-  e4->cA2 [style=invis];
-  cA2->n1; n1->e5 [xlabel="No"]; n1->n2 [xlabel="Yes"]; n2->n3; n3->e6 [xlabel="No"]; n3->n4 [xlabel="Yes"]; n4->e7;
-  {rank=same; d1; cA;} {rank=same; d2; t;} {rank=same; d3; e1;} {rank=same; d4; e2;} {rank=same; d5; e3;} {rank=same; d6; ar;}
-  {rank=same; n1; e5;} {rank=same; n3; e6;}
+  n1->n2 [xlabel="Yes"]; n2->n3; n3->n4 [xlabel="Yes"]; n4->e7;
+  n1:e->e7:e [xlabel="No"]; n3:e->e7:e [xlabel="No"];
+  {rank=same; d1; n1;} {rank=same; d2; b1;} {rank=same; b2; c;} {rank=same; d3; e1;} {rank=same; d5; e3;} {rank=same; d6; ar;} {rank=same; az; e4;}
 }
