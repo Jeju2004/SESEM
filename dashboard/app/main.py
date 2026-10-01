@@ -15,6 +15,8 @@ Read endpoints (dashboard -> server):
     GET  /api/v1/doors
     GET  /api/v1/config
     GET  /api/v1/summary     everything in one call - what the page polls
+
+Optional passcode (TRODES_PASSCODE, off by default): see app/auth.py.
 """
 
 from __future__ import annotations
@@ -38,6 +40,7 @@ from .config import (
     SEVERITY_WARNING,
     load_config,
 )
+from . import auth
 from .db import DELAYED_S, connect, init_db, now, reconcile_uptime, rows_to_dicts
 from .models import AckIn, AlertIn, DoorIn, StatusIn
 
@@ -78,19 +81,38 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# Optional passcode for the caregiver screens (off unless TRODES_PASSCODE is
+# set). Device ingest stays open. See app/auth.py.
+app.middleware("http")(auth.middleware)
+app.include_router(auth.router)
+
+
+@app.middleware("http")
+async def no_stale_pages(request, call_next):
+    # Phones otherwise keep showing an old copy of the page after an update.
+    # "no-cache" still lets the browser reuse its copy - it just checks first.
+    response = await call_next(request)
+    path = request.url.path
+    if path in ("/", "/classic") or path.startswith("/static/"):
+        response.headers["Cache-Control"] = "no-cache"
+    return response
+
 
 # ---------------------------------------------------------------------------
 # Alert helpers
 # ---------------------------------------------------------------------------
 
-def _open_alert_exists(conn, *, type_: str, device_id=None, node_id=None) -> bool:
+def _uncleared_alert_exists(conn, *, type_: str, device_id: str) -> bool:
+    """Not yet cleared, acknowledged or not.
+
+    Used where one alert stands for one whole episode: an acknowledged "not
+    reporting" or "location unknown" is still true until the wearable is back
+    (1 Oct: an acknowledged offline alert was raised again every 5 s during a
+    single outage).
+    """
     row = conn.execute(
-        """SELECT 1 FROM alerts
-           WHERE type = ? AND cleared_at IS NULL AND acknowledged_at IS NULL
-             AND (? IS NULL OR device_id = ?)
-             AND (? IS NULL OR node_id = ?)
-           LIMIT 1""",
-        (type_, device_id, device_id, node_id, node_id),
+        "SELECT 1 FROM alerts WHERE type = ? AND device_id = ? AND cleared_at IS NULL LIMIT 1",
+        (type_, device_id),
     ).fetchone()
     return row is not None
 
@@ -219,9 +241,22 @@ def post_status(payload: StatusIn):
         # than something a caregiver was asked to act on.
         _clear_alerts(conn, type_="device_offline", device_id=payload.device_id,
                       reason="device reporting again", at=received_at)
+        # A known zone again ends a "location unknown" episode by itself, so the
+        # caregiver is not left with a pile of them to acknowledge.
+        if payload.zone_id:
+            _clear_alerts(conn, type_="zone_lost", device_id=payload.device_id,
+                          reason="back in range", at=received_at)
+
+        # Tell the wearable whether its SOS is still waiting for a caregiver, so
+        # it leaves SOS mode (LED, repeat presses) once one is acknowledged.
+        sos_open = conn.execute(
+            "SELECT COUNT(*) FROM alerts WHERE device_id = ? AND type = 'sos' "
+            "AND acknowledged_at IS NULL AND cleared_at IS NULL",
+            (payload.device_id,)).fetchone()[0]
 
         conn.commit()
-        return {"ok": True, "accepted": True, "event_at": event_at, "boot_id": boot_id}
+        return {"ok": True, "accepted": True, "event_at": event_at, "boot_id": boot_id,
+                "sos_open": sos_open}
     finally:
         conn.close()
 
@@ -235,6 +270,33 @@ def post_alert(payload: AlertIn):
     received_at = now()
     conn = connect()
     try:
+        # The wearable sends an alert again when the reply timed out, even if
+        # the server had stored it. That repeat is the same event: a duplicate
+        # SOS would stay open after the first is acknowledged, so the wearable
+        # (which leaves SOS mode on sos_open == 0) would never clear. Same
+        # device, type, uptime and detail within 30 s = the same event.
+        dup = conn.execute(
+            """SELECT id, event_at FROM alerts
+               WHERE device_id = ? AND type = ? AND uptime_s = ?
+                 AND COALESCE(detail, '') = COALESCE(?, '') AND received_at > ?
+               ORDER BY id DESC LIMIT 1""",
+            (payload.device_id, payload.type, payload.uptime_s, payload.detail,
+             received_at - 30),
+        ).fetchone()
+        if dup is not None:
+            return {"ok": True, "alert_id": dup["id"], "duplicate": True,
+                    "cleared_sos": 0, "event_at": dup["event_at"]}
+
+        # One "location unknown" per episode: while one is still uncleared, a
+        # repeat is the same episode (1 Oct: walking through rooms with no
+        # beacon filled the dashboard with them).
+        if payload.type == "zone_lost" and _uncleared_alert_exists(
+                conn, type_="zone_lost", device_id=payload.device_id):
+            return {"ok": True, "duplicate": True, "cleared_sos": 0}
+        if payload.type in ("zone_change", "zone_restricted"):
+            _clear_alerts(conn, type_="zone_lost", device_id=payload.device_id,
+                          reason="back in range", at=received_at)
+
         prev = conn.execute(
             "SELECT * FROM device_state WHERE device_id = ?", (payload.device_id,)
         ).fetchone()
@@ -284,6 +346,15 @@ def post_alert(payload: AlertIn):
             conn.execute(
                 "UPDATE device_state SET sos = 1 WHERE device_id = ?",
                 (payload.device_id,),
+            )
+            # A new SOS while one is open is an escalation: 2 or 3 presses
+            # after 1 (the wearable sends nothing for a same or weaker pattern).
+            # The older one is retired, so one Acknowledge clears the wearable.
+            conn.execute(
+                """UPDATE alerts SET cleared_at = ?, cleared_reason = ?
+                   WHERE device_id = ? AND type = 'sos' AND id != ?
+                     AND acknowledged_at IS NULL AND cleared_at IS NULL""",
+                (received_at, "replaced by a more urgent SOS", payload.device_id, alert_id),
             )
 
         conn.commit()
@@ -446,8 +517,8 @@ def _check_stale_once() -> None:
         for r in rows:
             silent_for = t - float(r["last_seen_at"] or 0)
             if silent_for > cfg.wearable_stale_s:
-                if not _open_alert_exists(conn, type_="device_offline",
-                                          device_id=r["device_id"]):
+                if not _uncleared_alert_exists(conn, type_="device_offline",
+                                               device_id=r["device_id"]):
                     _insert_alert(
                         conn,
                         source="server",
@@ -826,4 +897,11 @@ app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
 
 @app.get("/")
 def index():
+    # The "home" design (static/v2) is the default page since 29 Sep 2026;
+    # the original page stays available at /classic.
+    return FileResponse(STATIC_DIR / "v2" / "index.html")
+
+
+@app.get("/classic")
+def classic():
     return FileResponse(STATIC_DIR / "index.html")

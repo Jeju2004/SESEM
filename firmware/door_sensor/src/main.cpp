@@ -8,6 +8,10 @@
 // heartbeat lets the dashboard tell "door closed" apart from "node dead".
 //
 // Edit include/config.h (DOOR_ID / DOOR_NAME / NODE_ID / WiFi) per unit.
+//
+// Hub mode (env esp32hub): the same node also runs the SESEMSG Wi-Fi network
+// and the whole dashboard, so the system needs no laptop - see src/hub.cpp.
+// Door events then go straight into the hub instead of over HTTP.
 // =============================================================================
 
 #include <Arduino.h>
@@ -23,6 +27,7 @@
 #endif
 
 #include "config.h"
+#include "hub.h"
 
 // -----------------------------------------------------------------------------
 // Offline event queue
@@ -133,6 +138,12 @@ static void wifiService() {
     lastAttempt = millis();
     Serial.printf("[NET] Connecting to \"%s\" ...\n", WIFI_SSID);
     WiFi.mode(WIFI_STA);
+#if !defined(ESP8266)
+    // No Bluetooth on the door node, so WiFi modem sleep can be off: a door
+    // event then goes out at once instead of waiting for the next beacon
+    // interval of the access point (up to a few hundred ms). Mains-powered.
+    WiFi.setSleep(false);
+#endif
     WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
     uint32_t t0 = millis();
     while (WiFi.status() != WL_CONNECTED &&
@@ -181,13 +192,22 @@ void setup() {
   // including the case where the node reboots while a door is already open.
   char body[224];
   buildEventJson(body, sizeof(body), "boot", gDoorOpen);
+#if HUB_MODE
+  hubBegin();
+  hubDoorEvent(body);
+#else
   queuePush(body);
+#endif
 }
 
 void loop() {
   static uint32_t lastHeartbeat = 0;
 
+#if HUB_MODE
+  hubLoop();
+#else
   wifiService();
+#endif
 
   // --- debounced reed reading ---
   bool raw = readDoorOpen();
@@ -201,9 +221,13 @@ void loop() {
 
     char body[224];
     buildEventJson(body, sizeof(body), "state_change", gDoorOpen);
+#if HUB_MODE
+    hubDoorEvent(body);  // straight into the hub's own dashboard
+#else
     queuePush(body);     // queued, not posted inline: an open event must
                          // survive a WiFi outage, and POSTing here would
                          // block the debounce loop for up to HTTP_TIMEOUT_MS
+#endif
   }
 
   // --- heartbeat ---
@@ -212,6 +236,13 @@ void loop() {
     // Queued only while the link is up: stale heartbeats queued during an
     // outage would push door events out of the full queue (bench test,
     // 25 Sep: q=16, 3 dropped). The first heartbeat after reconnection is live.
+#if HUB_MODE
+    char body[224];
+    buildEventJson(body, sizeof(body), "heartbeat", gDoorOpen);
+    hubDoorEvent(body);  // keeps this door "online" on the hub's dashboard
+    Serial.printf("[HB] %s state=%s (hub, uplink %s)\n", DOOR_NAME,
+                  gDoorOpen ? "open" : "closed", hubUplinkUp() ? "up" : "off");
+#else
     if (gWifiUp) {
       char body[224];
       buildEventJson(body, sizeof(body), "heartbeat", gDoorOpen);
@@ -220,10 +251,15 @@ void loop() {
     Serial.printf("[HB] %s state=%s wifi=%s q=%u dropped=%lu\n",
                   DOOR_NAME, gDoorOpen ? "open" : "closed",
                   gWifiUp ? "up" : "down", gQCount, (unsigned long)gQDropped);
+#endif
   }
 
+#if HUB_MODE
+  delay(1);              // the hub answers web requests from this loop
+#else
   queueService();
 
   delay(5);
+#endif
   yield();
 }

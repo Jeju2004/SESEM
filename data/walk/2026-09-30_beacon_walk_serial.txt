@@ -1,0 +1,78 @@
+# TroDes wearable serial capture - informal three-beacon walk, 2026-09-30 00:22-00:37 (laptop clock, PH time)
+# Wearable wearable-01 on COM8, reporting to the SESEMSG hub. All three beacons powered (B1 bedroom_wing, B2 dining_hall, B3 medicine_room).
+# Filtered: [RSSI] line every 30 s, every [ZONE]/[ALERT]/[NET] line. No ground truth recorded - NOT a Test 2 run.
+# Distances (~x m) come from the placeholder path-loss model (PATH_LOSS_EXPONENT 2.5, MEASURED_POWER_1M -59) - not measurements.
+00:22:12 [RSSI] bedroom_wing=-69 dining_hall=-84 medicine_room=--
+00:22:42 [RSSI] bedroom_wing=-78 dining_hall=-82 medicine_room=--
+00:23:12 [RSSI] bedroom_wing=-69 dining_hall=-84 medicine_room=--
+00:23:42 [RSSI] bedroom_wing=-70 dining_hall=-92 medicine_room=-82
+00:24:12 [RSSI] bedroom_wing=-70 dining_hall=-89 medicine_room=--
+00:24:42 [RSSI] bedroom_wing=-74 dining_hall=-88 medicine_room=--
+00:25:12 [RSSI] bedroom_wing=-65 dining_hall=-86 medicine_room=-65
+00:25:13 [ZONE] -> medicine_room (id=11, rssi=-51.3 dBm, ~0.5 m)  *** RESTRICTED ***
+00:25:13 [ALERT] {"device_id":"wearable-01","type":"zone_restricted","detail":"medicine_room","zone":"medicine_room","zone_id":11,"batt_pct":-1,"hr_bpm":-1,"uptime_s":258}
+00:25:25 [ZONE] -> dining_hall (id=2, rssi=-71.8 dBm, ~3.3 m)
+00:25:25 [ALERT] {"device_id":"wearable-01","type":"zone_change","detail":"dining_hall","zone":"dining_hall","zone_id":2,"batt_pct":-1,"hr_bpm":-1,"uptime_s":270}
+00:25:26 [ZONE] -> bedroom_wing (id=1, rssi=-66.3 dBm, ~2.0 m)
+00:25:26 [ALERT] {"device_id":"wearable-01","type":"zone_change","detail":"bedroom_wing","zone":"bedroom_wing","zone_id":1,"batt_pct":-1,"hr_bpm":-1,"uptime_s":271}
+00:25:42 [RSSI] bedroom_wing=-60 dining_hall=-67 medicine_room=--
+00:26:13 [RSSI] bedroom_wing=-63 dining_hall=-71 medicine_room=--
+00:26:43 [RSSI] bedroom_wing=-66 dining_hall=-75 medicine_room=--
+00:27:13 [RSSI] bedroom_wing=-78 dining_hall=-93 medicine_room=--
+00:27:21 [ZONE] -> medicine_room (id=11, rssi=-56.1 dBm, ~0.8 m)  *** RESTRICTED ***
+00:27:21 [ALERT] {"device_id":"wearable-01","type":"zone_restricted","detail":"medicine_room","zone":"medicine_room","zone_id":11,"batt_pct":-1,"hr_bpm":-1,"uptime_s":386}
+00:27:37 [ZONE] -> bedroom_wing (id=1, rssi=-64.8 dBm, ~1.7 m)
+00:27:37 [ALERT] {"device_id":"wearable-01","type":"zone_change","detail":"bedroom_wing","zone":"bedroom_wing","zone_id":1,"batt_pct":-1,"hr_bpm":-1,"uptime_s":402}
+00:27:43 [RSSI] bedroom_wing=-67 dining_hall=-76 medicine_room=-80
+00:27:45 [ZONE] -> dining_hall (id=2, rssi=-59.4 dBm, ~1.0 m)
+00:27:45 [ALERT] {"device_id":"wearable-01","type":"zone_change","detail":"dining_hall","zone":"dining_hall","zone_id":2,"batt_pct":-1,"hr_bpm":-1,"uptime_s":411}
+00:27:59 [ZONE] -> bedroom_wing (id=1, rssi=-63.2 dBm, ~1.5 m)
+00:27:59 [ALERT] {"device_id":"wearable-01","type":"zone_change","detail":"bedroom_wing","zone":"bedroom_wing","zone_id":1,"batt_pct":-1,"hr_bpm":-1,"uptime_s":424}
+00:28:13 [RSSI] bedroom_wing=-64 dining_hall=-84 medicine_room=--
+00:28:43 [RSSI] bedroom_wing=-69 dining_hall=-88 medicine_room=--
+00:29:13 [RSSI] bedroom_wing=-76 dining_hall=-90 medicine_room=--
+00:29:43 [RSSI] bedroom_wing=-78 dining_hall=-83 medicine_room=--
+00:30:01 [NET] POST /api/v1/status failed (code -11)
+00:30:13 [RSSI] bedroom_wing=-67 dining_hall=-85 medicine_room=--
+00:30:43 [RSSI] bedroom_wing=-74 dining_hall=-91 medicine_room=--
+00:31:13 [RSSI] bedroom_wing=-66 dining_hall=-83 medicine_room=-73
+00:31:43 [RSSI] bedroom_wing=-73 dining_hall=-83 medicine_room=--
+00:32:13 [RSSI] bedroom_wing=-71 dining_hall=-87 medicine_room=-69
+00:32:23 [NET] POST /api/v1/status failed (code -11)
+00:32:27 [NET] POST /api/v1/status failed (code -11)
+00:32:31 [NET] POST /api/v1/status failed (code -11)
+00:32:32 [NET] POST /api/v1/status failed (code -5)
+00:32:32 [NET] 4 failed reports in a row - choosing the network again
+00:32:32 [NET] WiFi dropped, reason 8
+00:32:35 [ZONE] -> medicine_room (id=11, rssi=-56.3 dBm, ~0.8 m)  *** RESTRICTED ***
+00:32:35 [ALERT] {"device_id":"wearable-01","type":"zone_restricted","detail":"medicine_room","zone":"medicine_room","zone_id":11,"batt_pct":-1,"hr_bpm":-1,"uptime_s":700}
+00:32:35 [NET] Connecting to "SESEMSG" (server http://192.168.4.1) ...
+00:32:36 [NET] got IP 192.168.4.2 (gateway 192.168.4.1)
+00:32:40 [NET] POST /api/v1/status failed (code -11)
+00:32:41 [ZONE] -> bedroom_wing (id=1, rssi=-75.0 dBm, ~4.3 m)
+00:32:41 [ALERT] {"device_id":"wearable-01","type":"zone_change","detail":"bedroom_wing","zone":"bedroom_wing","zone_id":1,"batt_pct":-1,"hr_bpm":-1,"uptime_s":706}
+00:32:43 [RSSI] bedroom_wing=-74 dining_hall=-88 medicine_room=--
+00:33:06 [ZONE] -> dining_hall (id=2, rssi=-56.9 dBm, ~0.8 m)
+00:33:06 [ALERT] {"device_id":"wearable-01","type":"zone_change","detail":"dining_hall","zone":"dining_hall","zone_id":2,"batt_pct":-1,"hr_bpm":-1,"uptime_s":731}
+00:33:13 [RSSI] bedroom_wing=-84 dining_hall=-64 medicine_room=--
+00:33:24 [ZONE] -> bedroom_wing (id=1, rssi=-53.8 dBm, ~0.6 m)
+00:33:24 [ALERT] {"device_id":"wearable-01","type":"zone_change","detail":"bedroom_wing","zone":"bedroom_wing","zone_id":1,"batt_pct":-1,"hr_bpm":-1,"uptime_s":749}
+00:33:43 [RSSI] bedroom_wing=-69 dining_hall=-86 medicine_room=--
+00:33:43 [NET] POST /api/v1/status failed (code -11)
+00:34:13 [RSSI] bedroom_wing=-74 dining_hall=-85 medicine_room=--
+00:34:23 [NET] POST /api/v1/status failed (code -11)
+00:34:43 [RSSI] bedroom_wing=-71 dining_hall=-91 medicine_room=--
+00:35:13 [RSSI] bedroom_wing=-71 dining_hall=-88 medicine_room=--
+00:35:25 [NET] POST /api/v1/status failed (code -11)
+00:35:26 [NET] POST /api/v1/status failed (code -5)
+00:35:26 [NET] POST /api/v1/status failed (code -5)
+00:35:26 [NET] POST /api/v1/status failed (code -5)
+00:35:26 [NET] 4 failed reports in a row - choosing the network again
+00:35:26 [NET] WiFi dropped, reason 8
+00:35:30 [NET] Connecting to "SESEMSG" (server http://192.168.4.1) ...
+00:35:33 [NET] WiFi dropped, reason 201
+00:35:33 [NET] got IP 192.168.4.2 (gateway 192.168.4.1)
+00:35:43 [RSSI] bedroom_wing=-70 dining_hall=-- medicine_room=--
+00:36:13 [RSSI] bedroom_wing=-80 dining_hall=-91 medicine_room=--
+00:36:32 [NET] POST /api/v1/status failed (code -11)
+00:36:43 [RSSI] bedroom_wing=-75 dining_hall=-93 medicine_room=--

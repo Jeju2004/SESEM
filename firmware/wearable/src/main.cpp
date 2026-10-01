@@ -5,7 +5,7 @@
 // What this firmware does:
 //   * Continuously scans for TroDes iBeacons and decides which ZONE the
 //     resident is in (EMA-smoothed RSSI + hysteresis + confirm ticks).
-//   * SOS button: short press = raise alert, long press = dismiss false alarm.
+//   * SOS button: press = raise alert at once, hold 3 s = dismiss false alarm.
 //   * Reads heart rate (MAX30102) and battery state of charge (R3/R4 divider
 //     on GPIO 34, or the optional MAX17043 gauge when fitted).
 //   * Reports status to the caregiver backend over WiFi, with an offline
@@ -62,12 +62,22 @@ static int      gCandidateIdx   = -1;
 static uint8_t  gCandidateTicks = 0;
 
 static bool     gSosActive      = false;
+// Set by the network task when the dashboard says this wearable's SOS has
+// been acknowledged or cleared; sosService() then resets (29 Sep).
+static volatile bool gSosAckPending = false;
+static volatile bool gSosDelivered  = false;   // the "sos" alert reached the dashboard
+static uint8_t       gSosLevel      = 0;       // 1-3: presses in the pattern that raised it
 static float    gHeartRateBpm   = 0.0f;
 static bool     gHrPresent      = false;
 static float    gBatteryPct     = -1.0f;
 static float    gBatteryVolts   = -1.0f;
 static bool     gGaugePresent   = false;
+static bool     gBattFromGauge  = false;   // last reading came from the MAX17043, not the R3/R4 divider
 static bool     gWifiUp         = false;
+// True while a WiFi scan or connection attempt holds the shared 2.4 GHz radio.
+// BLE hears almost nothing then, so beacons time out even in their own room;
+// the "no beacon" count is paused rather than blaming the resident's position.
+static volatile bool gRadioBusy = false;
 
 static uint8_t  gUuidBytes[16];
 
@@ -155,7 +165,6 @@ static void buzzerStop() {
   gBeepsLeft = 0;
   gBeepOn    = false;
   ledcWrite(BUZZER_LEDC_CHANNEL, 0);
-  digitalWrite(PIN_STATUS_LED, LOW);
 }
 
 static void buzzerService() {
@@ -166,12 +175,10 @@ static void buzzerService() {
   if (!gBeepOn) {
     if (gBeepsLeft == 0) { buzzerStop(); return; }
     ledcWriteTone(BUZZER_LEDC_CHANNEL, gPattern.freqHz);
-    digitalWrite(PIN_STATUS_LED, HIGH);
     gBeepOn = true;
     gBeepAt = now + gPattern.onMs;
   } else {
     ledcWrite(BUZZER_LEDC_CHANNEL, 0);
-    digitalWrite(PIN_STATUS_LED, LOW);
     gBeepOn = false;
     if (gBeepsLeft > 0) gBeepsLeft--;
     gBeepAt = now + gPattern.offMs;
@@ -181,7 +188,12 @@ static void buzzerService() {
 // Distinct, learnable patterns — the user manual documents these.
 static const BuzzPattern kBeepBoot        = {2700,  80,  80, 2};
 static const BuzzPattern kBeepSosSent     = {2700, 150, 100, 3};
+static const BuzzPattern kBeepPress       = {2700,  40,  40, 1};   // each press, at once
+static const BuzzPattern kBeepSos1        = {2700, 150, 100, 1};   // pattern sent: one beep
+static const BuzzPattern kBeepSos2        = {2700, 150, 100, 2};   // ... per press in it
+static const BuzzPattern kBeepSos3        = {2700, 150, 100, 3};
 static const BuzzPattern kBeepSosDismiss  = {1500, 400, 150, 1};
+static const BuzzPattern kBeepHoldTick    = {1500,  50,  50, 1};   // each second of a hold
 static const BuzzPattern kBeepRestricted  = {3200, 120,  80, 4};
 static const BuzzPattern kBeepBatteryLow  = {2000, 250, 250, 2};
 static const BuzzPattern kBeepOffline     = {1800,  60, 120, 2};
@@ -191,8 +203,9 @@ static const BuzzPattern kBeepOffline     = {1800,  60, 120, 2};
 // =============================================================================
 
 struct QueuedEvent {
-  char path[32];
-  char body[320];
+  char     path[32];
+  char     body[320];
+  uint32_t at;          // millis() when raised: the log reports delivery time (Chapter 4 latency)
 };
 
 static QueuedEvent gQueue[OFFLINE_QUEUE_DEPTH];
@@ -211,6 +224,7 @@ static void queuePush(const char *path, const char *body) {
   gQueue[gQTail].path[sizeof(gQueue[gQTail].path) - 1] = '\0';
   strncpy(gQueue[gQTail].body, body, sizeof(gQueue[gQTail].body) - 1);
   gQueue[gQTail].body[sizeof(gQueue[gQTail].body) - 1] = '\0';
+  gQueue[gQTail].at = millis();
   gQTail = (gQTail + 1) % OFFLINE_QUEUE_DEPTH;
   gQCount++;
   UNLOCK();
@@ -246,9 +260,10 @@ static void buildStatusJson(char *buf, size_t len) {
   doc["restricted"] = (zi >= 0) ? kZones[zi].restricted : false;
   doc["rssi"]       = (int)roundf(rssi);
   doc["distance_m"] = (zi >= 0) ? roundf(estimateDistanceM(rssi) * 100) / 100 : -1;
-  doc["hr_bpm"]     = gHrPresent ? (int)roundf(gHeartRateBpm) : -1;
+  doc["hr_bpm"]     = (gHrPresent && gHeartRateBpm > 0) ? (int)roundf(gHeartRateBpm) : -1;   // 0 = no finger
   doc["batt_pct"]   = (int)roundf(gBatteryPct);
   doc["batt_v"]     = roundf(gBatteryVolts * 100) / 100;
+  doc["batt_src"]   = gBattFromGauge ? "gauge" : "adc";
   doc["sos"]        = gSosActive;
   UNLOCK();
 
@@ -257,25 +272,26 @@ static void buildStatusJson(char *buf, size_t len) {
 }
 
 static void buildAlertJson(char *buf, size_t len, const char *type,
-                           const char *detail) {
+                           const char *detail, int level = 0) {
   StaticJsonDocument<320> doc;
   LOCK();
   int zi = gCurrentZoneIdx;
   doc["device_id"] = DEVICE_ID;
   doc["type"]      = type;
   doc["detail"]    = detail;
+  if (level > 0) doc["level"] = level;           // SOS urgency, 1-3 presses
   doc["zone"]      = (zi >= 0) ? kZones[zi].name : "unknown";
   doc["zone_id"]   = (zi >= 0) ? kZones[zi].id : 0;
   doc["batt_pct"]  = (int)roundf(gBatteryPct);
-  doc["hr_bpm"]    = gHrPresent ? (int)roundf(gHeartRateBpm) : -1;
+  doc["hr_bpm"]    = (gHrPresent && gHeartRateBpm > 0) ? (int)roundf(gHeartRateBpm) : -1;    // 0 = no finger
   UNLOCK();
   doc["uptime_s"] = millis() / 1000UL;
   serializeJson(doc, buf, len);
 }
 
-static void raiseAlert(const char *type, const char *detail) {
+static void raiseAlert(const char *type, const char *detail, int level = 0) {
   char body[320];
-  buildAlertJson(body, sizeof(body), type, detail);
+  buildAlertJson(body, sizeof(body), type, detail, level);
   Serial.printf("[ALERT] %s\n", body);
   queuePush(ENDPOINT_ALERT, body);
 }
@@ -410,9 +426,10 @@ static void classifyZone() {
 
   if (bestIdx < 0) {
     // Nothing in range at all — only give up after the confirm window, so a
-    // couple of missed advertising packets do not blank the dashboard.
-    if (curIdx >= 0) {
-      if (++gCandidateTicks >= CONFIRM_TICKS) { newIdx = -1; gCandidateTicks = 0; }
+    // walk through a hallway or a burst of missed packets does not blank the
+    // dashboard. Not counted while WiFi holds the radio (see gRadioBusy).
+    if (curIdx >= 0 && !gRadioBusy) {
+      if (++gCandidateTicks >= ZONE_LOST_CONFIRM_TICKS) { newIdx = -1; gCandidateTicks = 0; }
     }
     gCandidateIdx = -1;
   } else if (curIdx < 0) {
@@ -426,13 +443,18 @@ static void classifyZone() {
     gCandidateTicks = 0;
   } else {
     // A challenger must beat the incumbent by HYSTERESIS_DB, and keep doing so
-    // for CONFIRM_TICKS consecutive ticks, before the zone actually changes.
-    // This is what stops the dashboard flickering on a zone boundary. In
-    // proximity mode it must also be above ZONE_ENTRY_DBM, so walking across
-    // a shared room keeps the last zone until the next beacon is close.
-    if (bestRssi > curRssi + HYSTERESIS_DB && bestRssi >= ZONE_ENTRY_DBM) {
+    // for several consecutive ticks, before the zone actually changes. How many
+    // depends on how clearly it leads: a clear move (>= FAST_LEAD_DB, or the
+    // old beacon gone) is taken in CONFIRM_TICKS_FAST ticks; a close call
+    // between two similar beacons needs CONFIRM_TICKS_SLOW, which is what
+    // stops the dashboard jumping between two rooms when people walk past.
+    // In proximity mode it must also be above ZONE_ENTRY_DBM, so walking
+    // across a shared room keeps the last zone until the next beacon is close.
+    float lead = bestRssi - curRssi;
+    if (lead > HYSTERESIS_DB && bestRssi >= ZONE_ENTRY_DBM) {
+      int need = (lead >= FAST_LEAD_DB) ? CONFIRM_TICKS_FAST : CONFIRM_TICKS_SLOW;
       if (bestIdx == gCandidateIdx) {
-        if (++gCandidateTicks >= CONFIRM_TICKS) {
+        if (++gCandidateTicks >= need) {
           newIdx = bestIdx;
           gCandidateIdx = -1;
           gCandidateTicks = 0;
@@ -479,9 +501,23 @@ static bool     gBtnLastRead = HIGH;
 static uint32_t gBtnChangeAt = 0;
 static uint32_t gBtnPressAt  = 0;
 static bool     gLongHandled = false;
+static uint8_t  gHoldTicks   = 0;        // seconds of the current hold already ticked
+static uint8_t  gPatCount    = 0;        // presses in the pattern being entered
+static uint32_t gPatLastEdge = 0;        // last press or release of that pattern
 
 static void sosService() {
   uint32_t now  = millis();
+
+  if (gSosAckPending) {                 // a caregiver acknowledged it on the dashboard
+    gSosAckPending = false;
+    gSosDelivered  = false;
+    bool was;
+    LOCK(); was = gSosActive; gSosActive = false; gSosLevel = 0; UNLOCK();
+    if (was) {
+      buzzerPlay(kBeepSosDismiss);
+      Serial.println(F("[SOS] Acknowledged by a caregiver -> SOS cleared"));
+    }
+  }
   bool     read = digitalRead(PIN_SOS_BUTTON);
 
   if (read != gBtnLastRead) { gBtnLastRead = read; gBtnChangeAt = now; }
@@ -491,16 +527,50 @@ static void sosService() {
     if (gBtnStable == LOW) {            // pressed
       gBtnPressAt  = now;
       gLongHandled = false;
-    } else {                            // released
-      uint32_t heldMs = now - gBtnPressAt;
-      if (!gLongHandled && heldMs < SOS_LONG_PRESS_MS) {
-        // SHORT PRESS = raise an alert.
-        LOCK(); gSosActive = true; UNLOCK();
-        buzzerPlay(kBeepSosSent);
-        Serial.printf("[SOS] Short press (%lu ms) -> ALERT RAISED\n", heldMs);
-        raiseAlert("sos", "button short press");
-      }
+      gHoldTicks   = 0;
+      // Every press is heard at once (short tick). The presses are counted,
+      // and the alert goes out when the pattern ends (below), so 1, 2 or 3
+      // quick presses can say how urgent it is.
+      if (gPatCount < 3) gPatCount++;
+      gPatLastEdge = now;
+      buzzerPlay(kBeepPress);
+      Serial.printf("[SOS] Press %u\n", gPatCount);
+    } else {
+      gPatLastEdge = now;               // released: the gap timer starts here
     }
+  }
+
+  // PATTERN COMPLETE: no press for SOS_PATTERN_GAP_MS after the last release.
+  // Nothing active yet -> raise it. Already active -> a stronger pattern
+  // escalates it (new alert; the server retires the weaker one); the same or a
+  // weaker one only repeats the tone, so nothing is sent twice.
+  if (gPatCount && gBtnStable == HIGH && now - gPatLastEdge >= SOS_PATTERN_GAP_MS) {
+    uint8_t level = gPatCount;
+    gPatCount = 0;
+    bool was;
+    uint8_t prev;
+    LOCK(); was = gSosActive; prev = gSosLevel; UNLOCK();
+    if (!was || level > prev) {
+      const char *msg = level >= 3 ? SOS_MSG_3 : level == 2 ? SOS_MSG_2 : SOS_MSG_1;
+      LOCK(); gSosActive = true; gSosLevel = level; UNLOCK();
+      gSosDelivered = false;
+      buzzerPlay(level >= 3 ? kBeepSos3 : level == 2 ? kBeepSos2 : kBeepSos1);
+      Serial.printf("[SOS] %u press%s -> %s: %s\n", level, level > 1 ? "es" : "",
+                    was ? "ESCALATED" : "ALERT RAISED", msg);
+      raiseAlert("sos", msg, level);
+    } else {
+      buzzerPlay(kBeepSos1);
+      Serial.printf("[SOS] %u press%s -> an SOS at this level is already active\n", level, level > 1 ? "es" : "");
+    }
+  }
+
+  // While the button is held, a soft low tick each second says "keep holding".
+  // Without it a hold let go at 2-2.5 s went out as a 1-press SOS, which is why
+  // a cancel and a call looked the same on the dashboard (1 Oct).
+  if (gBtnStable == LOW && !gLongHandled) {
+    uint32_t held = now - gBtnPressAt;
+    uint8_t  secs = held / 1000;
+    if (secs > gHoldTicks && held < SOS_LONG_PRESS_MS) { gHoldTicks = secs; buzzerPlay(kBeepHoldTick); }
   }
 
   // LONG PRESS = dismiss a false alarm. Fires while still held, so the
@@ -509,13 +579,27 @@ static void sosService() {
   if (gBtnStable == LOW && !gLongHandled &&
       (now - gBtnPressAt) >= SOS_LONG_PRESS_MS) {
     gLongHandled = true;
+    gPatCount = 0;                      // the hold is a dismiss, not a press
     bool was;
-    LOCK(); was = gSosActive; gSosActive = false; UNLOCK();
+    LOCK(); was = gSosActive; gSosActive = false; gSosLevel = 0; UNLOCK();
+    gSosDelivered = false;
     buzzerPlay(kBeepSosDismiss);
     Serial.printf("[SOS] Long press (%d ms) -> %s\n", SOS_LONG_PRESS_MS,
                   was ? "ALERT DISMISSED" : "no active alert, dismiss noted");
     raiseAlert("sos_dismissed", "button long press");
   }
+}
+
+// =============================================================================
+// Status LED — lit with every beep, held on while an SOS is active, and a
+// short heartbeat blink otherwise so a glance shows the wearable is running.
+// =============================================================================
+
+static void ledService() {
+  bool sos;
+  LOCK(); sos = gSosActive; UNLOCK();
+  bool heartbeat = (millis() % LED_HEARTBEAT_PERIOD_MS) < LED_HEARTBEAT_ON_MS;
+  digitalWrite(PIN_STATUS_LED, (gBeepOn || sos || heartbeat) ? HIGH : LOW);
 }
 
 // =============================================================================
@@ -525,19 +609,74 @@ static void sosService() {
 static MAX30105  gHrSensor;
 static SFE_MAX1704X gGauge(MAX1704X_MAX17043);   // U3 on the Rev B/C schematic
 
-// Rolling average of the last few beat-to-beat intervals, as in SparkFun's
-// reference example. Optical HR on a wrist is noisy; averaging is not optional.
-#define HR_AVG_SIZE 8
-static byte     gHrRates[HR_AVG_SIZE];
-static byte     gHrRateSpot = 0;
-static long     gHrLastBeat = 0;
+// The MAX17043 is powered from the Li-Po on its own JST lead, not from 3V3, so
+// it only answers on I2C while a cell is connected. It is probed again on every
+// battery read while missing (cell plugged in after boot), and the R3/R4
+// divider takes over whenever it stops answering or reads nonsense.
+static bool gaugeProbe() {
+  Wire1.beginTransmission(FG_I2C_ADDR);               // plain address check first, so an
+  if (Wire1.endTransmission() != 0) return false;     // absent gauge does not spam Wire errors
+  if (!gGauge.begin(Wire1)) return false;
+  gGauge.quickStart();                                // fresh SOC estimate from the resting voltage
+  return true;
+}
+
+static bool gaugeRead(float &volts, float &pct) {
+  Wire1.beginTransmission(FG_I2C_ADDR);
+  if (Wire1.endTransmission() != 0) return false;     // cell unplugged, or the gauge lost
+  volts = gGauge.getVoltage();
+  pct   = gGauge.getSOC();
+  if (volts < BATTERY_ABSENT_V || volts > 4.5f) return false;   // not a real cell reading
+  pct = constrain(pct, 0.0f, 100.0f);                 // SOC reads a little over 100 % when full
+  return true;
+}
+
+// Heart rate (29 Sep rewrite, for accuracy):
+//   * every FIFO sample is processed, at a steady 100 samples/s (the old code
+//     read only the newest sample every 20 ms and skipped the rest, so the beat
+//     detector missed beats);
+//   * beat times come from the sample count (10 ms each), not from millis();
+//   * only 40-180 bpm intervals count, and once there are 3, a beat more than
+//     25 % away from the running median is rejected (motion, a slipping finger);
+//   * the reported value is the MEDIAN of the last 8 good intervals, and only
+//     after the finger has been steady for HR_SETTLE_MS with >= 4 good beats;
+//   * everything resets when the finger comes off, so an old value never
+//     carries over.
+#define HR_SAMPLE_MS      10           // 400 sps / 4-sample average = 100 sps
+#define HR_FINGER_IR      50000        // IR below this = nothing on the sensor
+#define HR_NEAR_IR        5000         // above this something is close (for the [HR] serial line)
+#define HR_SETTLE_MS      1500         // ignore beats while the finger settles
+#define HR_MIN_BEATS      4            // good intervals needed before reporting
+#define HR_BUF            8
+static uint16_t gHrIv[HR_BUF];         // last good beat-to-beat intervals, ms
+static uint8_t  gHrIvCount = 0, gHrIvHead = 0, gHrRejects = 0;
+static uint32_t gHrSampleIdx = 0, gHrLastBeatIdx = 0, gHrFingerSince = 0;
+static bool     gHrFinger = false;
+static uint32_t gHrLastIr = 0, gHrBeatsSeen = 0;   // for the "[HR] finger" serial line
+
+static uint16_t hrMedian() {
+  uint16_t t[HR_BUF];
+  for (uint8_t i = 0; i < gHrIvCount; i++) t[i] = gHrIv[i];
+  for (uint8_t i = 1; i < gHrIvCount; i++)            // insertion sort, n <= 8
+    for (uint8_t j = i; j > 0 && t[j - 1] > t[j]; j--) { uint16_t x = t[j]; t[j] = t[j - 1]; t[j - 1] = x; }
+  return t[gHrIvCount / 2];
+}
+
+static void hrReset() {
+  gHrIvCount = gHrIvHead = gHrRejects = 0;
+  gHrLastBeatIdx = 0;
+  gHrBeatsSeen = 0;
+  LOCK(); gHeartRateBpm = 0.0f; UNLOCK();             // 0 -> sent as -1 ("no reading")
+}
 
 static void sensorsInit() {
   Wire.begin(PIN_I2C_SDA, PIN_I2C_SCL);
 
 #if HR_ENABLED
   if (gHrSensor.begin(Wire, I2C_SPEED_FAST)) {
-    gHrSensor.setup();                    // SparkFun defaults
+    // IR carries the pulse: 400 sps averaged x4 = 100 sps, 411 us pulses (18-bit),
+    // 4096 nA range - the MAX30102 datasheet's settings for fingertip PPG.
+    gHrSensor.setup(0x24, 4, 2, 400, 411, 4096);   // brightness ~7 mA, avg 4, Red+IR
     gHrSensor.setPulseAmplitudeRed(0x0A); // dim red LED = "alive" indicator
     gHrSensor.setPulseAmplitudeGreen(0);  // MAX30102 has no green LED
     gHrPresent = true;
@@ -548,16 +687,18 @@ static void sensorsInit() {
   }
 #endif
 
+  // The divider ADC is always set up: it is the fallback whenever the gauge is
+  // missing or drops out.
+  analogReadResolution(12);
+  analogSetPinAttenuation(PIN_BATTERY_ADC, ADC_11db);
+
   Wire1.begin(PIN_FG_SDA, PIN_FG_SCL);   // fuel gauge on its own bus (Rev C2)
-  if (gGauge.begin(Wire1)) {
-    gGauge.quickStart();
-    gGaugePresent = true;
-    Serial.println(F("[BATT] MAX17043 found."));
+  gGaugePresent = gaugeProbe();
+  if (gGaugePresent) {
+    Serial.println(F("[BATT] MAX17043 found - using the fuel gauge."));
   } else {
-    gGaugePresent = false;
-    Serial.println(F("[BATT] MAX17043 NOT found - using ADC divider on GPIO 34."));
-    analogReadResolution(12);
-    analogSetPinAttenuation(PIN_BATTERY_ADC, ADC_11db);
+    Serial.println(F("[BATT] MAX17043 not answering - using the ADC divider on GPIO 34."));
+    Serial.println(F("       (It needs the battery on its JST lead; checked again every 30 s.)"));
   }
 }
 
@@ -565,25 +706,67 @@ static void hrService() {
 #if HR_ENABLED
   if (!gHrPresent) return;
 
-  long irValue = gHrSensor.getIR();
-  if (irValue < 50000) {
-    // Nothing on the sensor — do not report a stale BPM as if it were live.
-    LOCK(); gHeartRateBpm = 0.0f; UNLOCK();
-    return;
+  gHrSensor.check();                                   // pull new samples into the FIFO buffer
+  while (gHrSensor.available()) {
+    uint32_t ir = gHrSensor.getFIFOIR();
+    gHrSensor.nextSample();
+    gHrSampleIdx++;
+    uint32_t tMs = gHrSampleIdx * HR_SAMPLE_MS;
+
+    gHrLastIr = ir;
+    if (ir < HR_FINGER_IR) {                           // no finger (or it lifted)
+      if (gHrFinger) { gHrFinger = false; hrReset(); }
+      continue;
+    }
+    if (!gHrFinger) { gHrFinger = true; gHrFingerSince = tMs; hrReset(); }
+
+    // SparkFun's checkForBeat() is written for 16-bit samples: its DC estimator
+    // takes a uint16_t and a beat only counts if the pulse swing is 20-1000.
+    // This sensor is set to 18 bits (411 us pulses), so a finger reads ~100k-250k:
+    // the value wrapped at 65536 and strong pulses swung past 1000, and beats
+    // were never detected (30 Sep: no heart rate at all). >> 2 brings the full
+    // 18-bit range into 16 bits and a normal pulse into the 20-1000 window.
+    if (!checkForBeat((long)(ir >> 2))) continue;
+    gHrBeatsSeen++;
+    if (tMs - gHrFingerSince < HR_SETTLE_MS) { gHrLastBeatIdx = gHrSampleIdx; continue; }
+    if (gHrLastBeatIdx == 0) { gHrLastBeatIdx = gHrSampleIdx; continue; }
+
+    uint32_t iv = (gHrSampleIdx - gHrLastBeatIdx) * HR_SAMPLE_MS;
+    gHrLastBeatIdx = gHrSampleIdx;
+    if (iv < 333 || iv > 1500) continue;               // outside 40-180 bpm: not a real beat
+
+    if (gHrIvCount >= 3) {                             // reject outliers vs the running median
+      uint16_t med = hrMedian();
+      if (iv < med * 0.75f || iv > med * 1.25f) {
+        if (++gHrRejects >= 4) { gHrIvCount = gHrIvHead = 0; gHrRejects = 0; }  // rhythm really changed: re-learn
+        continue;
+      }
+    }
+    gHrRejects = 0;
+    gHrIv[gHrIvHead] = (uint16_t)iv;
+    gHrIvHead = (gHrIvHead + 1) % HR_BUF;
+    if (gHrIvCount < HR_BUF) gHrIvCount++;
+
+    if (gHrIvCount >= HR_MIN_BEATS) {
+      float bpm = 60000.0f / hrMedian();
+      LOCK(); gHeartRateBpm = bpm; UNLOCK();
+    }
   }
 
-  if (checkForBeat(irValue)) {
-    long now   = millis();
-    long delta = now - gHrLastBeat;
-    gHrLastBeat = now;
-    float bpm = 60.0f / (delta / 1000.0f);
-    if (bpm > 20.0f && bpm < 255.0f) {
-      gHrRates[gHrRateSpot++] = (byte)bpm;
-      gHrRateSpot %= HR_AVG_SIZE;
-      float sum = 0;
-      for (byte i = 0; i < HR_AVG_SIZE; i++) sum += gHrRates[i];
-      LOCK(); gHeartRateBpm = sum / HR_AVG_SIZE; UNLOCK();
-    }
+  // While something is on the sensor: one line every 2 s, so a failed reading
+  // can be diagnosed on the spot (IR level, beats the detector saw, beats
+  // kept). Below HR_FINGER_IR it says so: a finger that reads too weak.
+  static uint32_t lastHrLog = 0;
+  if (gHrLastIr > HR_NEAR_IR && millis() - lastHrLog >= 2000) {
+    lastHrLog = millis();
+    float bpm;
+    LOCK(); bpm = gHeartRateBpm; UNLOCK();
+    if (gHrFinger)
+      Serial.printf("[HR] finger: IR %lu, beats seen %lu, kept %u of %d needed, bpm %.0f\n",
+                    (unsigned long)gHrLastIr, (unsigned long)gHrBeatsSeen, gHrIvCount, HR_MIN_BEATS, bpm);
+    else
+      Serial.printf("[HR] something on the sensor but IR %lu is below the finger level %d\n",
+                    (unsigned long)gHrLastIr, HR_FINGER_IR);
   }
 #endif
 }
@@ -612,12 +795,23 @@ static float lipoPercent(float volts) {
 }
 
 static void batteryService() {
-  float pct, volts;
+  float pct = 0.0f, volts = 0.0f;
 
-  if (gGaugePresent) {
-    volts = gGauge.getVoltage();
-    pct   = gGauge.getSOC();
-  } else {
+  // A gauge found just now has only been quick-started: its SOC needs a moment
+  // to settle, so this read still uses the divider and the gauge takes over on
+  // the next one. Reading it at once could raise a false "battery critical".
+  bool justFound = false;
+  if (!gGaugePresent && gaugeProbe()) {
+    gGaugePresent = justFound = true;
+    Serial.println(F("[BATT] MAX17043 found - switching to the fuel gauge."));
+  }
+  bool fromGauge = gGaugePresent && !justFound && gaugeRead(volts, pct);
+  if (gGaugePresent && !justFound && !fromGauge) {
+    gGaugePresent = false;
+    Serial.println(F("[BATT] MAX17043 stopped answering - back to the ADC divider."));
+  }
+
+  if (!fromGauge) {
     // R3/R4 divider — the primary battery source on Rev B/C. analogReadMilliVolts
     // applies the chip's factory ADC calibration, which a raw count / 4095 does
     // not; averaging takes out the ESP32 ADC's sample-to-sample noise.
@@ -629,7 +823,17 @@ static void batteryService() {
 
   static bool lowSent = false, critSent = false;
 
-  LOCK(); gBatteryPct = pct; gBatteryVolts = volts; UNLOCK();
+  // No cell connected - running from USB or a power bank. The divider then
+  // reads ~0.3 V, which would show as 0 % and raise false battery alerts.
+  // A Li-Po never runs the board below ~2.5 V (the DW01 cuts it off first),
+  // so report "no battery" (-1: the dashboard shows a dash) and raise nothing.
+  if (volts < BATTERY_ABSENT_V) {
+    LOCK(); gBatteryPct = -1.0f; gBatteryVolts = volts; gBattFromGauge = false; UNLOCK();
+    lowSent = critSent = false;
+    return;
+  }
+
+  LOCK(); gBatteryPct = pct; gBatteryVolts = volts; gBattFromGauge = fromGauge; UNLOCK();
 
   if (pct <= BATTERY_CRITICAL_PCT && !critSent) {
     critSent = true;
@@ -648,24 +852,107 @@ static void batteryService() {
 // Networking  (own task — WiFi.begin() and HTTP POSTs block)
 // =============================================================================
 
-static bool httpPost(const char *path, const char *body) {
+// Where reports go: the SESEMSG hub when the wearable joined its network,
+// otherwise the laptop. Set by pickNetwork(); only the network task uses it.
+static const char *gBackendUrl   = BACKEND_BASE_URL;
+static bool        gOnHub        = false;
+static uint8_t     gPostFailRun  = 0;
+
+static bool httpPost(const char *path, const char *body, String *reply = nullptr) {
   if (WiFi.status() != WL_CONNECTED) return false;
 
-  String url = String(BACKEND_BASE_URL) + path;
+  String url = String(gBackendUrl) + path;
   HTTPClient http;
   http.setTimeout(HTTP_TIMEOUT_MS);
   if (!http.begin(url)) return false;
   http.addHeader("Content-Type", "application/json");
   int code = http.POST((uint8_t *)body, strlen(body));
+  if (reply && code > 0 && code < 400) *reply = http.getString();
   http.end();
 
-  if (code > 0 && code < 400) return true;
+  if (code > 0 && code < 400) { gPostFailRun = 0; return true; }
+  if (gPostFailRun < 255) gPostFailRun++;
   Serial.printf("[NET] POST %s failed (code %d)\n", path, code);
   return false;
 }
 
+// True if the hub's network is on the air. A scan takes about 2 s, during
+// which BLE scanning carries on (the radio is shared, zone updates just slow).
+static bool hubInRange() {
+  if (strlen(HUB_SSID) == 0) return false;
+  // A scan fails while a connection attempt is running (30 Sep: the wearable
+  // kept retrying a network that was not there and never saw the hub come
+  // back). Stop any attempt first, and try the scan twice.
+  if (WiFi.status() != WL_CONNECTED) { WiFi.disconnect(); vTaskDelay(pdMS_TO_TICKS(100)); }
+  gRadioBusy = true;
+  int n = WiFi.scanNetworks(false, false, false, 120);
+  if (n < 0) { vTaskDelay(pdMS_TO_TICKS(300)); n = WiFi.scanNetworks(false, false, false, 120); }
+  gRadioBusy = false;
+  bool found = false;
+  for (int i = 0; i < n && !found; i++) found = (WiFi.SSID(i) == HUB_SSID);
+  WiFi.scanDelete();
+  return found;
+}
+
+// The hub wins when it is in range: it is what the defense runs on, and it
+// forwards to the laptop by itself when the laptop is around. Otherwise the
+// building Wi-Fi and the laptop, as before.
+static void pickNetwork(const char *&ssid, const char *&pass) {
+  bool hub = hubInRange() || strlen(WIFI_SSID) == 0;
+  gOnHub      = hub;
+  ssid        = hub ? HUB_SSID : WIFI_SSID;
+  pass        = hub ? HUB_PASSWORD : WIFI_PASSWORD;
+  gBackendUrl = hub ? HUB_BASE_URL : BACKEND_BASE_URL;
+}
+
+// The dashboard answers every status with "sos_open": how many of this
+// wearable's SOS alerts are still waiting for a caregiver. Once our SOS has
+// reached it and none is open any more (acknowledged on the dashboard, or
+// cleared), the wearable leaves SOS mode: LED back to the heartbeat blink,
+// and the next press raises a NEW alert. Before this, SOS mode only ended with
+// a 3 s hold, so the LED stayed lit and later presses sent nothing.
+static void handleStatusReply(const String &reply) {
+  StaticJsonDocument<192> r;
+  if (deserializeJson(r, reply) || !r.containsKey("sos_open")) return;   // older dashboard: ignore
+  int open = r["sos_open"] | -1;
+  bool active;
+  LOCK(); active = gSosActive; UNLOCK();
+  if (active && gSosDelivered && open == 0) gSosAckPending = true;
+}
+
+// "Up" means an IP address, not just the WiFi status: right after a
+// disconnect() the status still reads WL_CONNECTED for a moment, and reports
+// sent then fail with "host unreachable" (seen 29 Sep while moving to the hub).
+static bool linkUp() {
+  return WiFi.status() == WL_CONNECTED && WiFi.localIP() != IPAddress((uint32_t)0);
+}
+
+// Drop the link and wait until the stack agrees it is down (max 1 s).
+static void linkDrop() {
+  WiFi.disconnect();
+  uint32_t t0 = millis();
+  while (WiFi.status() == WL_CONNECTED && millis() - t0 < 1000) vTaskDelay(pdMS_TO_TICKS(50));
+}
+
+// One line per WiFi event, so a failed connection says why.
+static void onWifiEvent(WiFiEvent_t ev, WiFiEventInfo_t info) {
+  if (ev == ARDUINO_EVENT_WIFI_STA_GOT_IP) {
+    Serial.printf("[NET] got IP %s (gateway %s)\n", IPAddress(info.got_ip.ip_info.ip.addr).toString().c_str(),
+                  IPAddress(info.got_ip.ip_info.gw.addr).toString().c_str());
+  } else if (ev == ARDUINO_EVENT_WIFI_STA_DISCONNECTED) {
+    Serial.printf("[NET] WiFi dropped, reason %u\n", info.wifi_sta_disconnected.reason);
+  } else if (ev == ARDUINO_EVENT_WIFI_STA_LOST_IP) {
+    Serial.println(F("[NET] lost IP address"));
+  }
+}
+
 static void taskNetwork(void *arg) {
-  const bool wifiConfigured = (strlen(WIFI_SSID) > 0);
+  WiFi.onEvent(onWifiEvent);
+  // Reconnection is this task's job (every WIFI_RETRY_PERIOD_MS, choosing the
+  // network each time). The core's own auto-reconnect retried a missing
+  // network back to back and blocked the scan that would find the hub.
+  WiFi.setAutoReconnect(false);
+  const bool wifiConfigured = (strlen(WIFI_SSID) > 0) || (strlen(HUB_SSID) > 0);
 
   if (!wifiConfigured) {
     Serial.println(F("[NET] WIFI_SSID is empty - running offline."));
@@ -673,26 +960,53 @@ static void taskNetwork(void *arg) {
     Serial.println(F("      over Serial and needs no backend."));
   }
 
-  uint32_t lastAttempt = 0, lastStatus = 0, lastChirp = 0;
+  // First attempt at once (was: 20 s after boot, the whole retry period).
+  uint32_t lastAttempt = millis() - WIFI_RETRY_PERIOD_MS - 1, lastStatus = 0, lastChirp = 0;
+  uint32_t lastHubCheck = millis();
 
   for (;;) {
-    bool up = (WiFi.status() == WL_CONNECTED);
+    bool up = linkUp();
     if (up != gWifiUp) {
       gWifiUp = up;
       Serial.printf("[NET] WiFi %s%s\n", up ? "connected, IP " : "disconnected",
                     up ? WiFi.localIP().toString().c_str() : "");
     }
 
+    // Connected but the server keeps failing (laptop switched off, or the hub
+    // came up after we joined the building Wi-Fi), or the hub has appeared
+    // while we are on the fallback network: drop the link and choose again.
+    if (up && gPostFailRun >= POST_FAILS_TO_SWITCH) {
+      Serial.printf("[NET] %u failed reports in a row - choosing the network again\n", gPostFailRun);
+      gPostFailRun = 0;
+      linkDrop();
+      lastAttempt = millis() - WIFI_RETRY_PERIOD_MS - 1;
+      up = false;
+    } else if (up && !gOnHub && strlen(HUB_SSID) > 0 && millis() - lastHubCheck >= HUB_RECHECK_MS) {
+      lastHubCheck = millis();
+      if (hubInRange()) {
+        Serial.println(F("[NET] Hub SESEMSG is on the air - moving to it"));
+        linkDrop();
+        lastAttempt = millis() - WIFI_RETRY_PERIOD_MS - 1;
+        up = false;
+      }
+    }
+
     if (wifiConfigured && !up && millis() - lastAttempt > WIFI_RETRY_PERIOD_MS) {
       lastAttempt = millis();
-      Serial.printf("[NET] Connecting to \"%s\" ...\n", WIFI_SSID);
+      lastHubCheck = millis();
       WiFi.mode(WIFI_STA);
-      WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
+      const char *ssid, *pass;
+      pickNetwork(ssid, pass);
+      Serial.printf("[NET] Connecting to \"%s\" (server %s) ...\n", ssid, gBackendUrl);
+      gRadioBusy = true;
+      WiFi.begin(ssid, pass);
       uint32_t t0 = millis();
-      while (WiFi.status() != WL_CONNECTED &&
-             millis() - t0 < WIFI_CONNECT_TIMEOUT_MS) {
+      while (!linkUp() && millis() - t0 < WIFI_CONNECT_TIMEOUT_MS) {
+        wl_status_t st = WiFi.status();
+        if (millis() - t0 > 1500 && (st == WL_NO_SSID_AVAIL || st == WL_CONNECT_FAILED)) break;   // not there: stop waiting
         vTaskDelay(pdMS_TO_TICKS(250));
       }
+      gRadioBusy = false;
     }
 
     // Periodic status heartbeat. Queued only while the link is up: a status is
@@ -713,7 +1027,30 @@ static void taskNetwork(void *arg) {
     if (gWifiUp) {
       QueuedEvent ev;
       if (queuePeek(ev)) {
-        if (httpPost(ev.path, ev.body)) queuePop();
+        bool   isStatus = (strcmp(ev.path, ENDPOINT_STATUS) == 0);
+        String reply;
+        if (httpPost(ev.path, ev.body, isStatus ? &reply : nullptr)) {
+          queuePop();
+          if (strcmp(ev.path, ENDPOINT_ALERT) == 0 && strstr(ev.body, "\"type\":\"sos\""))
+            gSosDelivered = true;
+          // Raised -> stored by the server (it replies only after storing), on
+          // the wearable's own clock: the alert-latency figure for Chapter 4,
+          // the same whether the server is the hub or the laptop.
+          if (strcmp(ev.path, ENDPOINT_ALERT) == 0) {
+            const char *t = strstr(ev.body, "\"type\":\"");
+            char type[24] = "?";
+            if (t) {
+              t += 8;
+              size_t n = strcspn(t, "\"");
+              if (n >= sizeof(type)) n = sizeof(type) - 1;
+              memcpy(type, t, n);
+              type[n] = 0;
+            }
+            Serial.printf("[DELIVERED] %s %lu ms after it was raised (server %s)\n", type,
+                          (unsigned long)(millis() - ev.at), gOnHub ? "hub" : "laptop");
+          }
+          if (isStatus) handleStatusReply(reply);
+        }
       }
     } else if (millis() - lastChirp >= OFFLINE_CHIRP_PERIOD_MS) {
       // WiFi-down local fallback: PROPOSED, not yet adviser-confirmed.
@@ -753,6 +1090,8 @@ static void printStatusLine() {
   int   zi   = gCurrentZoneIdx;
   float bpm  = gHeartRateBpm;
   float bpct = gBatteryPct;
+  float bv   = gBatteryVolts;
+  bool  bsrc = gBattFromGauge;
   bool  sos  = gSosActive;
   UNLOCK();
 
@@ -762,10 +1101,11 @@ static void printStatusLine() {
                 (unsigned long)gAdvSeen, (unsigned long)gAdvMfg,
                 (unsigned long)gAdvIBeacon, (unsigned long)gAdvOurs);
 #endif
-  Serial.printf("[STAT] zone=%s hr=%.0f batt=%.0f%% sos=%s wifi=%s q=%u\n",
+  // New fields go at the END of the line: tools/rssi_calibration parses the start.
+  Serial.printf("[STAT] zone=%s hr=%.0f batt=%.0f%% sos=%s wifi=%s q=%u bv=%.2f src=%s\n",
                 (zi >= 0) ? kZones[zi].name : "unknown",
                 bpm, bpct, sos ? "YES" : "no",
-                gWifiUp ? "up" : "down", gQCount);
+                gWifiUp ? "up" : "down", gQCount, bv, bsrc ? "gauge" : "adc");
 }
 
 // =============================================================================
@@ -824,15 +1164,19 @@ void setup() {
   xTaskCreatePinnedToCore(taskBle,     "ble", 6144, nullptr, 1, nullptr, 1);
   xTaskCreatePinnedToCore(taskNetwork, "net", 8192, nullptr, 1, nullptr, 0);
 
-  Serial.println(F("[SYS] Running. Short press = SOS, long press = dismiss."));
+  Serial.println(F("[SYS] Running. Press = SOS, hold 3 s = dismiss."));
 }
 
 void loop() {
-  static uint32_t lastTick = 0, lastHr = 0, lastBatt = 0, lastLog = 0;
+  static uint32_t lastTick = 0, lastHr = 0, lastLog = 0;
+  // First battery read 5 s after boot (not 30 s): unsigned wrap-around makes
+  // now - lastBatt reach BATTERY_READ_PERIOD_MS at now = 5000.
+  static uint32_t lastBatt = (uint32_t)(5000 - BATTERY_READ_PERIOD_MS);
   uint32_t now = millis();
 
   sosService();
   buzzerService();
+  ledService();
 
   if (now - lastHr >= HR_SAMPLE_PERIOD_MS)      { lastHr = now;   hrService(); }
   if (now - lastBatt >= BATTERY_READ_PERIOD_MS) { lastBatt = now; batteryService(); }

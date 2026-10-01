@@ -1,0 +1,30 @@
+digraph Z { #include
+  s  [label="Every 200 ms", style=rounded];
+  a  [label="Drop beacons silent 2.5 s\nor below −88 dBm"];
+  d1 [label="Any beacon\nleft?", shape=diamond];     cA [label="A", shape=circle, width=0.3, fixedsize=true];
+  d2 [label="Zone\nunknown?", shape=diamond];         t  [label="Zone =\nstrongest"];
+  d3 [label="Strongest\n= current?", shape=diamond];  e1 [label="Reset;\nend", style=rounded];
+  d4 [label="Lead\n> 5 dB?", shape=diamond];          e2 [label="Reset;\nend", style=rounded];
+  p  [label="Hold 0.4 s if lead ≥ 10 dB,\notherwise 1.6 s"];
+  d5 [label="Held\nthroughout?", shape=diamond];     e3 [label="End", style=rounded];
+  c  [label="Zone = challenger"];
+  d6 [label="Restricted?", shape=diamond];          ar [label="Buzzer; send\n\"restricted zone\"", shape=parallelogram];
+  az [label="Send \"moved zone\"", shape=parallelogram];
+  e4 [label="End", style=rounded];
+  cA2 [label="A", shape=circle, width=0.3, fixedsize=true];
+  n1 [label="Zone known and\nradio free?", shape=diamond]; e5 [label="End", style=rounded];
+  n2 [label="No-beacon count + 1"];
+  n3 [label="Count ≥ 30\n(6 s)?", shape=diamond];      e6 [label="End", style=rounded];
+  n4 [label="Zone = unknown; send\n\"location unknown\"", shape=parallelogram];
+  e7 [label="End", style=rounded];
+  s->a->d1; d1->cA [xlabel="No"]; d1->d2 [xlabel="Yes"];
+  d2->t [xlabel="Yes"]; d2->d3 [xlabel="No"]; t->d6;
+  d3->e1 [xlabel="Yes"]; d3->d4 [xlabel="No"];
+  d4->e2 [xlabel="No"]; d4->p [xlabel="Yes"]; p->d5;
+  d5->e3 [xlabel="No"]; d5->c [xlabel="Yes"]; c->d6;
+  d6->ar [xlabel="Yes"]; d6->az [xlabel="No"]; ar->e4; az->e4;
+  e4->cA2 [style=invis];
+  cA2->n1; n1->e5 [xlabel="No"]; n1->n2 [xlabel="Yes"]; n2->n3; n3->e6 [xlabel="No"]; n3->n4 [xlabel="Yes"]; n4->e7;
+  {rank=same; d1; cA;} {rank=same; d2; t;} {rank=same; d3; e1;} {rank=same; d4; e2;} {rank=same; d5; e3;} {rank=same; d6; ar;}
+  {rank=same; n1; e5;} {rank=same; n3; e6;}
+}

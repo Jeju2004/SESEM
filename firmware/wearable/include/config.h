@@ -18,11 +18,11 @@
 #define BEACON_UUID            "5ca9015e-adc8-40a9-a1e2-d539f3b065bd"
 #define BEACON_MAJOR           1
 
-// Scan cadence. Each "tick" is one classify pass over the RSSI table. 300 ms
-// is a compromise between responsiveness and current draw. The radio duty
+// Scan cadence. Each "tick" is one classify pass over the RSSI table.
+// 200 ms since 29 Sep (was 300): faster room entry/exit for the demo. The radio duty
 // cycle itself (scan interval/window, active vs passive) is set by
 // POWER_PROFILE below.
-#define SCAN_TICK_MS           300
+#define SCAN_TICK_MS           200
 
 // -----------------------------------------------------------------------------
 // Power profile
@@ -55,18 +55,34 @@
 #endif
 
 // An RSSI reading older than this is discarded: the beacon is out of range.
-#define BEACON_STALE_MS        4000
+#define BEACON_STALE_MS        2500   // was 4000: leaving a room registers ~1.5 s sooner
 
 // Exponential moving average applied to each beacon's RSSI.
 // new = alpha*sample + (1-alpha)*old. Lower alpha = smoother but slower.
-#define RSSI_EMA_ALPHA         0.35f
+#define RSSI_EMA_ALPHA         0.4f   // was 0.35: a little faster; the adaptive confirm below stops flicker
 
 // Hysteresis. To take over as current zone, a challenger must beat the
-// incumbent by HYSTERESIS_DB and keep doing so for CONFIRM_TICKS ticks.
-// At 300 ms/tick, 3 ticks = ~900 ms minimum dwell before a zone change.
+// incumbent by HYSTERESIS_DB and keep doing so for a number of ticks that
+// depends on HOW CLEARLY it leads (adaptive confirm, 29 Sep):
+//   lead >= FAST_LEAD_DB  -> CONFIRM_TICKS_FAST ticks (a clear room change)
+//   smaller lead          -> CONFIRM_TICKS_SLOW ticks (two beacons of similar
+//                            strength: people moving near the wearable or a
+//                            beacon swing BLE by 5-15 dB, which made the
+//                            dashboard jump between two rooms)
+// At 200 ms/tick, 2 ticks = ~400 ms minimum dwell before a zone change
+// (was 300 ms x 3 = ~900 ms).
 // Test 3 in the test guide tunes both numbers.
-#define HYSTERESIS_DB          4.0f
-#define CONFIRM_TICKS          3
+#define HYSTERESIS_DB          5.0f   // was 4
+#define FAST_LEAD_DB           10.0f
+#define CONFIRM_TICKS_FAST     2      // x 200 ms = 0.4 s
+#define CONFIRM_TICKS_SLOW     8      // x 200 ms = 1.6 s
+// 'No beacon at all' must hold for this many ticks, AFTER the BEACON_STALE_MS
+// timeout, before the zone becomes unknown: 30 x 200 ms = 6 s, so about 8.5 s
+// with no beacon heard. Was 2 ticks (0.4 s, about 3 s in all), which raised
+// "Location unknown" at every doorway and hallway and whenever a WiFi scan
+// briefly took the shared radio away from BLE (1 Oct, house test). The
+// dashboard keeps showing the last zone meanwhile.
+#define ZONE_LOST_CONFIRM_TICKS 30
 
 // Below this smoothed RSSI, a beacon is considered too weak to count as
 // "the room I am in" at all. Placeholder — Test 1 gives the real floor.
@@ -107,21 +123,34 @@
 // -----------------------------------------------------------------------------
 #define PIN_SOS_BUTTON         27       // to GND, INPUT_PULLUP
 #define PIN_BUZZER             25       // NPN driver base via resistor
-#define PIN_STATUS_LED         2        // on-board LED on most devkits
+#define PIN_STATUS_LED         2        // on-board LED on most devkits, and D2 on the PCB
+#define LED_HEARTBEAT_PERIOD_MS 2000    // one short "alive" blink this often
+#define LED_HEARTBEAT_ON_MS    60
 #define PIN_I2C_SDA            22       // was 21 - swapped for the Rev C single-layer PCB
 #define PIN_I2C_SCL            21       // was 22 - swapped for the Rev C single-layer PCB
 // Rev C2: the MAX17043 fuel gauge has its own I2C bus (Wire1) so both modules
 // route on one copper layer. The heart-rate bus above is unchanged.
 #define PIN_FG_SDA             4
 #define PIN_FG_SCL             16
+#define FG_I2C_ADDR            0x36     // MAX17043 7-bit address
 
 // -----------------------------------------------------------------------------
 // SOS button
 // -----------------------------------------------------------------------------
 #define BUTTON_DEBOUNCE_MS     40
-// Short press = raise alert. Long press = dismiss a false alarm.
+// Press = raise alert (on the press, not the release). Hold = dismiss a false alarm.
 // 3000 ms is the adviser's PROPOSED value and is NOT yet confirmed.
 #define SOS_LONG_PRESS_MS      3000
+
+// SOS button patterns (30 Sep 2026, team request). Quick presses choose how
+// urgent the message to the caregivers is; the alert goes out once the
+// pattern is complete - SOS_PATTERN_GAP_MS after the last press - with 1, 2 or
+// 3 confirmation beeps. A stronger pattern while an SOS is still open
+// escalates it. PROPOSED wording: confirm it with the adviser.
+#define SOS_PATTERN_GAP_MS     700
+#define SOS_MSG_1              "Needs assistance"
+#define SOS_MSG_2              "URGENT - please come now"
+#define SOS_MSG_3              "EMERGENCY - immediate help needed"
 
 // -----------------------------------------------------------------------------
 // Heart rate (MAX30102)
@@ -144,6 +173,7 @@
 #define PIN_BATTERY_ADC        34
 #define BATTERY_DIVIDER_RATIO  2.0f     // R3 = R4 = 100 k
 #define BATTERY_ADC_SAMPLES    16       // averaged per read; one sample is too noisy
+#define BATTERY_ABSENT_V       2.5f     // below this no cell is connected (USB / power bank): report "no battery"
 // Voltage -> percentage uses the piecewise Li-Po table in main.cpp
 // (kLipoCurve), not a straight line: the cell sits near 3.7-3.8 V for most of
 // its discharge, so a linear map would misreport the middle of the range.
@@ -170,8 +200,23 @@
 #ifndef BACKEND_BASE_URL
   #define BACKEND_BASE_URL     "http://192.168.1.100:8000"
 #endif
+// The SESEMSG hub (door node built with env esp32hub) - optional. When its
+// network is in range the wearable reports to it and needs no laptop;
+// otherwise it uses WIFI_SSID and the laptop at BACKEND_BASE_URL as before.
+#ifndef HUB_SSID
+  #define HUB_SSID             ""
+#endif
+#ifndef HUB_PASSWORD
+  #define HUB_PASSWORD         ""
+#endif
+#ifndef HUB_BASE_URL
+  #define HUB_BASE_URL         "http://192.168.4.1"
+#endif
+#define HUB_RECHECK_MS         60000    // on the fallback network: look for the hub this often
+#define POST_FAILS_TO_SWITCH   4        // this many failed POSTs in a row: pick the network again
+
 #define WIFI_CONNECT_TIMEOUT_MS 15000
-#define WIFI_RETRY_PERIOD_MS   20000
+#define WIFI_RETRY_PERIOD_MS   10000    // was 20 s: back on the hub sooner after it restarts
 
 #define ENDPOINT_STATUS        "/api/v1/status"
 #define ENDPOINT_ALERT         "/api/v1/alert"

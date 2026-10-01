@@ -1,0 +1,4 @@
+(sym_lib_table
+  (version 7)
+  (lib (name "TroDes")(type "KiCad")(uri "${KIPRJMOD}/TroDes.kicad_sym")(options "")(descr "TroDes project symbols"))
+)

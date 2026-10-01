@@ -1,0 +1,13 @@
+digraph M { #include
+  s  [label="Power on", style=rounded];
+  i  [label="Initialise pins, buzzer,\nheart-rate sensor"];
+  t  [label="Start BLE task and\nnetwork task (Fig. 4)"];
+  a  [label="SOS button service\n(Fig. 6)"];
+  b  [label="Buzzer and LED service"];
+  h  [label="20 ms?", shape=diamond];  h1 [label="Read heart\nrate"];
+  v  [label="30 s?", shape=diamond];   v1 [label="Read battery\nvoltage"];
+  z  [label="200 ms?", shape=diamond]; z1 [label="Classify zone\n(Fig. 5)"];
+  s->i->t->a->b->h; h->h1 [xlabel="Yes"]; h->v [xlabel="No"]; h1->v;
+  v->v1 [xlabel="Yes"]; v->z [xlabel="No"]; v1->z; z->z1 [xlabel="Yes"]; z->a [xlabel="No"]; z1->a;
+  {rank=same; h; h1;} {rank=same; v; v1;} {rank=same; z; z1;}
+}

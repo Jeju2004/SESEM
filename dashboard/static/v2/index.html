@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#f5f7fc">
+  <title>SESEMSG</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%237d9cf0'/%3E%3Ccircle cx='16' cy='16' r='5' fill='white'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="/static/v2/home.css">
+  <script>
+    /* Theme before first paint (no light flash in dark mode). Follows the
+       phone's own light/dark setting; the theme button only overrides it until
+       the phone's setting next changes (see home.js). 'trodes.theme' was the
+       old permanent choice - dropped, it pinned phones to one theme. */
+    (function () {
+      var t = null;
+      try { localStorage.removeItem('trodes.theme'); t = localStorage.getItem('trodes.themeOverride'); } catch (e) {}
+      if (t !== 'light' && t !== 'dark') t = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      document.documentElement.setAttribute('data-theme', t);
+    })();
+  </script>
+</head>
+<!-- TroDes caregiver dashboard, "home" layout (v2). Same data and rules as the
+     original page (/): it only changes the presentation. Alerts still sit on top
+     and cannot be scrolled away; a silent device is "Not reporting", never its
+     last good state; an offline door node is never drawn as closed. -->
+<body>
+
+<!-- Passcode lock (shown only when the server has a passcode set) -->
+<section class="lock" id="lock" aria-label="Enter passcode">
+  <button class="icon-btn theme-btn" type="button" data-theme-toggle aria-label="Switch light or dark theme"></button>
+  <div class="lock-mark"><svg viewBox="0 0 24 24"><path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg></div>
+  <h1>SESEMSG</h1>
+  <p id="lock-msg">Enter passcode</p>
+  <div class="dots" id="dots"></div>
+  <div class="keypad" id="keypad">
+    <button type="button" data-k="1">1</button><button type="button" data-k="2">2</button><button type="button" data-k="3">3</button>
+    <button type="button" data-k="4">4</button><button type="button" data-k="5">5</button><button type="button" data-k="6">6</button>
+    <button type="button" data-k="7">7</button><button type="button" data-k="8">8</button><button type="button" data-k="9">9</button>
+    <button type="button" class="fn" data-k="clear">Clear</button><button type="button" data-k="0">0</button><button type="button" class="fn" data-k="del" aria-label="Delete">&#9003;</button>
+  </div>
+</section>
+
+<div class="phone">
+
+  <div id="sticky">
+    <div id="banner"></div>
+    <div id="notice"></div>
+  </div>
+
+  <header class="hello">
+    <div class="avatar" id="avatar">?</div>
+    <div class="hello-text">
+      <span id="greet">Welcome,</span>
+      <input id="caregiver" type="text" placeholder="Tap to add your name" readonly autocomplete="off" autocorrect="off" spellcheck="false" autocapitalize="words" maxlength="40" enterkeyhint="done" aria-label="Caregiver on duty">
+    </div>
+    <button class="icon-btn" type="button" data-theme-toggle aria-label="Switch light or dark theme"></button>
+    <button class="icon-btn hidden" id="lock-btn" type="button" aria-label="Lock">
+      <svg viewBox="0 0 24 24"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
+    </button>
+    <button class="icon-btn" id="bell" type="button" aria-label="Alerts">
+      <svg viewBox="0 0 24 24"><path d="M6 8a6 6 0 1 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>
+      <span class="bell-dot" id="bell-dot"></span>
+    </button>
+  </header>
+
+  <main>
+    <!-- HOME -->
+    <section class="tab" id="tab-home">
+      <div class="bento">
+        <article class="tile hero" id="hero"></article>
+        <article class="tile small" id="door-tile"></article>
+        <article class="tile small" id="hr-tile"></article>
+      </div>
+
+      <article class="map-card" id="map-card">
+        <div class="map-top">
+          <span class="map-title">
+            <svg viewBox="0 0 24 24"><path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M1.42 9a16 16 0 0 1 21.16 0"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><circle cx="12" cy="20" r="1"/></svg>
+            <span id="facility">Facility</span>
+          </span>
+          <span class="live" id="live"><i></i><b id="live-text">Live</b></span>
+        </div>
+        <svg class="plan" id="plan" viewBox="0 0 320 190" aria-label="Floor plan"></svg>
+        <div class="map-chips" id="map-chips"></div>
+      </article>
+
+      <div class="zones" id="zones"></div>
+    </section>
+
+    <!-- ALERTS -->
+    <section class="tab" id="tab-alerts" hidden>
+      <h2>Active alerts</h2>
+      <div id="alerts"></div>
+      <h2>Doors</h2>
+      <div id="doors"></div>
+    </section>
+
+    <!-- ACTIVITY -->
+    <section class="tab" id="tab-activity" hidden>
+      <h2>Recent activity</h2>
+      <div id="recent"></div>
+      <p class="foot-note">Times follow the server clock. <a href="/classic">Classic view</a></p>
+    </section>
+  </main>
+
+  <nav class="tabs">
+    <button type="button" data-tab="home" class="on">
+      <svg viewBox="0 0 24 24"><path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg>Home</button>
+    <button type="button" data-tab="alerts">
+      <svg viewBox="0 0 24 24"><path d="M12 9v4"/><path d="M12 17h.01"/><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/></svg>Alerts<span class="tab-badge" id="tab-badge"></span></button>
+    <button type="button" data-tab="activity">
+      <svg viewBox="0 0 24 24"><path d="M3 12h4l3-8 4 16 3-8h4"/></svg>Activity</button>
+  </nav>
+</div>
+<script src="/static/v2/home.js"></script>
+</body>
+</html>

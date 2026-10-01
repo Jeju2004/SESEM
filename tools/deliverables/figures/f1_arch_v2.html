@@ -1,0 +1,102 @@
+<!doctype html>
+<!-- Source of figures/f1_arch_v2.png (Fig. 3.1 / deck slide 4). Render:
+     msedge --headless=new --hide-scrollbars --window-size=1860,860 --force-device-scale-factor=1 --screenshot=f1_arch_v2.png f1_arch_v2.html -->
+<html><head><meta charset="utf-8">
+<style>
+  body { margin: 0; background: #fff; font-family: Calibri, "Segoe UI", Arial, sans-serif; }
+  svg text { font-family: Calibri, "Segoe UI", Arial, sans-serif; }
+</style></head>
+<body>
+<svg width="1860" height="860" viewBox="0 0 1860 860" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#0E5E6F"/></marker>
+    <marker id="g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#8A969C"/></marker>
+  </defs>
+
+  <!-- panel titles -->
+  <text x="20" y="38" font-size="27" font-weight="700" fill="#0B2F3A">(a) Stand-alone hub — demonstrated: no computer, no router, no internet</text>
+  <text x="1290" y="38" font-size="27" font-weight="700" fill="#0B2F3A">(b) Facility network (alternative)</text>
+
+  <!-- beacons -->
+  <text x="20" y="92" font-size="21" font-weight="700" fill="#5F6B73">Zone beacons (BLE iBeacon, +9 dBm)</text>
+  <rect x="20" y="108" width="300" height="96" rx="14" fill="#2A9D8F"/>
+  <text x="170" y="150" font-size="27" font-weight="700" fill="#fff" text-anchor="middle">Bedroom Wing</text>
+  <text x="170" y="182" font-size="21" fill="#fff" text-anchor="middle">zone 1 · safe</text>
+  <rect x="20" y="222" width="300" height="96" rx="14" fill="#2A9D8F"/>
+  <text x="170" y="264" font-size="27" font-weight="700" fill="#fff" text-anchor="middle">Dining Hall</text>
+  <text x="170" y="296" font-size="21" fill="#fff" text-anchor="middle">zone 2 · safe</text>
+  <rect x="20" y="336" width="300" height="96" rx="14" fill="#E4572E"/>
+  <text x="170" y="378" font-size="27" font-weight="700" fill="#fff" text-anchor="middle">Medicine Room</text>
+  <text x="170" y="410" font-size="21" fill="#fff" text-anchor="middle">zone 11 · restricted</text>
+
+  <!-- wearable -->
+  <line x1="330" y1="270" x2="408" y2="270" stroke="#0E5E6F" stroke-width="4" marker-end="url(#a)"/>
+  <text x="369" y="232" font-size="19" fill="#5F6B73" text-anchor="middle">RSSI</text>
+  <rect x="418" y="170" width="330" height="200" rx="14" fill="#0E5E6F"/>
+  <text x="583" y="214" font-size="28" font-weight="700" fill="#fff" text-anchor="middle">Wearable</text>
+  <text x="583" y="248" font-size="20" fill="#fff" text-anchor="middle">ESP32 · strongest beacon wins</text>
+  <text x="583" y="276" font-size="20" fill="#fff" text-anchor="middle">SOS button (1–3 presses) · buzzer · LED</text>
+  <text x="583" y="304" font-size="20" fill="#fff" text-anchor="middle">MAX30102 heart rate · battery</text>
+  <text x="583" y="336" font-size="18" fill="#CFE8EA" text-anchor="middle">queues events while offline</text>
+
+  <!-- door node hub -->
+  <line x1="758" y1="270" x2="836" y2="270" stroke="#0E5E6F" stroke-width="4" marker-end="url(#a)"/>
+  <text x="797" y="232" font-size="19" fill="#5F6B73" text-anchor="middle">Wi-Fi</text>
+  <text x="797" y="254" font-size="17" fill="#5F6B73" text-anchor="middle">WPA2</text>
+  <rect x="846" y="120" width="380" height="330" rx="14" fill="#E4572E"/>
+  <text x="1036" y="164" font-size="28" font-weight="700" fill="#fff" text-anchor="middle">Door node = SESEMSG hub</text>
+  <text x="1036" y="196" font-size="20" fill="#fff" text-anchor="middle">ESP32 · reed switch on the restricted door</text>
+  <line x1="872" y1="214" x2="1200" y2="214" stroke="#F6B8A6" stroke-width="2"/>
+  <text x="872" y="246" font-size="20" fill="#fff">• own Wi-Fi network "SESEMSG"</text>
+  <text x="872" y="276" font-size="20" fill="#fff">• captive portal: page opens on joining</text>
+  <text x="872" y="306" font-size="20" fill="#fff">• serves the caregiver dashboard</text>
+  <text x="872" y="336" font-size="20" fill="#fff">• alert rules, passcode, acknowledge</text>
+  <text x="872" y="366" font-size="20" fill="#fff">• "not reporting" watchdog (30 s)</text>
+  <text x="872" y="396" font-size="20" fill="#fff">• sos_open → wearable clears its SOS</text>
+  <text x="1036" y="432" font-size="17" fill="#FDE3DA" text-anchor="middle">same API as the computer server</text>
+
+  <!-- phones -->
+  <line x1="1036" y1="460" x2="1036" y2="528" stroke="#0E5E6F" stroke-width="4" marker-end="url(#a)" marker-start="url(#a)"/>
+  <rect x="846" y="538" width="380" height="150" rx="14" fill="#0B2F3A"/>
+  <text x="1036" y="582" font-size="27" font-weight="700" fill="#fff" text-anchor="middle">Caregiver phones (up to 7)</text>
+  <text x="1036" y="616" font-size="20" fill="#fff" text-anchor="middle">scan QR → join → dashboard</text>
+  <text x="1036" y="646" font-size="20" fill="#fff" text-anchor="middle">SOS alarm sound · vibration</text>
+  <text x="1036" y="674" font-size="18" fill="#9FC7CC" text-anchor="middle">passcode protected</text>
+
+  <!-- divider -->
+  <line x1="1262" y1="60" x2="1262" y2="820" stroke="#C9D6D9" stroke-width="2" stroke-dasharray="8 8"/>
+
+  <!-- (b) facility network -->
+  <rect x="1290" y="108" width="250" height="84" rx="14" fill="#0E5E6F"/>
+  <text x="1415" y="146" font-size="24" font-weight="700" fill="#fff" text-anchor="middle">Wearable</text>
+  <text x="1415" y="176" font-size="18" fill="#fff" text-anchor="middle">same firmware</text>
+  <rect x="1580" y="108" width="260" height="84" rx="14" fill="#E4572E"/>
+  <text x="1710" y="146" font-size="24" font-weight="700" fill="#fff" text-anchor="middle">Door node</text>
+  <text x="1710" y="176" font-size="18" fill="#fff" text-anchor="middle">normal build</text>
+  <line x1="1415" y1="202" x2="1500" y2="262" stroke="#0E5E6F" stroke-width="4" marker-end="url(#a)"/>
+  <line x1="1710" y1="202" x2="1630" y2="262" stroke="#0E5E6F" stroke-width="4" marker-end="url(#a)"/>
+  <rect x="1440" y="272" width="250" height="84" rx="14" fill="#0B2F3A"/>
+  <text x="1565" y="310" font-size="24" font-weight="700" fill="#fff" text-anchor="middle">Facility Wi-Fi</text>
+  <text x="1565" y="340" font-size="18" fill="#fff" text-anchor="middle">building network</text>
+  <line x1="1565" y1="366" x2="1565" y2="416" stroke="#0E5E6F" stroke-width="4" marker-end="url(#a)"/>
+  <rect x="1400" y="426" width="330" height="96" rx="14" fill="#0E5E6F"/>
+  <text x="1565" y="466" font-size="24" font-weight="700" fill="#fff" text-anchor="middle">Dashboard computer</text>
+  <text x="1565" y="498" font-size="18" fill="#fff" text-anchor="middle">FastAPI · SQLite history</text>
+  <line x1="1565" y1="532" x2="1565" y2="580" stroke="#0E5E6F" stroke-width="4" marker-end="url(#a)"/>
+  <rect x="1400" y="590" width="330" height="80" rx="14" fill="#0B2F3A"/>
+  <text x="1565" y="638" font-size="23" font-weight="700" fill="#fff" text-anchor="middle">Caregiver browsers</text>
+
+  <!-- further study: cloud relay -->
+  <rect x="1290" y="712" width="550" height="108" rx="14" fill="#fff" stroke="#8A969C" stroke-width="2.5" stroke-dasharray="10 7"/>
+  <text x="1565" y="750" font-size="21" font-weight="700" fill="#5F6B73" text-anchor="middle">Further study: cloud relay for remote viewing</text>
+  <text x="1565" y="780" font-size="18" fill="#5F6B73" text-anchor="middle">hub pushes a summary over HTTPS; phones on any network</text>
+  <text x="1565" y="806" font-size="18" fill="#5F6B73" text-anchor="middle">(built and tested locally, not deployed — hosting is an open decision)</text>
+  <path d="M1226,420 C1250,560 1262,740 1284,760" fill="none" stroke="#8A969C" stroke-width="3" stroke-dasharray="9 7" marker-end="url(#g)"/>
+
+  <!-- footnote -->
+  <text x="20" y="742" font-size="20" font-style="italic" fill="#5F6B73">JSON over HTTP in both modes: status every 5 s, alerts at once; the wearable queues events while the network is down and</text>
+  <text x="20" y="770" font-size="20" font-style="italic" fill="#5F6B73">moves between (a) and (b) by itself — it prefers the hub when "SESEMSG" is on the air.</text>
+</svg>
+</body></html>

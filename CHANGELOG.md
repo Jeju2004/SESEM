@@ -3,6 +3,384 @@
 Dated record of every code change. Newest first. Each entry says what changed,
 why, and whether it has been verified on hardware.
 
+## 2026-10-01 — defense deck v0.4: team outline, SDG slide, enclosures
+
+- **`tools/deliverables/deck.js` → `TroDes_Defense_Presentation_DRAFT_v0.4.pptx`.**
+  The order now follows the team's outline and the adviser's briefing, with the live demo inside the 10 minutes:
+  1. title;
+  2. introduction;
+  3. background;
+  4. system architecture;
+  5. hardware and enclosures;
+  6. how it decides;
+  7. design constraints;
+  8. standards;
+  9. SDG;
+  10. what we let go;
+  11. results;
+  12. live demo (about 3½ min);
+  13. conclusions;
+  14. Q&A.
+
+  The Test 1, Test 2 Run 1 and "what building it taught us" slides are backups after Q&A.
+  Each slide's notes give its time and a running clock; the title slide's notes carry the whole plan.
+- **New slides:**
+  - **Introduction** — the three parts and the objectives, with the phone dashboard.
+  - **Background** — the need, and the path from the GPS/GSM proposal to indoor BLE. No statistics.
+  - **SDG 3** — from paper Chapter 1 and 3.12, with the measured SOS delivery time.
+- **Hardware and enclosures:**
+  - the Rev C3 board render, the Rev B wearable case and the node boxes;
+  - only the wearable is etched; the beacons and the door node are on perfboard;
+  - the MAX17043 socket is stated as empty (gauge not delivered).
+- **What we let go** now matches paper 3.14. The etched-PCB row is gone (the wearable is etched); fuel-gauge and runtime rows added.
+- **Design constraints:** cost (₱4,774 BOM, ₱2,265 of it estimated) and power (≈ 20 h calculated, not measured) rows added.
+- **Corrections:**
+  - **Results:** the four logged values no longer show as yellow placeholders.
+  - **Test 1:** "free space = 2.0 (physical minimum)" changed to "free-space reference = 2.0". Indoor exponents below 2 are commonly reported.
+  - **Test 2 Run 1:** "100 % within 1 m" changed to 83–100 %. `test2_run1_results.txt` gives Bedroom 83 % and 93 %, Medicine and Dining 100 %.
+  - **Architecture:** the figure no longer runs past the slide edge.
+- **Checked:**
+  - file validation passes;
+  - all 17 slides were rendered with LibreOffice and inspected.
+  - Not opened in PowerPoint here.
+
+## 2026-10-01 (09:40) — paper title, author block, black-and-white figures
+
+- **Title** set to the team's edited wording: "Smart Elderly Safety and Emergency Monitoring System with Geofencing: An Indoor BLE Based Localization and Safety Monitoring System for a Home for the Aged". No other text in the team's edited copy differed from the generated paper.
+- **Author block** now follows the IEEE layout, with one centred column per author: name, programme, school, university and e-mail. The yellow e-mail placeholder is gone.
+- **Adviser line** moved from the header to a new Acknowledgment section before the References.
+- **Black and white:**
+  - Fig. 1 (`arch_col.dot`): white boxes, black lines.
+  - The power-path and walk plots (`make_figures.py`) use grey fills, hatching, line styles and markers. `make_figures.py -` skips the KiCad exports.
+  - The Test 1 and Test 2 charts are grayscale copies (`*_bw.png`), so their values are unchanged.
+  - The flowcharts and tables were already monochrome.
+  - Photographs, renders, the PCB, the schematic, the dashboard screenshot and the QR card keep their colour.
+- **Check:** the LibreOffice PDF has no coloured text, highlight or table shading and runs to 22 pages.
+
+## 2026-10-01 (09:00) — Fig. 1 single-column
+
+- **System block diagram redrawn for one column** (`tools/deliverables/flowcharts/arch_col.dot` → `figures/f1_arch_col.png`). It is now vertical:
+  - (a) stand-alone hub: beacons → wearable → SESEMSG hub ↔ phones;
+  - (b) facility-network alternative;
+  - the dashed cloud relay (further study) from the hub.
+
+  It keeps every item of the earlier wide figure. The "JSON over HTTP" note moved into the caption.
+- **Placed in 3.6 at column width** (about 8 pt printed). The paper body no longer has any full-width figure.
+- The wide `f1_arch_v2.png` is still used by the user manual (single-column) and the deck.
+
+## 2026-10-01 (08:30) — flowcharts in-column; appendices in two columns
+
+- **Flowcharts redrawn narrow** (`tools/deliverables/flowcharts/c_*.dot`, shared style `col.inc`) so each fits one IEEE column at 7–11 pt:
+  - wearable main loop;
+  - background tasks: (a) BLE, (b) network and queue;
+  - zone classification, with connector A for the no-beacon branch;
+  - SOS button logic;
+  - hub request handling and watchdog.
+
+  They are placed in-line in 3.10 as Figs. 3–7, beside the text that describes them. Appendix G (the wide versions) is removed.
+- **Appendices use the paper's two-column layout.** The BOM, schematic, PCB, door-node/beacon/enclosure figures and the firmware excerpts span both columns together with their headings; the text appendices are in columns, and the last page's columns are balanced.
+- **Appendices relettered:**
+  - A BOM;
+  - B schematic;
+  - C PCB;
+  - D door node, beacon and enclosures;
+  - E firmware excerpts;
+  - F test data;
+  - G manual and access card;
+  - H signed forms.
+
+  The body refers only to B and C, which are unchanged.
+- **Checked** by rendering all 22 pages with LibreOffice: 19 figures and 23 tables in order.
+
+## 2026-10-01 (07:45) — software flowcharts; paper layout check
+
+- **New `tools/deliverables/flowcharts/`:** Graphviz sources for four flowcharts in ANSI symbols (terminator, process, decision, input/output), drawn from the code:
+  - the wearable program: `setup()`/`loop()`, the BLE task and the network task;
+  - `classifyZone()`;
+  - `sosService()`;
+  - the hub's ingest, merge, clear and watchdog rules.
+
+  The PNGs are in `figures/`. To re-render: `dot -Tpng -Gdpi=300` after inlining `common.inc`.
+- **Paper Rev 6:**
+  - new **Appendix G — Software Flowcharts** (Figs. 14–17), referenced from 3.10;
+  - Test Data, the manual/QR card and Signed Forms become H, I and J.
+  - The charts were first placed in 3.10 as full-width figures, but that left half-empty pages, so they are now in the appendix.
+- **Abstract:** the results sentence is now bold like the rest of the abstract, and no longer repeats the wall result stated in the sentence before it.
+- **Layout checked** by rendering all 22 pages with LibreOffice:
+  - two-column body without gaps;
+  - tables I–XXIII and figures 1–18 in order;
+  - references [1]–[13].
+  - **Remaining:** the author e-mail placeholder.
+
+## 2026-10-01 (07:00) — BOM from the team's purchase record; 2000 mAh cell; PLA
+
+- **Paper Rev 6, Appendix A**, rebuilt from the prices the team gave:
+  - 6 ESP32 boards (one failed and was replaced);
+  - MAX17043 ordered but not delivered, ₱252;
+  - Li-Po **2000 mAh**, ₱154;
+  - TP4056 4 × ₱25;
+  - MT3608 3 × ₱30;
+  - SPDT ₱80;
+  - passives and diodes from stock;
+  - 2 reed switches ₱90;
+  - headers ₱100;
+  - screw terminals ₱90 (pack of 10);
+  - perfboards 4 × ₱26;
+  - presensitized copper-clad ₱700;
+  - PLA printing ₱500;
+  - 3 USB cables × ₱50.
+  - **Still estimates (*), from the August spreadsheet:** ESP32 (₱350), MAX30102 (₱150), tactile switch (₱15).
+  - **Total ₱4,774, of which ₱2,265 is estimated.** No JST connectors were used.
+- **Battery 2000 mAh:** calculated runtime 20 h at 60 mA and 33 h at 35 mA (was 10 h and 16 h for 1000 mAh). Updated in paper 3.9.1, Table "runtime", conclusions and recommendations, the manual's specifications, and the deck. The schematic still shows 1000 mAh; the paper says so.
+- **Enclosures are PLA, not PETG** (paper 3.11, Appendix figure, deck).
+
+## 2026-10-01 (06:30) — drafts completed from the data that exist
+
+The team decided not to repeat Test A. Every remaining placeholder was either replaced with logged data or stated plainly as not done; no value was estimated or invented.
+
+- **Paper Rev 6:**
+  - **Abstract:** the results sentence now carries Run 1 (no cross-room errors; 56.2 % in a shared room), SOS delivery (n = 6, median 295 ms) and door detection (4 of 4).
+  - **4.5 rewritten as "Final Firmware in a Shared-Room Layout (Signal Snapshot)":**
+    - the dorm layout as the team described it;
+    - the 9 s of preserved data (open-room beacons within 0–4 dB; the beacon behind the wall 19–24 dB weaker);
+    - why the bedroom-wing zone registered slowly;
+    - a plain statement that the 15-point capture was overwritten.
+  - **4.8:** door detection from the 29 Sep test (3 of 3) and the 30 Sep demo (1 of 1).
+  - **4.9:** four events delivered after the link was down (7.5, 8.1 and 11.1 s at start-up; the demo's "delivered late").
+  - **4.12:** battery-sense now reads 3.90–3.92 V, against 0.28 V before.
+  - **4.13:** Run 3, the 20 door cycles, the outage trials, the ten heart-rate readings and runtime are listed as not performed.
+  - **Chapter 5:** conclusions updated.
+  - **BOM:** unit costs from the team's estimate spreadsheet (Aug 2026 supplier listings, marked *) where no purchase price is known.
+  - **Removed:** placeholders with no material behind them (commercial products, flowcharts, photographs). Appendix J became I (signed forms attached to the printed copies).
+  - **Remaining placeholder:** the author e-mail addresses.
+- **Manual v0.3:**
+  - enclosure renders and the door wiring diagram replace the photo placeholders;
+  - wearing position: waist, belt clip;
+  - heart-rate reading: fingertip on the sensor window;
+  - runtime stated as not measured;
+  - 10.2 carries the test-day results.
+- **Deck v0.3 results slide:** Run 1 accuracy, SOS n = 6, heart rate n = 2, door 4 of 4.
+
+## 2026-10-01 (05:45) — log_serial.py never overwrites
+
+- **Change:** `tools/rssi_calibration/log_serial.py` now writes to `name_2.csv`, `name_3.csv`, … when the output file already exists and is not empty, and says so at start.
+- **Why:** the Test A (Run 3) capture was lost this way. The pushed `test2_run3.csv` holds only 9 s.
+- **Verified:** `free_path()` returns `x_2.csv` for an existing file and the name unchanged for a new one.
+
+## 2026-10-01 (03:20) — dashboard: tabs not switching, page pulled up at the bottom
+
+- **Tabs did not switch on the phone (a regression from 01:30).** The guard against swipe-taps used the settle timer that also starts when a finger lifts, so every plain tap on a tab was ignored.
+  - **Fix:** only a real scroll event within the last 300 ms blocks a tab tap.
+  - **Kept:** the open tab's button still does nothing, so a swipe that ends on the tab bar cannot jump to the top.
+- **Page pulled up by a row near the bottom** when an alert cleared (more frequent now that "location unknown" and "not reporting" clear by themselves). Two causes:
+  - the height hold was released by the page's own anchor scroll;
+  - the hold only kept the height from when it was set.
+  - **Fix:** the hold now only grows while you stay near the bottom, and only your own scrolling up releases it.
+- **Verified in headless Chromium,** 390 × 664 phone viewport with touch, scroll anchoring turned off to behave like Safari, and the simulator feeding live alerts:
+  - Alerts tab over 40 s: the page no longer shrinks under the reader (before, it lost 212 px and jumped up);
+  - a tap on each tab switches it;
+  - a tap on the open tab at the bottom keeps the position;
+  - `node --check` passes, and `embed_dashboard.py` packs the page.
+- **Takes effect on the hub after the door node is reflashed** (`pio run -e esp32hub`, COM7). The laptop dashboard needs the copied `static/`.
+
+## 2026-10-01 (03:00) — charging indicator: recommendation only
+
+- **No hardware or firmware change.** The wearable has no signal from the TP4056 to the ESP32, so it cannot know it is charging. A fuel gauge would not solve this either: the MAX17043 reports state of charge only.
+- **Paper Rev 6, 5.2:** new recommendation to sense the charger's USB input through a divider on a free input pin (charging below 4.15 V, charged at 4.15 V or above). The fuel-gauge recommendation now names the MAX17048's charge rate.
+- **Deck v0.3:** a matching next-steps bullet.
+- **Manual v0.3, 6.2:** the dashboard does not show charging; check the charger's lights.
+
+## 2026-10-01 (02:45) — Test B and C results into the drafts
+
+- **Paper Rev 6, Tables "sos" and "hr", and deck v0.3 results slide** now carry the measured values from `data/test_day/`:
+  - **SOS delivery:** n = 6, median 295 ms, maximum 408 ms;
+  - **patterns:** 6 of 6 with the right message, and 2 escalations;
+  - **acknowledgements:** 3 of 3 cleared the wearable;
+  - **hold:** 1 of 1 cancelled an open SOS;
+  - **heart rate:** n = 2, +3 and +0.5 bpm (MAE 1.75 bpm, preliminary).
+- **Procedure text** states the actual counts (n = 6 and n = 2, not the planned 10). The Chapter 5 conclusions quote the same figures.
+- **Still yellow:** Run 3 (A), door cycles (D), the network-loss trials, battery runtime, and the abstract sentence.
+
+## 2026-10-01 (02:30) — documents and deliverables
+
+- **Drafts regenerated** in `deliverables/drafts/`:
+  - `TroDes_IEEE_Paper_DRAFT_Rev6.docx`;
+  - `TroDes_Users_Manual_DRAFT_v0.3.docx`;
+  - `TroDes_Defense_Presentation_DRAFT_v0.3.pptx`.
+- **Paper Rev 6:**
+  - the zone-unknown delay and its Wi-Fi pause (3.5, 3.10);
+  - SOS hold ticks and the green cancel notice;
+  - one-episode "location unknown" and "not reporting" alerts;
+  - the Run 3 constants now ask which build was measured;
+  - new paragraph in 4.10: the 30 Sep integrated demonstration, from the dashboard screenshots, with the three defects it exposed.
+- **Manual v0.3:**
+  - hold ticks and the green cancel notice in 4.1, 4.3 and 6.3;
+  - alert table: when "location unknown" and "not reporting" are raised and cleared;
+  - troubleshooting for "zone shows unknown";
+  - specifications.
+- **Deck v0.3:**
+  - hardware subtitle and fabrication row now say etched wearable board with perfboard nodes;
+  - SOS hold ticks;
+  - the zone-unknown bullet;
+  - results slide dated 1 Oct.
+- **New `docs/project/Defense_Day_Checklist.md`,** from the adviser's briefing. It maps constraints, standards, design and "what we let go" to the deck slides and paper sections 3.8, 3.12 and 3.14.
+- **Updated:**
+  - `CLAUDE.md` / `AGENTS.md` "Where things stand";
+  - `Resume_Here.md`;
+  - `docs/project/INDEX.md`.
+- **No test numbers added.** Tests B and C were captured on the laptop but are not in the repository yet; A and D are pending. Their cells stay yellow.
+
+## 2026-10-01 (early morning) — alert flood, iPhone scroll, beacon dropouts
+
+From the house test and the video-demo screenshots (`data/demo/2026-09-30/`).
+
+- **"Location unknown" flood (wearable, hub, laptop server).** The alert is kept, but it now stands for one episode.
+  - **Wearable:** the zone becomes unknown only after no beacon has been heard for about 8.5 s. That is the 2.5 s beacon timeout, then `ZONE_LOST_CONFIRM_TICKS` = 30 ticks (6 s); it was 0.4 s, so about 3 s in all. The dashboard keeps the last zone meanwhile.
+  - **Wearable:** the count pauses while a WiFi scan or connection attempt holds the shared radio (`gRadioBusy`). During those, BLE hears almost nothing, which is why a beacon in the same room could appear to vanish.
+  - **Hub and server:**
+    - while a `zone_lost` alert is uncleared, a repeat is treated as the same episode;
+    - it clears by itself ("back in range") on the first status with a known zone, or on a `zone_change` or `zone_restricted` alert.
+- **"Device not reporting" raised every 5 s after an Acknowledge (hub and server).** The watchdog only looked for an *unacknowledged* open alert. It now looks for an *uncleared* one, so one outage gives one alert, which clears when the device reports again.
+- **iPhone dashboard jumping to the top at the end of a list (`static/v2`).**
+  - **Cause:** at the bottom, a swipe starting on the tab bar barely moves, and iOS treats it as a tap on the open tab. `setTab()` then scrolled to the top.
+  - **Fix:** the open tab's button now does nothing, and tab taps while the page is still moving are ignored.
+- **SOS long press looked the same as a short press.**
+  - **Evidence:** the video run shows two "SOS PRESSED" entries and no "SOS dismissed". The hold was let go before 3 s, so the wearable correctly sent a 1-press SOS.
+  - **Wearable:** a soft low tick each second while the button is held (`kBeepHoldTick`). The existing long low tone still marks the cancel at 3 s. The threshold is unchanged (3000 ms, still open with the adviser).
+  - **Dashboard (`static/v2`):** a cancel now shows a short green notice, "SOS cancelled by the resident" (8 s, tap to close), instead of the red card just disappearing.
+- **Verified:**
+  - dashboard self-test 38/38;
+  - a scratch-server test of the new rules:
+    - a repeat `zone_lost` is merged, even after an Acknowledge;
+    - an unknown status keeps it open, and a known zone clears it;
+    - a new episode raises a new alert;
+    - an Acknowledged offline alert is not raised again over 20 s, and clears on the next status;
+  - `node --check` passes on `home.js`;
+  - `embed_dashboard.py` packs the page.
+- **Not yet verified here:** the firmware was **not compiled in the cloud session**, because the PlatformIO registry is blocked there.
+  - **Compiled and flashed on the laptop, 1 Oct, about 03:00:** wearable on COM8, door node on COM7 (`esp32hub`), together with the SOS hold-tick and cancel-notice changes.
+  - **Behaviour on hardware:** not yet reported.
+
+## 2026-09-30 (night) — house test, data export
+
+- **Dashboard database export** — `tools/field/export_db.py` writes
+  `status_log`, `alerts`, `door_log` and `ack_log` to CSV, with a readable
+  local-time column beside every timestamp. Opens the database read-only, so
+  it can run while the dashboard is up.
+  - **Run on the laptop (30 Sep, 22:20):** `C:\TroDesData\dashboard\data\trodes.db`
+    returned 0 rows for 30 Sep. Expected: the house dry run and video used the
+    SESEMSG hub (standalone, no uplink), so nothing reached the laptop server.
+- **`.gitignore`:** Office lock files (`~$*`) excluded.
+- No firmware change. Session record: `docs/project/House_Test_2026-09-30.md`.
+
+## 2026-09-30 (evening) — fixes from the test run
+
+Most of this code was already included in the build commits below. This section
+records what each change is and how far it has been verified.
+
+- **Heart rate never detected (wearable).**
+  - **Cause:** SparkFun's `checkForBeat()` handles 16-bit samples only. Its DC estimator takes a `uint16_t`, and a pulse only counts if it swings 20–1000. The MAX30102 is set to 18 bits (411 µs pulses), so a finger reads about 100k–250k. The value wrapped at 65536 and strong pulses were rejected.
+  - **Fix:** samples go to the detector as `ir >> 2`.
+  - **New serial line:** `[HR] …` every 2 s while something is on the sensor, showing the IR level, beats seen and beats kept. It also flags a finger that reads below the 50 000 finger level.
+  - **Verified on hardware (30 Sep, fingertip on the bench wearable, 60 s):**
+    - IR about 125k–130k;
+    - 86 beats detected;
+    - about 5 s from finger on to the first reading;
+    - it read 78–102 bpm and settled at 86–90 bpm;
+    - one outlier re-learn, which recovered in about 4 s.
+- **MAX17043 when fitted later (wearable).**
+  - **Why:** the gauge is powered from the cell on its own JST lead, so it only answers while a battery is connected.
+  - **Detection:** while the gauge is missing, the firmware probes again on every battery read, using a quiet address ping. The first read after it is found still uses the divider, because the gauge's SOC is still settling after its quick-start.
+  - **Fallback:** it drops back to the R3/R4 divider if the gauge stops answering or reads outside 2.5–4.5 V. SOC is clamped to 0–100 %.
+  - **Timing:** the first battery read is at 5 s instead of 30 s.
+  - **Reporting:** the status JSON and the `[STAT]` line now say where the reading came from (`batt_src` / `src=gauge|adc`).
+  - **Verified:** compiled. Not tested with a gauge, as none is fitted yet.
+- **Status LED (wearable):** it now blinks briefly every 2 s, stays on while an SOS is open, and still flashes with each beep. Before, it only lit during beeps.
+- **Dashboard on iPhone (`static/v2`):**
+  - **Keyboard popping up:** iOS's "sign in to network" window auto-focused the name box, and AutoFill kept asking for a name. The box is now read-only, with AutoFill off, until a finger touches it. It unlocks on `touchstart`, so the keyboard opens on the first tap. The old blur-on-scroll made the keyboard flicker and is removed.
+  - **Page jumping (Safari has no scroll anchoring):**
+    - before each 1 s update, the row in view is noted and scrolled back into place afterwards;
+    - updates wait while a finger is on the screen or the page is still moving;
+    - near the bottom, the page may not get shorter during an update, helped by `main { display: flow-root }` in the CSS;
+    - lists are only rewritten when their markup has changed.
+  - **Verified in the browser at phone size:**
+    - 5 alerts arriving mid-list: the row in view moved 374 px before, 0 px now;
+    - rows removed at the end of the page: 0 px;
+    - auto-focus on page load leaves the name box read-only (no keyboard).
+  - **iPhone re-test pending.**
+- **Door node:** it was found boot-looping (`rst:0x3` with no application output, i.e. no valid app in flash). Reflashed with the standalone hub build (`HUB_UPLINK=0`); SESEMSG is back on the air. No code change.
+
+## 2026-09-30
+
+Committed on branch `build-2026-09-30`. The work of 27–30 Sep: code, hardware
+files, deliverables and notes.
+
+- **Door node as a stand-alone hub (`env:esp32hub`, `-DHUB_MODE=1`).** New `src/hub.cpp`, `include/hub.h`, and `scripts/embed_dashboard.py`, which packs `dashboard/static/v2` into the generated, git-ignored `hub_page.h`.
+  - **Network:** a WPA2 access point, SESEMSG at 192.168.4.1, with a DNS captive portal so phones open the dashboard on joining.
+  - **Server:** a non-blocking HTTP server (10 connections), serving the same `/api/v1` contract as the laptop backend.
+  - **State:** alerts, sessions and passcode lock-out are kept in RAM.
+  - **Forwarding:** optional forwarding to the laptop, and a relay push.
+  - **Why:** the system has to run with no laptop, router or internet.
+  - **Verified on hardware:**
+    - 17 of 17 network checks passed;
+    - with 4 phones polling, the median reply is 32 ms;
+    - the wearable held its connection for 10 min;
+    - the dashboard opens on joining, on both Android and iPhone.
+  - **Stall fix:** a phone in power-save mode could stall every client for more than 4 s. Replies are now sent without blocking, and simultaneous polls share one cached summary.
+- **Wearable (firmware):**
+  - **Networking:** it prefers the hub's network when in range. Auto-reconnect is off; it disconnects before scanning and re-picks a network after 4 failed POSTs.
+  - **SOS patterns:** 1, 2 or 3 presses less than 0.7 s apart send three urgency levels, each confirmed by the same number of beeps. A stronger pattern escalates an open SOS.
+  - **Acknowledgement:** the SOS state clears when the server reports no unacknowledged SOS.
+  - **Timing log:** `[DELIVERED]` records how many ms each alert took to arrive.
+  - **Verified:** on the bench, against a scratch server.
+- **`firmware/wearable_selftest`** (new): a one-shot hardware report plus a live readout.
+  - It covers the battery sense, both I²C buses, the MAX30102 ID, the button, buzzer and LED, and Wi-Fi and BLE scans.
+  - **Run on the wearable, 30 Sep:** everything passed except battery sense (0.28 V), which is under investigation.
+- **Dashboard:**
+  - **New `static/v2` page:**
+    - theme follows the phone;
+    - alarm sound and vibration for an unacknowledged SOS, with the SOS message in the banner;
+    - "reduce motion" respected.
+  - **`app/auth.py`:** passcode sessions.
+  - **Duplicate guard in `post_alert`:** an identical report within 30 s is merged, so a retried SOS is not stored twice.
+  - **SOS escalation:** a new SOS retires the older open SOS.
+  - **Classic page:** polls every 1 s.
+  - **Verified:** self-test 38/38.
+- **`relay/`** (new): a Cloudflare Worker and Durable Object for viewing the hub from any network.
+  - **Verified:** local tests 15/15.
+  - **Not deployed:** the hosting decision is still open.
+- **Hardware files:**
+  - **`hardware/wearable_pcb_revC3/`:** the etched board's KiCad project, its artwork and the power-pad map. The unsaved 28 Sep autosave is not included.
+  - **`hardware/beacon_node/`:** the beacon node schematic and perfboard layout.
+  - **`hardware/enclosures/`:** enclosures Rev A, Rev B and the node boxes, with STLs, A1 plate files and renders.
+    - **Wearable Rev B:**
+      - +5 mm for the wiring under the PCB;
+      - four snap hooks into side-wall windows;
+      - a 15 × 11 mm ESP32 USB-C opening;
+      - a TP4056 charge-light window;
+      - rounded edges;
+      - a sliding dovetail belt clip with a detent.
+    - **Checked in the model:** all parts manifold, and 31 part and component pairs with 0 overlap. **Not printed yet.**
+- **Deliverables:**
+  - **Generators:**
+    - `paper_ieee.js`: an IEEE two-column full paper with Methods of Research, equations and appendices;
+    - `make_figures.py` and `make_appendix_images.py`;
+    - `perfboard_beacon.js`;
+    - updated `paper.js` (Rev 4), `manual.js` (v0.2) and `deck.js` (v0.2).
+  - **Output files:** the drafts, the figures, and the final Progress Report 3.
+  - **Test tool:** `tools/field/test_day_report.py`.
+- **Credentials:**
+  - **The hub's Wi-Fi password is in two committed items**, added in a later commit at the team's request (the repository is private):
+    - the panel QR card images (`tools/deliverables/figures/a_qr_card*.png`);
+    - the IEEE paper Rev 5, which embeds that card in Appendix H.
+  - **The dashboard passcode is kept out:**
+    - the door node's `secrets.h.example` now shows a placeholder;
+    - the repo copy of the Test Day note has it removed.
+- **Docs and data:**
+  - `docs/project/`: the hub note, the Test Day procedure and the shopping list;
+  - `data/walk/`: the 30 Sep three-beacon walk capture;
+  - `data/field/`: the 25 Sep door bench logs.
+
 ## 2026-09-26
 
 - **Wearable PCB Rev C2 added** under `hardware/wearable_pcb/` (KiCad 9 project,

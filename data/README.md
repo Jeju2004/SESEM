@@ -21,3 +21,47 @@ doorway points. Full write-up in the vault's `Work Log.md` (24 Sep, night).
 
 Planned: `test2_run2_room.csv` and `test2_run2_prox.csv` (dorm, single room,
 room mode vs proximity mode) — see the vault's `Defense Demo Plan.md`.
+
+## Added 30 Sep 2026
+
+| File | What it is | Usable? |
+|---|---|---|
+| `walk/2026-09-30_beacon_walk_serial.txt` | Informal three-beacon walk on the final firmware, 30 Sep 00:22–00:37 (wearable on the SESEMSG hub). Filtered serial log: `[RSSI]` every 30 s plus every `[ZONE]`/`[ALERT]`/`[NET]` line. **No ground truth** - a functional check, not a Test 2 run | Yes, for the zone timeline (paper Fig. 6); not for accuracy |
+| `field/door_bench_test*.log` | Door node bench serial logs, 25 Sep 11:26–12:10: boot, reed state, heartbeats with Wi-Fi down and the queue counters (`q=`, `dropped=`), around the offline-queue fix | Yes (record) |
+
+## Added 1 Oct 2026 (house test, night of 30 Sep)
+
+| File | What it is | Usable? |
+|---|---|---|
+| `demo/2026-09-30/hub_diag_after_video.json` | SESEMSG hub `/api/v1/hub` at 00:25, after the video demo: uptime 633 s, `alerts_stored` 0 - the hub had restarted and its RAM-only alert history was gone | Yes, as the record of that restart; it holds no demo alerts |
+
+| `demo/2026-09-30/hub_activity_screenshots/*.png` | Five phone screenshots of the hub dashboard after the video demo (last update at about 09:58 PM) | Yes: the only surviving record of the demo alerts |
+| `demo/2026-09-30/hub_activity_transcript.md` | The screenshots transcribed into a timeline, with what they show and the defects seen | Yes |
+
+No serial capture was made during the dry run or video, so there is no
+delivery-time data: the screenshots give minutes only. See
+`docs/project/House_Test_2026-09-30.md`.
+
+## Test day, 1 Oct 2026 (house) — first attempts, not usable as results
+
+| File | What it is | Usable? |
+|---|---|---|
+| `test_day/sos.csv` | Test B attempt, 02:06:20–02:06:35: **15 s only**, boot and WiFi join, label `transit` throughout, **no SOS press recorded**. The only delivery logged is a queued `zone_change` (8127 ms, held while WiFi was joining) | **No.** Test B must be repeated with the log running for all trials |
+| `test_day/hr.csv` | Test C attempt, 02:07:36–02:09:31: **one** oximeter reading (label `ox109`, with a typo `oc109` just before it); the wearable reported 111–113 bpm, error +3 bpm. The wearable's reading also moved from 72–75 to 100–113 bpm within the same minute | **One of the 10 readings.** Repeat for the other nine |
+
+## Test day, 1 Oct 2026 (house) — redo
+
+| File | What it is | Usable? |
+|---|---|---|
+| `test_day/sos2.csv` | Test B, 02:18:36–02:20:02, hub stand-alone. 6 SOS deliveries: 197, 327, 166, 262, 408, 408 ms (mean 295, median 295). Patterns 3 × one press, 1 × two, 2 × three (both escalations), all with the right message; 3 of 3 acknowledgements cleared the wearable; 1 of 1 hold cancelled an open SOS (delivered in 446 ms). Labels were not typed (all `transit`); the report does not need them | **Yes**, n = 6 (planned 10 presses + 5 dismissals not all done). Paper Table "sos" |
+| `test_day/hr2.csv` | Test C, 02:20:17–02:21:37: one oximeter reading, 85 bpm; wearable median 85.5 bpm | **Yes**, one reading. With `hr.csv`: n = 2, MAE 1.75 bpm, bias +1.75. Paper Table "hr" (preliminary) |
+
+At every boot the wearable's first join to SESEMSG failed once (`WiFi dropped, reason 15`, a WPA2 handshake timeout) and succeeded on the retry about 4 s later; the zone change queued at boot was delivered 7.5–11 s after it was raised.
+| `test_day/test2_run3.csv` | **Not the Test A run.** 9 s at 05:32:20–05:32:29, label `transit` only. The 15-point run was most likely overwritten when the logging command was started again afterwards (`log_serial.py` opened files with "w"; fixed 1 Oct: it now writes `_2`, `_3`, … instead) | **No** |
+
+**Run 3 layout (team's description, 1 Oct):** a dorm unit of about 20 × 15 (units to be confirmed).
+- DH beacon: in the kitchen near the main door.
+- BW beacon: on the bed frame, about 4 m from DH, in the same open room.
+- MR beacon: in the comfort room, about 2 m from BW, behind a wall.
+- Door node: on the CR door.
+- People present: 3, two of them seated and asleep.

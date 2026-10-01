@@ -1,4 +1,18 @@
-# Resume Here — last updated 2026-09-21
+# Resume Here — last updated 2026-10-01
+
+## Now (defense day, Thursday 1 October)
+
+1. **`Defense_Day_Checklist.md`**: what to bring and cover, and the morning technical checks.
+2. **1 Oct fixes flashed** (wearable COM8, door node COM7 `esp32hub`, about 03:00). Check on hardware: ticks on hold, green cancel notice, no "Location unknown" in a short hallway pass, iPhone stays at the bottom.
+3. **Tests B and C are in the paper.** B: n = 6, median 295 ms. C: n = 2, preliminary. More heart-rate readings would strengthen C.
+4. **Still to do:** Test A (Run 3, room accuracy) and Test D (door node, 20 cycles, last).
+5. **Print:** paper Rev 6 (4 copies, after updating the table of contents in Word) and the manual v0.3.
+
+Record of the night before: `House_Test_2026-09-30.md`.
+
+---
+
+# Earlier (21 September)
 
 Shortest possible "what do I do next." Read `CLAUDE.md` at the firmware root
 for the standing project context.
