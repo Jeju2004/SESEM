@@ -3,6 +3,47 @@
 Dated record of every code change. Newest first. Each entry says what changed,
 why, and whether it has been verified on hardware.
 
+## 2026-10-01 — defense deck v0.4: team outline, SDG slide, enclosures
+
+- **`tools/deliverables/deck.js` → `TroDes_Defense_Presentation_DRAFT_v0.4.pptx`.**
+  The order now follows the team's outline and the adviser's briefing, with the live demo inside the 10 minutes:
+  1. title;
+  2. introduction;
+  3. background;
+  4. system architecture;
+  5. hardware and enclosures;
+  6. how it decides;
+  7. design constraints;
+  8. standards;
+  9. SDG;
+  10. what we let go;
+  11. results;
+  12. live demo (about 3½ min);
+  13. conclusions;
+  14. Q&A.
+
+  The Test 1, Test 2 Run 1 and "what building it taught us" slides are backups after Q&A.
+  Each slide's notes give its time and a running clock; the title slide's notes carry the whole plan.
+- **New slides:**
+  - **Introduction** — the three parts and the objectives, with the phone dashboard.
+  - **Background** — the need, and the path from the GPS/GSM proposal to indoor BLE. No statistics.
+  - **SDG 3** — from paper Chapter 1 and 3.12, with the measured SOS delivery time.
+- **Hardware and enclosures:**
+  - the Rev C3 board render, the Rev B wearable case and the node boxes;
+  - only the wearable is etched; the beacons and the door node are on perfboard;
+  - the MAX17043 socket is stated as empty (gauge not delivered).
+- **What we let go** now matches paper 3.14. The etched-PCB row is gone (the wearable is etched); fuel-gauge and runtime rows added.
+- **Design constraints:** cost (₱4,774 BOM, ₱2,265 of it estimated) and power (≈ 20 h calculated, not measured) rows added.
+- **Corrections:**
+  - **Results:** the four logged values no longer show as yellow placeholders.
+  - **Test 1:** "free space = 2.0 (physical minimum)" changed to "free-space reference = 2.0". Indoor exponents below 2 are commonly reported.
+  - **Test 2 Run 1:** "100 % within 1 m" changed to 83–100 %. `test2_run1_results.txt` gives Bedroom 83 % and 93 %, Medicine and Dining 100 %.
+  - **Architecture:** the figure no longer runs past the slide edge.
+- **Checked:**
+  - file validation passes;
+  - all 17 slides were rendered with LibreOffice and inspected.
+  - Not opened in PowerPoint here.
+
 ## 2026-10-01 (09:40) — paper title, author block, black-and-white figures
 
 - **Title** set to the team's edited wording: "Smart Elderly Safety and Emergency Monitoring System with Geofencing: An Indoor BLE Based Localization and Safety Monitoring System for a Home for the Aged". No other text in the team's edited copy differed from the generated paper.

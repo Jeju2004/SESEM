@@ -1,8 +1,11 @@
-// TroDes defense deck, draft v0.3 (1 Oct 2026) — 10-minute slot on Thu 1 Oct.
+// TroDes defense deck, draft v0.4 (1 Oct 2026) — 10-minute slot on Thu 1 Oct,
+// live demo included in the 10 minutes.
 // Usage: node deck.js <out.pptx>
-// Order follows the defense briefing (26 Sep): brief background, design,
-// constraints, standards, what we let go, results, then the live demo.
-// Slides after "Thank you" are backups for questions.
+// Order: introduction, brief background, system architecture, technical aspect
+// (hardware and enclosures, how it decides), constraints, standards, SDG, what
+// we let go, results, then the live demo — the team's outline plus the
+// adviser's briefing (Defense_Day_Checklist.md). Each slide's notes carry its
+// time and a running clock. Slides after "Thank you" are backups for questions.
 const path = require("path");
 const pptxgen = require("pptxgenjs");
 const React = require("react");
@@ -12,6 +15,7 @@ const md = require("react-icons/md");
 
 const OUT = process.argv[2];
 const FIG = (f) => path.join(__dirname, "figures", f);
+const HW = (f) => path.join(__dirname, "..", "..", "hardware", f);
 const C = {
   ink: "0B2F3A", teal: "0E5E6F", safe: "2A9D8F", tint: "E8F3F4", alert: "E4572E",
   alertTint: "FCE9E4", text: "1F2933", muted: "5F6B73", white: "FFFFFF", line: "C9D6D9", amber: "E9A23B",
@@ -22,6 +26,13 @@ async function icon(Comp, color) {
   const svg = ReactDOMServer.renderToStaticMarkup(React.createElement(Comp, { color: "#" + color, size: 256 }));
   const png = await sharp(Buffer.from(svg)).resize(256, 256).png().toBuffer();
   return "image/png;base64," + png.toString("base64");
+}
+
+// Renders and screenshots are downscaled to JPEG so the deck stays small.
+async function photo(file, maxW = 1400) {
+  const buf = await sharp(file).resize({ width: maxW, withoutEnlargement: true }).flatten({ background: "#ffffff" }).jpeg({ quality: 85 }).toBuffer();
+  const { width, height } = await sharp(buf).metadata();
+  return { data: "image/jpeg;base64," + buf.toString("base64"), ar: width / height };
 }
 
 (async () => {
@@ -37,12 +48,19 @@ async function icon(Comp, color) {
     radio: md.MdBluetooth, bolt: md.MdBolt, check: md.MdCheckCircle, warn: md.MdWarning, science: md.MdScience,
     build: md.MdBuild, lightbulb: md.MdLightbulb, eye: md.MdVisibility, alarm: md.MdNotificationsActive,
     qr: md.MdQrCode2, gavel: md.MdGavel, lock: md.MdLock, cut: md.MdContentCut, timer: md.MdTimer, router: md.MdRouter,
+    groups: md.MdGroups, home: md.MdApartment, health: md.MdHealthAndSafety,
   };
   for (const [k, comp] of Object.entries(want)) {
     I[k] = await icon(comp, C.white);
     I[k + "_t"] = await icon(comp, C.teal);
     I[k + "_a"] = await icon(comp, C.alert);
   }
+  const P = {
+    phone: await photo(FIG("f4_dashboard_phone.png"), 900),
+    pcb: await photo(FIG("a_pcb_3d.png")),
+    wearCase: await photo(HW("enclosures/out_revB/RevB_Closed.png")), // Rev B, the printed case
+    nodeCase: await photo(FIG("Node_Enclosures_Closed.png")),
+  };
 
   // --- helpers ---
   const title = (s, text, sub) => {
@@ -59,7 +77,12 @@ async function icon(Comp, color) {
   const txt = (s, text, o) => s.addText(text, { fontFace: BF, fontSize: 15, color: C.text, valign: "top", isTextBox: true, ...o });
   let slideNo = 0;
   const footer = (s) => s.addText(`TroDes  ·  ${++slideNo}`, { x: W - 2.6, y: 7.05, w: 2.0, h: 0.3, fontFace: BF, fontSize: 10, color: C.muted, align: "right", margin: 0, isTextBox: true });
-  const pending = (s, text, x, y, w, h = 0.4) => s.addText(text, { x, y, w, h, fontFace: BF, fontSize: 12, bold: true, color: C.text, fill: { color: "FFF3B0" }, align: "center", valign: "middle", margin: 4, isTextBox: true });
+  // Fit an image inside a box, centred, keeping its aspect ratio.
+  const placeImg = (s, im, x, y, w, h) => {
+    let iw = w, ih = w / im.ar;
+    if (ih > h) { ih = h; iw = h * im.ar; }
+    s.addImage({ data: im.data, x: x + (w - iw) / 2, y: y + (h - ih) / 2, w: iw, h: ih });
+  };
   const arrow = (s, x, y, w, h, color = C.teal) =>
     s.addShape(pres.shapes.LINE, h < 0
       ? { x, y: y + h, w, h: -h, flipV: true, line: { color, width: 2.25, endArrowType: "triangle" } }
@@ -82,98 +105,112 @@ async function icon(Comp, color) {
       { text: "Adviser: Engr. Glenn V. Magwili", options: { breakLine: true } },
       { text: "Electronics Design · Section C1 · Mapúa University · 1 October 2026" },
     ], { x: 0.8, y: 5.3, w: 11.5, h: 1.3, fontFace: BF, fontSize: 16, color: C.white, margin: 0, paraSpaceAfter: 4, isTextBox: true });
-    s.addNotes("~20 s. Introduce the team and the project in one sentence: an indoor system that tells caregivers where each resident is and raises alerts for restricted areas, SOS and low battery — running entirely on its own devices.");
+    s.addNotes("~15 s (0:00–0:15). Names, adviser, project title. Nothing else — the introduction is the next slide.\n\nTIME PLAN (10 min, demo included): intro 0:15 · background 0:45 · architecture 1:10 · hardware 1:50 · how it decides 2:40 · constraints 3:20 · standards 3:50 · SDG 4:10 · let go 4:30 · results 4:55 · DEMO 5:25–8:55 · conclusions 8:55 · Q&A 9:20. If the demo slide is not up by 5:30, skip straight to it.");
     slideNo++;
   }
 
-  // 2. Problem
+  // 2. Introduction
   {
     const s = pres.addSlide(); s.background = { color: C.white };
-    title(s, "The problem", "A home for the aged cannot watch every resident, every minute");
+    title(s, "Introduction", "TroDes tells caregivers where each resident is indoors, and calls them when something is wrong");
     const rows = [
-      [I.eye_a, "Supervision gaps", "Caregivers are outnumbered by residents; continuous visual supervision is not practical, especially at night."],
-      [I.door_a, "Restricted areas", "Residents — particularly those with cognitive decline — can wander into places such as the medicine room unnoticed."],
-      [I.alarm_a, "Help that is not heard", "A resident who needs help may be unable to reach a caregiver or a call point."],
-      [I.pin_a, "Wrong tools", "Most monitoring products are GPS-based for outdoor tracking and do not work reliably indoors."],
+      [I.watch, "Wearable (worn on the belt)", "Finds its zone from BLE beacons · SOS button with three urgency levels · heart rate and battery level"],
+      [I.radio, "Beacons and door sensor", "One beacon per zone · a magnetic reed switch on the restricted door · the door node also runs the network and the dashboard"],
+      [I.qr, "Caregivers' phones", "Scan a card to join · live zones, alerts and acknowledgement · no app, no laptop, no internet"],
     ];
     rows.forEach(([img, h, b], i) => {
-      const y = 1.9 + i * 1.22;
-      circleIcon(s, img, 0.8, y, 0.85, C.alertTint);
-      txt(s, h, { x: 1.95, y: y - 0.02, w: 10.4, h: 0.4, fontSize: 20, bold: true, color: C.ink, margin: 0 });
-      txt(s, b, { x: 1.95, y: y + 0.38, w: 10.4, h: 0.6, fontSize: 15, color: C.muted, margin: 0 });
+      const y = 1.95 + i * 1.32;
+      card(s, 0.6, y, 8.6, 1.15);
+      circleIcon(s, img, 0.85, y + 0.2, 0.75, C.teal);
+      txt(s, h, { x: 1.85, y: y + 0.12, w: 7.15, h: 0.4, fontSize: 18, bold: true, color: C.ink, margin: 0, valign: "middle" });
+      txt(s, b, { x: 1.85, y: y + 0.52, w: 7.15, h: 0.55, fontSize: 14, color: C.text, margin: 0 });
     });
+    txt(s, [
+      { text: "Objectives  ", options: { bold: true, color: C.teal } },
+      { text: "room-level zone detection · restricted-zone and door alerts · 3-level SOS with acknowledgement · battery and heart-rate reporting · works on its own network" },
+    ], { x: 0.6, y: 6.0, w: 8.6, h: 0.75, fontSize: 14, margin: 0 });
+    placeImg(s, P.phone, 9.75, 1.75, 2.95, 5.0);
+    txt(s, "Caregiver dashboard on a phone", { x: 9.6, y: 6.78, w: 3.25, h: 0.28, fontSize: 11, italic: true, color: C.muted, align: "center", margin: 0 });
     footer(s);
-    s.addNotes("~30 s — brief background only. The facility needs to know WHERE residents are indoors and WHEN something is wrong. GPS does not work indoors, which is why the project moved from the original GPS/GSM design to BLE.");
+    s.addNotes("~30 s (0:15–0:45). One sentence: TroDes is an indoor system that tells caregivers, on their phones, which zone each resident is in and raises alerts for restricted areas, an opened door, SOS calls and low battery. Then name the three parts left to right. The objectives line maps one-to-one to the tests.");
   }
 
-  // 3. Objectives
+  // 3. Background
   {
     const s = pres.addSlide(); s.background = { color: C.white };
-    title(s, "Objectives", "Design and build an indoor localization and safety monitoring system for a care facility");
-    const items = [
-      [I.radio, "Zone detection", "Wearable identifies the resident's zone from fixed BLE beacons"],
-      [I.door, "Restricted areas", "Alerts on entering a restricted zone or opening its door"],
-      [I.sos, "SOS button", "1, 2 or 3 presses set the urgency; hold 3 s (ticks each second) to cancel"],
-      [I.battery, "Power awareness", "Battery level reported, with low and critical alerts"],
-      [I.heart, "Heart rate", "Displayed for information (not clinical)"],
-      [I.web, "Caregiver dashboard", "Live on any phone — join by QR, no laptop needed"],
+    title(s, "Background", "Why indoor localization — and how the design got here");
+    card(s, 0.6, 1.85, 6.2, 4.9, C.alertTint);
+    txt(s, "The need", { x: 0.9, y: 2.05, w: 5.6, h: 0.45, fontSize: 20, bold: true, color: C.ink, margin: 0 });
+    const need = [
+      [I.eye, "Supervision gaps", "Caregivers cannot watch every resident, every minute — especially at night"],
+      [I.door, "Restricted areas", "Residents with cognitive decline may enter places such as the medicine room unnoticed"],
+      [I.alarm, "Help that is not heard", "A resident who needs help may be unable to reach a caregiver or a call point"],
     ];
-    items.forEach(([img, h, b], i) => {
-      const col = i % 3, row = Math.floor(i / 3);
-      const x = 0.6 + col * 4.1, y = 1.95 + row * 2.45;
-      card(s, x, y, 3.8, 2.15);
-      circleIcon(s, img, x + 0.3, y + 0.3, 0.75, C.teal);
-      txt(s, h, { x: x + 1.2, y: y + 0.38, w: 2.45, h: 0.6, fontSize: 18, bold: true, color: C.ink, margin: 0, valign: "middle" });
-      txt(s, b, { x: x + 0.3, y: y + 1.2, w: 3.25, h: 0.85, fontSize: 14, color: C.text, margin: 0 });
+    need.forEach(([img, h, b], i) => {
+      const y = 2.7 + i * 1.3;
+      circleIcon(s, img, 0.9, y, 0.7, C.alert);
+      txt(s, h, { x: 1.85, y: y - 0.02, w: 4.75, h: 0.38, fontSize: 16, bold: true, color: C.ink, margin: 0 });
+      txt(s, b, { x: 1.85, y: y + 0.36, w: 4.75, h: 0.75, fontSize: 13, color: C.text, margin: 0 });
+    });
+    txt(s, "How the design got here", { x: 7.2, y: 2.05, w: 5.5, h: 0.45, fontSize: 20, bold: true, color: C.ink, margin: 0 });
+    const path3 = [
+      ["Original proposal", "GPS geofencing · GSM (SIM800L) alerts · fall detection", C.muted],
+      ["Adviser review", "GPS fails indoors · 2G sunset in the Philippines · priority on localization", C.amber],
+      ["TroDes as built", "Indoor BLE zones, one beacon per room · alerts on a phone web page", C.teal],
+    ];
+    path3.forEach(([h, b, col], i) => {
+      const y = 2.65 + i * 1.4;
+      s.addShape(pres.shapes.ROUNDED_RECTANGLE, { x: 7.2, y, w: 5.5, h: 1.05, fill: { color: C.white }, line: { color: col, width: 2 }, rectRadius: 0.1 });
+      txt(s, h, { x: 7.45, y: y + 0.1, w: 5.0, h: 0.38, fontSize: 16, bold: true, color: col, margin: 0 });
+      txt(s, b, { x: 7.45, y: y + 0.48, w: 5.0, h: 0.52, fontSize: 13, color: C.text, margin: 0 });
+      if (i < path3.length - 1) arrow(s, 9.95, y + 1.07, 0, 0.3);
     });
     footer(s);
-    s.addNotes("~30 s. These map one-to-one to the tests in Chapter 4. The Wi-Fi-down fallback is a design requirement too.");
+    s.addNotes("~25 s (0:45–1:10). Brief only — the adviser asked for it. The facility needs to know WHERE residents are indoors and WHEN something is wrong. The first proposal used GPS and GSM; GPS does not work indoors and 2G is being retired, so with the adviser the project moved to indoor BLE zones. Do not quote population statistics unless the source is on hand.");
   }
 
   // 4. Architecture — the hub
   {
     const s = pres.addSlide(); s.background = { color: C.white };
     title(s, "System architecture", "The door node is also the hub — no laptop, router or internet needed");
-    s.addImage({ path: FIG("f1_arch_v2.png"), x: 0.45, y: 1.75, w: 12.45, h: 12.45 * 860 / 1860 });
+    s.addImage({ path: FIG("f1_arch_v2.png"), x: (W - 5.15 * 1860 / 860) / 2, y: 1.75, w: 5.15 * 1860 / 860, h: 5.15 }); // fits above the footer
     footer(s);
-    s.addNotes("~60 s. Left panel is what we demonstrate: beacons only broadcast; the wearable picks the strongest beacon and reports over Wi-Fi to the door node, which also runs its own network SESEMSG, the alert rules and the dashboard. Phones join by scanning a QR code and the dashboard pops up. Right panel: the same devices can instead report to a computer on the building Wi-Fi — the wearable switches by itself. Remote viewing through a cloud relay was built and tested locally but is not deployed: hosting is an open decision with the adviser.");
+    s.addNotes("~40 s (1:10–1:50). Left panel is what we demonstrate: beacons only broadcast; the wearable picks the strongest beacon and reports over Wi-Fi to the door node, which also runs its own network SESEMSG, the alert rules and the dashboard. Phones join by scanning a QR code and the dashboard pops up. Right panel: the same devices can instead report to a computer on the building Wi-Fi — the wearable switches by itself. Remote viewing through a cloud relay was built and tested locally but is not deployed: hosting is an open decision with the adviser.");
   }
 
-  // 5. Hardware
+  // 5. Hardware and enclosures
   {
     const s = pres.addSlide(); s.background = { color: C.white };
-    title(s, "Hardware", "Module-carrier design · etched single-sided wearable board · perfboard beacons and door node · PLA enclosures");
-    card(s, 0.6, 1.9, 6.4, 4.9);
-    circleIcon(s, I.watch, 0.9, 2.15, 0.7, C.teal);
-    txt(s, "Wearable", { x: 1.75, y: 2.2, w: 4.9, h: 0.55, fontSize: 22, bold: true, color: C.ink, margin: 0, valign: "middle" });
+    title(s, "Hardware and enclosures", "Wearable on an etched single-sided board · beacons and door node on perfboard · 3-D printed PLA cases");
+    card(s, 0.6, 1.8, 7.55, 5.05);
+    circleIcon(s, I.watch, 0.85, 1.95, 0.6, C.teal);
+    txt(s, "Wearable — etched board, Rev C3", { x: 1.6, y: 1.97, w: 6.3, h: 0.55, fontSize: 19, bold: true, color: C.ink, margin: 0, valign: "middle" });
+    placeImg(s, P.pcb, 0.85, 2.65, 3.45, 2.1);
+    placeImg(s, P.wearCase, 4.45, 2.65, 3.45, 2.1);
+    txt(s, "Single-sided board (KiCad, DRC clean)", { x: 0.85, y: 4.77, w: 3.45, h: 0.25, fontSize: 10, italic: true, color: C.muted, align: "center", margin: 0 });
+    txt(s, "Belt-worn case (Rev B)", { x: 4.45, y: 4.77, w: 3.45, h: 0.25, fontSize: 10, italic: true, color: C.muted, align: "center", margin: 0 });
     txt(s, [
-      { text: "ESP32-WROOM-32 devkit (BLE scan + Wi-Fi)", options: { bullet: true, breakLine: true } },
-      { text: "MAX30102 heart rate · SOS button (GPIO 27)", options: { bullet: true, breakLine: true } },
-      { text: "Piezo buzzer via 2N2222 + 1N4148 flyback (GPIO 25) · status LED", options: { bullet: true, breakLine: true } },
-      { text: "Battery sense: 100 k / 100 k divider on GPIO 34", options: { bullet: true, breakLine: true } },
-      { text: "I²C: SDA GPIO 22, SCL GPIO 21", options: { bullet: true } },
-    ], { x: 0.9, y: 3.0, w: 5.9, h: 2.1, fontSize: 14, paraSpaceAfter: 6, margin: 0 });
-    txt(s, "Power chain", { x: 0.9, y: 5.2, w: 5.9, h: 0.35, fontSize: 14, bold: true, color: C.teal, margin: 0 });
-    const chain = ["Li-Po 3.7 V", "TP4056 + DW01", "MT3608 → 5.0 V", "ESP32 VIN → 3.3 V"];
-    chain.forEach((c, i) => {
-      const x = 0.9 + i * 1.5;
-      s.addShape(pres.shapes.ROUNDED_RECTANGLE, { x, y: 5.6, w: 1.3, h: 0.8, fill: { color: C.white }, line: { color: C.teal, width: 1 }, rectRadius: 0.08 });
-      txt(s, c, { x, y: 5.6, w: 1.3, h: 0.8, fontSize: 11, bold: true, color: C.ink, align: "center", valign: "middle", margin: 2 });
-      if (i < chain.length - 1) arrow(s, x + 1.3, 6.0, 0.2, 0);
-    });
-    card(s, 7.3, 1.9, 5.4, 2.3);
-    circleIcon(s, I.radio, 7.6, 2.15, 0.7, C.safe);
-    txt(s, "Zone beacons ×3", { x: 8.45, y: 2.2, w: 4.0, h: 0.55, fontSize: 20, bold: true, color: C.ink, margin: 0, valign: "middle" });
-    txt(s, "ESP32 devkits on 5 V USB power, iBeacon at +9 dBm every 100 ms, identical height and orientation.", { x: 7.6, y: 2.95, w: 4.9, h: 1.1, fontSize: 14, margin: 0 });
-    card(s, 7.3, 4.5, 5.4, 2.3, C.alertTint);
-    circleIcon(s, I.router, 7.6, 4.75, 0.7, C.alert);
-    txt(s, "Door node = hub", { x: 8.45, y: 4.8, w: 4.0, h: 0.55, fontSize: 20, bold: true, color: C.ink, margin: 0, valign: "middle" });
-    txt(s, "ESP32 + reed switch on GPIO 18 (heartbeat every 30 s). Also runs the SESEMSG Wi-Fi network and serves the dashboard.", { x: 7.6, y: 5.55, w: 4.9, h: 1.15, fontSize: 14, margin: 0 });
+      { text: "ESP32 devkit and MAX30102 on headers · SOS button · buzzer · status LED", options: { bullet: true, breakLine: true } },
+      { text: "Battery % from a 100 k / 100 k divider on GPIO 34 — the MAX17043 socket is empty (gauge not delivered)", options: { bullet: true, breakLine: true } },
+      { text: "Li-Po 2000 mAh → TP4056 charger → MT3608 boost to 5 V, wired in a power deck under the board", options: { bullet: true, breakLine: true } },
+      { text: "PLA case 74 × 74 × 45.8 mm: snap lid, sliding belt clip, charge-light window, rounded edges", options: { bullet: true } },
+    ], { x: 0.85, y: 5.1, w: 7.1, h: 1.7, fontSize: 12.5, paraSpaceAfter: 3, margin: 0 });
+    card(s, 8.4, 1.8, 4.3, 5.05, C.alertTint);
+    circleIcon(s, I.router, 8.65, 1.95, 0.6, C.alert);
+    txt(s, "Beacons and door node", { x: 9.4, y: 1.97, w: 3.2, h: 0.55, fontSize: 17, bold: true, color: C.ink, margin: 0, valign: "middle" });
+    placeImg(s, P.nodeCase, 8.65, 2.65, 3.8, 2.1);
+    txt(s, "Snap-lid boxes, zone name on the lid", { x: 8.65, y: 4.77, w: 3.8, h: 0.25, fontSize: 10, italic: true, color: C.muted, align: "center", margin: 0 });
+    txt(s, [
+      { text: "ESP32 soldered to a 5\u00A0×\u00A07\u00A0cm perfboard; 5\u00A0V USB charger", options: { bullet: true, breakLine: true } },
+      { text: "Three beacons: +9 dBm, every 100\u00A0ms", options: { bullet: true, breakLine: true } },
+      { text: "Door node: reed switch on GPIO 18, and the SESEMSG hub", options: { bullet: true, breakLine: true } },
+      { text: "PLA boxes, 55\u00A0×\u00A075\u00A0×\u00A026\u00A0mm", options: { bullet: true } },
+    ], { x: 8.65, y: 5.1, w: 3.85, h: 1.7, fontSize: 12.5, paraSpaceAfter: 3, margin: 0 });
     footer(s);
-    s.addNotes("~45 s. All three device types share the ESP32 and one toolchain. Power chain: the boost-to-5 V topology was chosen because no suitable low-dropout regulator could be sourced in time; the cost is runtime (see conclusions). Hold up the wearable and the door node here.");
+    s.addNotes("~50 s (1:50–2:40). Hold up the wearable, then a beacon and the door node. Only the wearable is an etched board; the beacons and the door node are perfboard (adviser-approved). The fuel-gauge socket is empty because the MAX17043 was not delivered — battery level comes from the divider, and the firmware for the gauge is ready. The boost-to-5 V chain was used because no low-dropout regulator could be sourced in time; the cost is runtime. The case was revised after fitting (Rev B): taller for the power wiring, snap hooks, belt clip, a window to see the charging light, rounded edges for elderly wearers.");
   }
 
-  // 6. How it works — zone + SOS
+  // 6. Technical aspect — zone + SOS
   {
     const s = pres.addSlide(); s.background = { color: C.white };
     title(s, "How it decides — and how it calls for help", "Compare beacons, never estimate distance · the button carries the urgency");
@@ -201,23 +238,24 @@ async function icon(Comp, color) {
     });
     txt(s, "Phones show the message and sound an alarm until Acknowledge — which also clears the wearable. More presses escalate an open SOS.", { x: 7.2, y: 5.55, w: 5.3, h: 1.1, fontSize: 13, color: C.muted, margin: 0 });
     footer(s);
-    s.addNotes("~60 s. Left: classification compares beacons and never uses a distance estimate — Test 1 shows why. The adaptive confirmation came from a field observation: people near the wearable made two similar signals alternate. Right: the SOS patterns were a team addition; the acknowledgement loop means the resident hears when help is on the way.");
+    s.addNotes("~40 s (2:40–3:20). Left: classification compares beacons and never uses a distance estimate — Test 1 shows why. The adaptive confirmation came from a field observation: people near the wearable made two similar signals alternate. Right: the SOS patterns were a team addition; the acknowledgement loop means the resident hears when help is on the way.");
   }
 
-  // 7. Constraints and design decisions
+  // 7. Design constraints
   {
     const s = pres.addSlide(); s.background = { color: C.white };
-    title(s, "Design constraints and decisions", "Each chosen against its alternatives — supports SDG 3, Good Health and Well-Being");
+    title(s, "Design constraints", "What limited the design, and what was chosen against the alternatives");
     tableSlide(s, ["Constraint", "Chosen", "Alternatives considered"], [
-      ["Localization", "BLE beacons + ESP32 radio (weighted score 4.30)", "UWB 3.40 (cost), Wi-Fi RSSI 3.35, RFID 2.75, GPS 2.25"],
+      ["Indoor localization", "BLE beacons + ESP32 radio (weighted score 4.30)", "UWB 3.40, Wi-Fi RSSI 3.35, RFID 2.75, GPS 2.25"],
+      ["Cost", "Commonly available modules — ₱4,774 bill of materials (₱2,265 of it estimated)", "UWB: scored 2 of 5 on cost per zone"],
+      ["Power (24 h target)", "2000 mAh Li-Po, boost to 5 V → devkit regulator: ≈ 20 h calculated, not measured", "Low-dropout regulator — none sourceable in time"],
       ["Backend hosting", "Door node as stand-alone hub (no laptop, no internet)", "Laptop server (kept as fallback); cloud (open decision)"],
       ["Caregiver interface", "Web page on any phone, joined by QR", "Native mobile app — per-platform effort, installation"],
       ["Security and privacy", "WPA2 network + passcode with lock-out; data on site", "Open network; cloud storage of health data"],
-      ["Wearable power", "Boost 5 V → devkit regulator", "Low-dropout regulator — none sourceable in time"],
-      ["Fabrication", "Etched single-sided wearable board; beacons and door node on perfboard (approved 24 Sep)", "All perfboard; all etched boards"],
-    ], [2.5, 4.9, 4.7], 1.85, 14, 0.62);
+      ["Fabrication", "Etched single-sided wearable board; beacons and door node on perfboard (adviser-approved)", "All perfboard; all etched boards"],
+    ], [2.45, 5.25, 4.4], 1.8, 13, 0.62);
     footer(s);
-    s.addNotes("~40 s. The weighted decision matrix is Table 3.3 of the paper. Backend hosting is the newest decision: running the server inside the door node removes the laptop and the internet from the list of things that can fail.");
+    s.addNotes("~30 s (3:20–3:50). Read the left column and pick two rows to explain: localization (the weighted matrix is in Section 3.12 of the paper) and power (the runtime is calculated, not measured — say so before the panel asks). The cost total includes ₱2,265 of supplier-listing estimates for parts with no receipt.");
   }
 
   // 8. Standards
@@ -239,59 +277,64 @@ async function icon(Comp, color) {
       txt(s, b, { x: 6.0, y: y + 0.08, w: 6.5, h: 0.72, fontSize: 14, color: C.text, margin: 0, valign: "middle" });
     });
     footer(s);
-    s.addNotes("~30 s. The Data Privacy Act matters because the system handles location and heart rate: that is why the dashboard has a passcode and why data stays on the facility's own equipment by default.");
+    s.addNotes("~20 s (3:50–4:10). The Data Privacy Act matters because the system handles location and heart rate: that is why the dashboard has a passcode and why data stays on the facility's own equipment by default.");
   }
 
-  // 9. What we let go
+  // 9. SDG
+  {
+    const s = pres.addSlide(); s.background = { color: C.white };
+    title(s, "Sustainable Development Goal", "TroDes contributes to SDG 3 — Good Health and Well-Being");
+    const G = "4C9F38"; // SDG 3 green
+    s.addShape(pres.shapes.ROUNDED_RECTANGLE, { x: 0.6, y: 1.85, w: 3.7, h: 3.7, fill: { color: G }, line: { color: G }, rectRadius: 0.15 });
+    s.addText("SDG", { x: 0.85, y: 2.0, w: 1.5, h: 0.5, fontFace: BF, fontSize: 20, bold: true, color: C.white, margin: 0, isTextBox: true });
+    s.addText("3", { x: 0.85, y: 2.3, w: 1.6, h: 1.6, fontFace: HF, fontSize: 96, bold: true, color: C.white, margin: 0, valign: "middle", isTextBox: true });
+    s.addImage({ data: I.health, x: 2.75, y: 2.55, w: 1.25, h: 1.25 });
+    s.addText("GOOD HEALTH AND WELL-BEING", { x: 0.85, y: 4.15, w: 3.2, h: 1.1, fontFace: BF, fontSize: 20, bold: true, color: C.white, margin: 0, valign: "top", isTextBox: true });
+    txt(s, "“Ensure healthy lives and promote well-being for all at all ages”", { x: 0.6, y: 5.75, w: 3.7, h: 0.9, fontSize: 13, italic: true, color: C.muted, margin: 0 });
+    const rows = [
+      [I.person, "Residents", "Can call for help from anywhere in the facility, and are not left to enter unsafe areas unnoticed"],
+      [I.groups, "Caregivers", "Less need for continuous watching; an SOS reaches every phone in a median 295 ms (n = 6)"],
+      [I.home, "The facility", "Subscription-free, built from commonly available parts and maintained on site; the data stays on site"],
+    ];
+    rows.forEach(([img, h, b], i) => {
+      const y = 1.85 + i * 1.6;
+      card(s, 4.7, y, 8.0, 1.4);
+      circleIcon(s, img, 4.95, y + 0.3, 0.8, G);
+      txt(s, h, { x: 6.0, y: y + 0.15, w: 6.5, h: 0.42, fontSize: 18, bold: true, color: C.ink, margin: 0, valign: "middle" });
+      txt(s, b, { x: 6.0, y: y + 0.58, w: 6.5, h: 0.75, fontSize: 14, color: C.text, margin: 0 });
+    });
+    txt(s, "The decision-matrix weights reflect the needs of a home for the aged (paper, Section 3.12).", { x: 4.7, y: 6.6, w: 8.0, h: 0.35, fontSize: 12, italic: true, color: C.muted, margin: 0 });
+    footer(s);
+    s.addNotes("~20 s (4:10–4:30). SDG 3 is about well-being at all ages — the residents of a home for the aged are the people it names. Give one line per row; the measured SOS delivery time is the concrete link.");
+  }
+
+  // 10. What we let go
   {
     const s = pres.addSlide(); s.background = { color: C.white };
     title(s, "What we let go", "Removed or deferred — each with a reason");
     tableSlide(s, ["Feature", "Why", "Status"], [
-      ["GPS + outdoor geofencing, GSM (SIM800L)", "Indoor failure; 2G sunset in the Philippines", "Removed (adviser)"],
+      ["GPS + outdoor geofencing, GSM (SIM800L)", "Unreliable indoors; 2G sunset in the Philippines", "Removed (adviser)"],
       ["Fall detection (accelerometer)", "Priority on localization and SOS", "Removed (adviser)"],
-      ["Native mobile app", "Browser page works on every phone", "Not developed"],
-      ["Etched PCB · low-dropout regulator", "Schedule and part availability", "Perfboard · boost converter"],
-      ["Measured 24 h battery runtime", "No cell or fuel gauge available", "Calculated only (~20 h, 2000 mAh cell)"],
-      ["Remote viewing · push notifications", "Needs cloud hosting (open decision)", "Built and tested locally; further study"],
-    ], [4.2, 4.5, 3.4], 1.85, 14, 0.62);
+      ["Native mobile app", "A browser page works on every phone", "Not developed"],
+      ["Low-dropout regulator", "No part sourced in time", "Boost converter used"],
+      ["MAX17043 fuel gauge", "Not delivered in time", "Divider used; socket and firmware ready"],
+      ["Measured 24 h runtime", "No full discharge test possible", "Calculated only (≈ 20 h, 2000 mAh)"],
+      ["Remote viewing, push notifications", "Needs cloud hosting (open decision)", "Built and tested locally; further study"],
+    ], [4.2, 4.4, 3.5], 1.8, 14, 0.6);
     footer(s);
-    s.addNotes("~30 s. State these plainly — the panel asked for them. The remote relay exists and passed 15 of 15 local tests, but deploying health data to a cloud service is a decision for the adviser and the facility.");
+    s.addNotes("~25 s (4:30–4:55). State these plainly — the adviser asked for them. Two were adviser decisions, two were part availability, one is time, one is an open hosting decision. The remote relay exists and passed 15 of 15 local tests, but putting health data on a cloud service is a decision for the adviser and the facility.");
   }
 
-  // 10. Test 1
-  {
-    const s = pres.addSlide(); s.background = { color: C.white };
-    title(s, "Test 1 — Signal strength vs. distance", "Single beacon, +9 dBm, line of sight, ≥ 60 samples per mark (21 Sep 2026)");
-    s.addChart(pres.charts.LINE, [
-      { name: "Measured mean RSSI (dBm)", labels: ["1.0 m", "1.5 m", "2.0 m", "4.0 m", "6.0 m"], values: [-72.3, -71.1, -75.5, -70.4, -76.1] },
-    ], {
-      x: 0.6, y: 1.8, w: 6.9, h: 4.9, chartColors: [C.teal], lineSize: 3, lineDataSymbol: "circle", lineDataSymbolSize: 9,
-      showValue: true, dataLabelPosition: "t", dataLabelColor: C.ink, dataLabelFontSize: 12,
-      valAxisMinVal: -80, valAxisMaxVal: -65, valAxisLabelColor: C.muted, catAxisLabelColor: C.muted,
-      valGridLine: { color: "E5E7EB", size: 0.5 }, catGridLine: { style: "none" }, showLegend: false,
-      showTitle: true, title: "Mean RSSI at each distance (run A)", titleFontSize: 14, titleColor: C.ink,
-    });
-    txt(s, "Fitted path-loss exponent", { x: 7.9, y: 1.9, w: 4.8, h: 0.4, fontSize: 16, bold: true, color: C.muted, margin: 0 });
-    txt(s, [{ text: "n = 0.28 / 0.55", options: { fontSize: 40, bold: true, color: C.alert, breakLine: true } }, { text: "free space = 2.0 (physical minimum)", options: { fontSize: 14, color: C.muted } }], { x: 7.9, y: 2.35, w: 4.8, h: 1.3, margin: 0 });
-    txt(s, [
-      { text: "The same ±3 dB pattern appeared with two different beacons → a property of the position, not the radio", options: { bullet: true, breakLine: true } },
-      { text: "Standing-wave fading: at 12.5 cm wavelength, maxima and minima every ~6 cm", options: { bullet: true, breakLine: true } },
-      { text: "Conclusion: distance from RSSI is unreliable indoors — so the design never uses it", options: { bullet: true, bold: true } },
-    ], { x: 7.9, y: 3.9, w: 4.8, h: 2.8, fontSize: 14, paraSpaceAfter: 8, margin: 0 });
-    footer(s);
-    s.addNotes("~40 s. A documented negative result: the signal does not fall off smoothly with distance indoors; two independent beacons showed the same residual pattern, which identifies the environment (multipath) as the cause. It justifies classification by comparison rather than distance.");
-  }
-
-  // 11. Results on the final firmware (30 Sep)
+  // 11. Results
   {
     const s = pres.addSlide(); s.background = { color: C.white };
     title(s, "Results", "Measured 24 Sep – 1 Oct 2026 · values from logged captures only");
     const cards = [
-      [I.radio, "Zone accuracy (Run 1)", "0 cross-room errors · 56.2 % where two zones shared a room"],
-      [I.timer, "SOS delivery time", "median 295 ms · max 408 ms (n = 6)"],
-      [I.heart, "Heart rate vs oximeter", "+3 and +0.5 bpm (2 readings, preliminary)"],
+      [I.radio, "Zone accuracy (Run\u00A01)", "0 cross-room errors · 56.2\u00A0% where two zones shared a room"],
+      [I.timer, "SOS delivery time", "median 295\u00A0ms · max 408\u00A0ms (n\u00A0=\u00A06)"],
+      [I.heart, "Heart rate vs oximeter", "+3 and +0.5\u00A0bpm (2 readings, preliminary)"],
       [I.door, "Door openings", "4 of 4 detected (29 Sep: 3 · demo 30 Sep: 1)"],
-      [I.wifi, "Hub: 4 phones polling", "median 32 ms · worst 60 ms"],
+      [I.wifi, "Hub: 4 phones polling", "median 32\u00A0ms · worst 60\u00A0ms"],
       [I.check, "Dashboard self-test", "38 / 38 checks · hub 17 / 17"],
     ];
     cards.forEach(([img, h, b], i) => {
@@ -300,11 +343,10 @@ async function icon(Comp, color) {
       card(s, x, y, 3.8, 2.15);
       circleIcon(s, img, x + 0.3, y + 0.3, 0.7, i < 4 ? C.teal : C.safe);
       txt(s, h, { x: x + 1.15, y: y + 0.3, w: 2.5, h: 0.7, fontSize: 16, bold: true, color: C.ink, margin: 0, valign: "middle" });
-      if (i < 4) pending(s, b, x + 0.3, y + 1.25, 3.2, 0.6);
-      else txt(s, b, { x: x + 0.3, y: y + 1.25, w: 3.2, h: 0.6, fontSize: 18, bold: true, color: C.safe, margin: 0, valign: "middle" });
+      txt(s, b, { x: x + 0.3, y: y + 1.2, w: 3.25, h: 0.8, fontSize: 14, bold: true, color: i < 4 ? C.teal : C.safe, margin: 0, valign: "middle" });
     });
     footer(s);
-    s.addNotes("~60 s. Fill the four yellow cards from the 30 September captures (test_day_report.py and analyze_zone_accuracy.py). Lead with the strongest number. Be candid about any remaining errors and where they occur.");
+    s.addNotes("~30 s (4:55–5:25). Lead with zero cross-room errors, then the SOS delivery time. Be candid: the 56.2 % is from Run 1 on earlier firmware where two zones shared one room; the heart-rate figure is two readings only. Then go straight to the demo.");
   }
 
   // 12. Demo
@@ -320,9 +362,9 @@ async function icon(Comp, color) {
       s.addText(String(i + 1), { x: x + 0.62, y: 2.6, w: 0.6, h: 0.6, fontFace: BF, fontSize: 18, bold: true, color: C.white, align: "center", valign: "middle", margin: 0, isTextBox: true });
       s.addText([{ text: h, options: { bold: true, fontSize: 15, breakLine: true } }, { text: b, options: { fontSize: 12, color: "CFE8EA" } }], { x: x + 0.08, y: 3.35, w: 1.69, h: 1.5, fontFace: BF, color: C.white, align: "center", valign: "top", margin: 0, isTextBox: true });
     });
-    s.addText("Fallback: laptop server on the facility Wi-Fi (the wearable switches by itself) · backup video of the full demo.", { x: 0.6, y: 5.6, w: 12, h: 0.8, fontFace: BF, fontSize: 14, color: "9FC7CC", margin: 0, isTextBox: true });
+    s.addText("The zones in this room stand in for separate rooms.\nFallback: laptop server on the facility Wi-Fi (the wearable switches by itself) · backup video of the full demo.", { x: 0.6, y: 5.6, w: 12, h: 0.8, fontFace: BF, fontSize: 14, color: "9FC7CC", margin: 0, isTextBox: true });
     footer(s);
-    s.addNotes("~150 s — the heart of the presentation. Hand out the access cards first. State that zones in this single room stand in for separate rooms. If the hub misbehaves, switch to the laptop fallback or play the backup video, and say which one it is.");
+    s.addNotes("~3½ min (5:25–8:55) — the heart of the presentation; the adviser asked for the demo to be emphasized. Hand out the access cards first. State that zones in this single room stand in for separate rooms. If the hub misbehaves, switch to the laptop fallback or play the backup video, and say which one it is.");
   }
 
   // 13. Conclusions
@@ -350,7 +392,7 @@ async function icon(Comp, color) {
       { text: "Show charging on the dashboard (USB-input sense); fuel gauge for accurate %", options: { bullet: true } },
     ], { x: 7.2, y: 2.65, w: 5.3, h: 3.9, fontSize: 15, paraSpaceAfter: 10, margin: 0 });
     footer(s);
-    s.addNotes("~40 s. Be direct about the runtime gap: it follows from a sourcing constraint, the fix is known, and it belongs in Chapter 5 as a recommendation.");
+    s.addNotes("~25 s (8:55–9:20). Be direct about the runtime gap: it follows from a sourcing constraint, the fix is known, and it belongs in Chapter 5 as a recommendation.");
   }
 
   // 14. Q&A
@@ -360,19 +402,43 @@ async function icon(Comp, color) {
     s.addText("Thank you", { x: 0.6, y: 3.1, w: W - 1.2, h: 1.0, fontFace: HF, fontSize: 48, bold: true, color: C.white, align: "center", margin: 0, isTextBox: true });
     s.addText("Questions and answers", { x: 0.6, y: 4.1, w: W - 1.2, h: 0.6, fontFace: BF, fontSize: 22, color: "9FC7CC", align: "center", margin: 0, isTextBox: true });
     s.addText("Chester John B. Cirio  ·  Pathrish Anne R. Cruz  ·  Adviser: Engr. Glenn V. Magwili", { x: 0.6, y: 5.6, w: W - 1.2, h: 0.5, fontFace: BF, fontSize: 14, color: C.white, align: "center", margin: 0, isTextBox: true });
-    s.addNotes("Likely questions: why not UWB or Wi-Fi RSSI; why the runtime falls short; what happens when Wi-Fi or the hub fails (queue + chirp; laptop fallback); how many phones the hub supports (7 + the wearable); how accurate the heart rate is; why perfboard (adviser approval, 24 Sep); where the data is stored (on site; RA 10173).");
+    s.addNotes("Likely questions: why not UWB or Wi-Fi RSSI; why the runtime falls short; what happens when Wi-Fi or the hub fails (queue + chirp; laptop fallback); how many phones the hub supports (7 + the wearable); how accurate the heart rate is; why only the wearable is an etched board and the nodes are perfboard (adviser-approved); why there is no fuel gauge (the MAX17043 was not delivered); where the data is stored (on site; RA 10173).");
     slideNo++;
   }
 
-  // Backup A. Test 2 Run 1
+  // Backup A. Test 1
+  {
+    const s = pres.addSlide(); s.background = { color: C.white };
+    title(s, "Backup — Test 1, signal strength vs. distance", "Single beacon, +9 dBm, line of sight, ≥ 60 samples per mark (21 Sep 2026)");
+    s.addChart(pres.charts.LINE, [
+      { name: "Measured mean RSSI (dBm)", labels: ["1.0 m", "1.5 m", "2.0 m", "4.0 m", "6.0 m"], values: [-72.3, -71.1, -75.5, -70.4, -76.1] },
+    ], {
+      x: 0.6, y: 1.8, w: 6.9, h: 4.9, chartColors: [C.teal], lineSize: 3, lineDataSymbol: "circle", lineDataSymbolSize: 9,
+      showValue: true, dataLabelPosition: "t", dataLabelColor: C.ink, dataLabelFontSize: 12,
+      valAxisMinVal: -80, valAxisMaxVal: -65, valAxisLabelColor: C.muted, catAxisLabelColor: C.muted,
+      valGridLine: { color: "E5E7EB", size: 0.5 }, catGridLine: { style: "none" }, showLegend: false,
+      showTitle: true, title: "Mean RSSI at each distance (run A)", titleFontSize: 14, titleColor: C.ink,
+    });
+    txt(s, "Fitted path-loss exponent", { x: 7.9, y: 1.9, w: 4.8, h: 0.4, fontSize: 16, bold: true, color: C.muted, margin: 0 });
+    txt(s, [{ text: "n = 0.28 / 0.55", options: { fontSize: 40, bold: true, color: C.alert, breakLine: true } }, { text: "free-space reference = 2.0", options: { fontSize: 14, color: C.muted } }], { x: 7.9, y: 2.35, w: 4.8, h: 1.3, margin: 0 });
+    txt(s, [
+      { text: "The same ±3 dB pattern appeared with two different beacons → a property of the position, not the radio", options: { bullet: true, breakLine: true } },
+      { text: "Standing-wave fading: at 12.5 cm wavelength, maxima and minima every ~6\u00A0cm", options: { bullet: true, breakLine: true } },
+      { text: "Conclusion: distance from RSSI is unreliable indoors — so the design never uses it", options: { bullet: true, bold: true } },
+    ], { x: 7.9, y: 3.9, w: 4.8, h: 2.8, fontSize: 14, paraSpaceAfter: 8, margin: 0 });
+    footer(s);
+    s.addNotes("Backup. Run A is the bedroom_wing beacon; run B (dining_hall, data/test1/test1_los.csv) gives 0.55 on the mark means. Do not call 2.0 a physical minimum: indoor line-of-sight exponents below 2 are commonly reported. A documented negative result: the signal does not fall off smoothly with distance indoors; two independent beacons showed the same residual pattern, which identifies the environment (multipath) as the cause. It justifies classification by comparison rather than distance.");
+  }
+
+  // Backup B. Test 2 Run 1
   {
     const s = pres.addSlide(); s.background = { color: C.white };
     title(s, "Backup — Test 2, Run 1 (earlier firmware)", "School, 24 Sep 2026 · 495 samples · 16 points · bedroom and medicine beacons shared one room");
-    const stats = [["0", "cross-room errors", "never reported the wrong room across a wall", C.safe], ["100 %", "within 1 m", "of each beacon, once the tester had arrived", C.teal], ["23.2 %", "unresolved", "all at doorways, below the −88 dBm floor", C.amber]];
+    const stats = [["0", "cross-room errors", "never reported the wrong room across a wall", C.safe], ["83–100\u00A0%", "within 1 m of a beacon", "Medicine and Dining 100 %; Bedroom 83 % and 93 %", C.teal], ["23.2 %", "unresolved", "all at doorways, below the −88 dBm floor", C.amber]];
     stats.forEach(([big, lab, sub, col], i) => {
       const y = 1.9 + i * 1.62;
       card(s, 0.6, y, 5.3, 1.45);
-      txt(s, big, { x: 0.8, y: y + 0.15, w: 2.2, h: 1.1, fontSize: 40, bold: true, color: col, valign: "middle", margin: 0 });
+      txt(s, big, { x: 0.8, y: y + 0.15, w: 2.2, h: 1.1, fontSize: big.length > 6 ? 26 : 40, bold: true, color: col, valign: "middle", margin: 0 });
       txt(s, [{ text: lab, options: { bold: true, fontSize: 17, color: C.ink, breakLine: true } }, { text: sub, options: { fontSize: 13, color: C.muted } }], { x: 3.0, y: y + 0.2, w: 2.8, h: 1.1, valign: "middle", margin: 0 });
     });
     s.addChart(pres.charts.BAR, [{ name: "Recall", labels: ["Bedroom Wing", "Dining Hall (own room)", "Medicine Room"], values: [49, 85, 47] }], {
@@ -386,7 +452,7 @@ async function icon(Comp, color) {
     s.addNotes("Backup for questions about accuracy history.");
   }
 
-  // Backup B. Engineering findings
+  // Backup C. Engineering findings
   {
     const s = pres.addSlide(); s.background = { color: C.white };
     title(s, "Backup — what building it taught us", "Measured problems, found with evidence, fixed at the cause");

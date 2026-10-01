@@ -7,9 +7,10 @@ here is decided by Claude; wording kept close to the notes.
 
 | Topic | Where it is covered |
 |---|---|
-| Constraints | Deck: "Design constraints and decisions". Paper: 3.12 Design Constraints and Decision Matrix (SDG 3) |
+| Constraints | Deck: "Design constraints". Paper: 3.12 Design Constraints and Decision Matrix (SDG 3) |
 | Standards | Deck: "Applicable standards and regulations". Paper: 3.8 Applicable Standards and Regulations |
-| Design | Deck: architecture, hardware, "How it decides". Paper: Chapter 3 |
+| Design | Deck: architecture, "Hardware and enclosures", "How it decides". Paper: Chapter 3 |
+| SDG | Deck: "Sustainable Development Goal" (SDG 3). Paper: Chapter 1 and 3.12 |
 | What we've let go | Deck: "What we let go". Paper: 3.14 Descoped Features |
 
 ## Format
@@ -24,7 +25,7 @@ here is decided by Claude; wording kept close to the notes.
 - [ ] **User's manual.**
 - [ ] **1 recommendation form.** A copy for the 3 panel members, if required. It serves as the conformity.
 - [ ] **Photocopy of the Official Receipt.**
-- [ ] **PPT** (deck v0.3), plus a PDF copy on a USB stick.
+- [ ] **PPT** (deck v0.4), plus a PDF copy on a USB stick (export it from PowerPoint so the fonts match).
 - [ ] **Prototype:** wearable, beacons, door node, chargers and cables.
 - [ ] **Actual demo:** setup per the demo slide, checked before entering.
 - [ ] **Video demo:** on the laptop and a USB stick.
