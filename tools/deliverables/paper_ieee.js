@@ -127,12 +127,29 @@ const WIDE = (children) => ({ wide: children });
 // =============================================================================
 // FRONT MATTER
 // =============================================================================
+// IEEE author block: one centred column per author, side by side, borderless.
+const AUTHORS = [
+  ["Chester John B. Cirio", "cjbcirio@mymail.mapua.edu.ph"],
+  ["Pathrish Anne R. Cruz", "pathrishcruz@mymail.mapua.edu.ph"],
+];
+const AFFIL = ["Bachelor of Electronics and Communication Engineering", "School of AI, Electrical, Electronics, and Computer Engineering", "Mapúa University"];
+const authorCell = ([name, mail]) => new TableCell({
+  width: { size: FULL / 2, type: WidthType.DXA },
+  borders: { top: none, bottom: none, left: none, right: none }, margins: { left: 0, right: 0 },
+  children: [
+    new Paragraph({ alignment: AlignmentType.CENTER, spacing: { after: 20 }, children: [t(name, { size: 22 })] }),
+    ...AFFIL.map((a) => new Paragraph({ alignment: AlignmentType.CENTER, spacing: { after: 0 }, children: [t(a, { size: 18 })] })),
+    new Paragraph({ alignment: AlignmentType.CENTER, spacing: { after: 0 }, children: [t(mail, { size: 18 })] }),
+  ],
+});
 const title = [
-  new Paragraph({ alignment: AlignmentType.CENTER, spacing: { before: 120, after: 120 }, children: [t("TroDes: An Indoor Bluetooth Low Energy-Based Localization and Safety Monitoring System for a Home for the Aged", { size: 48 })] }),
-  new Paragraph({ alignment: AlignmentType.CENTER, spacing: { after: 40 }, children: [t("Chester John B. Cirio and Pathrish Anne R. Cruz", { size: 22 })] }),
-  new Paragraph({ alignment: AlignmentType.CENTER, spacing: { after: 0 }, children: [t("School of Electrical, Electronics and Computer Engineering, Mapúa University, Manila, Philippines", { size: 20, italics: true })] }),
-  new Paragraph({ alignment: AlignmentType.CENTER, spacing: { after: 0 }, children: [t("Electronics Design, Section C1 · Adviser: Engr. Glenn V. Magwili", { size: 20, italics: true })] }),
-  new Paragraph({ alignment: AlignmentType.CENTER, spacing: { after: 240 }, children: [tbd("author e-mail addresses", { size: 18 })] }),
+  new Paragraph({ alignment: AlignmentType.CENTER, spacing: { before: 120, after: 240 }, children: [t("Smart Elderly Safety and Emergency Monitoring System with Geofencing: An Indoor BLE Based Localization and Safety Monitoring System for a Home for the Aged", { size: 48 })] }),
+  new Table({
+    width: { size: FULL, type: WidthType.DXA }, columnWidths: [FULL / 2, FULL / 2], layout: TableLayoutType.FIXED,
+    borders: { top: none, bottom: none, left: none, right: none, insideHorizontal: none, insideVertical: none },
+    rows: [new TableRow({ children: AUTHORS.map(authorCell) })],
+  }),
+  SP(240),
 ];
 
 const abstract = [
@@ -344,7 +361,7 @@ const ch4 = [
     ["2.0 m", "137", "−75.5", "2.14", "−2.6", "−3.2"], ["4.0 m", "92", "−70.4", "3.05", "+3.3", "+3.5"], ["6.0 m", "95", "−76.1", "2.47", "−1.9", "−1.8"],
   ], [0.9, 0.9, 1.2, 1, 1, 1]),
   ...table("fit", "Fitted path-loss model", ["Run", "Exponent n", "R²"], [["A — bedroom_wing", "0.28", "0.118"], ["B — dining_hall", "0.55", "0.302"]], [2, 1, 1]),
-  ...fig("t1", "f2_test1.png", COL, "Mean received signal strength against distance, run A."),
+  ...fig("t1", "f2_test1_bw.png", COL, "Mean received signal strength against distance, run A."),
   P(`**Analysis.** Both exponents are far below 2.0, the free-space value and physical lower bound, so neither was used. The standard error ${E("se")} of each mean is about 0.3 dB, yet deviations from the model reach 3.5 dB, and the residual pattern is nearly identical for two independent beacons — a property of the positions, not the transmitters. This is consistent with standing-wave fading at the 12.5 cm wavelength [7], [8]. Distance estimation is unreliable here; classification by comparison between beacons is unaffected.`),
   H2("4.2 Beacon Transmit Power and Matching"),
   P(`**Purpose.** To ensure equal effective power, since unequal power biases classification. **Procedure.** Each beacon was measured alone at 1 m (21 Sep), then side by side and spaced 30 cm apart with two beacons exchanged (24 Sep). **Data.** ${T("match")}.`),
@@ -363,7 +380,7 @@ const ch4 = [
   ], [1.8, 0.8, 0.9, 0.9, 0.9]),
   WIDE([...table("r1pts", "Run 1 per-point results", ["Point", "n", "Correct", "Unresolved", "Most common wrong answer"], run1Points, [3, 0.8, 1.2, 1.3, 2.4], FULL),
     PN("* The first 24 s at BW-near were recorded while the tester was still arriving; after arrival the point classified correctly throughout.", { spacing: { after: 120 } })]),
-  ...fig("r1", "f3_test2.png", COL, "Recall by zone, Test 2 Run 1."),
+  ...fig("r1", "f3_test2_bw.png", COL, "Recall by zone, Test 2 Run 1."),
   P("**Analysis.** There were no cross-room errors across the wall. In the shared room, points beyond about 1 m from a beacon were confused, and all 115 unresolved samples occurred at boundaries where every beacon was below the floor. An a-priori prediction (74 % overall, 21 % unresolved) matched the unresolved rate; accuracy was lower because the prediction assumed separate rooms. These findings led to the larger hysteresis, adaptive confirmation and shorter timing of the final firmware (Section 3.10)."),
   H2("4.4 Three-Beacon Walk on the Final Firmware (Functional Check)"),
   P(`**Purpose.** To verify, before the controlled run, that the final firmware follows a person between all three beacons. **Procedure.** On 30 Sep 2026 (00:22–00:37) the team walked between the beacons while the wearable's log was captured; the true position was not recorded, so the walk verifies function but does not score accuracy. **Data.** ${T("walk")} and ${F("walk")}.`),
@@ -492,6 +509,8 @@ const refs = [
   "Republic of the Philippines, “Data Privacy Act of 2012,” Republic Act No. 10173, Aug. 15, 2012.",
 ];
 const references = [
+  H1("Acknowledgment"),
+  P("The authors thank their adviser, Engr. Glenn V. Magwili, for the guidance given throughout the design project (Electronics Design, Section C1)."),
   H1("References"),
   ...refs.map((r, i) => new Paragraph({ alignment: AlignmentType.JUSTIFIED, indent: { left: 400, hanging: 400 }, spacing: { after: 40 },
     children: [t(`[${i + 1}]  `, { size: 16 }), ...runs(r, { size: 16 })] })),

@@ -3,6 +3,19 @@
 Dated record of every code change. Newest first. Each entry says what changed,
 why, and whether it has been verified on hardware.
 
+## 2026-10-01 (09:40) — paper title, author block, black-and-white figures
+
+- **Title** set to the team's edited wording: "Smart Elderly Safety and Emergency Monitoring System with Geofencing: An Indoor BLE Based Localization and Safety Monitoring System for a Home for the Aged". No other text in the team's edited copy differed from the generated paper.
+- **Author block** now follows the IEEE layout, with one centred column per author: name, programme, school, university and e-mail. The yellow e-mail placeholder is gone.
+- **Adviser line** moved from the header to a new Acknowledgment section before the References.
+- **Black and white:**
+  - Fig. 1 (`arch_col.dot`): white boxes, black lines.
+  - The power-path and walk plots (`make_figures.py`) use grey fills, hatching, line styles and markers. `make_figures.py -` skips the KiCad exports.
+  - The Test 1 and Test 2 charts are grayscale copies (`*_bw.png`), so their values are unchanged.
+  - The flowcharts and tables were already monochrome.
+  - Photographs, renders, the PCB, the schematic, the dashboard screenshot and the QR card keep their colour.
+- **Check:** the LibreOffice PDF has no coloured text, highlight or table shading and runs to 22 pages.
+
 ## 2026-10-01 (09:00) — Fig. 1 single-column
 
 - **System block diagram redrawn for one column** (`tools/deliverables/flowcharts/arch_col.dot` → `figures/f1_arch_col.png`). It is now vertical:
