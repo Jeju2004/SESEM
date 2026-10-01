@@ -6,7 +6,7 @@ script, regenerate, then open the result in Word/PowerPoint.
 ```powershell
 cd C:\Users\Chester\Desktop\Vaya\SESEM\tools\deliverables
 npm install                                   # once
-node manual.js ..\..\deliverables\drafts\TroDes_Users_Manual_DRAFT_v0.3.docx
+node manual.js ..\..\deliverables\drafts\TroDes_Users_Manual_DRAFT_v0.4.docx
 node deck.js   ..\..\deliverables\drafts\TroDes_Defense_Presentation_DRAFT_v0.3.pptx
 node paper.js  ..\..\deliverables\drafts\TroDes_IEEE_Paper_DRAFT_Rev3.docx
 node pr3.js    ..\..\deliverables\drafts\TroDes_Progress_Report_3_DRAFT.docx

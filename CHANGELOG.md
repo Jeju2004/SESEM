@@ -3,6 +3,25 @@
 Dated record of every code change. Newest first. Each entry says what changed,
 why, and whether it has been verified on hardware.
 
+## 2026-10-01 (11:10) — User's Manual v0.4
+
+- **Cover** follows the paper: the same title ("…with Geofencing: An Indoor BLE Based…"), both authors with programme, school and university as in the paper's author block, the adviser, and Section C1. "Version 0.4" replaces "Draft".
+- **Black and white**, as in the paper:
+  - tables now have black borders and grey headers;
+  - WARNING and CAUTION boxes are grey, with a black bar;
+  - headings, captions and the header are black;
+  - Fig. 1 is a new monochrome side-by-side diagram (`flowcharts/arch_wide.dot`, from the same source as the paper's Fig. 1);
+  - photographs and 3-D renders keep their colour.
+- **Layout:** 20 pages → 17.
+  - Chapters no longer each start on a new page; only the first chapter after the contents does.
+  - Table rows no longer split across pages.
+  - The door-wiring figure is placed after Section 5.3, and the dashboard screenshot after the table in Section 6.4, so neither leaves a blank half page.
+- **Wording checked against the firmware:**
+  - "location unknown" after about 8.5 s, in two places;
+  - pressing the SOS button the same number of times or fewer gives a single beep and sends nothing new (`kBeepSos1`).
+  - All other tones, LED timing, thresholds and test results matched the firmware and the paper.
+- The uploaded copy named v0.2 was byte-identical to the repository's v0.2; it held no edits.
+
 ## 2026-10-01 (10:30) — paper Rev 7: layout tightened
 
 - **Starting point:** the team's Word copy of Rev 7. Its only change was a third author, Engr. Glenn V. Magwili (BSEE, MSECE), with bold names and italic affiliations. Both are now in `paper_ieee.js`.

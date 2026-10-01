@@ -21,7 +21,7 @@ here is decided by Claude; wording kept close to the notes.
 ## Bring
 
 - [ ] **4 copies of the IEEE paper** (Rev 7, printed after the TOC is updated and the PDF exported).
-- [ ] **User's manual.**
+- [ ] **User's manual** (v0.4).
 - [ ] **1 recommendation form.** A copy for the 3 panel members, if required. It serves as the conformity.
 - [ ] **Photocopy of the Official Receipt.**
 - [ ] **PPT** (deck v0.3), plus a PDF copy on a USB stick.

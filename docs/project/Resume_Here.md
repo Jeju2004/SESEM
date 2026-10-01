@@ -6,7 +6,7 @@
 2. **1 Oct fixes flashed** (wearable COM8, door node COM7 `esp32hub`, about 03:00). Check on hardware: ticks on hold, green cancel notice, no "Location unknown" in a short hallway pass, iPhone stays at the bottom.
 3. **Tests B and C are in the paper.** B: n = 6, median 295 ms. C: n = 2, preliminary. More heart-rate readings would strengthen C.
 4. **Still to do:** Test A (Run 3, room accuracy) and Test D (door node, 20 cycles, last).
-5. **Print:** paper Rev 7 (4 copies, after updating the table of contents in Word) and the manual v0.3.
+5. **Print:** paper Rev 7 (4 copies, after updating the table of contents in Word) and the manual v0.4.
 
 Record of the night before: `House_Test_2026-09-30.md`.
 

@@ -1,4 +1,5 @@
-// Generates the TroDes User's Manual draft (.docx). Draft v0.3, 1 Oct 2026.
+// Generates the TroDes User's Manual (.docx). Version 0.4, 1 Oct 2026.
+// Black and white throughout except photographs and 3-D renders, as in the IEEE paper.
 const fs = require("fs");
 const {
   Document, Packer, Paragraph, TextRun, HeadingLevel, AlignmentType, Table, TableRow, TableCell,
@@ -34,7 +35,7 @@ function runs(parts) {
   return out;
 }
 const P = (parts, o = {}) => new Paragraph({ children: runs(parts), spacing: { after: 120 }, ...o });
-const H1 = (text) => new Paragraph({ heading: HeadingLevel.HEADING_1, children: [t(text)], pageBreakBefore: true });
+const H1 = (text, newPage = false) => new Paragraph({ heading: HeadingLevel.HEADING_1, children: [t(text)], pageBreakBefore: newPage });
 const H2 = (text) => new Paragraph({ heading: HeadingLevel.HEADING_2, children: [t(text)] });
 const B = (parts, level = 0) => new Paragraph({ children: runs(parts), numbering: { reference: "bullets", level }, spacing: { after: 60 } });
 let curList = 0;
@@ -45,33 +46,33 @@ const CODE = (line) => new Paragraph({
   shading: { type: ShadingType.CLEAR, color: "auto", fill: "F2F2F2" }, spacing: { after: 0 },
   indent: { left: 240 },
 });
-const NOTE = (label, parts, fill = "FFF4E5") => new Paragraph({
+const NOTE = (label, parts, fill = "F2F2F2") => new Paragraph({
   children: [t(label + "  ", { bold: true }), ...runs(parts)],
   shading: { type: ShadingType.CLEAR, color: "auto", fill },
-  border: { left: { style: BorderStyle.SINGLE, size: 18, color: fill === "FDE7E7" ? "C0392B" : "E67E22", space: 6 } },
+  border: { left: { style: BorderStyle.SINGLE, size: label === "WARNING" ? 24 : 12, color: "000000", space: 6 } },
   spacing: { before: 120, after: 160 }, indent: { left: 120, right: 120 },
 });
-const WARN = (parts) => NOTE("WARNING", parts, "FDE7E7");
-const CAUTION = (parts) => NOTE("CAUTION", parts, "FFF4E5");
+const WARN = (parts) => NOTE("WARNING", parts, "E7E7E7");
+const CAUTION = (parts) => NOTE("CAUTION", parts, "F2F2F2");
 const FIG = (caption) => new Paragraph({
   children: [tbd(`Insert photo/figure: ${caption}`)], alignment: AlignmentType.CENTER, spacing: { before: 120, after: 160 },
 });
 
-const border = { style: BorderStyle.SINGLE, size: 4, color: "A6A6A6" };
+const border = { style: BorderStyle.SINGLE, size: 4, color: "000000" };
 const borders = { top: border, bottom: border, left: border, right: border };
 function table(header, rows, widths) {
   const total = widths.reduce((a, b) => a + b, 0);
   const cell = (content, w, isHead) => new TableCell({
     borders, width: { size: w, type: WidthType.DXA },
-    shading: isHead ? { type: ShadingType.CLEAR, color: "auto", fill: "D9E2F3" } : undefined,
+    shading: isHead ? { type: ShadingType.CLEAR, color: "auto", fill: "D9D9D9" } : undefined,
     margins: { top: 60, bottom: 60, left: 100, right: 100 },
     children: [new Paragraph({ children: isHead ? [t(content, { bold: true })] : runs(content) })],
   });
   return new Table({
     width: { size: total, type: WidthType.DXA }, columnWidths: widths,
     rows: [
-      new TableRow({ tableHeader: true, children: header.map((h, i) => cell(h, widths[i], true)) }),
-      ...rows.map((r) => new TableRow({ children: r.map((c, i) => cell(c, widths[i], false)) })),
+      new TableRow({ tableHeader: true, cantSplit: true, children: header.map((h, i) => cell(h, widths[i], true)) }),
+      ...rows.map((r) => new TableRow({ cantSplit: true, children: r.map((c, i) => cell(c, widths[i], false)) })),
     ],
   });
 }
@@ -88,32 +89,35 @@ function IMG(file, widthIn, caption) {
   const wPx = Math.round(widthIn * 96), hPx = Math.round(wPx * h / w);
   return [
     new Paragraph({ alignment: AlignmentType.CENTER, spacing: { before: 120 }, keepNext: true, children: [new ImageRun({ type: "png", data: buf, transformation: { width: wPx, height: hPx } })] }),
-    new Paragraph({ alignment: AlignmentType.CENTER, spacing: { after: 200 }, children: [t(caption, { italics: true, size: 18, color: "595959" })] }),
+    new Paragraph({ alignment: AlignmentType.CENTER, spacing: { after: 200 }, children: [t(caption, { italics: true, size: 18 })] }),
   ];
 }
 
 const title = [
-  new Paragraph({ children: [], spacing: { before: 2400 } }),
-  new Paragraph({ alignment: AlignmentType.CENTER, children: [t("TroDes", { bold: true, size: 72, color: "1F3864" })] }),
-  new Paragraph({ alignment: AlignmentType.CENTER, spacing: { after: 240 }, children: [t("Smart Elderly Safety and Emergency Monitoring System with Geofencing", { size: 28 })] }),
-  new Paragraph({ alignment: AlignmentType.CENTER, children: [t("An Indoor BLE-Based Localization and Safety Monitoring System for a Home for the Aged", { italics: true, size: 24 })] }),
+  new Paragraph({ children: [], spacing: { before: 2000 } }),
+  new Paragraph({ alignment: AlignmentType.CENTER, children: [t("TroDes", { bold: true, size: 72 })] }),
+  new Paragraph({ alignment: AlignmentType.CENTER, spacing: { after: 120 }, children: [t("Smart Elderly Safety and Emergency Monitoring System with Geofencing:", { size: 28 })] }),
+  new Paragraph({ alignment: AlignmentType.CENTER, children: [t("An Indoor BLE Based Localization and Safety Monitoring System for a Home for the Aged", { size: 26 })] }),
   new Paragraph({ children: [], spacing: { before: 720 } }),
   new Paragraph({ alignment: AlignmentType.CENTER, children: [t("USER'S MANUAL", { bold: true, size: 44 })] }),
-  new Paragraph({ alignment: AlignmentType.CENTER, spacing: { after: 1200 }, children: [t("Draft v0.3 — 1 October 2026", { size: 22 })] }),
-  new Paragraph({ alignment: AlignmentType.CENTER, children: [t("Prepared by: Chester John B. Cirio and Pathrish Anne R. Cruz — Section C1")] }),
+  new Paragraph({ alignment: AlignmentType.CENTER, spacing: { after: 1200 }, children: [t("Version 0.4 — 1 October 2026", { size: 22 })] }),
+  new Paragraph({ alignment: AlignmentType.CENTER, children: [t("Chester John B. Cirio", { bold: true })] }),
+  new Paragraph({ alignment: AlignmentType.CENTER, spacing: { after: 160 }, children: [t("Pathrish Anne R. Cruz", { bold: true })] }),
+  new Paragraph({ alignment: AlignmentType.CENTER, children: [t("Bachelor of Electronics and Communication Engineering", { italics: true })] }),
+  new Paragraph({ alignment: AlignmentType.CENTER, children: [t("School of AI, Electrical, Electronics, and Computer Engineering", { italics: true })] }),
+  new Paragraph({ alignment: AlignmentType.CENTER, spacing: { after: 160 }, children: [t("Mapúa University", { italics: true })] }),
   new Paragraph({ alignment: AlignmentType.CENTER, children: [t("Adviser: Engr. Glenn V. Magwili")] }),
-  new Paragraph({ alignment: AlignmentType.CENTER, children: [t("BS Electronics and Communications Engineering — Electronics Design")] }),
-  new Paragraph({ alignment: AlignmentType.CENTER, children: [t("Mapúa University")] }),
+  new Paragraph({ alignment: AlignmentType.CENTER, children: [t("Electronics Design, Section C1")] }),
 ];
 
 const toc = [
-  new Paragraph({ children: [t("Contents", { bold: true, size: 32, color: "1F3864" })], pageBreakBefore: true, spacing: { after: 200 } }),
+  new Paragraph({ children: [t("Contents", { bold: true, size: 32, color: "000000" })], pageBreakBefore: true, spacing: { after: 200 } }),
   new TableOfContents("Contents", { hyperlink: true, headingStyleRange: "1-2" }),
   P([t("To refresh page numbers after editing, right-click the table and choose ", { italics: true }), t("Update Field", { italics: true, bold: true }), t(".", { italics: true })]),
 ];
 
 const s1 = [
-  H1("1. Introduction"),
+  H1("1. Introduction", true),
   H2("1.1 Purpose of this manual"),
   P("This manual explains how to install, operate and maintain TroDes, an indoor monitoring system for residents of a home for the aged. It is written for two groups of readers:"),
   B("**Caregivers** — who read the dashboard on their phones, respond to alerts and look after the wearable device day to day (Sections 2, 4, 6, 7 and 8)."),
@@ -129,7 +133,7 @@ const s1 = [
   P("TroDes is built around **Bluetooth Low Energy (BLE)**. Each zone has one fixed beacon that continuously broadcasts a short BLE signal identifying that zone. The wearable measures the strength of every beacon signal it receives and selects the zone whose beacon is strongest; the zone is decided on the wearable itself, so localization never depends on the network. The wearable then reports the zone, battery level, heart rate and any alerts over Wi-Fi."),
   P("The **door sensor node** on the restricted door also serves as the system's **hub**. It creates its own Wi-Fi network named **SESEMSG**, receives the wearable's reports and shows the caregiver dashboard to any phone that joins the network. No computer, router or internet connection is needed. Where a facility prefers, the same dashboard can instead run on a computer connected to the building's Wi-Fi (Section 5.4)."),
   P("The system therefore works **with or without an internet connection**. Everything described in this manual runs on the facility's own equipment. An internet connection is needed only for optional remote viewing from outside the facility, which is not part of the prototype."),
-  ...IMG("f1_arch_v2.png", 6.5, "Figure 1. System overview: (a) the door node as the hub, as used in the demonstration; (b) the alternative with a computer on the facility network"),
+  ...IMG("f1_arch_wide.png", 5.8, "Figure 1. System overview: (a) the door node as the hub, as used in the demonstration; (b) the alternative with a computer on the facility network"),
 ];
 
 const s2 = [
@@ -204,13 +208,12 @@ const s5 = [
   N("Connect each beacon to a 5 V USB adapter and route the cable downward, away from the antenna end."),
   N("If a power bank is used instead of an adapter, confirm that it does not switch itself off: leave the beacon running on it for 30 minutes and check that the zone is still detected."),
   CAUTION("If two or more zones must share one room (for example in a demonstration), zones are only reliably distinguished near each beacon. Place the beacons as far apart as the room allows."),
-  ...IMG("Node_Enclosures_Closed.png", 4.2, "Figure 3. Beacon and door-node enclosures (3-D model). Mount beacons 1.2–1.5 m high with the antenna end up, clear of metal (not on a metal bed frame)"),
+  ...IMG("Node_Enclosures_Closed.png", 4.0, "Figure 3. Beacon and door-node enclosures (3-D model). Mount beacons 1.2–1.5 m high with the antenna end up, clear of metal (not on a metal bed frame)"),
   H2("5.2 Installing the door sensor node (hub)"), ...restart(),
   N("Fix the node's enclosure on the wall beside the restricted door, within reach of a power outlet, where its Wi-Fi reaches the areas caregivers work in."),
   N("Fix the **reed switch** on the door frame and the **magnet** on the door, directly opposite each other and at the same height, so that they are within the switch's operating gap when the door is closed."),
   N("Connect the node to its 5 V USB adapter. Within a few seconds the Wi-Fi network **SESEMSG** appears."),
   N("Open and close the door and confirm on a phone (Section 5.3) that the door tile changes within a few seconds."),
-  ...IMG("Door_Node_Wiring.png", 5.0, "Figure 4. Door sensor node wiring: reed switch on GPIO 18 with the internal pull-up"),
   H2("5.3 Opening the dashboard on a phone"), ...restart(),
   P("Each caregiver station has an **access card** with two QR codes."),
   N("Scan **QR code 1** with the phone's camera and tap **Join**. The phone joins the SESEMSG network (password printed on the card)."),
@@ -219,6 +222,7 @@ const s5 = [
   N("Tap anywhere on the page once, so that the phone allows the alarm sound. Keep the page open and the volume up while on duty."),
   NOTE("TIP", "If the page does not open on an Android phone, turn off mobile data: some phones send pages over mobile data when the Wi-Fi network has no internet."),
   P("Up to seven phones can use the dashboard at the same time, in addition to the wearable."),
+  ...IMG("Door_Node_Wiring.png", 5.0, "Figure 4. Door sensor node wiring: reed switch on GPIO 18 with the internal pull-up"),
   H2("5.4 Alternative: dashboard on a computer (facility network)"), ...restart(),
   P("Use this option when the facility wants a permanent history of events on a computer. The wearable uses it automatically whenever the SESEMSG network is not present."),
   N("Program the door node with its normal (non-hub) firmware, and set the facility Wi-Fi name and the computer's address in both devices' configuration files (Section 5.5)."),
@@ -265,10 +269,9 @@ const s6 = [
   SP(),
   B("Presses count as one pattern when they are less than 0.7 s apart. The message is sent 0.7 s after the last press."),
   B("To cancel, keep holding until the long, low tone (3 s). A hold released earlier counts as a press and sends an SOS."),
-  B("If no one has come, the resident can press again with **more** presses; the alert is raised to the higher level. Pressing the same or fewer times repeats the confirmation only."),
+  B("If no one has come, the resident can press again with **more** presses; the alert is raised to the higher level. Pressing the same number of times or fewer gives a single beep and sends nothing new."),
   B("While an SOS is waiting, the wearable's LED stays lit. When a caregiver acknowledges it, the wearable plays a long low tone and is ready for a new SOS."),
   H2("6.4 Reading the dashboard"),
-  ...IMG("f4_dashboard_phone.png", 2.6, "Figure 5. The dashboard on a phone, with an urgent SOS waiting for acknowledgement (test data)"),
   P("The page updates every second. It follows the phone's light or dark setting; the sun/moon button switches it for the moment. Type your name at the top so that your acknowledgements are recorded under it. The dashboard has three tabs:"),
   table(["Tab / area", "What it shows"], [
     ["**Alert banner (top)**", "The most urgent unacknowledged alert, with its message, time and place, and the Acknowledge button. The arrow hides it for the moment; a new alert brings it back."],
@@ -279,6 +282,7 @@ const s6 = [
     ["**Activity**", "Recent zone changes, door events and alerts, with who acknowledged each one and when."],
   ], [2600, 6760]),
   SP(),
+  ...IMG("f4_dashboard_phone.png", 2.5, "Figure 5. The dashboard on a phone, with an urgent SOS waiting for acknowledgement (test data)"),
   H2("6.5 Status indications"),
   table(["Indication", "Meaning"], [
     ["Zone tile with a **SAFE** label", "Resident is in a safe zone"],
@@ -297,7 +301,7 @@ const s6 = [
     ["Restricted door opened", "**Critical**", "Check the door and who opened it"],
     ["Battery critical (10 %)", "**Critical**", "Charge or replace the wearable now"],
     ["Battery low (20 %)", "Warning", "Charge soon"],
-    ["Location unknown - no beacon in range", "Warning", "Locate the resident. Raised once when no beacon has been heard for about 8 seconds; clears by itself when the resident is detected in a zone again"],
+    ["Location unknown - no beacon in range", "Warning", "Locate the resident. Raised once when no beacon has been heard for about 8.5 seconds; clears by itself when the resident is detected in a zone again"],
     ["Device not reporting", "Warning", "Check the resident and the wearable. One alert per outage; clears by itself when the wearable reports again"],
     ["SOS dismissed, zone change, door closed", "Information", "No action needed"],
   ], [3600, 1600, 4160]),
@@ -322,7 +326,7 @@ const s8 = [
   table(["Problem", "Likely cause", "What to do"], [
     ["Wearable does not beep when switched on", "Battery flat, or charger protection has tripped", "Charge for at least 30 minutes, then switch on again"],
     ["Resident shows NOT REPORTING", "Wearable off, out of range, or battery flat", "Check the resident; check the wearable is on and charged"],
-    ["Zone shows unknown", "No beacon heard for about 8 seconds, e.g. a hallway or room without a beacon", "Normal in spaces without a beacon; if it appears in the middle of a zone, check that zone's beacon is powered"],
+    ["Zone shows unknown", "No beacon heard for about 8.5 seconds, e.g. a hallway or room without a beacon", "Normal in spaces without a beacon; if it appears in the middle of a zone, check that zone's beacon is powered"],
     ["Wrong zone shown", "Beacon moved, blocked or too close to another beacon", "Check beacon placement (Section 5.1)"],
     ["Chirps every minute", "Wearable cannot reach the hub or the computer", "Check that the door node (hub) is powered"],
     ["Dashboard does not open after joining SESEMSG", "Phone is using mobile data, or the sign-in page was closed", "Turn off mobile data; scan QR code 2 or open http://192.168.4.1"],
@@ -399,14 +403,14 @@ const s10 = [
 
 // ---------- document ----------
 const doc = new Document({
-  creator: "TroDes team", title: "TroDes User's Manual — Draft v0.3",
+  creator: "TroDes team", title: "TroDes User's Manual — Version 0.4",
   styles: {
     default: { document: { run: { font: FONT, size: 22 } } },
     paragraphStyles: [
       { id: "Heading1", name: "Heading 1", basedOn: "Normal", next: "Normal", quickFormat: true,
-        run: { size: 32, bold: true, font: FONT, color: "1F3864" }, paragraph: { spacing: { before: 240, after: 200 }, outlineLevel: 0, keepNext: true, keepLines: true } },
+        run: { size: 32, bold: true, font: FONT, color: "000000" }, paragraph: { spacing: { before: 240, after: 200 }, outlineLevel: 0, keepNext: true, keepLines: true } },
       { id: "Heading2", name: "Heading 2", basedOn: "Normal", next: "Normal", quickFormat: true,
-        run: { size: 26, bold: true, font: FONT, color: "2E5496" }, paragraph: { spacing: { before: 240, after: 120 }, outlineLevel: 1, keepNext: true, keepLines: true } },
+        run: { size: 26, bold: true, font: FONT, color: "000000" }, paragraph: { spacing: { before: 240, after: 120 }, outlineLevel: 1, keepNext: true, keepLines: true } },
     ],
   },
   numbering: {
@@ -420,7 +424,7 @@ const doc = new Document({
   },
   sections: [
     { properties: { page: { size: { width: 12240, height: 15840 }, margin: { top: 1440, right: 1440, bottom: 1440, left: 1440 } }, titlePage: true },
-      headers: { default: new Header({ children: [new Paragraph({ alignment: AlignmentType.RIGHT, children: [t("TroDes User's Manual — Draft v0.3", { size: 16, color: "808080" })] })] }) },
+      headers: { default: new Header({ children: [new Paragraph({ alignment: AlignmentType.RIGHT, children: [t("TroDes User's Manual — Version 0.4", { size: 16, color: "000000" })] })] }) },
       footers: { default: new Footer({ children: [new Paragraph({ alignment: AlignmentType.CENTER, children: [t("Page ", { size: 16 }), new TextRun({ children: [PageNumber.CURRENT], font: FONT, size: 16 }), t(" of ", { size: 16 }), new TextRun({ children: [PageNumber.TOTAL_PAGES], font: FONT, size: 16 })] })] }) },
       children: [...title, ...toc, ...s1, ...s2, ...s3, ...s4, ...s5, ...s6, ...s7, ...s8, ...s9, ...s10] },
   ],
