@@ -1,4 +1,4 @@
-// TroDes defense deck, draft v0.4 (1 Oct 2026) — 10-minute slot on Thu 1 Oct,
+// TroDes defense deck, v0.5 (1 Oct 2026), checked against the final paper (Rev 8) — 10-minute slot on Thu 1 Oct,
 // live demo included in the 10 minutes.
 // Usage: node deck.js <out.pptx>
 // Order: introduction, brief background, system architecture, technical aspect
@@ -99,7 +99,7 @@ async function photo(file, maxW = 1400) {
     circleIcon(s, I.pin_t, 0.8, 0.9, 1.0, C.white);
     s.addText("TroDes", { x: 0.8, y: 2.1, w: 11, h: 1.1, fontFace: HF, fontSize: 60, bold: true, color: C.white, margin: 0, isTextBox: true });
     s.addText("Smart Elderly Safety and Emergency Monitoring System with Geofencing", { x: 0.8, y: 3.2, w: 11.5, h: 0.6, fontFace: BF, fontSize: 24, color: "CFE8EA", margin: 0, isTextBox: true });
-    s.addText("An Indoor BLE-Based Localization and Safety Monitoring System for a Home for the Aged", { x: 0.8, y: 3.8, w: 11.5, h: 0.5, fontFace: BF, fontSize: 18, italic: true, color: "9FC7CC", margin: 0, isTextBox: true });
+    s.addText("An Indoor BLE Based Localization and Safety Monitoring System for a Home for the Aged", { x: 0.8, y: 3.8, w: 11.5, h: 0.5, fontFace: BF, fontSize: 18, italic: true, color: "9FC7CC", margin: 0, isTextBox: true });
     s.addText([
       { text: "Chester John B. Cirio  ·  Pathrish Anne R. Cruz", options: { bold: true, breakLine: true } },
       { text: "Adviser: Engr. Glenn V. Magwili", options: { breakLine: true } },
@@ -127,12 +127,12 @@ async function photo(file, maxW = 1400) {
     });
     txt(s, [
       { text: "Objectives  ", options: { bold: true, color: C.teal } },
-      { text: "room-level zone detection · restricted-zone and door alerts · 3-level SOS with acknowledgement · battery and heart-rate reporting · works on its own network" },
+      { text: "zone from BLE beacons · door alerts at restricted areas · SOS with alert and dismiss · battery and heart rate · web caregiver interface · fallback when the network is down" },
     ], { x: 0.6, y: 6.0, w: 8.6, h: 0.75, fontSize: 14, margin: 0 });
     placeImg(s, P.phone, 9.75, 1.75, 2.95, 5.0);
     txt(s, "Caregiver dashboard on a phone", { x: 9.6, y: 6.78, w: 3.25, h: 0.28, fontSize: 11, italic: true, color: C.muted, align: "center", margin: 0 });
     footer(s);
-    s.addNotes("~30 s (0:15–0:45). One sentence: TroDes is an indoor system that tells caregivers, on their phones, which zone each resident is in and raises alerts for restricted areas, an opened door, SOS calls and low battery. Then name the three parts left to right. The objectives line maps one-to-one to the tests.");
+    s.addNotes("~30 s (0:15–0:45). One sentence: TroDes is an indoor system that tells caregivers, on their phones, which zone each resident is in and raises alerts for restricted areas, an opened door, SOS calls and low battery. Then name the three parts left to right. The objectives line is paper Section 1.5, objectives 1–6; objective 7 is the evaluation (Chapter 4).");
   }
 
   // 3. Background
@@ -146,11 +146,15 @@ async function photo(file, maxW = 1400) {
       [I.door, "Restricted areas", "Residents with cognitive decline may enter places such as the medicine room unnoticed"],
       [I.alarm, "Help that is not heard", "A resident who needs help may be unable to reach a caregiver or a call point"],
     ];
+    txt(s, [
+      { text: "5.4\u00A0% of the household population — about 5.86 million people — were 65 or older", options: { bold: true, color: C.alert, breakLine: true } },
+      { text: "2020 Census of Population and Housing, PSA [1]", options: { fontSize: 11, italic: true, color: C.muted } },
+    ], { x: 0.9, y: 2.5, w: 5.7, h: 0.75, fontSize: 13, margin: 0 });
     need.forEach(([img, h, b], i) => {
-      const y = 2.7 + i * 1.3;
-      circleIcon(s, img, 0.9, y, 0.7, C.alert);
-      txt(s, h, { x: 1.85, y: y - 0.02, w: 4.75, h: 0.38, fontSize: 16, bold: true, color: C.ink, margin: 0 });
-      txt(s, b, { x: 1.85, y: y + 0.36, w: 4.75, h: 0.75, fontSize: 13, color: C.text, margin: 0 });
+      const y = 3.4 + i * 1.1;
+      circleIcon(s, img, 0.9, y, 0.62, C.alert);
+      txt(s, h, { x: 1.75, y: y - 0.04, w: 4.85, h: 0.36, fontSize: 15, bold: true, color: C.ink, margin: 0 });
+      txt(s, b, { x: 1.75, y: y + 0.3, w: 4.85, h: 0.6, fontSize: 12.5, color: C.text, margin: 0 });
     });
     txt(s, "How the design got here", { x: 7.2, y: 2.05, w: 5.5, h: 0.45, fontSize: 20, bold: true, color: C.ink, margin: 0 });
     const path3 = [
@@ -166,7 +170,7 @@ async function photo(file, maxW = 1400) {
       if (i < path3.length - 1) arrow(s, 9.95, y + 1.07, 0, 0.3);
     });
     footer(s);
-    s.addNotes("~25 s (0:45–1:10). Brief only — the adviser asked for it. The facility needs to know WHERE residents are indoors and WHEN something is wrong. The first proposal used GPS and GSM; GPS does not work indoors and 2G is being retired, so with the adviser the project moved to indoor BLE zones. Do not quote population statistics unless the source is on hand.");
+    s.addNotes("~25 s (0:45–1:10). Brief only — the adviser asked for it. The facility needs to know WHERE residents are indoors and WHEN something is wrong. The first proposal used GPS and GSM; GPS does not work indoors and 2G is being retired, so with the adviser the project moved to indoor BLE zones. The census figure is the paper's reference [1] (PSA, 2020 Census of Population and Housing).");
   }
 
   // 4. Architecture — the hub
@@ -187,7 +191,7 @@ async function photo(file, maxW = 1400) {
     txt(s, "Wearable — etched board, Rev C3", { x: 1.6, y: 1.97, w: 6.3, h: 0.55, fontSize: 19, bold: true, color: C.ink, margin: 0, valign: "middle" });
     placeImg(s, P.pcb, 0.85, 2.65, 3.45, 2.1);
     placeImg(s, P.wearCase, 4.45, 2.65, 3.45, 2.1);
-    txt(s, "Single-sided board (KiCad, DRC clean)", { x: 0.85, y: 4.77, w: 3.45, h: 0.25, fontSize: 10, italic: true, color: C.muted, align: "center", margin: 0 });
+    txt(s, "Single-sided board, 69\u00A0×\u00A066\u00A0mm (DRC clean)", { x: 0.85, y: 4.77, w: 3.45, h: 0.25, fontSize: 10, italic: true, color: C.muted, align: "center", margin: 0 });
     txt(s, "Belt-worn case (Rev B)", { x: 4.45, y: 4.77, w: 3.45, h: 0.25, fontSize: 10, italic: true, color: C.muted, align: "center", margin: 0 });
     txt(s, [
       { text: "ESP32 devkit and MAX30102 on headers · SOS button · buzzer · status LED", options: { bullet: true, breakLine: true } },
@@ -207,7 +211,7 @@ async function photo(file, maxW = 1400) {
       { text: "PLA boxes, 55\u00A0×\u00A075\u00A0×\u00A026\u00A0mm", options: { bullet: true } },
     ], { x: 8.65, y: 5.1, w: 3.85, h: 1.7, fontSize: 12.5, paraSpaceAfter: 3, margin: 0 });
     footer(s);
-    s.addNotes("~50 s (1:50–2:40). Hold up the wearable, then a beacon and the door node. Only the wearable is an etched board; the beacons and the door node are perfboard (adviser-approved). The fuel-gauge socket is empty because the MAX17043 was not delivered — battery level comes from the divider, and the firmware for the gauge is ready. The boost-to-5 V chain was used because no low-dropout regulator could be sourced in time; the cost is runtime. The case was revised after fitting (Rev B): taller for the power wiring, snap hooks, belt clip, a window to see the charging light, rounded edges for elderly wearers.");
+    s.addNotes("~50 s (1:50–2:40). Hold up the wearable, then a beacon and the door node. Only the wearable is an etched board; the beacons and the door node are perfboard (adviser-approved). The fuel-gauge socket is empty because the MAX17043 was not delivered — battery level comes from the divider, and the firmware for the gauge is ready. The boost-to-5 V chain was used because no low-dropout regulator could be sourced in time; the cost is runtime. If asked whether it runs on the battery: on 30 Sep it ran from USB only (a power-path fault, paper 4.12); on 1 Oct the battery-sense line read 3.90–3.92 V, but operation from the cell under load was not re-measured. The case was revised after fitting (Rev B): taller for the power wiring, snap hooks, belt clip, a window to see the charging light, rounded edges for elderly wearers.");
   }
 
   // 6. Technical aspect — zone + SOS
@@ -229,7 +233,7 @@ async function photo(file, maxW = 1400) {
     card(s, 6.9, 1.8, 5.8, 5.0, C.alertTint);
     circleIcon(s, I.sos, 7.2, 2.05, 0.7, C.alert);
     txt(s, "SOS in three levels", { x: 8.05, y: 2.1, w: 4.4, h: 0.6, fontSize: 20, bold: true, color: C.ink, margin: 0, valign: "middle" });
-    const lv = [["1 press", "Needs assistance"], ["2 presses", "URGENT – please come now"], ["3 presses", "EMERGENCY – immediate help"], ["Hold 3 s", "Cancel (ticks each second; phones show green)"]];
+    const lv = [["1 press", "Needs assistance"], ["2 presses", "URGENT – please come now"], ["3 presses", "EMERGENCY – immediate help needed"], ["Hold 3 s", "Cancel (ticks each second; phones show green)"]];
     lv.forEach(([a, b], i) => {
       const y = 2.95 + i * 0.62;
       s.addShape(pres.shapes.ROUNDED_RECTANGLE, { x: 7.2, y, w: 1.45, h: 0.48, fill: { color: i < 3 ? C.alert : C.muted }, line: { color: i < 3 ? C.alert : C.muted }, rectRadius: 0.08 });
@@ -293,7 +297,7 @@ async function photo(file, maxW = 1400) {
     txt(s, "“Ensure healthy lives and promote well-being for all at all ages”", { x: 0.6, y: 5.75, w: 3.7, h: 0.9, fontSize: 13, italic: true, color: C.muted, margin: 0 });
     const rows = [
       [I.person, "Residents", "Can call for help from anywhere in the facility, and are not left to enter unsafe areas unnoticed"],
-      [I.groups, "Caregivers", "Less need for continuous watching; an SOS reaches every phone in a median 295 ms (n = 6)"],
+      [I.groups, "Caregivers", "Less need for continuous watching; an SOS reaches the hub in a median 295\u00A0ms (n\u00A0=\u00A06), and phones show it at the next 1\u00A0s refresh"],
       [I.home, "The facility", "Subscription-free, built from commonly available parts and maintained on site; the data stays on site"],
     ];
     rows.forEach(([img, h, b], i) => {
@@ -317,7 +321,7 @@ async function photo(file, maxW = 1400) {
       ["Fall detection (accelerometer)", "Priority on localization and SOS", "Removed (adviser)"],
       ["Native mobile app", "A browser page works on every phone", "Not developed"],
       ["Low-dropout regulator", "No part sourced in time", "Boost converter used"],
-      ["MAX17043 fuel gauge", "Not delivered in time", "Divider used; socket and firmware ready"],
+      ["MAX17043 fuel gauge", "Not delivered in time", "Divider used; firmware ready"],
       ["Measured 24 h runtime", "No full discharge test possible", "Calculated only (≈ 20 h, 2000 mAh)"],
       ["Remote viewing, push notifications", "Needs cloud hosting (open decision)", "Built and tested locally; further study"],
     ], [4.2, 4.4, 3.5], 1.8, 14, 0.6);
@@ -328,14 +332,14 @@ async function photo(file, maxW = 1400) {
   // 11. Results
   {
     const s = pres.addSlide(); s.background = { color: C.white };
-    title(s, "Results", "Measured 24 Sep – 1 Oct 2026 · values from logged captures only");
+    title(s, "Results", "Measured 24 Sep – 1 Oct 2026 · paper Chapter 4");
     const cards = [
       [I.radio, "Zone accuracy (Run\u00A01)", "0 cross-room errors · 56.2\u00A0% where two zones shared a room"],
-      [I.timer, "SOS delivery time", "median 295\u00A0ms · max 408\u00A0ms (n\u00A0=\u00A06)"],
+      [I.timer, "SOS delivery to the hub", "median 295\u00A0ms · max 408\u00A0ms (n\u00A0=\u00A06)"],
       [I.heart, "Heart rate vs oximeter", "+3 and +0.5\u00A0bpm (2 readings, preliminary)"],
       [I.door, "Door openings", "4 of 4 detected (29 Sep: 3 · demo 30 Sep: 1)"],
-      [I.wifi, "Hub: 4 phones polling", "median 32\u00A0ms · worst 60\u00A0ms"],
-      [I.check, "Dashboard self-test", "38 / 38 checks · hub 17 / 17"],
+      [I.wifi, "Network loss", "4 of 4 events delivered after reconnecting (7.5–11.1\u00A0s)"],
+      [I.check, "Dashboard and hub", "38 / 38 checks · hub 17 / 17 · 4 phones: median 32\u00A0ms"],
     ];
     cards.forEach(([img, h, b], i) => {
       const col = i % 3, row = Math.floor(i / 3);
@@ -346,7 +350,7 @@ async function photo(file, maxW = 1400) {
       txt(s, b, { x: x + 0.3, y: y + 1.2, w: 3.25, h: 0.8, fontSize: 14, bold: true, color: i < 4 ? C.teal : C.safe, margin: 0, valign: "middle" });
     });
     footer(s);
-    s.addNotes("~30 s (4:55–5:25). Lead with zero cross-room errors, then the SOS delivery time. Be candid: the 56.2 % is from Run 1 on earlier firmware where two zones shared one room; the heart-rate figure is two readings only. Then go straight to the demo.");
+    s.addNotes("~30 s (4:55–5:25). Lead with zero cross-room errors, then the SOS delivery time. Be candid: the 56.2 % is from Run 1 on earlier firmware where two zones shared one room (the Run 3 capture on the final firmware was overwritten); the heart-rate figure is two readings only; network loss is four occurrences during other tests, not the planned outage trials. Then go straight to the demo.");
   }
 
   // 12. Demo
@@ -354,17 +358,17 @@ async function photo(file, maxW = 1400) {
     const s = pres.addSlide(); s.background = { color: C.ink };
     s.addText("Live demonstration", { x: 0.6, y: 0.45, w: 12, h: 0.8, fontFace: HF, fontSize: 34, bold: true, color: C.white, margin: 0, isTextBox: true });
     s.addText("Scan the card — join SESEMSG — the dashboard opens on your phone (passcode on the card)", { x: 0.6, y: 1.2, w: 12, h: 0.45, fontFace: BF, fontSize: 16, italic: true, color: "9FC7CC", margin: 0, isTextBox: true });
-    const steps = [["Join by QR", "Dashboard pops up", C.teal], ["Walk the zones", "Bedroom → Dining", C.safe], ["Medicine Room", "Restricted alert + buzzer", C.alert], ["Open the door", "Door alert", C.alert], ["SOS 1 → 3 presses", "Alarm on phones, escalates", C.alert], ["Acknowledge", "Wearable clears", C.teal]];
+    const steps = [["Join by QR", "Dashboard pops up", C.teal], ["Walk the zones", "Bedroom → Dining", C.safe], ["Open the door", "Door alert", C.alert], ["Medicine Room", "Restricted alert + buzzer", C.alert], ["SOS 1 → 3 presses", "Alarm on phones, escalates", C.alert], ["Hold 3 s", "Cancels; phones show green", C.amber], ["Acknowledge", "Wearable clears", C.teal]];
     steps.forEach(([h, b, col], i) => {
-      const x = 0.6 + i * 2.07;
-      s.addShape(pres.shapes.ROUNDED_RECTANGLE, { x, y: 2.4, w: 1.85, h: 2.6, fill: { color: "123F4C" }, line: { color: col, width: 2 }, rectRadius: 0.1 });
-      s.addShape(pres.shapes.OVAL, { x: x + 0.62, y: 2.6, w: 0.6, h: 0.6, fill: { color: col }, line: { color: col } });
-      s.addText(String(i + 1), { x: x + 0.62, y: 2.6, w: 0.6, h: 0.6, fontFace: BF, fontSize: 18, bold: true, color: C.white, align: "center", valign: "middle", margin: 0, isTextBox: true });
-      s.addText([{ text: h, options: { bold: true, fontSize: 15, breakLine: true } }, { text: b, options: { fontSize: 12, color: "CFE8EA" } }], { x: x + 0.08, y: 3.35, w: 1.69, h: 1.5, fontFace: BF, color: C.white, align: "center", valign: "top", margin: 0, isTextBox: true });
+      const x = 0.6 + i * 1.76;
+      s.addShape(pres.shapes.ROUNDED_RECTANGLE, { x, y: 2.4, w: 1.6, h: 2.6, fill: { color: "123F4C" }, line: { color: col, width: 2 }, rectRadius: 0.1 });
+      s.addShape(pres.shapes.OVAL, { x: x + 0.5, y: 2.6, w: 0.6, h: 0.6, fill: { color: col }, line: { color: col } });
+      s.addText(String(i + 1), { x: x + 0.5, y: 2.6, w: 0.6, h: 0.6, fontFace: BF, fontSize: 18, bold: true, color: C.white, align: "center", valign: "middle", margin: 0, isTextBox: true });
+      s.addText([{ text: h, options: { bold: true, fontSize: 14, breakLine: true } }, { text: b, options: { fontSize: 12, color: "CFE8EA" } }], { x: x + 0.03, y: 3.35, w: 1.54, h: 1.5, fontFace: BF, color: C.white, align: "center", valign: "top", margin: 0, isTextBox: true });
     });
-    s.addText("The zones in this room stand in for separate rooms.\nFallback: laptop server on the facility Wi-Fi (the wearable switches by itself) · backup video of the full demo.", { x: 0.6, y: 5.6, w: 12, h: 0.8, fontFace: BF, fontSize: 14, color: "9FC7CC", margin: 0, isTextBox: true });
+    s.addText("Safe zones at opposite ends of this room; the restricted zone is behind the door (paper 4.5).\nFallback: laptop server on the facility Wi-Fi (the wearable switches by itself) · backup video of the full demo.", { x: 0.6, y: 5.6, w: 12, h: 0.8, fontFace: BF, fontSize: 14, color: "9FC7CC", margin: 0, isTextBox: true });
     footer(s);
-    s.addNotes("~3½ min (5:25–8:55) — the heart of the presentation; the adviser asked for the demo to be emphasized. Hand out the access cards first. State that zones in this single room stand in for separate rooms. If the hub misbehaves, switch to the laptop fallback or play the backup video, and say which one it is.");
+    s.addNotes("~3½ min (5:25–8:55) — the heart of the presentation; the adviser asked for the demo to be emphasized. Hand out the access cards first. State that zones in this single room stand in for separate rooms. Run order as in the checklist: door open → restricted zone → SOS → hold 3 s to cancel → acknowledge. If the hub misbehaves, switch to the laptop fallback or play the backup video, and say which one it is.");
   }
 
   // 13. Conclusions
@@ -376,7 +380,7 @@ async function photo(file, maxW = 1400) {
     txt(s, "Achieved", { x: 1.7, y: 1.85, w: 4.6, h: 0.55, fontSize: 22, bold: true, color: C.ink, margin: 0, valign: "middle" });
     txt(s, [
       { text: "Room-level zone detection; zero cross-room errors across walls", options: { bullet: true, breakLine: true } },
-      { text: "Restricted-zone, door, 3-level SOS and battery alerts end to end", options: { bullet: true, breakLine: true } },
+      { text: "Restricted-zone, door and 3-level SOS alerts end to end", options: { bullet: true, breakLine: true } },
       { text: "Runs with no laptop or internet: the door node is the hub", options: { bullet: true, breakLine: true } },
       { text: "Dashboard on any phone: 38/38 checks; hub 17/17", options: { bullet: true, breakLine: true } },
       { text: "Network-down queueing with an audible local fallback", options: { bullet: true } },
@@ -385,14 +389,15 @@ async function photo(file, maxW = 1400) {
     circleIcon(s, I.lightbulb, 7.2, 1.8, 0.65, C.alert);
     txt(s, "Limits and next steps", { x: 8.0, y: 1.85, w: 4.5, h: 0.55, fontSize: 22, bold: true, color: C.ink, margin: 0, valign: "middle" });
     txt(s, [
-      { text: "Measure the runtime; replace the boost + linear chain with a buck-boost or sub-400 mV regulator (≈ 54 h calculated, 2000 mAh)", options: { bullet: true, breakLine: true } },
-      { text: "Deploy the remote relay and push notifications once hosting is decided", options: { bullet: true, breakLine: true } },
+      { text: "Fix the power path (≥ 1 A switch, short thick wiring), then measure the runtime", options: { bullet: true, breakLine: true } },
+      { text: "Buck-boost or sub-400 mV regulator: ≈ 54 h calculated at 35 mA (2000 mAh)", options: { bullet: true, breakLine: true } },
+      { text: "Repeat the 15-point zone run on the final firmware", options: { bullet: true, breakLine: true } },
       { text: "Doorway coverage: tune the floor or add beacons", options: { bullet: true, breakLine: true } },
-      { text: "Validate heart rate on more people against clinical equipment", options: { bullet: true, breakLine: true } },
-      { text: "Show charging on the dashboard (USB-input sense); fuel gauge for accurate %", options: { bullet: true } },
-    ], { x: 7.2, y: 2.65, w: 5.3, h: 3.9, fontSize: 15, paraSpaceAfter: 10, margin: 0 });
+      { text: "Heart rate: more readings, more people, clinical reference", options: { bullet: true, breakLine: true } },
+      { text: "Cloud relay and push notifications once hosting is decided; charging indicator; fuel gauge", options: { bullet: true } },
+    ], { x: 7.2, y: 2.65, w: 5.3, h: 3.9, fontSize: 14, paraSpaceAfter: 7, margin: 0 });
     footer(s);
-    s.addNotes("~25 s (8:55–9:20). Be direct about the runtime gap: it follows from a sourcing constraint, the fix is known, and it belongs in Chapter 5 as a recommendation.");
+    s.addNotes("~25 s (8:55–9:20). Matches paper Chapter 5. Be direct about the runtime gap: it follows from a sourcing constraint, the fix is known, and it is a recommendation. Battery reporting is not claimed as achieved: it could not be verified on the cell (paper 4.12).");
   }
 
   // 14. Q&A
@@ -402,7 +407,7 @@ async function photo(file, maxW = 1400) {
     s.addText("Thank you", { x: 0.6, y: 3.1, w: W - 1.2, h: 1.0, fontFace: HF, fontSize: 48, bold: true, color: C.white, align: "center", margin: 0, isTextBox: true });
     s.addText("Questions and answers", { x: 0.6, y: 4.1, w: W - 1.2, h: 0.6, fontFace: BF, fontSize: 22, color: "9FC7CC", align: "center", margin: 0, isTextBox: true });
     s.addText("Chester John B. Cirio  ·  Pathrish Anne R. Cruz  ·  Adviser: Engr. Glenn V. Magwili", { x: 0.6, y: 5.6, w: W - 1.2, h: 0.5, fontFace: BF, fontSize: 14, color: C.white, align: "center", margin: 0, isTextBox: true });
-    s.addNotes("Likely questions: why not UWB or Wi-Fi RSSI; why the runtime falls short; what happens when Wi-Fi or the hub fails (queue + chirp; laptop fallback); how many phones the hub supports (7 + the wearable); how accurate the heart rate is; why only the wearable is an etched board and the nodes are perfboard (adviser-approved); why there is no fuel gauge (the MAX17043 was not delivered); where the data is stored (on site; RA 10173).");
+    s.addNotes("Likely questions: why not UWB or Wi-Fi RSSI; why the runtime falls short; what happens when Wi-Fi or the hub fails (queue + chirp; laptop fallback); how many phones the hub supports (7 + the wearable); how accurate the heart rate is; why only the wearable is an etched board and the nodes are perfboard (adviser-approved); why there is no fuel gauge (the MAX17043 was not delivered); where the data is stored (on site; RA 10173); why there is no Run 3 result (the capture was overwritten; the logger no longer overwrites); does the wearable run on its battery (power-path fault, paper 4.12); why n below 2.0 — the paper calls 2.0 the free-space value and physical lower bound; if challenged, say values somewhat below 2 do occur indoors along corridors, but 0.28 and 0.55 are far below any such value, which is why the residual pattern points to fading at fixed positions.");
     slideNo++;
   }
 

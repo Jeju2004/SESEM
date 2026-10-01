@@ -21,11 +21,11 @@ here is decided by Claude; wording kept close to the notes.
 
 ## Bring
 
-- [ ] **4 copies of the IEEE paper** (Rev 6, printed after the TOC is updated and the PDF exported).
+- [ ] **4 copies of the IEEE paper** (final, Rev 8: `deliverables/final/TroDes_IEEE_Paper_FINAL_Rev8.pdf`).
 - [ ] **User's manual.**
 - [ ] **1 recommendation form.** A copy for the 3 panel members, if required. It serves as the conformity.
 - [ ] **Photocopy of the Official Receipt.**
-- [ ] **PPT** (deck v0.4), plus a PDF copy on a USB stick (export it from PowerPoint so the fonts match).
+- [ ] **PPT** (deck v0.5), plus a PDF copy on a USB stick (export it from PowerPoint so the fonts match).
 - [ ] **Prototype:** wearable, beacons, door node, chargers and cables.
 - [ ] **Actual demo:** setup per the demo slide, checked before entering.
 - [ ] **Video demo:** on the laptop and a USB stick.

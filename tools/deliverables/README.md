@@ -7,7 +7,7 @@ script, regenerate, then open the result in Word/PowerPoint.
 cd C:\Users\Chester\Desktop\Vaya\SESEM\tools\deliverables
 npm install                                   # once
 node manual.js ..\..\deliverables\drafts\TroDes_Users_Manual_DRAFT_v0.3.docx
-node deck.js   ..\..\deliverables\drafts\TroDes_Defense_Presentation_DRAFT_v0.4.pptx
+node deck.js   ..\..\deliverables\drafts\TroDes_Defense_Presentation_DRAFT_v0.5.pptx
 node paper.js  ..\..\deliverables\drafts\TroDes_IEEE_Paper_DRAFT_Rev3.docx
 node pr3.js    ..\..\deliverables\drafts\TroDes_Progress_Report_3_DRAFT.docx
 ```
@@ -15,7 +15,7 @@ node pr3.js    ..\..\deliverables\drafts\TroDes_Progress_Report_3_DRAFT.docx
 After regenerating a Word file, open it and right-click the table of contents →
 **Update Field**, then save and export to PDF.
 
-**IEEE-format paper (Revision 6, two columns):**
+**IEEE-format paper (Revision 6, two columns).** The final paper is Rev 8, edited by the team in Word and kept as `deliverables/final/TroDes_IEEE_Paper_FINAL_Rev8.pdf`; regenerating with `paper_ieee.js` would lose those edits.
 
 ```powershell
 python make_figures.py <dir with sch.pdf and pcb.pdf> <walk log txt>   # f5, f6, schematic, copper

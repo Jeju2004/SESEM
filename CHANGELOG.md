@@ -3,6 +3,28 @@
 Dated record of every code change. Newest first. Each entry says what changed,
 why, and whether it has been verified on hardware.
 
+## 2026-10-01 — final paper (Rev 8) added; deck v0.5 checked against it
+
+- **Final paper:** `deliverables/final/TroDes_IEEE_Paper_FINAL_Rev8.pdf`, 17 pages. The team printed it from Word (Rev 8). Rev 7 and Rev 8 were edited in Word, so `paper_ieee.js` (Rev 6) no longer reproduces the final paper.
+- **Deck v0.5** (`TroDes_Defense_Presentation_DRAFT_v0.5.pptx`): every slide compared with the final paper.
+  - **SDG slide:** the SOS time is now stated as delivery **to the hub** (median 295 ms, n = 6), with the phone display at the next 1 s refresh (paper 4.6). It previously said "every phone".
+  - **Conclusions:** "battery alerts end to end" removed from *Achieved*. Battery reporting was not verified on the cell (paper 4.12), and low-battery alerting was not tested (Table XXII).
+    - *Limits* now follows paper 5.2: fix the power path, then measure runtime; buck-boost ≈ 54 h at 35 mA; repeat the 15-point run; doorway coverage; heart rate; relay, charging indicator, fuel gauge.
+  - **Demo:** seven steps in the checklist order. The door opens before the restricted zone, and the 3 s hold-to-cancel is included. The layout note follows paper 4.5.
+  - **Background:** adds the paper's 2020 Census figure (65 and over: 5.4 %, about 5.86 million; PSA [1]).
+  - **Results:** "Network loss: 4 of 4 delivered after reconnecting (7.5–11.1 s)" (paper 4.9) replaces the separate hub-polling card. That figure moved into the dashboard card.
+  - **Wording matched to the paper:**
+    - the title subtitle;
+    - objectives (1.5);
+    - the third SOS message ("…immediate help needed");
+    - fuel-gauge status (Table VI);
+    - the PCB size (69 × 66 mm).
+  - **Notes:** answers for likely questions — Run 3, the power path, and the paper's "physical lower bound" wording.
+- **Checked:**
+  - file validation passes;
+  - all slides were rendered with LibreOffice and inspected.
+- **Docs:** CLAUDE.md/AGENTS.md, `Defense_Day_Checklist.md`, `Resume_Here.md` and the generator README now point to the final paper and deck v0.5.
+
 ## 2026-10-01 — defense deck v0.4: team outline, SDG slide, enclosures
 
 - **`tools/deliverables/deck.js` → `TroDes_Defense_Presentation_DRAFT_v0.4.pptx`.**
