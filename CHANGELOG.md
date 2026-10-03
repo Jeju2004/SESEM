@@ -3,6 +3,21 @@
 Dated record of every code change. Newest first. Each entry says what changed,
 why, and whether it has been verified on hardware.
 
+## 2026-10-03 — finalized documents gathered
+
+- **New `deliverables/final/`** with an index, `README.md`, giving each document's version, date and status. It holds:
+  - the paper (Rev 8, final);
+  - deck v0.5 and its script;
+  - the User's Manual v0.3;
+  - the signed progress reports;
+  - the hardware drawings: wearable Rev C3 schematic and placement, beacon schematic, door-node wiring and enclosure renders.
+- **Progress reports** are the signed copies from `docs/vault/Progress Reports/`.
+  - PR1 and PR3 are signed by the adviser.
+  - **PR2 has no adviser signature** (the "Noted by" line is blank).
+  - The PR3 PDF in `deliverables/progress_reports/` is the unsigned print.
+- **The manual's cover and footer still read "Draft v0.3".**
+- Files are copies; git stores identical content once. No code changed.
+
 ## 2026-10-01 — defense speaking script
 
 - **`docs/project/Defense_Script.md`:** the word-for-word script for deck v0.5, exported from the team's Claude doc.
