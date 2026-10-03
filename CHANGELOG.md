@@ -3,6 +3,17 @@
 Dated record of every code change. Newest first. Each entry says what changed,
 why, and whether it has been verified on hardware.
 
+## 2026-10-03 — final documents gathered
+
+- New folder `deliverables/final/` with the finalized set:
+  - paper Rev 7 and manual v0.4, each as `.docx` and `.pdf`;
+  - deck v0.3, as `.pptx` and `.pdf`;
+  - Progress Report 3, as `.docx` and `.pdf`.
+
+  Its `README.md` lists each document, its version and page count, and what is kept outside the repository.
+- The `.docx` and `.pptx` files are copies of the latest drafts.
+- The PDFs were exported with LibreOffice. For the manual, the table of contents was refreshed first, through LibreOffice's Python interface, so that it shows its entries and page numbers.
+
 ## 2026-10-01 (11:10) — User's Manual v0.4
 
 - **Cover** follows the paper: the same title ("…with Geofencing: An Indoor BLE Based…"), both authors with programme, school and university as in the paper's author block, the adviser, and Section C1. "Version 0.4" replaces "Draft".
