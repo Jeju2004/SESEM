@@ -3,6 +3,14 @@
 Dated record of every code change. Newest first. Each entry says what changed,
 why, and whether it has been verified on hardware.
 
+## 2026-10-01 — defense speaking script
+
+- **`docs/project/Defense_Script.md`:** the word-for-word script for deck v0.5, exported from the team's Claude doc.
+  - It fits about 8 minutes, live demo included, which leaves 2 minutes of buffer in the 10-minute slot.
+  - Speaker A presents slides 1–6, does the demo actions and gives the conclusions; Speaker B presents slides 7–11 and narrates the demo.
+  - It includes a running clock, seven demo steps with fallback, and one-sentence prepared answers that cite the final paper (Rev 8).
+- No code changed.
+
 ## 2026-10-01 — final paper (Rev 8) added; deck v0.5 checked against it
 
 - **Final paper:** `deliverables/final/TroDes_IEEE_Paper_FINAL_Rev8.pdf`, 17 pages. The team printed it from Word (Rev 8). Rev 7 and Rev 8 were edited in Word, so `paper_ieee.js` (Rev 6) no longer reproduces the final paper.

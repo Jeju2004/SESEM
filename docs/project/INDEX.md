@@ -16,6 +16,7 @@ tooling (progress reports, the IEEE paper, the user manual).
 | `Schematic_Work_Package.md` | KiCad build order and the IEEE symbol rules |
 | `SESEMSG_Hub_No_Laptop.md` | The door node as a stand-alone hub: its own Wi-Fi, the dashboard on phones, no laptop or internet (copied from the vault, 30 Sep) |
 | `Test_Day_2026-09-30.md` | Test-day procedure for the final data (Run 3, SOS, heart rate, doors, Wi-Fi loss) and the defense-day checklist (passcode removed in this copy) |
+| `Defense_Script.md` | Word-for-word 10-minute defense script for deck v0.5: speaker split, running clock, demo cues, prepared answers (exported from the Claude doc, 1 Oct) |
 | `Shopping_List_2026-09-27.md` | Parts bought for the Rev C3 build |
 | `House_Test_2026-09-30.md` | Night-before house test: dry run and video done, hub restarts, what was lost, open actions |
 | `Defense_Day_Checklist.md` | Adviser briefing: what to cover, what to bring, after-defense submissions, morning checks |
