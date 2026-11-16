@@ -3,6 +3,11 @@
 Dated record of every code change. Newest first. Each entry says what changed,
 why, and whether it has been verified on hardware.
 
+## 2026-11-17 — new README with measured results; old README moved to docs/PROJECT_MAP.md
+
+- **README.md rewritten** as the project front page: what it is, my part, measured results with their caveats, limitations, tech stack and eight images (images/). Battery life is stated as calculated, not measured.
+- **Old README moved unchanged to docs/PROJECT_MAP.md** (the repo and vault map for the team).
+- Documentation only; no code or firmware changed. Nothing here needed hardware verification.
 ## 2026-10-01 — defense deck v0.4: team outline, SDG slide, enclosures
 
 - **`tools/deliverables/deck.js` → `TroDes_Defense_Presentation_DRAFT_v0.4.pptx`.**
